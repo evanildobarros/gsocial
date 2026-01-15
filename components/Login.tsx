@@ -1,5 +1,25 @@
 import React, { useState } from 'react';
-import { Anchor, ArrowRight, Lock, Mail, Loader2 } from 'lucide-react';
+import {
+  Button,
+  TextField,
+  InputAdornment,
+  IconButton,
+  Alert,
+  CircularProgress,
+  Tooltip,
+} from '@mui/material';
+import {
+  Email as EmailIcon,
+  Lock as LockIcon,
+  Visibility,
+  VisibilityOff,
+  ArrowForward,
+  ArrowBack,
+  AutoAwesome,
+  CheckCircle,
+  Send,
+} from '@mui/icons-material';
+import { supabase } from '../utils/supabase';
 
 interface LoginProps {
   onLogin: () => void;
@@ -7,123 +27,248 @@ interface LoginProps {
 
 export const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [resetMode, setResetMode] = useState(false);
+  const [resetSuccess, setResetSuccess] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    // Simulating API authentication delay
-    setTimeout(() => {
-      setLoading(false);
+    setError(null);
+
+    try {
+      const { data, error: signInError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (signInError) throw signInError;
       onLogin();
-    }, 1500);
+    } catch (err: any) {
+      console.error('Erro de login:', err);
+      setError(err.message || 'Credenciais inválidas. Tente novamente.');
+    } finally {
+      setLoading(false);
+    }
   };
 
+  const handleResetPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    try {
+      const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/reset-password`,
+      });
+
+      if (resetError) throw resetError;
+      setResetSuccess(true);
+    } catch (err: any) {
+      console.error('Erro ao resetar senha:', err);
+      setError(err.message || 'Erro ao enviar e-mail de recuperação.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const ESGLogo = () => (
+    <div className="relative w-24 h-24 flex items-center justify-center">
+      <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="40" fill="transparent" stroke="#EF4444" strokeWidth="8" strokeDasharray="31.42 251.32" strokeDashoffset="0" />
+        <circle cx="50" cy="50" r="40" fill="transparent" stroke="#F59E0B" strokeWidth="8" strokeDasharray="31.42 251.32" strokeDashoffset="-31.42" />
+        <circle cx="50" cy="50" r="40" fill="transparent" stroke="#10B981" strokeWidth="8" strokeDasharray="31.42 251.32" strokeDashoffset="-62.84" />
+        <circle cx="50" cy="50" r="40" fill="transparent" stroke="#3B82F6" strokeWidth="8" strokeDasharray="31.42 251.32" strokeDashoffset="-94.26" />
+        <circle cx="50" cy="50" r="40" fill="transparent" stroke="#6366F1" strokeWidth="8" strokeDasharray="31.42 251.32" strokeDashoffset="-125.68" />
+        <circle cx="50" cy="50" r="40" fill="transparent" stroke="#8B5CF6" strokeWidth="8" strokeDasharray="31.42 251.32" strokeDashoffset="-157.10" />
+        <circle cx="50" cy="50" r="40" fill="transparent" stroke="#EC4899" strokeWidth="8" strokeDasharray="31.42 251.32" strokeDashoffset="-188.52" />
+        <circle cx="50" cy="50" r="40" fill="transparent" stroke="#22D3EE" strokeWidth="8" strokeDasharray="31.42 251.32" strokeDashoffset="-219.94" />
+      </svg>
+      <h5 className="relative z-10 text-white font-black text-2xl tracking-tighter">
+        ESG
+      </h5>
+    </div>
+  );
+
   return (
-    <div className="min-h-screen flex font-sans">
-      {/* Left Side - Brand & Visual */}
-      <div className="hidden lg:flex w-1/2 bg-blue-950 text-white p-16 flex-col justify-between relative overflow-hidden">
-        {/* Abstract Background Decoration */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-900 to-blue-950 z-0"></div>
-        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent z-0"></div>
-        
-        {/* Content */}
-        <div className="relative z-10">
-          <div className="flex items-center gap-3 mb-12">
-            <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-md border border-white/20 shadow-xl">
-                <Anchor className="w-7 h-7 text-white" />
-            </div>
-            <h1 className="text-3xl font-bold tracking-tight">gSocial ESG</h1>
-          </div>
-          <div className="max-w-lg space-y-6">
-            <h2 className="text-5xl font-extrabold leading-tight">
-              Gestão Inteligente para um <span className="text-orange-500">Porto Sustentável</span>.
-            </h2>
-            <p className="text-blue-200 text-xl font-light leading-relaxed">
-              Plataforma integrada de monitoramento, compliance e inteligência de dados baseada no Inventário 2030 do Porto do Itaqui.
+    <div className="min-h-screen flex font-sans bg-gray-50">
+      {/* Left Side: Visual Identity */}
+      <div className="hidden lg:flex w-2/5 bg-happiness-1 relative overflow-hidden items-center justify-center p-12">
+        {/* Abstract Blobs */}
+        <div className="absolute -top-[10%] -left-[10%] w-[60%] h-[60%] bg-white/10 rounded-full blur-[80px]" />
+        <div className="absolute -bottom-[20%] -right-[10%] w-[70%] h-[70%] bg-[#4F46E5]/30 rounded-full blur-[80px]" />
+        <div className="absolute top-[20%] -right-[5%] w-[30%] h-[30%] bg-[#22D3EE]/20 rounded-full blur-[60px]" />
+
+        <div className="relative z-10 text-center flex flex-col items-center gap-8">
+          <ESGLogo />
+          <div className="flex flex-col gap-4">
+            <h1 className="text-5xl font-bold text-white tracking-tight">
+              ESGporto
+            </h1>
+            <p className="text-white/80 text-lg max-w-[280px]">
+              Gestão e Monitoramento de Sustentabilidade para o Porto do Itaqui.
             </p>
+          </div>
+
+          <div className="pt-12">
+            <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md text-white font-bold text-[10px] uppercase tracking-widest border border-white/20 px-3 py-1.5 rounded-full">
+              <AutoAwesome sx={{ color: 'cyan', fontSize: 14 }} />
+              <span>Powered by AI Studio</span>
+            </div>
           </div>
         </div>
 
-        <div className="relative z-10">
-            <div className="flex items-center gap-4 text-sm text-blue-300/60 font-medium">
-                <span>© 2025 Porto do Itaqui</span>
-                <span className="w-1 h-1 bg-blue-500 rounded-full"></span>
-                <span>Termos de Uso</span>
-                <span className="w-1 h-1 bg-blue-500 rounded-full"></span>
-                <span>Privacidade</span>
-            </div>
+        {/* Footer Info */}
+        <div className="absolute bottom-6 left-12 right-12 flex justify-between text-white/40 font-bold text-[9px] uppercase tracking-[0.15em]">
+          <span>© 2026 Porto do Itaqui</span>
+          <span>Versão 2.5.0</span>
         </div>
       </div>
 
-      {/* Right Side - Login Form */}
-      <div className="w-full lg:w-1/2 bg-gray-50 flex items-center justify-center p-8 lg:p-24">
-        <div className="max-w-md w-full bg-white p-10 rounded-3xl shadow-2xl shadow-gray-200/50 border border-white">
-          <div className="text-center mb-10">
-            <h2 className="text-3xl font-bold text-gray-900 tracking-tight">Bem-vindo de volta</h2>
-            <p className="text-gray-500 mt-3 text-sm">Acesse o painel de controle ESG com suas credenciais.</p>
+      {/* Right Side: Login Form */}
+      <div className="flex-1 flex items-center justify-center p-6 sm:p-12 lg:p-24">
+        <div className="w-full max-w-md">
+          {/* Mobile Logo */}
+          <div className="flex lg:hidden flex-col items-center mb-12">
+            <div className="scale-75 mb-2"><ESGLogo /></div>
+            <h2 className="text-2xl font-black text-happiness-1">ESGporto</h2>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-2">
-              <label className="block text-sm font-semibold text-gray-700 ml-1">E-mail Corporativo</label>
-              <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none transition-colors group-focus-within:text-blue-600">
-                  <Mail className="h-5 w-5 text-gray-400" />
-                </div>
-                <input 
-                  type="email" 
-                  className="block w-full pl-12 pr-4 py-3.5 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all bg-gray-50/50 focus:bg-white text-gray-900 placeholder-gray-400 outline-none" 
-                  placeholder="gestor@portodoitaqui.com.br"
-                  required
-                />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <label className="block text-sm font-semibold text-gray-700 ml-1">Senha</label>
-              <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none transition-colors group-focus-within:text-blue-600">
-                  <Lock className="h-5 w-5 text-gray-400" />
-                </div>
-                <input 
-                  type="password" 
-                  className="block w-full pl-12 pr-4 py-3.5 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all bg-gray-50/50 focus:bg-white text-gray-900 placeholder-gray-400 outline-none" 
-                  placeholder="••••••••"
-                  required
-                />
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between text-sm">
-              <label className="flex items-center cursor-pointer">
-                <input type="checkbox" className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
-                <span className="ml-2 text-gray-600">Lembrar-me</span>
-              </label>
-              <a href="#" className="text-blue-600 hover:text-blue-700 font-semibold hover:underline">Recuperar senha</a>
-            </div>
-
-            <button 
-              type="submit" 
-              disabled={loading}
-              className="w-full flex items-center justify-center py-4 px-4 border border-transparent rounded-xl shadow-lg shadow-blue-900/10 text-sm font-bold text-white bg-blue-900 hover:bg-blue-800 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
-            >
-              {loading ? (
-                <Loader2 className="w-5 h-5 animate-spin" />
-              ) : (
-                <>
-                  Acessar Painel <ArrowRight className="ml-2 w-4 h-4" />
-                </>
-              )}
-            </button>
-          </form>
-          
-          <div className="mt-8 pt-6 border-t border-gray-100 text-center">
-            <p className="text-xs text-gray-400 font-medium">
-              <span className="flex items-center justify-center gap-1">
-                <Lock className="w-3 h-3" /> Ambiente Seguro · Criptografia SSL
-              </span>
+          <div className="mb-8">
+            <h2 className="text-3xl font-black text-gray-900 tracking-tight mb-2">
+              {resetMode ? 'Recuperar Senha' : 'Login'}
+            </h2>
+            <p className="text-sm text-gray-500">
+              {resetMode ? 'Insira seu e-mail para receber as instruções.' : 'Insira suas credenciais para acessar o painel.'}
             </p>
           </div>
+
+          {resetSuccess ? (
+            <div className="bg-green-50 border-2 border-green-500 text-center p-8 rounded-3xl">
+              <CheckCircle sx={{ fontSize: 48, color: '#22c55e', mb: 2 }} />
+              <h3 className="text-lg font-black text-gray-900 mb-1">
+                E-mail Enviado!
+              </h3>
+              <p className="text-sm text-gray-600 italic mb-6">
+                Verifique sua caixa de entrada (e o spam) para redefinir sua senha.
+              </p>
+              <Button
+                variant="text"
+                onClick={() => { setResetMode(false); setResetSuccess(false); }}
+                sx={{ fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: 11 }}
+              >
+                Voltar para o Login
+              </Button>
+            </div>
+          ) : (
+            <form onSubmit={resetMode ? handleResetPassword : handleSubmit}>
+              <div className="flex flex-col gap-6">
+                {error && (
+                  <Alert severity="error" variant="filled" sx={{ borderRadius: 3 }}>
+                    {error === 'Invalid login credentials' ? 'E-mail ou senha incorretos.' : error}
+                  </Alert>
+                )}
+
+                <TextField
+                  label={resetMode ? 'E-mail de Recuperação' : 'E-mail'}
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  fullWidth
+                  placeholder="seu-email@exemplo.com"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <EmailIcon color="action" />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+
+                {!resetMode && (
+                  <div>
+                    <TextField
+                      label="Senha"
+                      type={showPassword ? 'text' : 'password'}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                      fullWidth
+                      placeholder="Sua senha"
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <LockIcon color="action" />
+                          </InputAdornment>
+                        ),
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <Tooltip title={showPassword ? 'Ocultar senha' : 'Mostrar senha'}>
+                              <IconButton
+                                onClick={() => setShowPassword(!showPassword)}
+                                edge="end"
+                              >
+                                {showPassword ? <VisibilityOff /> : <Visibility />}
+                              </IconButton>
+                            </Tooltip>
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                    <div className="flex justify-end mt-2">
+                      <Button
+                        variant="text"
+                        size="small"
+                        onClick={() => setResetMode(true)}
+                        sx={{ fontSize: 11, fontWeight: 700, color: 'text.secondary', '&:hover': { color: 'primary.main' } }}
+                      >
+                        Esqueceu a senha?
+                      </Button>
+                    </div>
+                  </div>
+                )}
+
+                <div className="flex flex-col gap-4">
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    size="large"
+                    fullWidth
+                    disabled={loading}
+                    endIcon={loading ? <CircularProgress size={20} color="inherit" /> : (resetMode ? <Send /> : <ArrowForward />)}
+                    sx={{
+                      py: 1.75,
+                      fontWeight: 800,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.1em',
+                      fontSize: 13,
+                    }}
+                  >
+                    {resetMode ? 'Enviar Instruções' : 'Entrar no Sistema'}
+                  </Button>
+
+                  {resetMode && (
+                    <Button
+                      variant="text"
+                      onClick={() => setResetMode(false)}
+                      startIcon={<ArrowBack />}
+                      sx={{ fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: 11, color: 'text.secondary' }}
+                    >
+                      Voltar ao Login
+                    </Button>
+                  )}
+                </div>
+              </div>
+            </form>
+          )}
+
+          <p className="text-center mt-8 text-xs text-gray-500 font-semibold tracking-wide">
+            Ambiente Seguro e Monitorado · gSocial ESGporto
+          </p>
         </div>
       </div>
     </div>

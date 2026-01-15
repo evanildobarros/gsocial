@@ -1,5 +1,5 @@
 {
-  "name": "gSocial ESG - Porto do Itaqui",
+  "name": "ESGporto",
   "description": "Plataforma de Gestão e Inteligência ESG baseada no Inventário 2030 do Porto do Itaqui.",
   "requestFramePermissions": [
     "microphone",
