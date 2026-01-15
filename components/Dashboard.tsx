@@ -2,78 +2,64 @@ import React from 'react';
 import {
   TrendingUp,
   Users,
-  DollarSign,
-  Map as MapIcon,
-  CheckCircle2,
-  AlertCircle,
-  MoreVertical,
+  Shield,
+  Globe,
+  AlertTriangle,
+  Leaf,
+  FileText,
   ArrowUpRight,
   ArrowDownRight,
-  Globe
+  Map as MapIcon,
+  Droplets,
+  Activity
 } from 'lucide-react';
 
-const StatCard = ({ title, value, change, isPositive, color }: any) => (
-  <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
+const KPICard = ({ title, value, subtext, icon: Icon, trend, trendValue, color, isWarning }: any) => (
+  <div className={`bg-white dark:bg-[#1C1C1C] p-6 rounded-sm border ${isWarning ? 'border-red-200 dark:border-red-900/50 ring-2 ring-red-50 dark:ring-red-900/10' : 'border-gray-200 dark:border-white/5'} shadow-sm relative overflow-hidden group`}>
     <div className="flex justify-between items-start mb-4">
       <div>
-        <p className="text-sm font-bold text-gray-400 uppercase tracking-widest leading-none mb-2">{title}</p>
-        <h3 className="text-3xl font-black text-gray-900">{value}</h3>
+        <p className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">{title}</p>
+        <h3 className="text-2xl font-black text-gray-900 dark:text-white mt-1">{value}</h3>
       </div>
-      <div className={`p-2 rounded-xl ${isPositive ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600'}`}>
-        {isPositive ? <TrendingUp className="w-5 h-5" /> : <TrendingUp className="w-5 h-5 rotate-180" />}
-      </div>
-    </div>
-    <div className="flex items-center gap-2">
-      <span className={`text-xs font-black ${isPositive ? 'text-green-600' : 'text-red-600'} flex items-center`}>
-        {isPositive ? <ArrowUpRight className="w-3 h-3 mr-0.5" /> : <ArrowDownRight className="w-3 h-3 mr-0.5" />}
-        {change}
-      </span>
-      <span className="text-xs font-bold text-gray-400">vs mês anterior</span>
-    </div>
-    {/* Mini Sparkline Simulation */}
-    <div className="mt-4 h-8 flex items-end gap-1">
-      {[40, 70, 45, 90, 65, 80, 50, 85, 60, 95].map((h, i) => (
-        <div
-          key={i}
-          className={`flex-1 rounded-t-sm transition-all duration-500`}
-          style={{ height: `${h}%`, backgroundColor: color, opacity: 0.2 + (i * 0.08) }}
-        ></div>
-      ))}
-    </div>
-  </div>
-);
-
-const CommunityLeader = ({ name, role, status, avatar }: any) => (
-  <div className="flex items-center justify-between p-4 hover:bg-gray-50 rounded-xl transition-colors cursor-pointer group">
-    <div className="flex items-center gap-4">
-      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-happiness-1 to-happiness-2 flex items-center justify-center text-white font-bold text-xs ring-2 ring-white shadow-sm">
-        {avatar}
-      </div>
-      <div>
-        <p className="text-sm font-bold text-gray-900 group-hover:text-happiness-1 transition-colors">{name}</p>
-        <p className="text-xs font-medium text-gray-400">{role}</p>
+      <div className={`p-2 rounded-sm ${color} bg-opacity-10 text-opacity-100`}>
+        <Icon className={`w-5 h-5 ${color.replace('bg-', 'text-')}`} />
       </div>
     </div>
-    <span className={`text-[10px] font-black px-2 py-1 rounded-md uppercase tracking-wider ${status === 'Ativo' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
-      }`}>
-      {status}
-    </span>
-  </div>
-);
-
-const ODSCard = ({ icon: Icon, title, value, color, change }: any) => (
-  <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
-    <div className="w-12 h-12 rounded-xl flex items-center justify-center transition-transform hover:scale-110 duration-300 shadow-lg" style={{ backgroundColor: color }}>
-      <Icon className="w-6 h-6 text-white" />
+    <div className="flex items-center gap-2 text-xs">
+      {trend === 'up' && <span className="text-green-600 dark:text-green-400 font-bold flex items-center"><ArrowUpRight className="w-3 h-3 mr-1" />{trendValue}</span>}
+      {trend === 'down' && <span className="text-red-500 font-bold flex items-center"><ArrowDownRight className="w-3 h-3 mr-1" />{trendValue}</span>}
+      <span className="text-gray-400 dark:text-gray-600">{subtext}</span>
     </div>
-    <div className="flex-1">
-      <div className="flex justify-between items-center">
-        <p className="text-xs font-black text-gray-400 uppercase tracking-widest leading-none mb-1">{title}</p>
-        <span className="text-[10px] font-bold text-green-500 flex items-center">
-          <ArrowUpRight className="w-3 h-3" /> {change}
+    {isWarning && (
+      <div className="absolute top-0 right-0 p-1">
+        <span className="flex h-3 w-3">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
         </span>
       </div>
-      <h4 className="text-xl font-black text-gray-900">{value}</h4>
+    )}
+  </div>
+);
+
+const ModuleSummary = ({ title, icon: Icon, items, colorClass }: any) => (
+  <div className="bg-white dark:bg-[#1C1C1C] p-6 rounded-sm border border-gray-200 dark:border-white/5 shadow-sm h-full">
+    <div className="flex items-center gap-2 mb-6 border-b border-gray-100 dark:border-white/5 pb-4">
+      <Icon className={`w-5 h-5 ${colorClass}`} />
+      <h3 className="font-bold text-gray-900 dark:text-white text-sm uppercase tracking-wide">{title}</h3>
+    </div>
+    <div className="space-y-4">
+      {items.map((item: any, idx: number) => (
+        <div key={idx} className="flex justify-between items-center group cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5 p-2 rounded-sm -mx-2 transition-colors">
+          <div className="flex flex-col">
+            <span className="text-xs font-bold text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">{item.label}</span>
+            <span className="text-[10px] text-gray-400">{item.sub}</span>
+          </div>
+          {item.status === 'success' && <span className="text-xs font-black text-green-500">{item.value}</span>}
+          {item.status === 'warning' && <span className="text-xs font-black text-yellow-500">{item.value}</span>}
+          {item.status === 'danger' && <span className="text-xs font-black text-red-500">{item.value}</span>}
+          {item.status === 'neutral' && <span className="text-xs font-black text-gray-500 dark:text-gray-400">{item.value}</span>}
+        </div>
+      ))}
     </div>
   </div>
 );
@@ -81,149 +67,164 @@ const ODSCard = ({ icon: Icon, title, value, color, change }: any) => (
 export const Dashboard: React.FC = () => {
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-      {/* Header Info */}
+      {/* Header / Context */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h2 className="text-3xl font-black text-gray-900 tracking-tight">Painel de Impacto</h2>
-          <p className="text-gray-500 font-medium">Visualização em tempo real das metas ESG (Porto do Itaqui).</p>
+          <div className="flex items-center gap-2 mb-1">
+            <h2 className="text-2xl font-black text-gray-900 dark:text-white tracking-tight">Plataforma Integrada ESG</h2>
+            <span className="bg-gray-900 text-white dark:bg-white dark:text-black text-[10px] uppercase font-black px-2 py-0.5 rounded-sm tracking-widest">Porto do Itaqui</span>
+          </div>
+          <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">Visão consolidada: TCFD, GRI Standards e PR 2030 (ABNT).</p>
         </div>
         <div className="flex items-center gap-3">
-          <div className="bg-white px-4 py-2 rounded-xl shadow-sm border border-gray-100 flex items-center gap-2">
-            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-            <span className="text-xs font-black text-gray-700 uppercase tracking-widest">Nível de Maturidade 5</span>
+          <div className="bg-green-50 dark:bg-green-900/20 px-3 py-1.5 rounded-sm border border-green-200 dark:border-green-900/30 flex items-center gap-2 text-green-700 dark:text-green-400">
+            <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
+            <span className="text-[10px] font-black uppercase tracking-widest">Nível de Maturidade 5</span>
           </div>
-          <button className="bg-happiness-1 text-white p-2.5 rounded-xl shadow-lg shadow-happiness-1/20 hover:scale-105 active:scale-95 transition-all">
-            <Globe className="w-5 h-5" />
+          <button className="bg-happiness-1 text-white p-2 rounded-sm shadow-lg shadow-happiness-1/20 hover:bg-happiness-1/90 transition-all flex items-center gap-2 text-xs font-bold px-4">
+            <FileText className="w-4 h-4" />
+            Gerar Report
           </button>
         </div>
       </div>
 
-      {/* Top Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <StatCard
-          title="Novas Iniciativas"
-          value="24"
-          change="12%"
-          isPositive={true}
-          color="#154DBF"
-        />
-        <StatCard
-          title="Líderes Engajados"
-          value="156"
-          change="4.5%"
-          isPositive={true}
-          color="#10B981"
-        />
-        <StatCard
-          title="Investimento Social"
-          value="R$ 1.2M"
-          change="2.1%"
-          isPositive={false}
-          color="#F2BE5E"
-        />
-      </div>
-
-      {/* Map & Leaders Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Map Section */}
-        <div className="lg:col-span-2 bg-white p-8 rounded-3xl shadow-sm border border-gray-100 relative overflow-hidden group">
-          <div className="flex justify-between items-center mb-10">
-            <div>
-              <h3 className="text-xl font-black text-gray-900 tracking-tight flex items-center gap-3">
-                <MapIcon className="w-6 h-6 text-happiness-1" /> Geo-Localização de Impacto
-              </h3>
-              <p className="text-sm text-gray-500 font-medium">Distribuição das ações nas comunidades do entorno.</p>
-            </div>
-            <button className="p-2 text-gray-400 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all">
-              <MoreVertical className="w-5 h-5" />
-            </button>
-          </div>
-
-          <div className="relative aspect-[16/9] bg-happiness-3/10 rounded-2xl overflow-hidden border-2 border-dashed border-happiness-3/30 flex items-center justify-center">
-            {/* Map Placeholder Graphic */}
-            <div className="absolute inset-0 opacity-20 pointer-events-none">
-              <svg viewBox="0 0 800 400" className="w-full h-full text-happiness-1 fill-current">
-                <path d="M150,100 Q200,50 300,100 T500,150 Q600,200 700,100 L750,300 Q650,350 500,300 T200,350 Z" />
-              </svg>
-            </div>
-
-            {/* Interactive Points */}
-            <div className="absolute top-1/4 left-1/4 group/dot">
-              <div className="w-6 h-6 bg-happiness-1 rounded-full border-4 border-white shadow-xl animate-bounce"></div>
-              <div className="absolute top-8 left-1/2 -translate-x-1/2 bg-white px-3 py-1.5 rounded-lg shadow-xl border border-gray-100 whitespace-nowrap opacity-0 group-hover/dot:opacity-100 transition-all duration-300">
-                <p className="text-[10px] font-black uppercase text-happiness-1">Vila Maranhão</p>
-                <p className="text-xs font-bold text-gray-700">8 Propostas Ativas</p>
-              </div>
-            </div>
-
-            <div className="absolute bottom-1/3 right-1/4 group/dot2">
-              <div className="w-6 h-6 bg-happiness-5 rounded-full border-4 border-white shadow-xl"></div>
-              <div className="absolute top-8 left-1/2 -translate-x-1/2 bg-white px-3 py-1.5 rounded-lg shadow-xl border border-gray-100 whitespace-nowrap opacity-0 group-hover/dot2:opacity-100 transition-all duration-300">
-                <p className="text-[10px] font-black uppercase text-happiness-5">Anjo da Guarda</p>
-                <p className="text-xs font-bold text-gray-700">Em Monitoramento</p>
-              </div>
-            </div>
-
-            <span className="text-xs font-black text-blue-300 uppercase tracking-[0.3em]">Map Visualization Engine</span>
-          </div>
-
-          <div className="mt-8 flex gap-6">
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-happiness-1 rounded-full shadow-lg shadow-happiness-1/20"></div>
-              <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Ações Sociais</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-happiness-5 rounded-full shadow-lg shadow-happiness-5/20"></div>
-              <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Alertas de Riscos</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Leaders Section */}
-        <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
-          <div className="flex justify-between items-center mb-8">
-            <h3 className="text-xl font-black text-gray-900 tracking-tight">Líderes Sociais</h3>
-            <button className="text-happiness-1 text-xs font-black uppercase tracking-widest hover:underline decoration-2">Ver Todos</button>
-          </div>
-          <div className="space-y-2">
-            <CommunityLeader name="Dona Maria" role="Presidente Vila Maranhão" status="Ativo" avatar="DM" />
-            <CommunityLeader name="João Pedro" role="Assoc. Porto Grande" status="Ativo" avatar="JP" />
-            <CommunityLeader name="Ana Paula" role="Conselho Bacanga" status="Pendentes" avatar="AP" />
-            <CommunityLeader name="Ricardo" role="Cooperativa Pesca" status="Ativo" avatar="RC" />
-          </div>
-        </div>
-      </div>
-
-      {/* Bottom Metrics */}
+      {/* High Level KPIs */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <ODSCard
-          icon={CheckCircle2}
-          title="Compliance ODS"
-          value="94.2%"
-          color="#10B981"
-          change="+2.4%"
+        <KPICard
+          title="Emissões Escopo 3"
+          value="12,450 tCO2e"
+          subtext="vs meta anual (85%)"
+          icon={Leaf}
+          trend="up"
+          trendValue="2.4%"
+          color="text-green-600 bg-green-100 dark:bg-green-900/30 dark:text-green-400"
         />
-        <ODSCard
+        <KPICard
+          title="Índice SROI Social"
+          value="R$ 4.25"
+          subtext="Retorno p/ cada R$1 investido"
           icon={Users}
-          title="Impacto Humano"
-          value="12.5k"
-          color="#154DBF"
-          change="+18%"
+          trend="up"
+          trendValue="R$ 0.15"
+          color="text-blue-600 bg-blue-100 dark:bg-blue-900/30 dark:text-blue-400"
         />
-        <ODSCard
-          icon={AlertCircle}
-          title="Riscos Geridos"
-          value="08"
-          color="#EF4444"
-          change="-12%"
+        <KPICard
+          title="Riscos Críticos"
+          value="03"
+          subtext="Requerem mitigação imediata"
+          icon={Shield}
+          trend="down"
+          trendValue="-1"
+          color="text-red-600 bg-red-100 dark:bg-red-900/30 dark:text-red-400"
+          isWarning={true}
         />
-        <ODSCard
-          icon={DollarSign}
-          title="Valor Social"
-          value="R$ 450k"
-          color="#F2BE5E"
-          change="+5.2%"
+        <KPICard
+          title="Fornecedores Bloqueados"
+          value="02"
+          subtext="Due Diligence Automático"
+          icon={AlertTriangle}
+          trend="neutral"
+          trendValue=""
+          color="text-orange-600 bg-orange-100 dark:bg-orange-900/30 dark:text-orange-400"
         />
+      </div>
+
+      {/* Integrated Modules View */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-full">
+        <ModuleSummary
+          title="Módulo Ambiental (EcoPorto)"
+          icon={Leaf}
+          colorClass="text-green-500"
+          items={[
+            { label: 'Eficiência Energética', sub: 'Terminals A/B', value: '94%', status: 'success' },
+            { label: 'Monitoramento de Ruído', sub: 'Sensor Vila Maranhão', value: 'ALERT', status: 'warning' },
+            { label: 'Gestão de Resíduos (MTR)', sub: 'Circularidade', value: '100%', status: 'success' },
+            { label: 'Qualidade da Água', sub: 'Ponto de Controle 04', value: 'Normal', status: 'neutral' },
+          ]}
+        />
+
+        <ModuleSummary
+          title="Módulo Social (Território)"
+          icon={Users}
+          colorClass="text-blue-500"
+          items={[
+            { label: 'Tickets Ouvidoria', sub: 'Abertos > 48h', value: '0', status: 'success' },
+            { label: 'Wage Gap (Liderança)', sub: 'Gender Pay Gap', value: '5.2%', status: 'danger' },
+            { label: 'Beneficiários Diretos', sub: 'Jovem Aprendiz', value: '450', status: 'neutral' },
+            { label: 'Diversidade (Cotas)', sub: 'PCD Compliance', value: '5.2%', status: 'success' },
+          ]}
+        />
+
+        <ModuleSummary
+          title="Módulo Governança (GRC)"
+          icon={Shield}
+          colorClass="text-purple-500"
+          items={[
+            { label: 'Report GRI/SASB', sub: 'Data Completeness', value: '92%', status: 'success' },
+            { label: 'Lista Suja (Trabalho)', sub: 'Varredura Semanal', value: 'Clean', status: 'success' },
+            { label: 'Matriz de Riscos', sub: 'Amplificados p/ Clima', value: 'High', status: 'warning' },
+            { label: 'Transparência', sub: 'Portal Público', value: 'Live', status: 'success' },
+          ]}
+        />
+      </div>
+
+      {/* Geo-Spatial & Operational View */}
+      <div className="bg-white dark:bg-[#1C1C1C] rounded-sm border border-gray-200 dark:border-white/5 shadow-sm p-6">
+        <div className="flex justify-between items-center mb-6">
+          <div>
+            <h3 className="font-bold text-gray-900 dark:text-white text-sm flex items-center gap-2">
+              <MapIcon className="w-4 h-4 text-gray-400" />
+              Monitoramento Territorial (Itaqui-Bacanga)
+            </h3>
+            <p className="text-xs text-gray-500 mt-1">Integração de sensores IoT Ambientais e Projetos Sociais.</p>
+          </div>
+          <div className="flex gap-2">
+            <span className="flex items-center gap-1 text-[10px] text-gray-500"><span className="w-2 h-2 rounded-full bg-green-500"></span> Ar Puro</span>
+            <span className="flex items-center gap-1 text-[10px] text-gray-500"><span className="w-2 h-2 rounded-full bg-yellow-500"></span> Alerta PM2.5</span>
+            <span className="flex items-center gap-1 text-[10px] text-gray-500"><span className="w-2 h-2 rounded-full bg-blue-500"></span> Projeto Social</span>
+          </div>
+        </div>
+
+        <div className="relative aspect-[21/9] bg-gray-100 dark:bg-black/20 rounded-sm overflow-hidden border border-gray-200 dark:border-white/5">
+          {/* Abstract Map Representation */}
+          <svg viewBox="0 0 1000 400" className="w-full h-full opacity-30 dark:opacity-10">
+            <path d="M0,350 Q250,300 400,350 T800,300 T1000,350 V400 H0 Z" fill="#3B82F6" /> {/* Water */}
+            <path d="M0,350 Q250,300 400,350 T800,300 T1000,350 V0 H0 Z" fill="currentColor" className="text-gray-300 dark:text-gray-600" /> {/* Land */}
+          </svg>
+
+          {/* Sensor Data Points */}
+          <div className="absolute top-1/3 left-1/4 group cursor-pointer">
+            <div className="w-4 h-4 bg-yellow-500 rounded-full border-2 border-white dark:border-[#1C1C1C] shadow-lg animate-pulse"></div>
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-white dark:bg-black p-2 rounded shadow-xl border border-gray-100 dark:border-white/10 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10 w-48">
+              <div className="flex items-center gap-2 mb-1">
+                <Activity className="w-3 h-3 text-yellow-500" />
+                <span className="text-xs font-bold text-gray-900 dark:text-white">Sensor: Vila Maranhão</span>
+              </div>
+              <div className="flex justify-between text-[10px] text-gray-500">
+                <span>PM2.5: High</span>
+                <span className="text-yellow-500 font-bold">45µg/m³</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="absolute top-1/2 right-1/3 group cursor-pointer">
+            <div className="w-4 h-4 bg-blue-500 rounded-full border-2 border-white dark:border-[#1C1C1C] shadow-lg"></div>
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-white dark:bg-black p-2 rounded shadow-xl border border-gray-100 dark:border-white/10 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10 w-48">
+              <div className="flex items-center gap-2 mb-1">
+                <Users className="w-3 h-3 text-blue-500" />
+                <span className="text-xs font-bold text-gray-900 dark:text-white">Projeto: Pesca Sustentável</span>
+              </div>
+              <div className="flex justify-between text-[10px] text-gray-500">
+                <span>Beneficiários</span>
+                <span className="text-blue-500 font-bold">128 Famílias</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="absolute bottom-1/4 left-1/2 group cursor-pointer">
+            <div className="w-4 h-4 bg-green-500 rounded-full border-2 border-white dark:border-[#1C1C1C] shadow-lg"></div>
+          </div>
+        </div>
       </div>
     </div>
   );

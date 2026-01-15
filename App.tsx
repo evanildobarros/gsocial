@@ -26,6 +26,9 @@ import {
     Map as TerritoryIcon,
     Group as DiversityIcon,
     Security as HumanRightsIcon,
+    ReportProblem as RiskIcon,
+    Assessment as ReportingIcon,
+    LocalShipping as SupplyChainIcon,
 } from '@mui/icons-material';
 import { AppMode, UserProfile } from './types';
 import { supabase } from './utils/supabase';
@@ -46,6 +49,9 @@ import { SROICalculator } from './components/social/SROICalculator';
 import { CommunityRelations } from './components/social/CommunityRelations';
 import { DiversityDashboard } from './components/social/DiversityDashboard';
 import { HumanRights } from './components/social/HumanRights';
+import { RiskHeatmap } from './components/governance/RiskHeatmap';
+import { ReportingHub } from './components/governance/ReportingHub';
+import { SupplyChainAudit } from './components/governance/SupplyChainAudit';
 
 // Componente NavItem refatorado com Tailwind
 interface NavItemProps {
@@ -182,6 +188,9 @@ export default function App() {
             case AppMode.SOCIAL_TERRITORY: return <CommunityRelations />;
             case AppMode.SOCIAL_DIVERSITY: return <DiversityDashboard />;
             case AppMode.SOCIAL_HUMAN_RIGHTS: return <HumanRights />;
+            case AppMode.GOV_RISK_MATRIX: return <RiskHeatmap />;
+            case AppMode.GOV_REPORTING: return <ReportingHub />;
+            case AppMode.GOV_SUPPLY_CHAIN: return <SupplyChainAudit />;
             default: return <Dashboard />;
         }
     };
@@ -201,6 +210,9 @@ export default function App() {
             case AppMode.SOCIAL_TERRITORY: return 'Relacionamento & Território';
             case AppMode.SOCIAL_DIVERSITY: return 'Diversidade & Inclusão';
             case AppMode.SOCIAL_HUMAN_RIGHTS: return 'Direitos Humanos & Supply Chain';
+            case AppMode.GOV_RISK_MATRIX: return 'Matriz de Riscos GRC';
+            case AppMode.GOV_REPORTING: return 'Relatórios & Transparência';
+            case AppMode.GOV_SUPPLY_CHAIN: return 'Auditoria de Fornecedores';
             default: return 'ESGporto';
         }
     };
@@ -224,6 +236,12 @@ export default function App() {
         { icon: <HumanRightsIcon />, label: "Direitos Humanos", mode: AppMode.SOCIAL_HUMAN_RIGHTS },
     ];
 
+    const govItems = [
+        { icon: <RiskIcon />, label: "Matriz de Riscos", mode: AppMode.GOV_RISK_MATRIX },
+        { icon: <ReportingIcon />, label: "Relatórios & Padrões", mode: AppMode.GOV_REPORTING },
+        { icon: <SupplyChainIcon />, label: "Cadeia de Valor", mode: AppMode.GOV_SUPPLY_CHAIN },
+    ];
+
     return (
         <div className="flex min-h-screen bg-gray-50 dark:bg-zinc-950 font-sans transition-colors duration-300">
             <ToastContainer />
@@ -236,15 +254,35 @@ export default function App() {
                 `}
             >
                 {/* Header */}
-                <div className="p-6 flex items-center gap-3">
-                    <div className="w-10 h-10 bg-happiness-1 rounded-xl flex items-center justify-center transform hover:rotate-6 transition-transform shadow-lg shadow-happiness-1/20 shrink-0">
-                        <AnchorIcon className="text-white" sx={{ fontSize: 24 }} />
-                    </div>
-                    {sidebarOpen && (
-                        <div className="animate-in fade-in duration-300">
-                            <h1 className="text-lg font-black tracking-tighter leading-none text-gray-900 dark:text-white">ESGporto</h1>
-                            <p className="text-[9px] font-black text-gray-400 dark:text-happiness-3 uppercase tracking-widest mt-0.5">Dash Intelligence</p>
-                        </div>
+                <div className={`
+                    h-20 flex items-center px-6 transition-all duration-300
+                    ${sidebarOpen ? 'justify-between' : 'justify-center'}
+                `}>
+                    {sidebarOpen ? (
+                        <>
+                            <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 bg-happiness-1 rounded-sm flex items-center justify-center transform hover:rotate-6 transition-transform shadow-lg shadow-happiness-1/20 shrink-0">
+                                    <AnchorIcon className="text-white" sx={{ fontSize: 24 }} />
+                                </div>
+                                <div className="animate-in fade-in duration-300">
+                                    <h1 className="text-lg font-black tracking-tighter leading-none text-gray-900 dark:text-white">ESGporto</h1>
+                                    <p className="text-[9px] font-black text-gray-400 dark:text-happiness-3 uppercase tracking-widest mt-0.5">Dash Intelligence</p>
+                                </div>
+                            </div>
+                            <button
+                                onClick={() => setSidebarOpen(false)}
+                                className="p-1.5 text-gray-400 hover:text-happiness-1 hover:bg-happiness-1/5 rounded-sm transition-all"
+                            >
+                                <MenuIcon sx={{ fontSize: 20 }} />
+                            </button>
+                        </>
+                    ) : (
+                        <button
+                            onClick={() => setSidebarOpen(true)}
+                            className="p-2 text-gray-400 hover:text-happiness-1 hover:bg-happiness-1/5 rounded-sm transition-all"
+                        >
+                            <MenuIcon sx={{ fontSize: 24 }} />
+                        </button>
                     )}
                 </div>
 
@@ -280,6 +318,20 @@ export default function App() {
 
                     <SectionLabel label="Social & Resp." collapsed={!sidebarOpen} />
                     {socialItems.map(item => (
+                        <NavItem
+                            key={item.label}
+                            icon={item.icon}
+                            label={item.label}
+                            active={mode === item.mode}
+                            onClick={() => setMode(item.mode)}
+                            collapsed={!sidebarOpen}
+                        />
+                    ))}
+
+                    <div className="my-4 border-t border-gray-100 dark:border-white/5 mx-4" />
+
+                    <SectionLabel label="Governança (GRC)" collapsed={!sidebarOpen} />
+                    {govItems.map(item => (
                         <NavItem
                             key={item.label}
                             icon={item.icon}
@@ -396,12 +448,7 @@ export default function App() {
                 {/* Topbar/Header */}
                 <header className="h-20 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md sticky top-0 z-40 border-b border-gray-100 dark:border-white/5 px-8 flex items-center justify-between transition-colors duration-300">
                     <div className="flex items-center gap-6">
-                        <button
-                            onClick={() => setSidebarOpen(!sidebarOpen)}
-                            className="p-2 text-gray-400 hover:text-happiness-1 hover:bg-happiness-1/5 rounded-sm transition-all"
-                        >
-                            <MenuIcon />
-                        </button>
+                        {/* Toggle Removed from Header */}
                         <div className="h-6 w-px bg-gray-200 dark:bg-white/10 hidden sm:block"></div>
                         <h2 className="hidden sm:block text-sm font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.15em]">
                             {getPageTitle()}

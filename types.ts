@@ -15,10 +15,23 @@ export enum AppMode {
   SOCIAL_SROI = 'SOCIAL_SROI',
   SOCIAL_TERRITORY = 'SOCIAL_TERRITORY',
   SOCIAL_DIVERSITY = 'SOCIAL_DIVERSITY',
-  SOCIAL_HUMAN_RIGHTS = 'SOCIAL_HUMAN_RIGHTS'
+  SOCIAL_HUMAN_RIGHTS = 'SOCIAL_HUMAN_RIGHTS',
+
+  // Novos Modos de Governança
+  GOV_RISK_MATRIX = 'GOV_RISK_MATRIX',
+  GOV_REPORTING = 'GOV_REPORTING',
+  GOV_SUPPLY_CHAIN = 'GOV_SUPPLY_CHAIN'
 }
 
-export type UserRole = 'master' | 'admin' | 'user' | 'admin_autoridade_portuaria' | 'gestor_arrendatario';
+export type UserRole =
+  | 'master'
+  | 'admin'
+  | 'user'
+  | 'admin_porto'
+  | 'gestor_arrendatario'
+  | 'gestor_social'
+  | 'auditor_externo'
+  | 'publico_comunidade';
 
 export interface UserProfile {
   id: string;
