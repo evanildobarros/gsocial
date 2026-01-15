@@ -14,13 +14,17 @@ export enum AppMode {
   // Novos Modos Sociais
   SOCIAL_SROI = 'SOCIAL_SROI',
   SOCIAL_TERRITORY = 'SOCIAL_TERRITORY',
+  SOCIAL_GIS = 'SOCIAL_GIS',
   SOCIAL_DIVERSITY = 'SOCIAL_DIVERSITY',
   SOCIAL_HUMAN_RIGHTS = 'SOCIAL_HUMAN_RIGHTS',
 
   // Novos Modos de Governança
   GOV_RISK_MATRIX = 'GOV_RISK_MATRIX',
   GOV_REPORTING = 'GOV_REPORTING',
-  GOV_SUPPLY_CHAIN = 'GOV_SUPPLY_CHAIN'
+  GOV_SUPPLY_CHAIN = 'GOV_SUPPLY_CHAIN',
+
+  // Modos Estratégicos
+  STRATEGIC_PREDICTIVE = 'STRATEGIC_PREDICTIVE'
 }
 
 export type UserRole =
@@ -84,4 +88,20 @@ declare global {
   interface Window {
     aistudio?: AIStudio;
   }
+}
+
+export type ESGPillar = 'Environmental' | 'Social' | 'Governance' | 'Operational';
+
+export type LayerType = 'POLYGON' | 'MARKER' | 'POLYLINE';
+
+export interface Layer {
+  id: string;
+  name: string;
+  type: LayerType;
+  visible: boolean;
+  color: string;
+  data: any; // Coordinates or Marker Position
+  details?: Record<string, any>; // Metadados adicionais do arquivo importado
+  pillar: ESGPillar; // Pilar ESG ao qual a camada pertence
+  group?: string; // Grupo ou categoria da camada (ex: Recursos Hídricos)
 }

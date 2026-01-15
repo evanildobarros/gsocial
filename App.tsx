@@ -30,8 +30,9 @@ import {
     Assessment as ReportingIcon,
     LocalShipping as SupplyChainIcon,
 } from '@mui/icons-material';
-import { AppMode, UserProfile } from './types';
+import { AppMode, UserProfile, Layer } from './types';
 import { supabase } from './utils/supabase';
+import { parseKmlToLayers } from './utils/geoUtils';
 import { Dashboard } from './components/Dashboard';
 import { ProjectList } from './components/ProjectList';
 import { NewProject } from './components/NewProject';
@@ -52,6 +53,8 @@ import { HumanRights } from './components/social/HumanRights';
 import { RiskHeatmap } from './components/governance/RiskHeatmap';
 import { ReportingHub } from './components/governance/ReportingHub';
 import { SupplyChainAudit } from './components/governance/SupplyChainAudit';
+import { PredictiveAnalysis } from './components/strategic/PredictiveAnalysis';
+import { GeoSpatialModule } from './components/territory/GeoSpatialModule';
 
 // Componente NavItem refatorado com Tailwind
 interface NavItemProps {
@@ -77,7 +80,7 @@ const NavItem: React.FC<NavItemProps> = ({ icon, label, active, onClick, collaps
                 `}
             >
                 <div className={`flex items-center justify-center ${collapsed ? '' : 'min-w-[40px]'}`}>
-                    {React.cloneElement(icon as React.ReactElement, { sx: { fontSize: 20 } })}
+                    {React.cloneElement(icon as React.ReactElement<any>, { sx: { fontSize: 20 } })}
                 </div>
                 {!collapsed && (
                     <span className={`text-sm font-medium whitespace-nowrap ${active ? 'font-bold' : ''}`}>
@@ -102,6 +105,29 @@ export default function App() {
     const [sidebarOpen, setSidebarOpen] = useState(true);
     const [settingsOpen, setSettingsOpen] = useState(false);
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+    const [kmlLayers, setKmlLayers] = useState<Layer[]>([]);
+
+    useEffect(() => {
+        const fetchKml = async () => {
+            console.log('Attempting to fetch KML...');
+            try {
+                const response = await fetch('/Mapeamento da Poligonal do Porto do Itaqui.kml');
+                console.log('KML Fetch Status:', response.status);
+                if (response.ok) {
+                    const text = await response.text();
+                    console.log('KML Text Length:', text.length);
+                    const parsed = parseKmlToLayers(text);
+                    console.log('Parsed KML Layers:', parsed);
+                    setKmlLayers(parsed);
+                } else {
+                    console.error('Failed to fetch KML:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error loading KML:', error);
+            }
+        };
+        fetchKml();
+    }, []);
 
     const fetchUserProfile = async (userId: string) => {
         try {
@@ -191,6 +217,8 @@ export default function App() {
             case AppMode.GOV_RISK_MATRIX: return <RiskHeatmap />;
             case AppMode.GOV_REPORTING: return <ReportingHub />;
             case AppMode.GOV_SUPPLY_CHAIN: return <SupplyChainAudit />;
+            case AppMode.STRATEGIC_PREDICTIVE: return <PredictiveAnalysis />;
+            case AppMode.SOCIAL_GIS: return <GeoSpatialModule additionalLayers={kmlLayers} />;
             default: return <Dashboard />;
         }
     };
@@ -213,13 +241,14 @@ export default function App() {
             case AppMode.GOV_RISK_MATRIX: return 'Matriz de Riscos GRC';
             case AppMode.GOV_REPORTING: return 'Relatórios & Transparência';
             case AppMode.GOV_SUPPLY_CHAIN: return 'Auditoria de Fornecedores';
+            case AppMode.STRATEGIC_PREDICTIVE: return 'Inteligência Preditiva';
+            case AppMode.SOCIAL_GIS: return 'Mapeamento Territorial Geoespacial';
             default: return 'ESGporto';
         }
     };
 
     const navItems = [
         { icon: <DashboardIcon />, label: "Home", mode: AppMode.DASHBOARD },
-        { icon: <ProjectsIcon />, label: "Projetos & Ações", mode: AppMode.PROJECTS },
     ];
 
     const envItems = [
@@ -230,8 +259,9 @@ export default function App() {
     ];
 
     const socialItems = [
+        { icon: <ProjectsIcon />, label: "Projetos & Ações", mode: AppMode.PROJECTS },
         { icon: <SroiIcon />, label: "Impacto & SROI", mode: AppMode.SOCIAL_SROI },
-        { icon: <TerritoryIcon />, label: "Relacionamento & Território", mode: AppMode.SOCIAL_TERRITORY },
+        { icon: <TerritoryIcon />, label: "Mapa ESG (GIS)", mode: AppMode.SOCIAL_GIS },
         { icon: <DiversityIcon />, label: "Diversidade & Inclusão", mode: AppMode.SOCIAL_DIVERSITY },
         { icon: <HumanRightsIcon />, label: "Direitos Humanos", mode: AppMode.SOCIAL_HUMAN_RIGHTS },
     ];
@@ -294,7 +324,7 @@ export default function App() {
                             key={item.label}
                             icon={item.icon}
                             label={item.label}
-                            active={mode === item.mode || (item.mode === AppMode.PROJECTS && mode === AppMode.NEW_PROJECT)}
+                            active={mode === item.mode}
                             onClick={() => setMode(item.mode)}
                             collapsed={!sidebarOpen}
                         />
@@ -322,7 +352,7 @@ export default function App() {
                             key={item.label}
                             icon={item.icon}
                             label={item.label}
-                            active={mode === item.mode}
+                            active={mode === item.mode || (item.mode === AppMode.PROJECTS && mode === AppMode.NEW_PROJECT)}
                             onClick={() => setMode(item.mode)}
                             collapsed={!sidebarOpen}
                         />
@@ -345,7 +375,13 @@ export default function App() {
                     <div className="my-4 border-t border-gray-100 dark:border-white/5 mx-4" />
 
                     <SectionLabel label="Estratégico" collapsed={!sidebarOpen} />
-                    <NavItem icon={<AnalyticsIcon />} label="Análise Preditiva" active={false} onClick={() => { }} collapsed={!sidebarOpen} />
+                    <NavItem
+                        icon={<AnalyticsIcon />}
+                        label="Análise Preditiva"
+                        active={mode === AppMode.STRATEGIC_PREDICTIVE}
+                        onClick={() => setMode(AppMode.STRATEGIC_PREDICTIVE)}
+                        collapsed={!sidebarOpen}
+                    />
                     <NavItem icon={<NotificationsIcon />} label="Notificações" active={false} onClick={() => { }} collapsed={!sidebarOpen} />
 
                     {/* Settings Submenu logic can be simplified or implemented similarly if needed */}

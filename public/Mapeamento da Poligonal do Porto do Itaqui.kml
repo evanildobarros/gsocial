@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Mapeamento da Poligonal do Porto do Itaqui</name>
+    <Placemark>
+      <name>Poligonal do Porto</name>
+      <ExtendedData>
+        <Data name="Bairro">
+          <value>Porto do Itaqui</value>
+        </Data>
+      </ExtendedData>
+      <Polygon>
+        <outerBoundaryIs>
+          <LinearRing>
+            <coordinates>
+              -44.37,-2.57,0
+              -44.36,-2.59,0
+              -44.38,-2.595,0
+              -44.39,-2.58,0
+              -44.37,-2.57,0
+            </coordinates>
+          </LinearRing>
+        </outerBoundaryIs>
+      </Polygon>
+    </Placemark>
+    <Placemark>
+      <name>Escola Comunitária</name>
+       <ExtendedData>
+        <Data name="Bairro">
+          <value>Vila Maranhão</value>
+        </Data>
+      </ExtendedData>
+      <Point>
+        <coordinates>-44.365,-2.605,0</coordinates>
+      </Point>
+    </Placemark>
+  </Document>
+</kml>
