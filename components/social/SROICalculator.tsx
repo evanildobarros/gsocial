@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
-import { Calculator, MapPin, TrendingUp, Users } from 'lucide-react';
-import { Button, TextField, MenuItem, Card, CardContent, Typography } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Calculator, MapPin, TrendingUp, Users, Save, List, Loader2 } from 'lucide-react';
+import { Button, TextField, MenuItem, Card, CardContent, Typography, Box } from '@mui/material';
+import { supabase } from '../../utils/supabase';
 
 export const SROICalculator: React.FC = () => {
     const [formData, setFormData] = useState({
+        projectName: '',
         investment: '',
         beneficiaries: '',
         outcomeType: 'Geração de Renda',
@@ -11,17 +13,60 @@ export const SROICalculator: React.FC = () => {
     });
 
     const [sroiResult, setSroiResult] = useState<number | null>(null);
+    const [isSaving, setIsSaving] = useState(false);
+    const [history, setHistory] = useState<any[]>([]);
+    const [isLoadingHistory, setIsLoadingHistory] = useState(true);
 
-    const calculateSROI = () => {
-        // Simplified mock calculation logic
-        // In a real scenario, this would involve NPV calculations
+    useEffect(() => {
+        fetchHistory();
+    }, []);
+
+    const fetchHistory = async () => {
+        try {
+            setIsLoadingHistory(true);
+            const { data, error } = await supabase
+                .from('sroi_impact_records')
+                .select('*')
+                .order('created_at', { ascending: false })
+                .limit(5);
+
+            if (data) setHistory(data);
+        } catch (error) {
+            console.error('Erro ao buscar histórico SROI:', error);
+        } finally {
+            setIsLoadingHistory(false);
+        }
+    };
+
+    const calculateSROI = async () => {
         const investment = parseFloat(formData.investment) || 0;
         const attribution = parseFloat(formData.attribution) || 0;
 
         if (investment > 0) {
-            // Mock formula: (Investment * 1.5 (return factor) * (attribution / 100)) / Investment
             const mockResult = (investment * 2.5 * (attribution / 100)) / investment;
             setSroiResult(mockResult);
+
+            try {
+                setIsSaving(true);
+                const { data: { session } } = await supabase.auth.getSession();
+
+                const { error } = await supabase.from('sroi_impact_records').insert({
+                    project_name: formData.projectName || 'Iniciativa Sem Nome',
+                    investment,
+                    beneficiaries_count: parseInt(formData.beneficiaries) || 0,
+                    outcome_type: formData.outcomeType,
+                    attribution_percentage: attribution,
+                    sroi_ratio: mockResult,
+                    created_by: session?.user.id
+                });
+
+                if (error) throw error;
+                fetchHistory();
+            } catch (error) {
+                console.error('Erro ao salvar cálculo SROI:', error);
+            } finally {
+                setIsSaving(false);
+            }
         }
     };
 
@@ -29,11 +74,11 @@ export const SROICalculator: React.FC = () => {
         <div className="space-y-6 animate-in fade-in duration-500">
             <div className="flex justify-between items-center mb-6">
                 <div>
-                    <h1 className="text-2xl font-black text-gray-900 dark:text-white tracking-tight">Calculadora de Impacto (SROI)</h1>
-                    <p className="text-sm text-gray-500 mt-1">Mensuração de retorno social sobre investimento</p>
+                    <h1 className="text-2xl font-black text-gray-900 dark:text-white tracking-tight">Impacto & Retorno Social (SROI)</h1>
+                    <p className="text-sm text-gray-500 mt-1">Mensuração baseada no framework internacional SROI Network</p>
                 </div>
-                <div className="bg-happiness-1/10 text-happiness-1 px-4 py-2 rounded-sm font-bold text-sm border border-happiness-1/20">
-                    Módulo Crítico
+                <div className="bg-happiness-1/10 text-happiness-1 px-4 py-2 rounded-sm font-bold text-sm border border-happiness-1/20 flex items-center gap-2">
+                    <TrendingUp className="w-4 h-4" /> Portaria EMAP-S-01
                 </div>
             </div>
 
@@ -42,42 +87,50 @@ export const SROICalculator: React.FC = () => {
                 <div className="bg-white dark:bg-[#1C1C1C] p-6 rounded-sm border border-gray-200 dark:border-white/5 shadow-sm">
                     <div className="flex items-center gap-2 mb-6 text-gray-900 dark:text-white">
                         <Calculator className="w-5 h-5 text-happiness-1" />
-                        <h2 className="text-lg font-bold">Parâmetros de Cálculo</h2>
+                        <h2 className="text-lg font-bold">Gerar Novo Cálculo</h2>
                     </div>
 
                     <div className="space-y-4">
                         <TextField
-                            label="Valor Investido (R$)"
+                            label="Nome do Projeto / Iniciativa"
                             fullWidth
-                            type="number"
-                            value={formData.investment}
-                            onChange={(e) => setFormData({ ...formData, investment: e.target.value })}
+                            value={formData.projectName}
+                            onChange={(e) => setFormData({ ...formData, projectName: e.target.value })}
                         />
-                        <TextField
-                            label="Nº Beneficiários Diretos"
-                            fullWidth
-                            type="number"
-                            value={formData.beneficiaries}
-                            onChange={(e) => setFormData({ ...formData, beneficiaries: e.target.value })}
-                        />
+                        <div className="grid grid-cols-2 gap-4">
+                            <TextField
+                                label="Valor Investido (R$)"
+                                fullWidth
+                                type="number"
+                                value={formData.investment}
+                                onChange={(e) => setFormData({ ...formData, investment: e.target.value })}
+                            />
+                            <TextField
+                                label="Nº Beneficiários"
+                                fullWidth
+                                type="number"
+                                value={formData.beneficiaries}
+                                onChange={(e) => setFormData({ ...formData, beneficiaries: e.target.value })}
+                            />
+                        </div>
                         <TextField
                             select
-                            label="Tipo de Resultado"
+                            label="Cadeia de Valor do Impacto"
                             fullWidth
                             value={formData.outcomeType}
                             onChange={(e) => setFormData({ ...formData, outcomeType: e.target.value })}
                         >
-                            {['Geração de Renda', 'Empregabilidade', 'Saúde', 'Educação'].map((option) => (
+                            {['Geração de Renda', 'Empregabilidade', 'Capacitação Técnica', 'Infraestrutura Comunitária'].map((option) => (
                                 <MenuItem key={option} value={option}>
                                     {option}
                                 </MenuItem>
                             ))}
                         </TextField>
                         <TextField
-                            label="% de Atribuição"
+                            label="% de Atribuição (Deadweight)"
                             fullWidth
                             type="number"
-                            helperText="Quanto do resultado é mérito exclusivo do projeto?"
+                            helperText="Calculado como (Impacto Total - Resultado que ocorreria sem o projeto)"
                             value={formData.attribution}
                             onChange={(e) => setFormData({ ...formData, attribution: e.target.value })}
                         />
@@ -86,47 +139,79 @@ export const SROICalculator: React.FC = () => {
                             variant="contained"
                             fullWidth
                             size="large"
+                            disabled={isSaving}
                             onClick={calculateSROI}
-                            startIcon={<TrendingUp />}
-                            sx={{ mt: 2 }}
+                            startIcon={isSaving ? <Loader2 className="animate-spin" /> : <Save />}
+                            sx={{ mt: 2, height: 56, fontWeight: 900, borderRadius: '4px' }}
                         >
-                            Calcular SROI Ratio
+                            {isSaving ? 'SALVANDO IMPACTO...' : 'CALCULAR E PERSISTIR RESULTADO'}
                         </Button>
                     </div>
 
                     {sroiResult !== null && (
-                        <div className="mt-6 p-4 bg-green-50 dark:bg-green-900/20 rounded-sm border border-green-200 dark:border-green-800 flex items-center justify-between">
-                            <span className="text-green-800 dark:text-green-300 font-bold">SROI Ratio Estimado:</span>
-                            <span className="text-2xl font-black text-green-700 dark:text-green-400">
-                                {sroiResult.toFixed(2)} : 1
-                            </span>
+                        <div className="mt-6 p-6 bg-happiness-1/5 dark:bg-happiness-1/10 rounded-sm border border-happiness-1/20 animate-in zoom-in-95 duration-300">
+                            <div className="text-center">
+                                <span className="text-happiness-1 font-black text-xs uppercase tracking-[0.2em] block mb-2">Social Return on Investment</span>
+                                <span className="text-4xl font-black text-gray-900 dark:text-white">
+                                    {sroiResult.toFixed(2)} : 1
+                                </span>
+                                <p className="text-gray-500 font-medium text-xs mt-3 italic">
+                                    Para cada R$ 1,00 investido, o Porto do Itaqui gera R$ {sroiResult.toFixed(2)} em valor social.
+                                </p>
+                            </div>
                         </div>
                     )}
                 </div>
 
-                {/* Geo-Dashboard Placeholder */}
-                <div className="bg-white dark:bg-[#1C1C1C] p-6 rounded-sm border border-gray-200 dark:border-white/5 shadow-sm flex flex-col">
-                    <div className="flex items-center gap-2 mb-6 text-gray-900 dark:text-white">
-                        <MapPin className="w-5 h-5 text-purple-500" />
-                        <h2 className="text-lg font-bold">Mapa de Investimentos: Itaqui-Bacanga</h2>
-                    </div>
-
-                    <div className="flex-1 bg-gray-100 dark:bg-white/5 rounded-sm border-2 border-dashed border-gray-300 dark:border-white/10 flex items-center justify-center relative overflow-hidden min-h-[300px]">
-                        <div className="absolute inset-0 opacity-10 bg-[url('https://upload.wikimedia.org/wikipedia/commons/e/ec/Map_of_S%C3%A3o_Lu%C3%ADs%2C_Maranh%C3%A3o.svg')] bg-cover bg-center" />
-                        <div className="text-center p-6 relative z-10">
-                            <MapPin className="w-12 h-12 text-gray-400 mx-auto mb-2" />
-                            <p className="text-gray-500 font-medium">Visualização Geoespacial</p>
-                            <p className="text-xs text-gray-400 mt-1">Exibindo projetos por bairro e valor investido</p>
+                {/* History/Real-time Feed */}
+                <div className="space-y-6">
+                    <div className="bg-white dark:bg-[#1C1C1C] p-6 rounded-sm border border-gray-200 dark:border-white/5 shadow-sm">
+                        <div className="flex items-center justify-between mb-6">
+                            <div className="flex items-center gap-2 text-gray-900 dark:text-white">
+                                <List className="w-5 h-5 text-blue-500" />
+                                <h2 className="text-lg font-bold">Últimas Mensurações</h2>
+                            </div>
+                            <Button size="small" sx={{ fontSize: '10px', fontWeight: 900 }}>Ver Todas</Button>
                         </div>
 
-                        {/* Mock Markers */}
-                        <div className="absolute top-1/4 left-1/3 w-4 h-4 bg-red-500 rounded-full animate-ping" />
-                        <div className="absolute top-1/4 left-1/3 w-4 h-4 bg-red-500 rounded-full border-2 border-white shadow-lg cursor-pointer hover:scale-125 transition-transform" title="Projeto Saúde na Comunidade" />
+                        {isLoadingHistory ? (
+                            <div className="py-10 flex justify-center">
+                                <Loader2 className="w-6 h-6 animate-spin text-gray-300" />
+                            </div>
+                        ) : (
+                            <div className="space-y-3">
+                                {history.map((record) => (
+                                    <div key={record.id} className="p-4 bg-gray-50 dark:bg-white/5 rounded-sm border border-gray-100 dark:border-white/10 flex justify-between items-center group hover:border-happiness-1/30 transition-all">
+                                        <div>
+                                            <p className="font-bold text-sm text-gray-800 dark:text-gray-200">{record.project_name}</p>
+                                            <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">{record.outcome_type} • {new Date(record.created_at).toLocaleDateString()}</p>
+                                        </div>
+                                        <div className="text-right">
+                                            <p className="text-happiness-1 font-black">{record.sroi_ratio.toFixed(2)}:1</p>
+                                            <p className="text-[10px] text-gray-400 font-medium">Inv. R$ {record.investment.toLocaleString()}</p>
+                                        </div>
+                                    </div>
+                                ))}
+                                {history.length === 0 && (
+                                    <p className="text-center py-6 text-gray-400 text-xs italic">Nenhum cálculo registrado.</p>
+                                )}
+                            </div>
+                        )}
+                    </div>
 
-                        <div className="absolute bottom-1/3 right-1/4 w-3 h-3 bg-blue-500 rounded-full border-2 border-white shadow-lg cursor-pointer hover:scale-125 transition-transform" title="Escola de Pesca" />
+                    <div className="bg-gradient-to-br from-happiness-1 to-happiness-2 p-6 rounded-sm text-white shadow-lg overflow-hidden relative">
+                        <TrendingUp className="absolute -right-4 -bottom-4 w-32 h-32 opacity-10" />
+                        <h4 className="font-black text-lg mb-1 tracking-tight italic">Relatório Integrado de Valor</h4>
+                        <p className="text-xs font-semibold opacity-80 leading-relaxed mb-4">
+                            As métricas de SROI alimentam automaticamente os Dashboards de Governança para auditoria externa.
+                        </p>
+                        <Button variant="contained" size="small" sx={{ bgcolor: 'white', color: 'black', '&:hover': { bgcolor: '#f0f0f0' }, fontWeight: 900, fontSize: '10px' }}>
+                            GERAR PDF COMPLETO
+                        </Button>
                     </div>
                 </div>
             </div>
         </div>
     );
 };
+

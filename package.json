@@ -17,10 +17,13 @@
     "@mui/material": "^7.3.7",
     "@react-google-maps/api": "^2.20.8",
     "@supabase/supabase-js": "^2.90.1",
+    "jspdf": "^4.0.0",
+    "jspdf-autotable": "^5.0.7",
     "lucide-react": "^0.562.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
-    "react-markdown": "^10.1.0",
+    "react-toastify": "^11.0.5",
+    "recharts": "^3.6.0",
     "shpjs": "^6.2.0"
   },
   "devDependencies": {

@@ -1,13 +1,56 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { GoogleMap, useJsApiLoader, Polygon, Polyline, MarkerF, InfoWindowF } from '@react-google-maps/api';
-import { Layers, Eye, EyeOff, Trash2, MapPin, Hexagon, Loader2, Navigation, Route } from 'lucide-react';
+import {
+    Layers, Eye, EyeOff, Trash2, MapPin, Hexagon, Loader2, Navigation,
+    Route, Shield, Users, ChevronDown, ChevronUp, AlertTriangle,
+    ChevronRight, Database, Wrench, BarChart2, Star
+} from 'lucide-react';
+import { Rating } from '@mui/material';
 import { LayerUploader } from '../LayerUploader';
 
+// --- Global Styles for Scrollbar Hiding ---
+const infoWindowStyle = `
+  .gm-style-iw {
+    max-width: 350px !important;
+    max-height: 400px !important;
+    padding: 0 !important;
+  }
+  .gm-style-iw-d {
+    overflow: hidden !important;
+    max-height: none !important;
+  }
+  .gm-ui-hover-text {
+    display: none;
+  }
+  .custom-pop-content::-webkit-scrollbar {
+    display: none;
+  }
+  .custom-pop-content {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+`;
+
 // --- Types ---
-import { Layer } from '../../types';
+import { Layer, ESGPillar } from '../../types';
 
 // --- Mock Data ---
 const INITIAL_LAYERS: Layer[] = [
+    {
+        id: 'COFAM-01',
+        name: 'Zonas de Armazenamento COFAM',
+        type: 'POLYGON',
+        visible: true,
+        color: '#10B981', // Emerald
+        data: [
+            { lat: -2.575, lng: -44.380 },
+            { lat: -2.575, lng: -44.375 },
+            { lat: -2.585, lng: -44.375 },
+            { lat: -2.585, lng: -44.380 },
+        ],
+        pillar: 'Environmental',
+        group: 'Compliance'
+    },
     {
         id: '3',
         name: 'Sensores de Qualidade do Ar',
@@ -125,14 +168,73 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
                 const existingIds = new Set(prev.map(l => l.id));
                 const newLayers = additionalLayers.filter(l => !existingIds.has(l.id));
                 if (newLayers.length === 0) return prev;
-                console.log('GeoSpatialModule: Adding new layers:', newLayers.length);
                 return [...prev, ...newLayers];
             });
         }
     }, [additionalLayers]);
 
+    // Carregar Diagnósticos Comunitários automaticamente como camadas
+    useEffect(() => {
+        const loadCommunityData = async () => {
+            try {
+                const { supabase } = await import('../../utils/supabase');
+                const { data, error } = await supabase
+                    .from('community_assessments')
+                    .select('*')
+                    .not('geometry', 'is', null);
+
+                if (error) throw error;
+                if (data) {
+                    const communityLayers: Layer[] = data.map(item => ({
+                        id: `community-${item.id}`,
+                        name: item.community_name,
+                        type: item.geometry.type as any,
+                        visible: true,
+                        color: '#F59E0B', // Cor de destaque para comunidades
+                        data: item.geometry.data,
+                        pillar: 'Social',
+                        group: 'Diagnósticos Socioeconômicos',
+                        details: {
+                            familias: item.estimated_families,
+                            agua: item.water_access,
+                            esgoto: item.sanitation_status,
+                            relacionamento: item.relationship_level,
+                            tipo: item.settlement_type,
+                            demandas: item.priority_needs?.length || 0
+                        }
+                    }));
+
+                    setLayers(prev => {
+                        const baseIds = new Set(prev.map(l => l.id));
+                        const filteredNew = communityLayers.filter(l => !baseIds.has(l.id));
+                        return [...prev, ...filteredNew];
+                    });
+                }
+            } catch (err) {
+                console.error('Erro ao carregar geometrias comunitárias:', err);
+            }
+        };
+
+        loadCommunityData();
+    }, []);
+
     const [selectedElement, setSelectedElement] = useState<any>(null);
     const [mapRef, setMapRef] = useState<google.maps.Map | null>(null);
+    const [expandedPillars, setExpandedPillars] = useState<Record<string, boolean>>({
+        Environmental: true,
+        Social: true,
+        Governance: true,
+        Operational: true
+    });
+    const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>({});
+
+    const togglePillar = (pillar: string) => {
+        setExpandedPillars(prev => ({ ...prev, [pillar]: !prev[pillar] }));
+    };
+
+    const toggleGroup = (groupName: string) => {
+        setExpandedGroups(prev => ({ ...prev, [groupName]: !prev[groupName] }));
+    };
 
     // Load Google Maps Script
     const { isLoaded } = useJsApiLoader({
@@ -165,6 +267,35 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
         });
     }, []);
 
+    const focusLayer = useCallback((layer: Layer) => {
+        if (!mapRef) return;
+
+        // Se a camada estiver oculta, exibe ela primeiro
+        if (!layer.visible) {
+            setLayers(prev => prev.map(l => l.id === layer.id ? { ...l, visible: true } : l));
+        }
+
+        if (layer.type === 'MARKER') {
+            mapRef.panTo(layer.data as google.maps.LatLngLiteral);
+            mapRef.setZoom(16);
+        } else if (layer.type === 'POLYGON' || layer.type === 'POLYLINE') {
+            const bounds = new google.maps.LatLngBounds();
+            const paths = layer.data as google.maps.LatLngLiteral[];
+            if (paths && Array.isArray(paths)) {
+                paths.forEach(p => bounds.extend(p));
+                mapRef.fitBounds(bounds);
+                // Pequeno ajuste para não ficar colado nas bordas
+                mapRef.setZoom(mapRef.getZoom());
+            }
+        }
+
+        setSelectedElement({
+            type: layer.type,
+            layer: { ...layer, visible: true },
+            position: layer.type === 'MARKER' ? layer.data : (Array.isArray(layer.data) ? layer.data[0] : layer.data)
+        });
+    }, [mapRef]);
+
     const handleLayersImported = useCallback((newLayers: Layer[]) => {
         console.log('Importing layers:', newLayers.length);
         setLayers(prev => {
@@ -196,6 +327,7 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
 
     return (
         <div className="flex h-[calc(100vh-140px)] gap-6 animate-in fade-in duration-500">
+            <style>{infoWindowStyle}</style>
             {/* Sidebar / Layer Manager */}
             <div className="w-80 flex flex-col bg-white dark:bg-[#1C1C1C] rounded-sm border border-gray-200 dark:border-white/5 shadow-sm overflow-hidden shrink-0">
                 <div className="p-4 border-b border-gray-100 dark:border-white/5 flex justify-between items-center bg-gray-50 dark:bg-zinc-900">
@@ -206,6 +338,19 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
                             {layers.length}
                         </span>
                     </div>
+                    {layers.length > 0 && (
+                        <button
+                            onClick={() => {
+                                if (confirm('Deseja remover todas as camadas?')) {
+                                    setLayers([]);
+                                    localStorage.removeItem('gsocial_map_layers');
+                                }
+                            }}
+                            className="text-[10px] font-bold text-red-500 hover:text-red-600 transition-colors uppercase tracking-widest"
+                        >
+                            Limpar Tudo
+                        </button>
+                    )}
                 </div>
 
                 {/* Layer Uploader */}
@@ -213,44 +358,171 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
                     <LayerUploader onLayersLoaded={handleLayersImported} />
                 </div>
 
-                <div className="flex-1 overflow-y-auto p-2 space-y-2">
+                <div className="flex-1 overflow-y-auto p-2 space-y-4">
                     {layers.length === 0 && (
                         <div className="text-center p-4 text-gray-400 text-xs">Nenhuma camada encontrada. Use o botão acima para importar.</div>
                     )}
-                    {layers.map(layer => (
-                        <div
-                            key={layer.id}
-                            className={`
-                                group flex items-center justify-between p-3 rounded-sm border transition-all cursor-pointer
-                                ${layer.visible ? 'bg-gray-50 dark:bg-white/5 border-gray-200 dark:border-white/5' : 'bg-transparent border-transparent opacity-60'}
-                            `}
-                        >
-                            <div className="flex items-center gap-3 flex-1 min-w-0">
-                                <button onClick={() => toggleLayer(layer.id)} className="text-gray-500 hover:text-gray-900 dark:hover:text-white shrink-0">
-                                    {layer.visible ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
-                                </button>
-                                <div className="flex items-center gap-2 flex-1 min-w-0">
-                                    {layer.type === 'POLYGON' && <Hexagon className="w-3 h-3 shrink-0" style={{ color: layer.color }} />}
-                                    {layer.type === 'MARKER' && <MapPin className="w-3 h-3 shrink-0" style={{ color: layer.color }} />}
-                                    {layer.type === 'POLYLINE' && <Route className="w-3 h-3 shrink-0" style={{ color: layer.color }} />}
-                                    <span className="text-xs font-bold text-gray-700 dark:text-gray-300 truncate">{layer.name}</span>
+
+                    {/* Agrupamento por Pilar */}
+                    {(['Environmental', 'Social', 'Governance', 'Operational'] as ESGPillar[]).map(pillar => {
+                        const pillarLayers = layers.filter(l => l.pillar === pillar);
+                        if (pillarLayers.length === 0) return null;
+
+                        const pillarConfig = {
+                            Environmental: { label: 'Ambiental', color: 'text-green-500', bg: 'bg-green-500/10', icon: <Hexagon className="w-4 h-4 text-green-500" /> },
+                            Social: { label: 'Social', color: 'text-orange-500', bg: 'bg-orange-500/10', icon: <Users className="w-4 h-4 text-orange-500" /> },
+                            Governance: { label: 'Governança', color: 'text-blue-500', bg: 'bg-blue-500/10', icon: <Shield className="w-4 h-4 text-blue-500" /> },
+                            Operational: { label: 'Operacional', color: 'text-gray-500', bg: 'bg-gray-500/10', icon: <Navigation className="w-4 h-4 text-gray-500" /> }
+                        }[pillar];
+
+                        return (
+                            <div key={pillar} className="space-y-1">
+                                <div className="flex items-center gap-1">
+                                    <button
+                                        onClick={() => togglePillar(pillar)}
+                                        className="flex-1 flex items-center justify-between px-2 py-1.5 bg-gray-50 dark:bg-white/5 rounded-sm border border-gray-100 dark:border-white/5 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
+                                    >
+                                        <div className="flex items-center gap-2 text-left">
+                                            {expandedPillars[pillar] ? <ChevronDown className="w-3 h-3 text-gray-400" /> : <ChevronUp className="w-3 h-3 text-gray-400" />}
+                                            {pillarConfig.icon}
+                                            <span className={`text-[10px] font-black uppercase tracking-wider ${pillarConfig.color}`}>
+                                                {pillarConfig.label}
+                                            </span>
+                                        </div>
+                                        <span className="text-[10px] font-black bg-white dark:bg-zinc-800 px-1.5 py-0.5 rounded-full border border-gray-200 dark:border-white/10 text-gray-500">
+                                            {pillarLayers.length}
+                                        </span>
+                                    </button>
+
+                                    <div className="flex items-center gap-0.5">
+                                        <button
+                                            onClick={() => {
+                                                const allVisible = pillarLayers.every(l => l.visible);
+                                                const newLayers = layers.map(l =>
+                                                    l.pillar === pillar ? { ...l, visible: !allVisible } : l
+                                                );
+                                                setLayers(newLayers);
+                                            }}
+                                            className={`p-1.5 rounded-sm border transition-all ${pillarLayers.every(l => l.visible)
+                                                ? 'bg-happiness-1/10 border-happiness-1/20 text-happiness-1'
+                                                : 'bg-gray-50 dark:bg-white/5 border-gray-100 dark:border-white/5 text-gray-400'
+                                                }`}
+                                            title={pillarLayers.every(l => l.visible) ? "Ocultar todas" : "Mostrar todas"}
+                                        >
+                                            {pillarLayers.every(l => l.visible) ? <Eye className="w-3.5 h-3.5" /> : <EyeOff className="w-3.5 h-3.5" />}
+                                        </button>
+
+                                        <button
+                                            onClick={() => {
+                                                if (confirm(`Remover todas as camadas do pilar ${pillarConfig.label}?`)) {
+                                                    setLayers(prev => prev.filter(l => l.pillar !== pillar));
+                                                }
+                                            }}
+                                            className="p-1.5 rounded-sm border border-gray-100 dark:border-white/5 bg-gray-50 dark:bg-white/5 text-gray-400 hover:text-red-500 hover:border-red-200 transition-all"
+                                            title="Excluir pilar e sub-camadas"
+                                        >
+                                            <Trash2 className="w-3.5 h-3.5" />
+                                        </button>
+                                    </div>
                                 </div>
+
+                                {expandedPillars[pillar] && (
+                                    <div className="space-y-2 pl-1 animate-in slide-in-from-top-1 duration-200 mt-2">
+                                        {Object.entries(
+                                            pillarLayers.reduce((acc, layer) => {
+                                                const group = layer.group || 'Geral';
+                                                if (!acc[group]) acc[group] = [];
+                                                acc[group].push(layer);
+                                                return acc;
+                                            }, {} as Record<string, Layer[]>)
+                                        ).map(([groupName, groupLayers]) => (
+                                            <div key={groupName} className="space-y-1">
+                                                {/* Group Header (Camada Principal) */}
+                                                <div className="flex items-center gap-1 group/header">
+                                                    <button
+                                                        onClick={() => toggleGroup(groupName)}
+                                                        className="flex-1 flex items-center gap-2 p-2 hover:bg-gray-50 dark:hover:bg-white/5 rounded-sm transition-all text-left min-w-0"
+                                                    >
+                                                        {expandedGroups[groupName] ? <ChevronDown className="w-3 h-3 text-gray-400" /> : <ChevronRight className="w-3 h-3 text-gray-400" />}
+                                                        <Database className="w-3 h-3 text-happiness-1 shrink-0" />
+                                                        <span className="text-xs font-black text-gray-800 dark:text-gray-200 truncate uppercase tracking-tighter">
+                                                            {groupName}
+                                                        </span>
+                                                    </button>
+                                                    <div className="flex items-center gap-0.5 opacity-0 group-hover/header:opacity-100 transition-opacity">
+                                                        <button
+                                                            onClick={() => {
+                                                                const allVisible = groupLayers.every(l => l.visible);
+                                                                setLayers(prev => prev.map(l => l.group === groupName ? { ...l, visible: !allVisible } : l));
+                                                            }}
+                                                            className={`p-1 rounded-sm ${groupLayers.every(l => l.visible) ? 'text-happiness-1' : 'text-gray-400'} hover:bg-gray-100 dark:hover:bg-white/10`}
+                                                            title="Alternar visibilidade do grupo"
+                                                        >
+                                                            {groupLayers.every(l => l.visible) ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
+                                                        </button>
+                                                        <button
+                                                            onClick={() => {
+                                                                if (confirm(`Remover grupo '${groupName}' e todas as suas camadas?`)) {
+                                                                    setLayers(prev => prev.filter(l => l.group !== groupName));
+                                                                }
+                                                            }}
+                                                            className="p-1 text-gray-400 hover:text-red-500 rounded-sm hover:bg-red-50 dark:hover:bg-red-900/10"
+                                                            title="Excluir grupo"
+                                                        >
+                                                            <Trash2 className="w-3 h-3" />
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                {/* Sub-layers (Camadas Secundárias) */}
+                                                {expandedGroups[groupName] && (
+                                                    <div className="space-y-0.5 pl-6 border-l border-gray-100 dark:border-white/5 ml-3.5 animate-in slide-in-from-top-1">
+                                                        {groupLayers.map(layer => (
+                                                            <div
+                                                                key={layer.id}
+                                                                onClick={() => focusLayer(layer)}
+                                                                className={`
+                                                                    group flex items-center justify-between p-2 rounded-sm transition-all cursor-pointer
+                                                                    ${layer.visible ? 'bg-white dark:bg-white/5 border-l-2' : 'opacity-60 border-l-2 border-transparent'}
+                                                                    hover:bg-happiness-1/5
+                                                                `}
+                                                                style={{ borderLeftColor: layer.visible ? layer.color : 'transparent' }}
+                                                            >
+                                                                <div className="flex items-center gap-2 flex-1 min-w-0">
+                                                                    <div className="flex items-center gap-2 shrink-0">
+                                                                        {layer.type === 'POLYGON' && <Hexagon className="w-2.5 h-2.5" style={{ color: layer.color }} />}
+                                                                        {layer.type === 'MARKER' && <MapPin className="w-2.5 h-2.5" style={{ color: layer.color }} />}
+                                                                        {layer.type === 'POLYLINE' && <Route className="w-2.5 h-2.5" style={{ color: layer.color }} />}
+                                                                    </div>
+                                                                    <span className="text-[11px] font-bold text-gray-600 dark:text-gray-300 truncate">
+                                                                        {layer.name}
+                                                                    </span>
+                                                                </div>
+                                                                <div className="flex items-center gap-1.5 shrink-0">
+                                                                    <button
+                                                                        onClick={(e) => { e.stopPropagation(); toggleLayer(layer.id); }}
+                                                                        className="p-1 text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                                                                    >
+                                                                        {layer.visible ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
+                                                                    </button>
+                                                                    <button
+                                                                        onClick={(e) => { e.stopPropagation(); removeLayer(layer.id); }}
+                                                                        className="p-1 text-gray-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all"
+                                                                    >
+                                                                        <Trash2 className="w-3 h-3" />
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
                             </div>
-                            <div className="flex items-center gap-2">
-                                <button
-                                    onClick={(e) => { e.stopPropagation(); removeLayer(layer.id); }}
-                                    className="p-1 text-gray-400 hover:text-red-500 transition-all"
-                                    title="Remover camada"
-                                >
-                                    <Trash2 className="w-3.5 h-3.5" />
-                                </button>
-                                <div
-                                    className="w-2 h-2 rounded-full shadow-sm shrink-0"
-                                    style={{ backgroundColor: layer.color }}
-                                />
-                            </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
 
                 <div className="p-4 border-t border-gray-100 dark:border-white/5 bg-gray-50 dark:bg-zinc-900">
@@ -322,19 +594,118 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
                         <InfoWindowF
                             position={selectedElement.position}
                             onCloseClick={() => setSelectedElement(null)}
+                            options={{
+                                pixelOffset: new google.maps.Size(0, -30),
+                                maxWidth: 320
+                            }}
                         >
-                            <div className="px-2 py-1 min-w-[150px]">
-                                <h4 className="font-bold text-gray-900 text-sm mb-1">{selectedElement.layer.name}</h4>
-                                <p className="text-xs text-gray-500">ID: {selectedElement.layer.id}</p>
-                                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded text-white mt-2 inline-block`} style={{ backgroundColor: selectedElement.layer.color }}>
-                                    {selectedElement.layer.type}
-                                </span>
+                            <div className="custom-pop-content min-w-[300px] bg-white dark:bg-[#121212] overflow-hidden -m-3">
+                                {/* Accent Bar */}
+                                <div className="h-1.5 bg-gradient-to-r from-happiness-1 via-blue-500 to-indigo-600 w-full" />
+
+                                <div className="p-5">
+                                    {/* Header Section */}
+                                    <div className="flex items-start justify-between mb-5">
+                                        <div className="flex-1 min-w-0 pr-4">
+                                            <div className="flex items-center gap-2 mb-1">
+                                                <div className="w-2 h-2 rounded-full bg-happiness-1 animate-pulse" />
+                                                <span className="text-[9px] font-black text-happiness-1 uppercase tracking-[0.2em]">Live Data</span>
+                                            </div>
+                                            <h4 className="font-black text-gray-900 dark:text-white text-lg tracking-tight leading-tight truncate">
+                                                {selectedElement.layer.name}
+                                            </h4>
+                                            <div className="flex items-center gap-2 mt-1.5">
+                                                <span className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+                                                    {selectedElement.layer.details?.tipo || 'Território'}
+                                                </span>
+                                                <div className="w-1 h-1 rounded-full bg-gray-300 dark:bg-gray-700" />
+                                                <span className="text-[10px] font-mono text-gray-400 dark:text-gray-600">
+                                                    ID: {selectedElement.layer.id.substring(0, 6)}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div className="w-10 h-10 bg-blue-50 dark:bg-blue-900/10 rounded-xl flex items-center justify-center shadow-sm border border-blue-100/50 dark:border-blue-500/10 transition-transform hover:scale-110">
+                                            <MapPin className="text-blue-500 w-5 h-5 fill-blue-500/20" />
+                                        </div>
+                                    </div>
+
+                                    {/* Stats Grid - More Modern */}
+                                    {selectedElement.layer.details ? (
+                                        <div className="grid grid-cols-2 gap-3 mb-6">
+                                            <div className="bg-gray-50 dark:bg-white/5 p-3 rounded-lg border border-gray-100 dark:border-white/5">
+                                                <div className="flex items-center gap-2 mb-1">
+                                                    <Users className="w-3 h-3 text-gray-400" />
+                                                    <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Famílias</span>
+                                                </div>
+                                                <span className="text-sm font-black text-gray-800 dark:text-gray-200">
+                                                    {selectedElement.layer.details.familias}
+                                                </span>
+                                            </div>
+                                            <div className="bg-gray-50 dark:bg-white/5 p-3 rounded-lg border border-gray-100 dark:border-white/5">
+                                                <div className="flex items-center gap-2 mb-1">
+                                                    <Wrench className="w-3 h-3 text-gray-400" />
+                                                    <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Infra</span>
+                                                </div>
+                                                <span className="text-sm font-black text-gray-800 dark:text-gray-200 truncate block">
+                                                    {selectedElement.layer.details.agua.split(' ')[0]}
+                                                </span>
+                                            </div>
+                                            <div className="col-span-2 bg-blue-50 dark:bg-blue-900/10 p-3 rounded-lg border border-blue-100 dark:border-blue-900/20 flex items-center justify-between group cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-900/20 transition-colors"
+                                                onClick={() => { }}
+                                            >
+                                                <div className="flex items-center gap-2">
+                                                    <BarChart2 className="w-3.5 h-3.5 text-blue-500" />
+                                                    <span className="text-[10px] font-bold text-blue-700 dark:text-blue-300">
+                                                        {selectedElement.layer.details.demandas} Demandas Ativas
+                                                    </span>
+                                                </div>
+                                                <ChevronRight className="w-3 h-3 text-blue-400 group-hover:translate-x-0.5 transition-transform" />
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <div className="mb-6">
+                                            <div className="inline-flex items-center px-2 py-1 bg-gray-100 dark:bg-white/5 rounded border border-gray-200 dark:border-white/10">
+                                                <div className="w-2 h-2 rounded-full mr-2" style={{ backgroundColor: selectedElement.layer.color }} />
+                                                <span className="text-[10px] font-black text-gray-600 dark:text-gray-400 uppercase tracking-widest">
+                                                    {selectedElement.layer.type}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Action Bar */}
+                                    <div className="flex items-center justify-between gap-4 pt-4 border-t border-gray-100 dark:border-white/5">
+                                        <div className="flex-1">
+                                            <div className="flex items-center gap-1 mb-1">
+                                                <Rating
+                                                    value={selectedElement.layer.details?.relacionamento || 0}
+                                                    size="small"
+                                                    readOnly
+                                                    emptyIcon={<Star className="w-2.5 h-2.5 text-gray-200 dark:text-gray-800" />}
+                                                    icon={<Star className="w-2.5 h-2.5 text-amber-500 fill-amber-500" />}
+                                                />
+                                            </div>
+                                            <span className="text-[8px] font-black text-gray-400 uppercase tracking-tighter block">Relacionamento EMAP</span>
+                                        </div>
+
+                                        <button className="bg-gray-900 dark:bg-white text-white dark:text-black hover:bg-black dark:hover:bg-gray-100 px-4 py-2 rounded-lg text-xs font-black uppercase tracking-widest shadow-sm transition-all transform active:scale-95">
+                                            Dashboard
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </InfoWindowF>
                     )}
                 </GoogleMap>
 
                 {/* Floating Status Overlay */}
+                <div className="absolute top-6 right-6 flex flex-col gap-2">
+                    <div className="bg-red-500 text-white px-4 py-2 rounded-sm shadow-lg flex items-center gap-3 animate-bounce border border-red-600">
+                        <AlertTriangle className="w-4 h-4" />
+                        <span className="text-xs font-black uppercase tracking-widest">Alerta: Resíduo Fora da Zona COFAM</span>
+                    </div>
+                </div>
+
                 <div className="absolute bottom-6 right-16 bg-white dark:bg-[#1C1C1C] px-4 py-2 rounded-sm shadow-lg border border-gray-200 dark:border-white/5 flex items-center gap-3">
                     <span className="relative flex h-3 w-3">
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>

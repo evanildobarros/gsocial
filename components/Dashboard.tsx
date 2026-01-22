@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   TrendingUp,
   Users,
@@ -11,8 +11,10 @@ import {
   ArrowDownRight,
   Map as MapIcon,
   Droplets,
-  Activity
+  Activity,
+  Loader2
 } from 'lucide-react';
+import { supabase } from '../utils/supabase';
 
 const KPICard = ({ title, value, subtext, icon: Icon, trend, trendValue, color, isWarning }: any) => (
   <div className={`bg-white dark:bg-[#1C1C1C] p-6 rounded-sm border ${isWarning ? 'border-red-200 dark:border-red-900/50 ring-2 ring-red-50 dark:ring-red-900/10' : 'border-gray-200 dark:border-white/5'} shadow-sm relative overflow-hidden group`}>
@@ -65,6 +67,53 @@ const ModuleSummary = ({ title, icon: Icon, items, colorClass }: any) => (
 );
 
 export const Dashboard: React.FC = () => {
+  const [stats, setStats] = useState({
+    wasteActive: 0,
+    criticalRisks: 0,
+    avgSroi: 0,
+    totalInnovation: 0,
+    loading: true
+  });
+
+  useEffect(() => {
+    const fetchDashboardStats = async () => {
+      try {
+        const [waste, laia, sroi, innovation] = await Promise.all([
+          supabase.from('ship_waste_records').select('id', { count: 'exact' }).neq('status', 'Completed'),
+          supabase.from('laia_records').select('id', { count: 'exact' }).gte('risk_score', 15),
+          supabase.from('sroi_impact_records').select('sroi_ratio'),
+          supabase.from('innovation_ideas').select('id', { count: 'exact' })
+        ]);
+
+        const avgSroi = sroi.data?.length
+          ? sroi.data.reduce((acc, curr) => acc + Number(curr.sroi_ratio), 0) / sroi.data.length
+          : 0;
+
+        setStats({
+          wasteActive: waste.count || 0,
+          criticalRisks: laia.count || 0,
+          avgSroi: avgSroi,
+          totalInnovation: innovation.count || 0,
+          loading: false
+        });
+      } catch (error) {
+        console.error('Erro ao carregar estatísticas do dashboard:', error);
+        setStats(prev => ({ ...prev, loading: false }));
+      }
+    };
+
+    fetchDashboardStats();
+  }, []);
+
+  if (stats.loading) {
+    return (
+      <div className="flex flex-col items-center justify-center py-40 space-y-4">
+        <Loader2 className="w-12 h-12 text-happiness-1 animate-spin" />
+        <p className="text-gray-400 font-black uppercase tracking-widest text-xs">Consolidando Matriz ESG...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
       {/* Header / Context */}
@@ -79,7 +128,7 @@ export const Dashboard: React.FC = () => {
         <div className="flex items-center gap-3">
           <div className="bg-green-50 dark:bg-green-900/20 px-3 py-1.5 rounded-sm border border-green-200 dark:border-green-900/30 flex items-center gap-2 text-green-700 dark:text-green-400">
             <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
-            <span className="text-[10px] font-black uppercase tracking-widest">Nível de Maturidade 5</span>
+            <span className="text-[10px] font-black uppercase tracking-widest">Maturidade 5.0 LIVE</span>
           </div>
           <button className="bg-happiness-1 text-white p-2 rounded-sm shadow-lg shadow-happiness-1/20 hover:bg-happiness-1/90 transition-all flex items-center gap-2 text-xs font-bold px-4">
             <FileText className="w-4 h-4" />
@@ -100,28 +149,28 @@ export const Dashboard: React.FC = () => {
           color="text-green-600 bg-green-100 dark:bg-green-900/30 dark:text-green-400"
         />
         <KPICard
-          title="Índice SROI Social"
-          value="R$ 4.25"
-          subtext="Retorno p/ cada R$1 investido"
+          title="Índice SROI (Média)"
+          value={`R$ ${stats.avgSroi.toFixed(2)}`}
+          subtext="Retorno Social por R$1"
           icon={Users}
-          trend="up"
-          trendValue="R$ 0.15"
+          trend={stats.avgSroi > 0 ? "up" : "neutral"}
+          trendValue={stats.avgSroi > 0 ? "ATIVO" : ""}
           color="text-blue-600 bg-blue-100 dark:bg-blue-900/30 dark:text-blue-400"
         />
         <KPICard
-          title="Riscos Críticos"
-          value="03"
+          title="Riscos Críticos (LAIA)"
+          value={stats.criticalRisks.toString().padStart(2, '0')}
           subtext="Requerem mitigação imediata"
           icon={Shield}
-          trend="down"
-          trendValue="-1"
+          trend={stats.criticalRisks > 0 ? "up" : "neutral"}
+          trendValue={stats.criticalRisks > 0 ? "!" : ""}
           color="text-red-600 bg-red-100 dark:bg-red-900/30 dark:text-red-400"
-          isWarning={true}
+          isWarning={stats.criticalRisks > 0}
         />
         <KPICard
-          title="Fornecedores Bloqueados"
-          value="02"
-          subtext="Due Diligence Automático"
+          title="Resíduos em Fluxo"
+          value={stats.wasteActive.toString().padStart(2, '0')}
+          subtext="Navios em operação"
           icon={AlertTriangle}
           trend="neutral"
           trendValue=""
@@ -138,7 +187,7 @@ export const Dashboard: React.FC = () => {
           items={[
             { label: 'Eficiência Energética', sub: 'Terminals A/B', value: '94%', status: 'success' },
             { label: 'Monitoramento de Ruído', sub: 'Sensor Vila Maranhão', value: 'ALERT', status: 'warning' },
-            { label: 'Gestão de Resíduos (MTR)', sub: 'Circularidade', value: '100%', status: 'success' },
+            { label: 'Matriz LAIA (Digital)', sub: 'PC-56 Compliance', value: 'LIVE', status: 'success' },
             { label: 'Qualidade da Água', sub: 'Ponto de Controle 04', value: 'Normal', status: 'neutral' },
           ]}
         />
@@ -148,10 +197,10 @@ export const Dashboard: React.FC = () => {
           icon={Users}
           colorClass="text-blue-500"
           items={[
-            { label: 'Tickets Ouvidoria', sub: 'Abertos > 48h', value: '0', status: 'success' },
+            { label: 'SROI Global', sub: 'Base em Projetos', value: `R$ ${stats.avgSroi.toFixed(2)}`, status: 'success' },
             { label: 'Wage Gap (Liderança)', sub: 'Gender Pay Gap', value: '5.2%', status: 'danger' },
-            { label: 'Beneficiários Diretos', sub: 'Jovem Aprendiz', value: '450', status: 'neutral' },
-            { label: 'Diversidade (Cotas)', sub: 'PCD Compliance', value: '5.2%', status: 'success' },
+            { label: 'Beneficiários Diretos', sub: 'Total Base', value: '450', status: 'neutral' },
+            { label: 'Iniciativas de Inovação', sub: 'Funil CRIARE', value: stats.totalInnovation, status: 'success' },
           ]}
         />
 
@@ -160,71 +209,17 @@ export const Dashboard: React.FC = () => {
           icon={Shield}
           colorClass="text-purple-500"
           items={[
+            { label: 'Status Regulatório ANTAQ', sub: 'Pendências PC-112', value: `${stats.wasteActive} ATIVAS`, status: stats.wasteActive > 0 ? 'warning' : 'success' },
             { label: 'Report GRI/SASB', sub: 'Data Completeness', value: '92%', status: 'success' },
-            { label: 'Lista Suja (Trabalho)', sub: 'Varredura Semanal', value: 'Clean', status: 'success' },
-            { label: 'Matriz de Riscos', sub: 'Amplificados p/ Clima', value: 'High', status: 'warning' },
+            { label: 'Matriz de Riscos', sub: 'Amplificados p/ Clima', value: stats.criticalRisks > 3 ? 'High' : 'Moderate', status: stats.criticalRisks > 3 ? 'danger' : 'warning' },
             { label: 'Transparência', sub: 'Portal Público', value: 'Live', status: 'success' },
           ]}
         />
       </div>
 
-      {/* Geo-Spatial & Operational View */}
-      <div className="bg-white dark:bg-[#1C1C1C] rounded-sm border border-gray-200 dark:border-white/5 shadow-sm p-6">
-        <div className="flex justify-between items-center mb-6">
-          <div>
-            <h3 className="font-bold text-gray-900 dark:text-white text-sm flex items-center gap-2">
-              <MapIcon className="w-4 h-4 text-gray-400" />
-              Monitoramento Territorial (Itaqui-Bacanga)
-            </h3>
-            <p className="text-xs text-gray-500 mt-1">Integração de sensores IoT Ambientais e Projetos Sociais.</p>
-          </div>
-          <div className="flex gap-2">
-            <span className="flex items-center gap-1 text-[10px] text-gray-500"><span className="w-2 h-2 rounded-full bg-green-500"></span> Ar Puro</span>
-            <span className="flex items-center gap-1 text-[10px] text-gray-500"><span className="w-2 h-2 rounded-full bg-yellow-500"></span> Alerta PM2.5</span>
-            <span className="flex items-center gap-1 text-[10px] text-gray-500"><span className="w-2 h-2 rounded-full bg-blue-500"></span> Projeto Social</span>
-          </div>
-        </div>
-
-        <div className="relative aspect-[21/9] bg-gray-100 dark:bg-black/20 rounded-sm overflow-hidden border border-gray-200 dark:border-white/5">
-          {/* Abstract Map Representation */}
-          <svg viewBox="0 0 1000 400" className="w-full h-full opacity-30 dark:opacity-10">
-            <path d="M0,350 Q250,300 400,350 T800,300 T1000,350 V400 H0 Z" fill="#3B82F6" /> {/* Water */}
-            <path d="M0,350 Q250,300 400,350 T800,300 T1000,350 V0 H0 Z" fill="currentColor" className="text-gray-300 dark:text-gray-600" /> {/* Land */}
-          </svg>
-
-          {/* Sensor Data Points */}
-          <div className="absolute top-1/3 left-1/4 group cursor-pointer">
-            <div className="w-4 h-4 bg-yellow-500 rounded-full border-2 border-white dark:border-[#1C1C1C] shadow-lg animate-pulse"></div>
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-white dark:bg-black p-2 rounded shadow-xl border border-gray-100 dark:border-white/10 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10 w-48">
-              <div className="flex items-center gap-2 mb-1">
-                <Activity className="w-3 h-3 text-yellow-500" />
-                <span className="text-xs font-bold text-gray-900 dark:text-white">Sensor: Vila Maranhão</span>
-              </div>
-              <div className="flex justify-between text-[10px] text-gray-500">
-                <span>PM2.5: High</span>
-                <span className="text-yellow-500 font-bold">45µg/m³</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="absolute top-1/2 right-1/3 group cursor-pointer">
-            <div className="w-4 h-4 bg-blue-500 rounded-full border-2 border-white dark:border-[#1C1C1C] shadow-lg"></div>
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-white dark:bg-black p-2 rounded shadow-xl border border-gray-100 dark:border-white/10 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10 w-48">
-              <div className="flex items-center gap-2 mb-1">
-                <Users className="w-3 h-3 text-blue-500" />
-                <span className="text-xs font-bold text-gray-900 dark:text-white">Projeto: Pesca Sustentável</span>
-              </div>
-              <div className="flex justify-between text-[10px] text-gray-500">
-                <span>Beneficiários</span>
-                <span className="text-blue-500 font-bold">128 Famílias</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="absolute bottom-1/4 left-1/2 group cursor-pointer">
-            <div className="w-4 h-4 bg-green-500 rounded-full border-2 border-white dark:border-[#1C1C1C] shadow-lg"></div>
-          </div>
-        </div>
+      {/* Operational View */}
+      <div className="bg-white dark:bg-[#1C1C1C] rounded-sm border border-gray-200 dark:border-white/5 shadow-sm p-6 text-center">
+        <p className="text-xs text-gray-400 font-bold uppercase tracking-widest">Sincronização Ativa com Supabase Cloud Cluster</p>
       </div>
     </div>
   );

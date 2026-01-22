@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import { Upload, FileUp, X, Loader2, CheckCircle2, AlertCircle, Trash2, Tag, Layers, Database, Globe } from 'lucide-react';
+import { Upload, FileUp, X, Loader2, CheckCircle2, AlertCircle, Trash2, Tag, Layers, Database, Globe, Hexagon, Users, Shield, Navigation } from 'lucide-react';
 import { Layer, ESGPillar } from '../types';
 import { processFile, getSupportedFormats, isFormatSupported } from '../utils/geoParser';
 
@@ -16,11 +16,11 @@ interface UploadState {
     layersCount?: number;
 }
 
-const PILLAR_OPTIONS: { label: string; value: ESGPillar; color: string; icon: string; bg: string; border: string }[] = [
-    { label: 'Ambiental (E)', value: 'Environmental', color: 'text-green-600', icon: '🌱', bg: 'bg-green-500/10', border: 'border-green-500/30' },
-    { label: 'Social (S)', value: 'Social', color: 'text-orange-600', icon: '🤝', bg: 'bg-orange-500/10', border: 'border-orange-500/30' },
-    { label: 'Governança (G)', value: 'Governance', color: 'text-blue-600', icon: '⚖️', bg: 'bg-blue-500/10', border: 'border-blue-500/30' },
-    { label: 'Operacional', value: 'Operational', color: 'text-gray-600', icon: '🏗️', bg: 'bg-gray-500/10', border: 'border-gray-500/30' },
+const PILLAR_OPTIONS: { label: string; value: ESGPillar; color: string; icon: React.ReactNode; bg: string; border: string }[] = [
+    { label: 'Ambiental', value: 'Environmental', color: 'text-green-600', icon: <Hexagon className="w-5 h-5" />, bg: 'bg-green-500/10', border: 'border-green-500/30' },
+    { label: 'Social', value: 'Social', color: 'text-orange-600', icon: <Users className="w-5 h-5" />, bg: 'bg-orange-500/10', border: 'border-orange-500/30' },
+    { label: 'Governança', value: 'Governance', color: 'text-blue-600', icon: <Shield className="w-5 h-5" />, bg: 'bg-blue-500/10', border: 'border-blue-500/30' },
+    { label: 'Operacional', value: 'Operational', color: 'text-gray-600', icon: <Navigation className="w-5 h-5" />, bg: 'bg-gray-500/10', border: 'border-gray-500/30' },
 ];
 
 export const LayerUploader: React.FC<LayerUploaderProps> = ({ onLayersLoaded }) => {
@@ -77,7 +77,7 @@ export const LayerUploader: React.FC<LayerUploaderProps> = ({ onLayersLoaded }) 
             const layers = await processFile(selectedFile, {
                 name: layerName,
                 pillar: selectedPillar as ESGPillar,
-                group: groupName || undefined
+                group: layerName
             });
 
             setUploadState({
@@ -190,21 +190,21 @@ export const LayerUploader: React.FC<LayerUploaderProps> = ({ onLayersLoaded }) 
                                 </label>
 
                                 <div className="grid grid-cols-1 gap-5">
-                                    {/* Layer Name */}
+                                    {/* Layer Name (Principal) */}
                                     <div className="space-y-1.5">
-                                        <label className="text-xs font-semibold text-gray-600 dark:text-gray-400">Nome da Camada</label>
+                                        <label className="text-xs font-semibold text-gray-600 dark:text-gray-400">Nome da Camada Principal</label>
                                         <input
                                             type="text"
                                             value={layerName}
                                             onChange={(e) => setLayerName(e.target.value)}
-                                            placeholder="Ex: Áreas de Preservação Permanente"
-                                            className="w-full bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg px-4 py-2.5 text-sm focus:border-happiness-1 focus:ring-1 focus:ring-happiness-1 transition-all outline-none"
+                                            placeholder="Ex: Mapeamento da Poligonal do Porto"
+                                            className="w-full bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg px-4 py-2.5 text-sm text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:border-happiness-1 focus:ring-1 focus:ring-happiness-1 transition-all outline-none"
                                         />
                                     </div>
 
                                     {/* ESG Pillar Selection */}
                                     <div className="space-y-2">
-                                        <label className="text-xs font-semibold text-gray-600 dark:text-gray-400">Pilar ESG Principal</label>
+                                        <label className="text-xs font-semibold text-gray-600 dark:text-gray-400">Pilar ESG (Categoria)</label>
                                         <div className="grid grid-cols-2 gap-2">
                                             {PILLAR_OPTIONS.map((opt) => (
                                                 <button
@@ -213,28 +213,16 @@ export const LayerUploader: React.FC<LayerUploaderProps> = ({ onLayersLoaded }) 
                                                     className={`
                                                         flex items-center gap-3 p-3 rounded-xl border text-xs font-bold transition-all text-left
                                                         ${selectedPillar === opt.value
-                                                            ? `${opt.bg} ${opt.border} ring-1 ring-inset ring-${opt.color.split('-')[1]}-500/20 shadow-sm transition-all duration-300`
+                                                            ? `${opt.bg} ${opt.border} ring-1 ring-inset ring-happiness-1/20 shadow-sm transition-all duration-300`
                                                             : 'border-gray-100 dark:border-white/5 bg-white dark:bg-white/5 hover:border-gray-300 dark:hover:border-white/10'
                                                         }
                                                     `}
                                                 >
-                                                    <span className="text-xl">{opt.icon}</span>
-                                                    <span className={opt.color}>{opt.label}</span>
+                                                    <span className={opt.color}>{opt.icon}</span>
+                                                    <span className={`${opt.color} text-[10px] font-black uppercase tracking-wider`}>{opt.label}</span>
                                                 </button>
                                             ))}
                                         </div>
-                                    </div>
-
-                                    {/* Group / Category */}
-                                    <div className="space-y-1.5">
-                                        <label className="text-xs font-semibold text-gray-600 dark:text-gray-400">Grupo / Categoria (opcional)</label>
-                                        <input
-                                            type="text"
-                                            value={groupName}
-                                            onChange={(e) => setGroupName(e.target.value)}
-                                            placeholder="Ex: Recursos Hídricos, Comunidades, Sensores"
-                                            className="w-full bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg px-4 py-2.5 text-sm focus:border-happiness-1 focus:ring-1 focus:ring-happiness-1 transition-all outline-none"
-                                        />
                                     </div>
                                 </div>
                             </div>
@@ -242,8 +230,8 @@ export const LayerUploader: React.FC<LayerUploaderProps> = ({ onLayersLoaded }) 
                             {/* Status Feedback */}
                             {uploadState.status !== 'idle' && (
                                 <div className={`p-4 rounded-xl border transition-all animate-in slide-in-from-top-2 ${uploadState.status === 'processing' ? 'bg-blue-50 dark:bg-blue-900/10 border-blue-100' :
-                                        uploadState.status === 'success' ? 'bg-green-50 dark:bg-green-900/10 border-green-100' :
-                                            'bg-red-50 dark:bg-red-900/10 border-red-100 dark:border-red-900/20'
+                                    uploadState.status === 'success' ? 'bg-green-50 dark:bg-green-900/10 border-green-100' :
+                                        'bg-red-50 dark:bg-red-900/10 border-red-100 dark:border-red-900/20'
                                     }`}>
                                     <div className="flex gap-3">
                                         {uploadState.status === 'processing' ? <Loader2 className="w-5 h-5 animate-spin text-blue-500" /> :

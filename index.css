@@ -2,23 +2,60 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom Scrollbar (migrado do index.html) */
+/* Custom Scrollbar Premium Design */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #1e1e1e;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #4b5563;
-  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  border: 3px solid transparent;
+  background-clip: content-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #6b7280;
+  background: rgba(0, 0, 0, 0.4);
+  background-clip: content-box;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
+  background-clip: content-box;
+}
+
+/* Firefox support */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+.dark * {
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+/* Ensure scrolling is smooth */
+html {
+  scroll-behavior: smooth;
+  height: 100%;
+}
+
+body {
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 100%;
 }
 
 /* Animações (migrado do index.html) */
@@ -27,10 +64,12 @@
     transform: scale(1);
     opacity: 1;
   }
+
   50% {
     transform: scale(1.1);
     opacity: 0.8;
   }
+
   100% {
     transform: scale(1);
     opacity: 1;
@@ -39,4 +78,36 @@
 
 .animate-pulse-audio {
   animation: pulse-audio 1.5s infinite ease-in-out;
+}
+
+/* Global Form Styles for Readability */
+input,
+select,
+textarea {
+  color: #111827;
+  /* text-gray-900 */
+}
+
+.dark input,
+.dark select,
+.dark textarea {
+  color: #f9fafb;
+  /* text-gray-50 */
+}
+
+::placeholder {
+  color: #9ca3af !important;
+  /* text-gray-400 */
+  opacity: 1;
+}
+
+.dark ::placeholder {
+  color: #6b7280 !important;
+  /* text-gray-500 */
+}
+
+/* Specific fix for inputs with dark:bg-black/20 or similar in light mode */
+input.bg-white,
+textarea.bg-white {
+  color: #111827 !important;
 }

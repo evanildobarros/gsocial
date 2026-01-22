@@ -29,6 +29,7 @@ import {
     ReportProblem as RiskIcon,
     Assessment as ReportingIcon,
     LocalShipping as SupplyChainIcon,
+    Lightbulb as LightbulbIcon,
 } from '@mui/icons-material';
 import { AppMode, UserProfile, Layer } from './types';
 import { supabase } from './utils/supabase';
@@ -55,6 +56,11 @@ import { ReportingHub } from './components/governance/ReportingHub';
 import { SupplyChainAudit } from './components/governance/SupplyChainAudit';
 import { PredictiveAnalysis } from './components/strategic/PredictiveAnalysis';
 import { GeoSpatialModule } from './components/territory/GeoSpatialModule';
+import { LAIA } from './components/environmental/LAIA';
+import { ShipWaste } from './components/environmental/ShipWaste';
+import { InnovationFunnel } from './components/governance/InnovationFunnel';
+import { MeteoPredictiveModule } from './components/environmental/MeteoPredictiveModule';
+import CommunityAssessmentForm from './components/territory/CommunityAssessmentForm';
 
 // Componente NavItem refatorado com Tailwind
 interface NavItemProps {
@@ -107,27 +113,7 @@ export default function App() {
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
     const [kmlLayers, setKmlLayers] = useState<Layer[]>([]);
 
-    useEffect(() => {
-        const fetchKml = async () => {
-            console.log('Attempting to fetch KML...');
-            try {
-                const response = await fetch('/Mapeamento da Poligonal do Porto do Itaqui.kml');
-                console.log('KML Fetch Status:', response.status);
-                if (response.ok) {
-                    const text = await response.text();
-                    console.log('KML Text Length:', text.length);
-                    const parsed = parseKmlToLayers(text);
-                    console.log('Parsed KML Layers:', parsed);
-                    setKmlLayers(parsed);
-                } else {
-                    console.error('Failed to fetch KML:', response.statusText);
-                }
-            } catch (error) {
-                console.error('Error loading KML:', error);
-            }
-        };
-        fetchKml();
-    }, []);
+    // KML auto-loading removed per user request
 
     const fetchUserProfile = async (userId: string) => {
         try {
@@ -217,8 +203,13 @@ export default function App() {
             case AppMode.GOV_RISK_MATRIX: return <RiskHeatmap />;
             case AppMode.GOV_REPORTING: return <ReportingHub />;
             case AppMode.GOV_SUPPLY_CHAIN: return <SupplyChainAudit />;
+            case AppMode.GOV_INNOVATION_FUNNEL: return <InnovationFunnel />;
             case AppMode.STRATEGIC_PREDICTIVE: return <PredictiveAnalysis />;
             case AppMode.SOCIAL_GIS: return <GeoSpatialModule additionalLayers={kmlLayers} />;
+            case AppMode.ENV_LAIA: return <LAIA />;
+            case AppMode.ENV_WASTE_SHIP: return <ShipWaste />;
+            case AppMode.ENV_METEO: return <MeteoPredictiveModule />;
+            case AppMode.SOCIAL_ASSESSMENT: return <CommunityAssessmentForm />;
             default: return <Dashboard />;
         }
     };
@@ -234,6 +225,9 @@ export default function App() {
             case AppMode.ENV_EFFICIENCY: return 'Eficiência Hídrica/Energética';
             case AppMode.ENV_POLLUTION: return 'Monitoramento de Poluição & PAM';
             case AppMode.ENV_COMPLIANCE: return 'Conformidade Ambiental';
+            case AppMode.ENV_LAIA: return 'Levantamento LAIA (PC-56)';
+            case AppMode.ENV_WASTE_SHIP: return 'Resíduos de Navios (PC-112)';
+            case AppMode.ENV_METEO: return 'Inteligência Climática & Preditiva';
             case AppMode.SOCIAL_SROI: return 'Impacto & SROI';
             case AppMode.SOCIAL_TERRITORY: return 'Relacionamento & Território';
             case AppMode.SOCIAL_DIVERSITY: return 'Diversidade & Inclusão';
@@ -241,8 +235,10 @@ export default function App() {
             case AppMode.GOV_RISK_MATRIX: return 'Matriz de Riscos GRC';
             case AppMode.GOV_REPORTING: return 'Relatórios & Transparência';
             case AppMode.GOV_SUPPLY_CHAIN: return 'Auditoria de Fornecedores';
+            case AppMode.GOV_INNOVATION_FUNNEL: return 'Funil de Inovação (CRIARE)';
             case AppMode.STRATEGIC_PREDICTIVE: return 'Inteligência Preditiva';
             case AppMode.SOCIAL_GIS: return 'Mapeamento Territorial Geoespacial';
+            case AppMode.SOCIAL_ASSESSMENT: return 'Diagnóstico Socioeconômico';
             default: return 'ESGporto';
         }
     };
@@ -256,12 +252,16 @@ export default function App() {
         { icon: <DropletsIcon />, label: "Recursos (Energia/H2O)", mode: AppMode.ENV_EFFICIENCY },
         { icon: <ShieldIcon />, label: "Poluição & PAM", mode: AppMode.ENV_POLLUTION },
         { icon: <ComplianceIcon />, label: "Conformidade & Licenças", mode: AppMode.ENV_COMPLIANCE },
+        { icon: <ComplianceIcon />, label: "Digital LAIA (PC-56)", mode: AppMode.ENV_LAIA },
+        { icon: <AnchorIcon />, label: "Resíduos (PC-112)", mode: AppMode.ENV_WASTE_SHIP },
+        { icon: <AnalyticsIcon />, label: "Inteligência Climática", mode: AppMode.ENV_METEO },
     ];
 
     const socialItems = [
         { icon: <ProjectsIcon />, label: "Projetos & Ações", mode: AppMode.PROJECTS },
-        { icon: <SroiIcon />, label: "Impacto & SROI", mode: AppMode.SOCIAL_SROI },
+        { icon: <ReportingIcon />, label: "Diagnóstico (ESG)", mode: AppMode.SOCIAL_ASSESSMENT },
         { icon: <TerritoryIcon />, label: "Mapa ESG (GIS)", mode: AppMode.SOCIAL_GIS },
+        { icon: <SroiIcon />, label: "Impacto & SROI", mode: AppMode.SOCIAL_SROI },
         { icon: <DiversityIcon />, label: "Diversidade & Inclusão", mode: AppMode.SOCIAL_DIVERSITY },
         { icon: <HumanRightsIcon />, label: "Direitos Humanos", mode: AppMode.SOCIAL_HUMAN_RIGHTS },
     ];
@@ -270,10 +270,11 @@ export default function App() {
         { icon: <RiskIcon />, label: "Matriz de Riscos", mode: AppMode.GOV_RISK_MATRIX },
         { icon: <ReportingIcon />, label: "Relatórios & Padrões", mode: AppMode.GOV_REPORTING },
         { icon: <SupplyChainIcon />, label: "Cadeia de Valor", mode: AppMode.GOV_SUPPLY_CHAIN },
+        { icon: <LightbulbIcon />, label: "Roda da Inovação", mode: AppMode.GOV_INNOVATION_FUNNEL },
     ];
 
     return (
-        <div className="flex min-h-screen bg-gray-50 dark:bg-zinc-950 font-sans transition-colors duration-300">
+        <div className="flex h-screen overflow-hidden bg-gray-50 dark:bg-zinc-950 font-sans transition-colors duration-300">
             <ToastContainer />
 
             {/* Sidebar */}
@@ -477,7 +478,7 @@ export default function App() {
             {/* Main Content Area */}
             <main
                 className={`
-                    flex-1 flex flex-col min-h-screen transition-all duration-300 ease-in-out
+                    flex-1 flex flex-col h-screen overflow-y-auto transition-all duration-300 ease-in-out
                     ${sidebarOpen ? 'ml-72' : 'ml-24'}
                 `}
             >

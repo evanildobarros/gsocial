@@ -10,6 +10,9 @@ export enum AppMode {
   ENV_EFFICIENCY = 'ENV_EFFICIENCY',
   ENV_POLLUTION = 'ENV_POLLUTION',
   ENV_COMPLIANCE = 'ENV_COMPLIANCE',
+  ENV_LAIA = 'ENV_LAIA', // EMAP-PC-56
+  ENV_WASTE_SHIP = 'ENV_WASTE_SHIP', // EMAP-PC-112
+  ENV_METEO = 'ENV_METEO',
 
   // Novos Modos Sociais
   SOCIAL_SROI = 'SOCIAL_SROI',
@@ -17,11 +20,13 @@ export enum AppMode {
   SOCIAL_GIS = 'SOCIAL_GIS',
   SOCIAL_DIVERSITY = 'SOCIAL_DIVERSITY',
   SOCIAL_HUMAN_RIGHTS = 'SOCIAL_HUMAN_RIGHTS',
+  SOCIAL_ASSESSMENT = 'SOCIAL_ASSESSMENT',
 
   // Novos Modos de Governança
   GOV_RISK_MATRIX = 'GOV_RISK_MATRIX',
   GOV_REPORTING = 'GOV_REPORTING',
   GOV_SUPPLY_CHAIN = 'GOV_SUPPLY_CHAIN',
+  GOV_INNOVATION_FUNNEL = 'GOV_INNOVATION_FUNNEL', // Roda da Inovação
 
   // Modos Estratégicos
   STRATEGIC_PREDICTIVE = 'STRATEGIC_PREDICTIVE'
@@ -64,32 +69,6 @@ export interface AIAnalysisResult {
   alinhamento_score: number;
 }
 
-export interface Message {
-  id: string;
-  role: 'user' | 'model';
-  text: string;
-  image?: string;
-  isLoading?: boolean;
-}
-
-export interface VeoGenerationState {
-  status: 'idle' | 'checking_key' | 'generating' | 'polling' | 'completed' | 'error';
-  progressMessage?: string;
-  videoUrl?: string;
-  error?: string;
-}
-
-declare global {
-  interface AIStudio {
-    hasSelectedApiKey: () => Promise<boolean>;
-    openSelectKey: () => Promise<void>;
-  }
-
-  interface Window {
-    aistudio?: AIStudio;
-  }
-}
-
 export type ESGPillar = 'Environmental' | 'Social' | 'Governance' | 'Operational';
 
 export type LayerType = 'POLYGON' | 'MARKER' | 'POLYLINE';
@@ -105,3 +84,69 @@ export interface Layer {
   pillar: ESGPillar; // Pilar ESG ao qual a camada pertence
   group?: string; // Grupo ou categoria da camada (ex: Recursos Hídricos)
 }
+
+// --- EMAP Specific Interfaces ---
+
+export interface LAIARecord {
+  id: string;
+  activity_source: string; // EMAP-PC-56
+  environmental_aspect: string;
+  environmental_impact: string;
+  severity: number;
+  probability: number;
+  risk_score: number;
+  control_measure_id: string;
+  status: 'Identified' | 'Controlled' | 'Review Required';
+}
+
+export interface ShipWasteRecord {
+  id: string;
+  vessel_name: string;
+  waste_type_marpol: 'Annex I' | 'Annex II' | 'Annex IV' | 'Annex V' | 'Annex VI';
+  volume_m3: number;
+  service_provider_id: string;
+  crr_mtr_number?: string;
+  document_url?: string; // EMAP-PC-112 (Mandatory for completion)
+  status: 'Requested' | 'In Progress' | 'Completed';
+  request_date: string;
+}
+
+export interface InnovationIdea {
+  id: string;
+  title: string;
+  author_id: string;
+  stage: 'Ideation (CRIARE)' | 'Screening' | 'Project Execution' | 'Value Realization';
+  description: string;
+  alignment_score: number;
+  impact_area: 'Environmental' | 'Social' | 'Operational' | 'Governance';
+}
+
+export interface SROIImpactRecord {
+  id: string;
+  project_name: string;
+  investment: number;
+  beneficiaries_count: number;
+  outcome_type: string;
+  attribution_percentage: number;
+  sroi_ratio: number;
+  created_at: string;
+  created_by: string;
+}
+
+export interface CommunityAssessment {
+  id: string;
+  community_name: string;
+  settlement_type: string;
+  estimated_families: number;
+  water_access: string;
+  sanitation_status: string;
+  negative_impacts: string[];
+  priority_needs: string[];
+  relationship_level: number;
+  assessment_date: string;
+  coordinates: number[]; // [lng, lat]
+  geometry?: { type: string; data: any };
+  created_at?: string;
+  created_by?: string;
+}
+
