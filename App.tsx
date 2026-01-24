@@ -34,6 +34,7 @@ import {
 import { AppMode, UserProfile, Layer } from './types';
 import { supabase } from './utils/supabase';
 import { parseKmlToLayers } from './utils/geoUtils';
+import { showSuccess, showError } from './utils/notifications';
 import { Dashboard } from './components/Dashboard';
 import { ProjectList } from './components/ProjectList';
 import { NewProject } from './components/NewProject';
@@ -61,6 +62,12 @@ import { ShipWaste } from './components/environmental/ShipWaste';
 import { InnovationFunnel } from './components/governance/InnovationFunnel';
 import { MeteoPredictiveModule } from './components/environmental/MeteoPredictiveModule';
 import CommunityAssessmentForm from './components/territory/CommunityAssessmentForm';
+import { ESGDiagnosticForm } from './components/governance/ESGDiagnosticForm';
+import { ESGDiagnosticsCenter } from './components/ESGDiagnosticsCenter';
+import { EnvironmentalDiagnosticForm } from './components/environmental/EnvironmentalDiagnosticForm';
+import { GovernanceDiagnosticForm } from './components/governance/GovernanceDiagnosticForm';
+import { Breadcrumb } from './components/Breadcrumb';
+import SocialProjectForm from './components/social/SocialProjectForm';
 
 // Componente NavItem refatorado com Tailwind
 interface NavItemProps {
@@ -98,9 +105,24 @@ const NavItem: React.FC<NavItemProps> = ({ icon, label, active, onClick, collaps
     </Tooltip>
 );
 
-const SectionLabel: React.FC<{ label: string; collapsed: boolean }> = ({ label, collapsed }) => (
-    <div className={`px-5 py-2 mt-4 text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 dark:text-gray-600 ${collapsed ? 'text-center' : 'text-left'}`}>
-        {collapsed ? '•••' : label}
+const SectionHeader: React.FC<{
+    label: string;
+    collapsed: boolean;
+    open?: boolean;
+    onToggle?: () => void
+}> = ({ label, collapsed, open, onToggle }) => (
+    <div
+        onClick={!collapsed ? onToggle : undefined}
+        className={`px-5 py-2 mt-4 flex items-center justify-between group transition-colors ${!collapsed && onToggle ? 'cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5' : ''} ${collapsed ? 'text-center' : 'text-left'}`}
+    >
+        <div className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 dark:text-gray-600 group-hover:text-happiness-1 transition-colors">
+            {collapsed ? '•••' : label}
+        </div>
+        {!collapsed && onToggle && (
+            <div className="text-gray-400 group-hover:text-happiness-1 transition-colors">
+                {open ? <ExpandLess sx={{ fontSize: 16 }} /> : <ExpandMore sx={{ fontSize: 16 }} />}
+            </div>
+        )}
     </div>
 );
 
@@ -112,6 +134,13 @@ export default function App() {
     const [settingsOpen, setSettingsOpen] = useState(false);
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
     const [kmlLayers, setKmlLayers] = useState<Layer[]>([]);
+    const [selectedProject, setSelectedProject] = useState<any | null>(null);
+    const [diagnosticTab, setDiagnosticTab] = useState(0);
+    const [envOpen, setEnvOpen] = useState(false);
+    const [socialOpen, setSocialOpen] = useState(false);
+    const [govOpen, setGovOpen] = useState(false);
+    const [overviewOpen, setOverviewOpen] = useState(true);
+    const [strategicOpen, setStrategicOpen] = useState(false);
 
     // KML auto-loading removed per user request
 
@@ -187,7 +216,30 @@ export default function App() {
     const renderContent = () => {
         switch (mode) {
             case AppMode.DASHBOARD: return <Dashboard />;
-            case AppMode.PROJECTS: return <ProjectList />;
+            case AppMode.PROJECTS: return (
+                <ProjectList
+                    onAddNew={() => { setSelectedProject(null); setMode(AppMode.NEW_SOCIAL_PROJECT); }}
+                    onEdit={(p) => {
+                        // Mapeia os dados do banco para o formato do formulário SocialProject
+                        setSelectedProject({
+                            id: p.id,
+                            title: p.name,
+                            description: p.description || p.tema,
+                            status: p.status === 'Concluído' ? 'completed' : p.status === 'Planejado' ? 'planning' : 'active',
+                            budget: parseFloat(p.budget || '0'),
+                            startDate: p.start_date || '',
+                            endDate: p.end_date || '',
+                            beneficiariesTarget: p.beneficiaries_target || 0,
+                            neighborhoods: p.neighborhoods || (p.community ? [p.community] : []),
+                            materialityTopics: p.materiality_topics || (p.tema ? [p.tema] : []),
+                            sdgTargets: p.sdg_targets || [],
+                            estimatedImpactValue: parseFloat(p.estimated_impact_value as any || '0'),
+                            projectedSroi: parseFloat(p.projected_sroi as any || '0')
+                        });
+                        setMode(AppMode.NEW_SOCIAL_PROJECT);
+                    }}
+                />
+            );
             case AppMode.NEW_PROJECT: return <NewProject onBack={() => setMode(AppMode.PROJECTS)} />;
             case AppMode.USERS: return <UserManagement onAddUser={() => setMode(AppMode.CREATE_USER)} />;
             case AppMode.CREATE_USER: return <CreateUser onBack={() => setMode(AppMode.USERS)} />;
@@ -210,6 +262,57 @@ export default function App() {
             case AppMode.ENV_WASTE_SHIP: return <ShipWaste />;
             case AppMode.ENV_METEO: return <MeteoPredictiveModule />;
             case AppMode.SOCIAL_ASSESSMENT: return <CommunityAssessmentForm />;
+            case AppMode.GOV_DIAGNOSTIC: return <ESGDiagnosticForm initialTab={diagnosticTab} />;
+            case AppMode.ESG_CENTER: return <ESGDiagnosticsCenter onSelectMode={(m, t) => { setDiagnosticTab(t || 0); setMode(m); }} />;
+            case AppMode.ENV_DIAGNOSTIC: return <EnvironmentalDiagnosticForm />;
+            case AppMode.GOV_ESG_DIAGNOSTIC: return <GovernanceDiagnosticForm />;
+            case AppMode.NEW_SOCIAL_PROJECT: return (
+                <SocialProjectForm
+                    key={selectedProject?.id || 'new'}
+                    initialData={selectedProject}
+                    onSubmit={async (project) => {
+                        try {
+                            const projectData = {
+                                name: project.title,
+                                pilar: 'Social',
+                                materiality_topics: (project as any).materialityTopics,
+                                tema: (project as any).materialityTopics[0] || 'Geral', // Legado
+                                status: project.status === 'completed' ? 'Concluído' : project.status === 'planning' ? 'Planejado' : 'Em andamento',
+                                community: project.neighborhoods[0] || 'Vila Bacanga',
+                                budget: project.budget.toString(),
+                                description: project.description,
+                                start_date: project.startDate || null,
+                                end_date: project.endDate || null,
+                                beneficiaries_target: project.beneficiariesTarget,
+                                neighborhoods: project.neighborhoods,
+                                sdg_targets: project.sdgTargets,
+                                projected_sroi: project.projectedSroi,
+                                estimated_impact_value: project.estimatedImpactValue
+                            };
+
+                            if (selectedProject?.id) {
+                                const { error } = await supabase
+                                    .from('projects')
+                                    .update(projectData)
+                                    .eq('id', selectedProject.id);
+                                if (error) throw error;
+                                showSuccess('Projeto atualizado com sucesso!');
+                            } else {
+                                const { error } = await supabase
+                                    .from('projects')
+                                    .insert(projectData);
+                                if (error) throw error;
+                                showSuccess('Projeto criado com sucesso!');
+                            }
+                            setMode(AppMode.PROJECTS);
+                        } catch (error: any) {
+                            console.error('Erro detalhado ao salvar:', error);
+                            showError(`Falha ao salvar: ${error.message || 'Erro desconhecido'}`);
+                        }
+                    }}
+                    onCancel={() => setMode(AppMode.PROJECTS)}
+                />
+            );
             default: return <Dashboard />;
         }
     };
@@ -239,7 +342,84 @@ export default function App() {
             case AppMode.STRATEGIC_PREDICTIVE: return 'Inteligência Preditiva';
             case AppMode.SOCIAL_GIS: return 'Mapeamento Territorial Geoespacial';
             case AppMode.SOCIAL_ASSESSMENT: return 'Diagnóstico Socioeconômico';
+            case AppMode.GOV_DIAGNOSTIC: return 'Autoavaliação de Maturidade ESG porto (ABNT PR 2030)';
+            case AppMode.ESG_CENTER: return 'Central de Diagnósticos ESG';
+            case AppMode.ENV_DIAGNOSTIC: return 'Diagnóstico Ambiental (ABNT PR 2030)';
+            case AppMode.GOV_ESG_DIAGNOSTIC: return 'Diagnóstico de Governança (ABNT PR 2030)';
+            case AppMode.NEW_SOCIAL_PROJECT: return 'Novo Projeto Social Estratégico';
             default: return 'ESGporto';
+        }
+    };
+
+    const getBreadcrumbs = () => {
+        const home = { label: 'Home', onClick: () => setMode(AppMode.DASHBOARD) };
+
+        switch (mode) {
+            case AppMode.DASHBOARD:
+                return [home];
+
+            // Diagnósticos
+            case AppMode.ESG_CENTER:
+                return [home, { label: 'Diagnósticos', onClick: () => setMode(AppMode.ESG_CENTER) }, { label: 'Central' }];
+            case AppMode.SOCIAL_ASSESSMENT:
+                return [home, { label: 'Diagnósticos', onClick: () => setMode(AppMode.ESG_CENTER) }, { label: 'Social' }];
+            case AppMode.ENV_DIAGNOSTIC:
+                return [home, { label: 'Gestão Ambiental' }, { label: 'Diagnóstico ABNT' }];
+            case AppMode.GOV_ESG_DIAGNOSTIC:
+                return [home, { label: 'Governança' }, { label: 'Diagnóstico ABNT' }];
+            case AppMode.SOCIAL_GIS:
+                return [home, { label: 'Diagnósticos', onClick: () => setMode(AppMode.ESG_CENTER) }, { label: 'Mapa ESG (GIS)' }];
+
+            // Ambiental
+            case AppMode.ENV_DECARBONIZATION:
+                return [home, { label: 'Gestão Ambiental' }, { label: 'Clima & Carbono' }];
+            case AppMode.ENV_EFFICIENCY:
+                return [home, { label: 'Gestão Ambiental' }, { label: 'Recursos' }];
+            case AppMode.ENV_POLLUTION:
+                return [home, { label: 'Gestão Ambiental' }, { label: 'Poluição & PAM' }];
+            case AppMode.ENV_COMPLIANCE:
+                return [home, { label: 'Gestão Ambiental' }, { label: 'Conformidade' }];
+            case AppMode.ENV_LAIA:
+                return [home, { label: 'Gestão Ambiental' }, { label: 'LAIA (PC-56)' }];
+            case AppMode.ENV_WASTE_SHIP:
+                return [home, { label: 'Gestão Ambiental' }, { label: 'Resíduos (PC-112)' }];
+            case AppMode.ENV_METEO:
+                return [home, { label: 'Gestão Ambiental' }, { label: 'Inteligência Climática' }];
+
+            // Social
+            case AppMode.PROJECTS:
+                return [home, { label: 'Social & Resp.' }, { label: 'Projetos' }];
+            case AppMode.NEW_SOCIAL_PROJECT:
+                return [home, { label: 'Social & Resp.' }, { label: 'Projetos', onClick: () => setMode(AppMode.PROJECTS) }, { label: 'Novo Projeto' }];
+            case AppMode.SOCIAL_SROI:
+                return [home, { label: 'Social & Resp.' }, { label: 'Impacto & SROI' }];
+            case AppMode.SOCIAL_DIVERSITY:
+                return [home, { label: 'Social & Resp.' }, { label: 'Diversidade' }];
+            case AppMode.SOCIAL_HUMAN_RIGHTS:
+                return [home, { label: 'Social & Resp.' }, { label: 'Direitos Humanos' }];
+
+            // Governança
+            case AppMode.GOV_RISK_MATRIX:
+                return [home, { label: 'Governança' }, { label: 'Matriz de Riscos' }];
+            case AppMode.GOV_REPORTING:
+                return [home, { label: 'Governança' }, { label: 'Relatórios' }];
+            case AppMode.GOV_SUPPLY_CHAIN:
+                return [home, { label: 'Governança' }, { label: 'Cadeia de Valor' }];
+            case AppMode.GOV_INNOVATION_FUNNEL:
+                return [home, { label: 'Governança' }, { label: 'Inovação' }];
+
+            // Estratégico
+            case AppMode.STRATEGIC_PREDICTIVE:
+                return [home, { label: 'Estratégico' }, { label: 'Preditivo' }];
+
+            // Usuários
+            case AppMode.USERS:
+                return [home, { label: 'Administração' }, { label: 'Usuários' }];
+            case AppMode.PROFILE:
+                return [home, { label: 'Conta' }, { label: 'Perfil' }];
+
+            default:
+                return [home, { label: getPageTitle() }];
         }
     };
 
@@ -255,12 +435,11 @@ export default function App() {
         { icon: <ComplianceIcon />, label: "Digital LAIA (PC-56)", mode: AppMode.ENV_LAIA },
         { icon: <AnchorIcon />, label: "Resíduos (PC-112)", mode: AppMode.ENV_WASTE_SHIP },
         { icon: <AnalyticsIcon />, label: "Inteligência Climática", mode: AppMode.ENV_METEO },
+        { icon: <AnalyticsIcon />, label: "Diagnóstico (ABNT)", mode: AppMode.ENV_DIAGNOSTIC },
     ];
 
     const socialItems = [
         { icon: <ProjectsIcon />, label: "Projetos & Ações", mode: AppMode.PROJECTS },
-        { icon: <ReportingIcon />, label: "Diagnóstico (ESG)", mode: AppMode.SOCIAL_ASSESSMENT },
-        { icon: <TerritoryIcon />, label: "Mapa ESG (GIS)", mode: AppMode.SOCIAL_GIS },
         { icon: <SroiIcon />, label: "Impacto & SROI", mode: AppMode.SOCIAL_SROI },
         { icon: <DiversityIcon />, label: "Diversidade & Inclusão", mode: AppMode.SOCIAL_DIVERSITY },
         { icon: <HumanRightsIcon />, label: "Direitos Humanos", mode: AppMode.SOCIAL_HUMAN_RIGHTS },
@@ -271,6 +450,12 @@ export default function App() {
         { icon: <ReportingIcon />, label: "Relatórios & Padrões", mode: AppMode.GOV_REPORTING },
         { icon: <SupplyChainIcon />, label: "Cadeia de Valor", mode: AppMode.GOV_SUPPLY_CHAIN },
         { icon: <LightbulbIcon />, label: "Roda da Inovação", mode: AppMode.GOV_INNOVATION_FUNNEL },
+        { icon: <AnalyticsIcon />, label: "Diagnóstico (ABNT)", mode: AppMode.GOV_ESG_DIAGNOSTIC },
+    ];
+
+    const diagItems = [
+        { icon: <ReportingIcon />, label: "Central de Diagnósticos", mode: AppMode.ESG_CENTER },
+        { icon: <TerritoryIcon />, label: "Mapa ESG (GIS)", mode: AppMode.SOCIAL_GIS },
     ];
 
     return (
@@ -319,71 +504,116 @@ export default function App() {
 
                 {/* Navigation Scroll Area */}
                 <div className="flex-1 overflow-y-auto overflow-x-hidden py-4 custom-scrollbar">
-                    <SectionLabel label="Menu Principal" collapsed={!sidebarOpen} />
-                    {navItems.map(item => (
-                        <NavItem
-                            key={item.label}
-                            icon={item.icon}
-                            label={item.label}
-                            active={mode === item.mode}
-                            onClick={() => setMode(item.mode)}
-                            collapsed={!sidebarOpen}
-                        />
-                    ))}
 
-                    <div className="my-4 border-t border-gray-100 dark:border-white/5 mx-4" />
-
-                    <SectionLabel label="Gestão Ambiental" collapsed={!sidebarOpen} />
-                    {envItems.map(item => (
-                        <NavItem
-                            key={item.label}
-                            icon={item.icon}
-                            label={item.label}
-                            active={mode === item.mode}
-                            onClick={() => setMode(item.mode)}
-                            collapsed={!sidebarOpen}
-                        />
-                    ))}
-
-                    <div className="my-4 border-t border-gray-100 dark:border-white/5 mx-4" />
-
-                    <SectionLabel label="Social & Resp." collapsed={!sidebarOpen} />
-                    {socialItems.map(item => (
-                        <NavItem
-                            key={item.label}
-                            icon={item.icon}
-                            label={item.label}
-                            active={mode === item.mode || (item.mode === AppMode.PROJECTS && mode === AppMode.NEW_PROJECT)}
-                            onClick={() => setMode(item.mode)}
-                            collapsed={!sidebarOpen}
-                        />
-                    ))}
-
-                    <div className="my-4 border-t border-gray-100 dark:border-white/5 mx-4" />
-
-                    <SectionLabel label="Governança (GRC)" collapsed={!sidebarOpen} />
-                    {govItems.map(item => (
-                        <NavItem
-                            key={item.label}
-                            icon={item.icon}
-                            label={item.label}
-                            active={mode === item.mode}
-                            onClick={() => setMode(item.mode)}
-                            collapsed={!sidebarOpen}
-                        />
-                    ))}
-
-                    <div className="my-4 border-t border-gray-100 dark:border-white/5 mx-4" />
-
-                    <SectionLabel label="Estratégico" collapsed={!sidebarOpen} />
-                    <NavItem
-                        icon={<AnalyticsIcon />}
-                        label="Análise Preditiva"
-                        active={mode === AppMode.STRATEGIC_PREDICTIVE}
-                        onClick={() => setMode(AppMode.STRATEGIC_PREDICTIVE)}
+                    <SectionHeader
+                        label="Visão Geral"
                         collapsed={!sidebarOpen}
+                        open={overviewOpen}
+                        onToggle={() => setOverviewOpen(!overviewOpen)}
                     />
-                    <NavItem icon={<NotificationsIcon />} label="Notificações" active={false} onClick={() => { }} collapsed={!sidebarOpen} />
+                    <Collapse in={overviewOpen || !sidebarOpen} timeout="auto" unmountOnExit>
+                        <NavItem
+                            icon={<DashboardIcon />}
+                            label="Dashboard Home"
+                            active={mode === AppMode.DASHBOARD}
+                            onClick={() => setMode(AppMode.DASHBOARD)}
+                            collapsed={!sidebarOpen}
+                        />
+                        {diagItems.map(item => (
+                            <NavItem
+                                key={item.label}
+                                icon={item.icon}
+                                label={item.label}
+                                active={mode === item.mode || mode === AppMode.SOCIAL_ASSESSMENT || mode === AppMode.GOV_DIAGNOSTIC}
+                                onClick={() => setMode(item.mode)}
+                                collapsed={!sidebarOpen}
+                            />
+                        ))}
+                    </Collapse>
+
+                    <div className="my-2 border-t border-gray-100 dark:border-white/5 mx-4" />
+
+                    <SectionHeader
+                        label="Pilar Ambiental (E)"
+                        collapsed={!sidebarOpen}
+                        open={envOpen}
+                        onToggle={() => setEnvOpen(!envOpen)}
+                    />
+                    <Collapse in={envOpen || !sidebarOpen} timeout="auto" unmountOnExit>
+                        {envItems.map(item => (
+                            <NavItem
+                                key={item.label}
+                                icon={item.icon}
+                                label={item.label}
+                                active={mode === item.mode}
+                                onClick={() => setMode(item.mode)}
+                                collapsed={!sidebarOpen}
+                            />
+                        ))}
+                    </Collapse>
+
+                    <div className="my-2 border-t border-gray-100 dark:border-white/5 mx-4" />
+
+                    <SectionHeader
+                        label="Pilar Social (S)"
+                        collapsed={!sidebarOpen}
+                        open={socialOpen}
+                        onToggle={() => setSocialOpen(!socialOpen)}
+                    />
+                    <Collapse in={socialOpen || !sidebarOpen} timeout="auto" unmountOnExit>
+                        {socialItems.map(item => (
+                            <NavItem
+                                key={item.label}
+                                icon={item.icon}
+                                label={item.label}
+                                active={mode === item.mode || (item.mode === AppMode.PROJECTS && mode === AppMode.NEW_SOCIAL_PROJECT)}
+                                onClick={() => setMode(item.mode)}
+                                collapsed={!sidebarOpen}
+                            />
+                        ))}
+                    </Collapse>
+
+                    <div className="my-2 border-t border-gray-100 dark:border-white/5 mx-4" />
+
+                    <SectionHeader
+                        label="Pilar Governança (G)"
+                        collapsed={!sidebarOpen}
+                        open={govOpen}
+                        onToggle={() => setGovOpen(!govOpen)}
+                    />
+                    <Collapse in={govOpen || !sidebarOpen} timeout="auto" unmountOnExit>
+                        {govItems.map(item => (
+                            <NavItem
+                                key={item.label}
+                                icon={item.icon}
+                                label={item.label}
+                                active={mode === item.mode}
+                                onClick={() => setMode(item.mode)}
+                                collapsed={!sidebarOpen}
+                            />
+                        ))}
+                    </Collapse>
+
+                    <div className="my-2 border-t border-gray-100 dark:border-white/5 mx-4" />
+
+                    <SectionHeader
+                        label="Inteligência & IA"
+                        collapsed={!sidebarOpen}
+                        open={strategicOpen}
+                        onToggle={() => setStrategicOpen(!strategicOpen)}
+                    />
+                    <Collapse in={strategicOpen || !sidebarOpen} timeout="auto" unmountOnExit>
+                        <NavItem
+                            icon={<AnalyticsIcon />}
+                            label="Análise Preditiva"
+                            active={mode === AppMode.STRATEGIC_PREDICTIVE}
+                            onClick={() => setMode(AppMode.STRATEGIC_PREDICTIVE)}
+                            collapsed={!sidebarOpen}
+                        />
+                        <NavItem icon={<NotificationsIcon />} label="Alertas & Notificações" active={false} onClick={() => { }} collapsed={!sidebarOpen} />
+                    </Collapse>
+
+                    <div className="my-4 border-t border-gray-100 dark:border-white/5 mx-4" />
 
                     {/* Settings Submenu logic can be simplified or implemented similarly if needed */}
                     <Tooltip title={!sidebarOpen ? 'Configurações' : ''} placement="right" arrow>
@@ -534,6 +764,7 @@ export default function App() {
 
                 {/* Content Render */}
                 <div className="flex-1 p-6 md:p-10 max-w-[1600px] mx-auto w-full">
+                    {mode !== AppMode.DASHBOARD && <Breadcrumb items={getBreadcrumbs()} />}
                     {renderContent()}
                 </div>
             </main>

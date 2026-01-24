@@ -236,12 +236,15 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
             {/* Header Section */}
             <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
+                    <Typography className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">
+                        Inventário & Território
+                    </Typography>
                     <Typography variant="h4" className="font-black text-gray-900 dark:text-white tracking-tighter flex items-center gap-2">
-                        {viewMode === 'list' ? 'Inventário Socioeconômico' : 'Novo Diagnóstico Comunidade'}
+                        {viewMode === 'list' ? 'Diagnóstico Social' : 'Novo Diagnóstico Comunidade'}
                     </Typography>
                     <Typography className="text-gray-500 font-medium italic">
                         {viewMode === 'list'
-                            ? 'Gestão de materialidade e dados territoriais das comunidades do entorno.'
+                            ? 'Levantamento socioeconômico das comunidades do entorno e materialidade social.'
                             : 'Preencha os campos para registrar o perfil e necessidades da localidade.'}
                     </Typography>
                 </div>

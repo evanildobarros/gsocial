@@ -35,33 +35,7 @@ const infoWindowStyle = `
 import { Layer, ESGPillar } from '../../types';
 
 // --- Mock Data ---
-const INITIAL_LAYERS: Layer[] = [
-    {
-        id: 'COFAM-01',
-        name: 'Zonas de Armazenamento COFAM',
-        type: 'POLYGON',
-        visible: true,
-        color: '#10B981', // Emerald
-        data: [
-            { lat: -2.575, lng: -44.380 },
-            { lat: -2.575, lng: -44.375 },
-            { lat: -2.585, lng: -44.375 },
-            { lat: -2.585, lng: -44.380 },
-        ],
-        pillar: 'Environmental',
-        group: 'Compliance'
-    },
-    {
-        id: '3',
-        name: 'Sensores de Qualidade do Ar',
-        type: 'MARKER',
-        visible: true,
-        color: '#F59E0B', // Yellow
-        data: { lat: -2.585, lng: -44.375 },
-        pillar: 'Environmental',
-        group: 'Monitoramento'
-    }
-];
+const INITIAL_LAYERS: Layer[] = [];
 
 // --- Map Styles (Dark Mode) ---
 const darkMapStyle = [
@@ -146,7 +120,9 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
             const saved = localStorage.getItem('gsocial_map_layers');
             if (saved) {
                 try {
-                    return JSON.parse(saved);
+                    const parsed = JSON.parse(saved);
+                    // Garante que camadas de demonstração obsoletas sejam filtradas na inicialização
+                    return Array.isArray(parsed) ? parsed.filter((l: any) => l.id !== 'COFAM-01' && l.id !== '3') : INITIAL_LAYERS;
                 } catch (e) {
                     console.error('Erro ao carregar camadas do localStorage:', e);
                     return INITIAL_LAYERS;
@@ -160,6 +136,11 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
     useEffect(() => {
         localStorage.setItem('gsocial_map_layers', JSON.stringify(layers));
     }, [layers]);
+
+    // Limpeza de camadas de cache obsoletas (dados de demonstração antigos)
+    useEffect(() => {
+        setLayers(prev => prev.filter(l => l.id !== 'COFAM-01' && l.id !== '3'));
+    }, []);
 
     useEffect(() => {
         if (additionalLayers && additionalLayers.length > 0) {
@@ -338,19 +319,6 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
                             {layers.length}
                         </span>
                     </div>
-                    {layers.length > 0 && (
-                        <button
-                            onClick={() => {
-                                if (confirm('Deseja remover todas as camadas?')) {
-                                    setLayers([]);
-                                    localStorage.removeItem('gsocial_map_layers');
-                                }
-                            }}
-                            className="text-[10px] font-bold text-red-500 hover:text-red-600 transition-colors uppercase tracking-widest"
-                        >
-                            Limpar Tudo
-                        </button>
-                    )}
                 </div>
 
                 {/* Layer Uploader */}
@@ -647,7 +615,7 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
                                                     <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Infra</span>
                                                 </div>
                                                 <span className="text-sm font-black text-gray-800 dark:text-gray-200 truncate block">
-                                                    {selectedElement.layer.details.agua.split(' ')[0]}
+                                                    {selectedElement.layer.details.agua?.split(' ')[0] || 'Saneamento'}
                                                 </span>
                                             </div>
                                             <div className="col-span-2 bg-blue-50 dark:bg-blue-900/10 p-3 rounded-lg border border-blue-100 dark:border-blue-900/20 flex items-center justify-between group cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-900/20 transition-colors"

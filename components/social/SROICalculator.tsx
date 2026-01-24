@@ -16,10 +16,26 @@ export const SROICalculator: React.FC = () => {
     const [isSaving, setIsSaving] = useState(false);
     const [history, setHistory] = useState<any[]>([]);
     const [isLoadingHistory, setIsLoadingHistory] = useState(true);
+    const [projects, setProjects] = useState<any[]>([]);
+    const [selectedProjectId, setSelectedProjectId] = useState<string>('');
 
     useEffect(() => {
         fetchHistory();
+        fetchProjects();
     }, []);
+
+    const fetchProjects = async () => {
+        try {
+            const { data, error } = await supabase
+                .from('projects')
+                .select('*')
+                .eq('pilar', 'Social')
+                .order('name');
+            if (data) setProjects(data);
+        } catch (error) {
+            console.error('Erro ao buscar projetos para SROI:', error);
+        }
+    };
 
     const fetchHistory = async () => {
         try {
@@ -35,6 +51,20 @@ export const SROICalculator: React.FC = () => {
             console.error('Erro ao buscar histórico SROI:', error);
         } finally {
             setIsLoadingHistory(false);
+        }
+    };
+
+    const handleProjectChange = (projectId: string) => {
+        setSelectedProjectId(projectId);
+        const project = projects.find(p => p.id.toString() === projectId);
+        if (project) {
+            setFormData({
+                projectName: project.name,
+                investment: project.budget || '',
+                beneficiaries: project.beneficiaries_target?.toString() || '',
+                outcomeType: project.materiality_topics?.[0] || 'Geração de Renda',
+                attribution: formData.attribution
+            });
         }
     };
 
@@ -91,6 +121,22 @@ export const SROICalculator: React.FC = () => {
                     </div>
 
                     <div className="space-y-4">
+                        <TextField
+                            select
+                            label="Vincular a Projeto Existente"
+                            fullWidth
+                            value={selectedProjectId}
+                            onChange={(e) => handleProjectChange(e.target.value)}
+                            helperText="Opcional: selecione um projeto para preencher os dados automaticamente"
+                        >
+                            <MenuItem value="">-- Novo Projeto Manual --</MenuItem>
+                            {projects.map((p) => (
+                                <MenuItem key={p.id} value={p.id.toString()}>
+                                    {p.name}
+                                </MenuItem>
+                            ))}
+                        </TextField>
+
                         <TextField
                             label="Nome do Projeto / Iniciativa"
                             fullWidth

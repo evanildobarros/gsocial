@@ -27,6 +27,11 @@ export enum AppMode {
   GOV_REPORTING = 'GOV_REPORTING',
   GOV_SUPPLY_CHAIN = 'GOV_SUPPLY_CHAIN',
   GOV_INNOVATION_FUNNEL = 'GOV_INNOVATION_FUNNEL', // Roda da Inovação
+  GOV_DIAGNOSTIC = 'GOV_DIAGNOSTIC',
+  ESG_CENTER = 'ESG_CENTER',
+  ENV_DIAGNOSTIC = 'ENV_DIAGNOSTIC',
+  GOV_ESG_DIAGNOSTIC = 'GOV_ESG_DIAGNOSTIC',
+  NEW_SOCIAL_PROJECT = 'NEW_SOCIAL_PROJECT',
 
   // Modos Estratégicos
   STRATEGIC_PREDICTIVE = 'STRATEGIC_PREDICTIVE'
@@ -60,6 +65,15 @@ export interface Project {
   status: 'Planejado' | 'Em andamento' | 'Concluído';
   community: string;
   budget?: string;
+  description?: string;
+  start_date?: string;
+  end_date?: string;
+  beneficiaries_target?: number;
+  neighborhoods?: string[];
+  materiality_topics?: string[];
+  sdg_targets?: number[];
+  projected_sroi?: number;
+  estimated_impact_value?: number;
 }
 
 export interface AIAnalysisResult {
@@ -149,4 +163,44 @@ export interface CommunityAssessment {
   created_at?: string;
   created_by?: string;
 }
+
+// Novos Tipos para Projetos Sociais (GSocial)
+export type SocialProjectStatus = 'planning' | 'active' | 'completed' | 'paused';
+
+export interface SocialProject {
+  id: string;
+  title: string;
+  description: string;
+  budget: number;
+  status: SocialProjectStatus;
+  startDate: string;
+  endDate: string;
+
+  // Dados de Impacto (ESG)
+  beneficiariesTarget: number;
+  neighborhoods: string[]; // Ex: ["Vila Bacanga", "Anjo da Guarda"]
+  materialityTopics: string[]; // Ex: ["Geração de Emprego e Renda", "Educação"]
+  sdgTargets: number[]; // IDs dos ODS (1-17)
+
+  // Indicadores Calculados
+  projectedSroi: number; // Retorno Social sobre Investimento
+  estimatedImpactValue: number; // Valor monetário estimado do benefício social
+}
+
+export const NEIGHBORHOODS_LIST = [
+  "Anjo da Guarda", "Alto da Esperança", "Vila Bacanga", "Vila dos Frades",
+  "Sá Viana", "Gancharia", "Vila Embratel", "Jamim", "Fumacê",
+  "Vila Maranhão", "Cajueiro", "Tajaçuaba", "Porto Grande",
+  "Vila Nova", "Gapara", "Resende", "Piancó", "Primavera"
+];
+
+export const MATERIALITY_TOPICS = [
+  "Geração de Emprego e Renda",
+  "Educação e Capacitação Técnica",
+  "Infraestrutura Urbana",
+  "Saúde e Saneamento Básico",
+  "Segurança Alimentar",
+  "Proteção Ambiental e Manguezais"
+];
+
 
