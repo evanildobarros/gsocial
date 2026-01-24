@@ -76,20 +76,8 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
   };
 
   const ESGLogo = () => (
-    <div className="relative w-24 h-24 flex items-center justify-center">
-      <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 100 100">
-        <circle cx="50" cy="50" r="40" fill="transparent" stroke="#EF4444" strokeWidth="8" strokeDasharray="31.42 251.32" strokeDashoffset="0" />
-        <circle cx="50" cy="50" r="40" fill="transparent" stroke="#F59E0B" strokeWidth="8" strokeDasharray="31.42 251.32" strokeDashoffset="-31.42" />
-        <circle cx="50" cy="50" r="40" fill="transparent" stroke="#10B981" strokeWidth="8" strokeDasharray="31.42 251.32" strokeDashoffset="-62.84" />
-        <circle cx="50" cy="50" r="40" fill="transparent" stroke="#3B82F6" strokeWidth="8" strokeDasharray="31.42 251.32" strokeDashoffset="-94.26" />
-        <circle cx="50" cy="50" r="40" fill="transparent" stroke="#6366F1" strokeWidth="8" strokeDasharray="31.42 251.32" strokeDashoffset="-125.68" />
-        <circle cx="50" cy="50" r="40" fill="transparent" stroke="#8B5CF6" strokeWidth="8" strokeDasharray="31.42 251.32" strokeDashoffset="-157.10" />
-        <circle cx="50" cy="50" r="40" fill="transparent" stroke="#EC4899" strokeWidth="8" strokeDasharray="31.42 251.32" strokeDashoffset="-188.52" />
-        <circle cx="50" cy="50" r="40" fill="transparent" stroke="#22D3EE" strokeWidth="8" strokeDasharray="31.42 251.32" strokeDashoffset="-219.94" />
-      </svg>
-      <h5 className="relative z-10 text-white font-black text-2xl tracking-tighter">
-        ESG
-      </h5>
+    <div className="flex items-center justify-center p-4">
+      <img src="/logo_itaqui.png" alt="Porto do Itaqui" className="w-24 h-auto object-contain" />
     </div>
   );
 
@@ -167,7 +155,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
             <form onSubmit={resetMode ? handleResetPassword : handleSubmit}>
               <div className="flex flex-col gap-6">
                 {error && (
-                  <Alert severity="error" variant="filled" sx={{ borderRadius: 3 }}>
+                  <Alert severity="error" variant="filled" sx={{ borderRadius: 1 }}>
                     {error === 'Invalid login credentials' ? 'E-mail ou senha incorretos.' : error}
                   </Alert>
                 )}

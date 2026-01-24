@@ -194,7 +194,7 @@ export const NewProject: React.FC<NewProjectProps> = ({ onBack }) => {
                             <button
                                 onClick={handleAnalyze}
                                 disabled={isAnalyzing || !formData.name}
-                                className="bg-happiness-1 text-white px-4 py-2 rounded-lg text-sm font-bold hover:opacity-90 transition flex items-center space-x-2 disabled:opacity-50"
+                                className="bg-happiness-1 text-white px-4 py-2 rounded-sm text-sm font-bold hover:opacity-90 transition flex items-center space-x-2 disabled:opacity-50"
                             >
                                 {isAnalyzing ? <Loader2 className="w-4 h-4 animate-spin" /> : <span>Analisar Aderência</span>}
                             </button>
@@ -203,24 +203,24 @@ export const NewProject: React.FC<NewProjectProps> = ({ onBack }) => {
                         {analysis ? (
                             <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2">
                                 <div className="flex items-center gap-4">
-                                    <div className="bg-white px-4 py-2 rounded-lg shadow-sm border border-happiness-3/30">
+                                    <div className="bg-white px-4 py-2 rounded-sm shadow-sm border border-happiness-3/30">
                                         <span className="text-xs text-gray-500 uppercase font-bold">Score de Alinhamento</span>
                                         <div className="text-2xl font-bold text-happiness-1">{analysis.alinhamento_score}/100</div>
                                     </div>
                                     <div className="flex gap-2 flex-wrap">
                                         {analysis.ods_relacionados?.map(ods => (
-                                            <span key={ods} className="bg-happiness-4/20 text-happiness-5 text-xs px-2 py-1 rounded font-bold border border-happiness-4/40">
+                                            <span key={ods} className="bg-happiness-4/20 text-happiness-5 text-xs px-2 py-1 rounded-sm font-bold border border-happiness-4/40">
                                                 {ods}
                                             </span>
                                         ))}
                                     </div>
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div className="bg-white/60 p-4 rounded-lg border border-happiness-3/30">
+                                    <div className="bg-white/60 p-4 rounded-sm border border-happiness-3/30">
                                         <h4 className="text-xs font-bold uppercase text-green-700 mb-1">Impactos Positivos</h4>
                                         <p className="text-sm text-gray-700">{analysis.impactos}</p>
                                     </div>
-                                    <div className="bg-white/60 p-4 rounded-lg border border-happiness-3/30">
+                                    <div className="bg-white/60 p-4 rounded-sm border border-happiness-3/30">
                                         <h4 className="text-xs font-bold uppercase text-red-700 mb-1">Riscos Mapeados</h4>
                                         <p className="text-sm text-gray-700">{analysis.riscos}</p>
                                     </div>

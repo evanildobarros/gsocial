@@ -370,7 +370,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ onAddUser }) => 
                         overflow: 'visible',
                         filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.1))',
                         mt: 1.5,
-                        borderRadius: 3,
+                        borderRadius: 1,
                         minWidth: 180,
                     },
                 }}
@@ -396,7 +396,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ onAddUser }) => 
                 open={editDialogOpen}
                 onClose={() => setEditDialogOpen(false)}
                 PaperProps={{
-                    sx: { borderRadius: 4, padding: 1, maxWidth: 450, width: '100%' }
+                    sx: { borderRadius: 1, padding: 1, maxWidth: 450, width: '100%' }
                 }}
             >
                 <div className="flex justify-between items-center p-4 pb-0">
@@ -414,7 +414,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ onAddUser }) => 
                             value={editName}
                             onChange={(e) => setEditName(e.target.value)}
                             variant="outlined"
-                            InputProps={{ sx: { borderRadius: 2 } }}
+                            InputProps={{ sx: { borderRadius: 1 } }}
                         />
 
                         {isMaster && (
@@ -424,7 +424,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ onAddUser }) => 
                                     value={editRole}
                                     label="Nível de Acesso"
                                     onChange={(e) => setEditRole(e.target.value as UserRole)}
-                                    sx={{ borderRadius: 2 }}
+                                    sx={{ borderRadius: 1 }}
                                 >
                                     <MuiMenuItem value="user">Usuário Comum</MuiMenuItem>
                                     <MuiMenuItem value="admin">Administrador</MuiMenuItem>
@@ -433,7 +433,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ onAddUser }) => 
                             </FormControl>
                         )}
                         {!isMaster && (
-                            <p className="text-xs text-gray-500 italic bg-gray-50 p-3 rounded-lg">
+                            <p className="text-xs text-gray-500 italic bg-gray-50 p-3 rounded-sm">
                                 * Você não tem permissão para alterar o nível de acesso deste usuário.
                             </p>
                         )}
@@ -443,7 +443,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ onAddUser }) => 
                 <DialogActions sx={{ p: 3, pt: 0 }}>
                     <Button
                         onClick={() => setEditDialogOpen(false)}
-                        sx={{ borderRadius: 2, textTransform: 'none', fontWeight: 700, px: 3 }}
+                        sx={{ borderRadius: 1, textTransform: 'none', fontWeight: 700, px: 3 }}
                         color="inherit"
                     >
                         Cancelar
@@ -451,7 +451,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ onAddUser }) => 
                     <Button
                         onClick={handleSaveEdit}
                         variant="contained"
-                        sx={{ borderRadius: 2, textTransform: 'none', fontWeight: 700, px: 3, boxShadow: 'none' }}
+                        sx={{ borderRadius: 1, textTransform: 'none', fontWeight: 700, px: 3, boxShadow: 'none' }}
                         color="primary"
                     >
                         Salvar Alterações

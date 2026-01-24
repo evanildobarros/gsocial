@@ -59,7 +59,7 @@ export const Compliance: React.FC = () => {
                                     </td>
                                     <td className="px-8 py-6">
                                         <span className={`px-3 py-1 text-[10px] font-black rounded-full uppercase tracking-widest ${row.color === 'green' ? 'bg-green-100 text-green-600' :
-                                                row.color === 'yellow' ? 'bg-yellow-100 text-yellow-600' : 'bg-red-100 text-red-600'
+                                            row.color === 'yellow' ? 'bg-yellow-100 text-yellow-600' : 'bg-red-100 text-red-600'
                                             }`}>
                                             {row.status}
                                         </span>
@@ -104,7 +104,7 @@ export const Compliance: React.FC = () => {
                         ].map((file, i) => (
                             <div key={i} className="p-4 bg-white/5 rounded-sm border border-white/5 flex items-center justify-between group hover:bg-white/10 transition-all cursor-pointer">
                                 <div className="flex items-center gap-3">
-                                    <div className="p-2 bg-blue-600 rounded-lg">
+                                    <div className="p-2 bg-blue-600 rounded-sm">
                                         <FileText className="w-4 h-4" />
                                     </div>
                                     <div>

@@ -106,10 +106,10 @@ export const LayerUploaderInline: React.FC<LayerUploaderInlineProps> = ({ onLaye
     };
 
     return (
-        <div className="bg-white dark:bg-[#121212] rounded-lg border border-gray-200 dark:border-white/10 overflow-hidden">
+        <div className="bg-white dark:bg-[#121212] rounded-sm border border-gray-200 dark:border-white/10 overflow-hidden">
             {/* Header */}
             <div className="flex items-center gap-3 p-5 border-b border-gray-100 dark:border-white/5 bg-gray-50 dark:bg-zinc-900/50">
-                <div className="w-10 h-10 bg-happiness-1/10 rounded-lg flex items-center justify-center">
+                <div className="w-10 h-10 bg-happiness-1/10 rounded-sm flex items-center justify-center">
                     <Database className="w-5 h-5 text-happiness-1" />
                 </div>
                 <div>
@@ -144,9 +144,9 @@ export const LayerUploaderInline: React.FC<LayerUploaderInlineProps> = ({ onLaye
                             <p className="text-[10px] text-gray-400">KML, GeoJSON, Shapefile (ZIP) ou CSV</p>
                         </div>
                     ) : (
-                        <div className="bg-green-500/5 dark:bg-green-500/10 rounded-lg border border-green-500/20 p-4 flex items-center justify-between animate-in zoom-in-95 duration-200">
+                        <div className="bg-green-500/5 dark:bg-green-500/10 rounded-sm border border-green-500/20 p-4 flex items-center justify-between animate-in zoom-in-95 duration-200">
                             <div className="flex items-center gap-3 truncate">
-                                <div className="w-8 h-8 bg-green-500/10 rounded flex items-center justify-center shrink-0">
+                                <div className="w-8 h-8 bg-green-500/10 rounded-sm flex items-center justify-center shrink-0">
                                     <CheckCircle2 className="w-4 h-4 text-green-500" />
                                 </div>
                                 <div className="truncate">
@@ -154,7 +154,7 @@ export const LayerUploaderInline: React.FC<LayerUploaderInlineProps> = ({ onLaye
                                     <p className="text-[10px] text-gray-500 uppercase">{(selectedFile.size / 1024).toFixed(1)} KB</p>
                                 </div>
                             </div>
-                            <button onClick={() => setSelectedFile(null)} className="p-1.5 hover:bg-red-500/10 rounded text-gray-400 hover:text-red-500 transition-colors">
+                            <button onClick={() => setSelectedFile(null)} className="p-1.5 hover:bg-red-500/10 rounded-sm text-gray-400 hover:text-red-500 transition-colors">
                                 <Trash2 className="w-4 h-4" />
                             </button>
                         </div>
@@ -176,7 +176,7 @@ export const LayerUploaderInline: React.FC<LayerUploaderInlineProps> = ({ onLaye
                                 value={layerName}
                                 onChange={(e) => setLayerName(e.target.value)}
                                 placeholder="Ex: Mapeamento da Poligonal do Porto"
-                                className="w-full bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg px-4 py-2.5 text-sm text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:border-happiness-1 focus:ring-1 focus:ring-happiness-1 transition-all outline-none"
+                                className="w-full bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-sm px-4 py-2.5 text-sm text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:border-happiness-1 focus:ring-1 focus:ring-happiness-1 transition-all outline-none"
                             />
                         </div>
 

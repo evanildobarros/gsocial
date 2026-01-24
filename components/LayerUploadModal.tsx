@@ -119,12 +119,12 @@ export const LayerUploadModal: React.FC<LayerUploadModalProps> = ({ open, onClos
             maxWidth="sm"
             fullWidth
             PaperProps={{
-                className: "rounded-lg overflow-hidden dark:bg-[#121212] border dark:border-white/10"
+                className: "rounded-sm overflow-hidden dark:bg-[#121212] border dark:border-white/10"
             }}
         >
             <DialogTitle className="flex items-center justify-between p-5 border-b border-gray-100 dark:border-white/5 bg-gray-50 dark:bg-zinc-900/50">
                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-happiness-1/10 rounded-lg flex items-center justify-center">
+                    <div className="w-10 h-10 bg-happiness-1/10 rounded-sm flex items-center justify-center">
                         <Database className="w-5 h-5 text-happiness-1" />
                     </div>
                     <div>
@@ -171,9 +171,9 @@ export const LayerUploadModal: React.FC<LayerUploadModalProps> = ({ open, onClos
                             <Typography className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">KML, GeoJSON, Shapefile (ZIP) ou CSV</Typography>
                         </div>
                     ) : (
-                        <div className="bg-green-500/5 dark:bg-green-500/10 rounded-lg border border-green-500/20 p-5 flex items-center justify-between animate-in zoom-in-95 duration-200">
+                        <div className="bg-green-500/5 dark:bg-green-500/10 rounded-sm border border-green-500/20 p-5 flex items-center justify-between animate-in zoom-in-95 duration-200">
                             <div className="flex items-center gap-4 truncate">
-                                <div className="w-10 h-10 bg-green-500/10 rounded flex items-center justify-center shrink-0">
+                                <div className="w-10 h-10 bg-green-500/10 rounded-sm flex items-center justify-center shrink-0">
                                     <CheckCircle2 className="w-5 h-5 text-green-500" />
                                 </div>
                                 <div className="truncate">
@@ -202,7 +202,7 @@ export const LayerUploadModal: React.FC<LayerUploadModalProps> = ({ open, onClos
                                 value={layerName}
                                 onChange={(e) => setLayerName(e.target.value)}
                                 placeholder="Ex: Mapeamento da Poligonal do Porto"
-                                className="w-full bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg px-4 py-3 text-sm text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:border-happiness-1 focus:ring-1 focus:ring-happiness-1 transition-all outline-none font-bold"
+                                className="w-full bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-sm px-4 py-3 text-sm text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:border-happiness-1 focus:ring-1 focus:ring-happiness-1 transition-all outline-none font-bold"
                             />
                         </div>
 
@@ -221,7 +221,7 @@ export const LayerUploadModal: React.FC<LayerUploadModalProps> = ({ open, onClos
                                             }
                                         `}
                                     >
-                                        <div className={`w-8 h-8 rounded flex items-center justify-center ${selectedPillar === opt.value ? 'bg-white/50' : 'bg-white dark:bg-black/10'}`}>
+                                        <div className={`w-8 h-8 rounded-sm flex items-center justify-center ${selectedPillar === opt.value ? 'bg-white/50' : 'bg-white dark:bg-black/10'}`}>
                                             <span className={opt.color}>{opt.icon}</span>
                                         </div>
                                         <span className={`text-[11px] font-black uppercase tracking-wider ${selectedPillar === opt.value ? opt.color : 'text-gray-600 dark:text-gray-400'}`}>
@@ -237,8 +237,8 @@ export const LayerUploadModal: React.FC<LayerUploadModalProps> = ({ open, onClos
                 {/* Status Feedback */}
                 {uploadState.status !== 'idle' && (
                     <div className={`p-5 rounded-sm border transition-all animate-in slide-in-from-top-2 ${uploadState.status === 'processing' ? 'bg-blue-50 dark:bg-blue-900/10 border-blue-100' :
-                            uploadState.status === 'success' ? 'bg-green-50 dark:bg-green-900/10 border-green-100' :
-                                'bg-red-50 dark:bg-red-900/10 border-red-100 dark:border-red-900/20'
+                        uploadState.status === 'success' ? 'bg-green-50 dark:bg-green-900/10 border-green-100' :
+                            'bg-red-50 dark:bg-red-900/10 border-red-100 dark:border-red-900/20'
                         }`}>
                         <div className="flex gap-4">
                             {uploadState.status === 'processing' ? <Loader2 className="w-6 h-6 animate-spin text-blue-500" /> :
@@ -267,7 +267,7 @@ export const LayerUploadModal: React.FC<LayerUploadModalProps> = ({ open, onClos
                     disabled={!selectedFile || !selectedPillar || !layerName || uploadState.status === 'processing'}
                     variant="contained"
                     className={`
-                        flex items-center gap-3 px-10 py-3 rounded-lg text-xs font-black transition-all shadow-lg uppercase tracking-widest
+                        flex items-center gap-3 px-10 py-3 rounded-sm text-xs font-black transition-all shadow-lg uppercase tracking-widest
                         ${!selectedFile || !selectedPillar || !layerName || uploadState.status === 'processing'
                             ? 'bg-gray-200 dark:bg-white/5 text-gray-400 shadow-none'
                             : 'bg-happiness-1 hover:bg-happiness-1/90 text-white'

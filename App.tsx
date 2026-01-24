@@ -782,7 +782,7 @@ export default function App() {
                                         p: 0,
                                         border: '2px solid white',
                                         boxShadow: '0 4px 12px rgba(var(--brand-primary), 0.2)',
-                                        borderRadius: '4px',
+                                        borderRadius: 1,
                                         '&:hover': { scale: '1.05' },
                                         transition: 'all 0.2s'
                                     }}
@@ -797,7 +797,7 @@ export default function App() {
                                             bgcolor: 'primary.main',
                                             fontWeight: 900,
                                             fontSize: '0.75rem',
-                                            borderRadius: '4px'
+                                            borderRadius: 1
                                         }}
                                     >
                                         {getInitials(userProfile?.full_name)}
@@ -818,7 +818,7 @@ export default function App() {
                                         overflow: 'visible',
                                         filter: 'drop-shadow(0px 10px 20px rgba(0,0,0,0.1))',
                                         mt: 1.5,
-                                        borderRadius: '4px',
+                                        borderRadius: 1,
                                         minWidth: 200,
                                         border: '1px solid rgba(0,0,0,0.05)',
                                         '& .MuiAvatar-root': {

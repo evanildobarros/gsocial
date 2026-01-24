@@ -128,10 +128,10 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                     </p>
                 </div>
                 <div className="flex gap-2">
-                    <button type="button" onClick={onCancel} className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
+                    <button type="button" onClick={onCancel} className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-sm transition-colors text-xs font-bold uppercase">
                         Cancelar
                     </button>
-                    <button type="submit" className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center gap-2 font-medium transition-colors">
+                    <button type="submit" className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-sm flex items-center gap-2 font-black text-xs uppercase tracking-widest transition-colors">
                         <Save className="w-4 h-4" />
                         {initialData ? 'Salvar Alterações' : 'Registrar Projeto'}
                     </button>
@@ -150,7 +150,7 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Título do Projeto</label>
                         <input
                             type="text" name="title" required value={formData.title} onChange={handleChange}
-                            className="w-full p-2.5 border rounded-lg dark:bg-gray-700 dark:border-gray-600 focus:ring-2 focus:ring-blue-500"
+                            className="w-full p-2.5 border rounded-sm dark:bg-gray-700 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 font-bold"
                             placeholder="Ex: Capacita Itaqui - Solda Industrial"
                         />
                     </div>
@@ -159,7 +159,7 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Descrição & Justificativa</label>
                         <textarea
                             name="description" rows={3} required value={formData.description} onChange={handleChange}
-                            className="w-full p-2.5 border rounded-lg dark:bg-gray-700 dark:border-gray-600 focus:ring-2 focus:ring-blue-500"
+                            className="w-full p-2.5 border rounded-sm dark:bg-gray-700 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 font-medium"
                             placeholder="Descreva o objetivo e como ele atende a uma carência comunitária..."
                         />
                     </div>
@@ -229,14 +229,14 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                                 <label className="text-xs text-gray-500 dark:text-gray-400">Beneficiários Diretos</label>
                                 <input
                                     type="number" name="beneficiariesTarget" value={formData.beneficiariesTarget} onChange={handleChange}
-                                    className="w-full text-sm p-1 border rounded bg-white dark:bg-gray-700" placeholder="0"
+                                    className="w-full text-sm p-1 border rounded-sm bg-white dark:bg-gray-700" placeholder="0"
                                 />
                             </div>
                             <div>
                                 <label className="text-xs text-gray-500 dark:text-gray-400">Valor Estimado do Impacto (R$)</label>
                                 <input
                                     type="number" name="estimatedImpactValue" value={formData.estimatedImpactValue} onChange={handleChange}
-                                    className="w-full text-sm p-1 border rounded bg-white dark:bg-gray-700" placeholder="0.00"
+                                    className="w-full text-sm p-1 border rounded-sm bg-white dark:bg-gray-700" placeholder="0.00"
                                 />
                             </div>
                         </div>
@@ -267,9 +267,8 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                                     placeholder="Digite o nome da comunidade e aperte Enter..."
                                     sx={{
                                         '& .MuiOutlinedInput-root': {
-                                            borderRadius: '8px',
-                                            backgroundColor: 'transparent',
                                             '& fieldset': {
+                                                borderRadius: 1,
                                                 borderColor: '#e5e7eb',
                                             },
                                             '&:hover fieldset': {
@@ -289,7 +288,7 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                                             {...tagProps}
                                             size="small"
                                             sx={{
-                                                borderRadius: '4px',
+                                                borderRadius: 1,
                                                 bgcolor: '#dbeafe',
                                                 color: '#1e40af',
                                                 fontWeight: 'bold',
@@ -371,7 +370,7 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                             key={ods}
                             type="button"
                             onClick={() => toggleSdg(ods)}
-                            className={`relative aspect-square rounded-lg border-4 transition-all overflow-hidden transform hover:scale-110 active:scale-95 ${formData.sdgTargets.includes(ods)
+                            className={`relative aspect-square rounded-sm border-4 transition-all overflow-hidden transform hover:scale-110 active:scale-95 ${formData.sdgTargets.includes(ods)
                                 ? 'border-blue-600 shadow-lg z-10 ring-4 ring-blue-600/20'
                                 : 'border-transparent grayscale opacity-50 hover:opacity-100 hover:grayscale-0'
                                 }`}
@@ -395,7 +394,7 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                         </button>
                     ))}
                 </div>
-                <div className="mt-4 p-4 bg-gray-50 dark:bg-white/5 rounded-lg border border-gray-100 dark:border-white/10">
+                <div className="mt-4 p-4 bg-gray-50 dark:bg-white/5 rounded-sm border border-gray-100 dark:border-white/10">
                     <p className="text-xs text-gray-500 italic flex items-center gap-2">
                         <Target className="w-4 h-4 text-blue-500" />
                         *Selecione os Objetivos de Desenvolvimento Sustentável (ODS) em que este projeto social gera impacto direto ou indireto, conforme os manuais da EMAP e Agenda 2030.

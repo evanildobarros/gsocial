@@ -153,7 +153,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onAddNew, onEdit }) =>
               {/* ODS Section in Card */}
               <div className="flex flex-wrap gap-1.5 mb-6">
                 {(p.sdg_targets && p.sdg_targets.length > 0 ? p.sdg_targets : [4, 8, 9, 11]).slice(0, 4).map(ods => (
-                  <div key={ods} className="w-7 h-7 rounded-md overflow-hidden border border-gray-100 shadow-sm" title={`ODS ${ods}`}>
+                  <div key={ods} className="w-7 h-7 rounded-sm overflow-hidden border border-gray-100 shadow-sm" title={`ODS ${ods}`}>
                     <img
                       src={`https://brasil.un.org/profiles/undg_country/themes/custom/undg/images/SDGs/pt-br/SDG-${ods}.svg`}
                       alt={`ODS ${ods}`}
@@ -162,7 +162,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onAddNew, onEdit }) =>
                   </div>
                 ))}
                 {(p.sdg_targets?.length || 0) > 4 && (
-                  <div className="w-7 h-7 rounded-md bg-gray-50 border border-dashed border-gray-200 flex items-center justify-center text-[8px] font-bold text-gray-400">
+                  <div className="w-7 h-7 rounded-sm bg-gray-50 border border-dashed border-gray-200 flex items-center justify-center text-[8px] font-bold text-gray-400">
                     +{p.sdg_targets!.length - 4}
                   </div>
                 )}
@@ -196,7 +196,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onAddNew, onEdit }) =>
       {/* Modal de Confirmação de Exclusão (Design Bloco Premium) */}
       {projectToDelete !== null && (
         <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-in fade-in duration-300">
-          <div className="bg-white dark:bg-zinc-900 rounded-[32px] overflow-hidden max-w-sm w-full shadow-[0_20px_50px_rgba(0,0,0,0.2)] border border-gray-100 dark:border-white/10 animate-in zoom-in-95 duration-300 relative">
+          <div className="bg-white dark:bg-zinc-900 rounded-sm overflow-hidden max-w-sm w-full shadow-[0_20px_50px_rgba(0,0,0,0.2)] border border-gray-100 dark:border-white/10 animate-in zoom-in-95 duration-300 relative">
 
             {/* Top Border Accent */}
             <div className="h-1.5 w-full bg-gradient-to-r from-red-500 to-orange-400"></div>
@@ -220,7 +220,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onAddNew, onEdit }) =>
               </h3>
 
               {/* Bloco de Mensagem */}
-              <div className="bg-red-50/50 dark:bg-red-900/10 p-5 rounded-[24px] border border-red-100/50 dark:border-red-900/20 mb-8">
+              <div className="bg-red-50/50 dark:bg-red-900/10 p-5 rounded-sm border border-red-100/50 dark:border-red-900/20 mb-8">
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 shrink-0 bg-white dark:bg-zinc-800 rounded-sm flex items-center justify-center shadow-sm">
                     <Trash2 className="w-5 h-5 text-red-500" />
