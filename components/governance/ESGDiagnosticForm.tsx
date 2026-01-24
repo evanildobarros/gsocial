@@ -38,10 +38,11 @@ import {
     PolarRadiusAxis,
     ResponsiveContainer,
 } from 'recharts';
-import { processFile } from '../../utils/geoParser';
-import { showSuccess, showError } from '../../utils/notifications';
 import { Map as MapIcon, ChevronRight } from 'lucide-react';
 import { Layer } from '../../types';
+import { supabase } from '../../utils/supabase';
+import { processFile } from '../../utils/geoParser';
+import { showSuccess, showError } from '../../utils/notifications';
 
 // --- Types & Config ---
 const MATURITY_LEVELS = {
@@ -160,15 +161,29 @@ export const ESGDiagnosticForm: React.FC<ESGDiagnosticFormProps> = ({ initialTab
             });
 
             if (layers.length > 0) {
-                // Atualiza o localStorage para o GeoSpatialModule ler
-                const saved = localStorage.getItem('gsocial_map_layers');
-                const existingLayers = saved ? JSON.parse(saved) : [];
+                const { data: { user } } = await supabase.auth.getUser();
 
-                const newLayers = [...existingLayers, ...layers];
-                localStorage.setItem('gsocial_map_layers', JSON.stringify(newLayers));
+                const layersToInsert = layers.map(l => ({
+                    id: l.id,
+                    name: l.name,
+                    type: l.type,
+                    visible: true,
+                    color: l.color,
+                    data: l.data,
+                    details: l.details || {},
+                    pillar: l.pillar,
+                    group: l.group || 'Diagnóstico ESG',
+                    created_by: user?.id || null
+                }));
+
+                const { error } = await supabase
+                    .from('map_layers')
+                    .upsert(layersToInsert);
+
+                if (error) throw error;
 
                 setGeoLayers(prev => [...prev, ...layers]);
-                showSuccess(`${layers.length} camada(s) geoespacial(is) adicionada(s) ao mapa global.`);
+                showSuccess(`${layers.length} camada(s) geoespacial(is) adicionada(s) ao banco e ao mapa global.`);
             }
         } catch (err: any) {
             console.error(err);
@@ -456,7 +471,7 @@ export const ESGDiagnosticForm: React.FC<ESGDiagnosticFormProps> = ({ initialTab
                         </Typography>
 
                         <div className="h-[300px] w-full">
-                            <ResponsiveContainer width="100%" height="100%">
+                            <ResponsiveContainer width="100%" height="100%" minWidth={0}>
                                 <RadarChart cx="50%" cy="50%" outerRadius="80%" data={chartData}>
                                     <PolarGrid stroke="#e5e7eb" />
                                     <PolarAngleAxis dataKey="subject" tick={{ fill: '#9ca3af', fontSize: 10, fontWeight: 'bold' }} />

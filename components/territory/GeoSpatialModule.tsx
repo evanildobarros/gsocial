@@ -8,6 +8,7 @@ import {
 import { Rating } from '@mui/material';
 import { LayerUploader } from '../LayerUploader';
 import { supabase } from '../../utils/supabase';
+import { showSuccess, showError } from '../../utils/notifications';
 
 // --- Global Styles for Scrollbar Hiding ---
 const infoWindowStyle = `
@@ -127,13 +128,19 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
 
                 if (error) throw error;
                 if (data) {
-                    setLayers(data.map(l => ({
-                        ...l,
-                        visible: l.visible ?? true
-                    })));
+                    setLayers(prev => {
+                        const dbLayers = data.map(l => ({
+                            ...l,
+                            visible: l.visible ?? true
+                        }));
+                        const existingIds = new Set(prev.map(l => l.id));
+                        const uniqueDbLayers = dbLayers.filter(l => !existingIds.has(l.id));
+                        return [...prev, ...uniqueDbLayers];
+                    });
                 }
             } catch (err) {
                 console.error('Erro ao buscar camadas do banco:', err);
+                showError('Erro ao carregar camadas do banco de dados.');
             } finally {
                 setIsInitialLoad(false);
             }
@@ -296,30 +303,47 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
         console.log('Importing layers to Supabase:', newLayers.length);
 
         try {
+            const { data: { user } } = await supabase.auth.getUser();
+
+            const layersToInsert = newLayers.map(l => ({
+                id: l.id,
+                name: l.name,
+                type: l.type,
+                visible: l.visible ?? true,
+                color: l.color,
+                data: l.data,
+                details: l.details || {},
+                pillar: l.pillar,
+                group: l.group || 'Geral',
+                created_by: user?.id || null
+            }));
+
             const { error } = await supabase
                 .from('map_layers')
-                .insert(newLayers.map(l => ({
-                    id: l.id,
-                    name: l.name,
-                    type: l.type,
-                    visible: l.visible,
-                    color: l.color,
-                    data: l.data,
-                    details: l.details,
-                    pillar: l.pillar,
-                    group: l.group
-                })));
+                .upsert(layersToInsert);
 
-            if (error) throw error;
+            if (error) {
+                console.error('Erro Supabase Insert:', error);
+                throw error;
+            }
 
             setLayers(prev => {
                 const existingIds = new Set(prev.map(l => l.id));
                 const uniqueNewLayers = newLayers.filter(l => !existingIds.has(l.id));
                 return [...prev, ...uniqueNewLayers];
             });
-        } catch (err) {
+
+            showSuccess(`${newLayers.length} camada(s) salva(s) com sucesso.`);
+        } catch (err: any) {
             console.error('Erro ao salvar novas camadas:', err);
-            alert('Erro ao salvar camadas no banco de dados.');
+            showError(`Erro ao salvar no banco: ${err.message || 'Erro desconhecido'}`);
+
+            // Fallback: Adiciona ao estado local mesmo se falhar no banco (para o usuário ver algo)
+            setLayers(prev => {
+                const existingIds = new Set(prev.map(l => l.id));
+                const uniqueNewLayers = newLayers.filter(l => !existingIds.has(l.id));
+                return [...prev, ...uniqueNewLayers];
+            });
         }
     }, []);
 

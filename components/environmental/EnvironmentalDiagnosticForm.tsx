@@ -35,10 +35,11 @@ import {
     PolarRadiusAxis,
     ResponsiveContainer,
 } from 'recharts';
-import { processFile } from '../../utils/geoParser';
-import { showSuccess, showError } from '../../utils/notifications';
 import { Map as MapIcon } from 'lucide-react';
 import { Layer } from '../../types';
+import { supabase } from '../../utils/supabase';
+import { processFile } from '../../utils/geoParser';
+import { showSuccess, showError } from '../../utils/notifications';
 
 // --- Types & Config ---
 const MATURITY_LEVELS = {
@@ -139,12 +140,29 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
             });
 
             if (layers.length > 0) {
-                const saved = localStorage.getItem('gsocial_map_layers');
-                const existingLayers = saved ? JSON.parse(saved) : [];
-                const newLayers = [...existingLayers, ...layers];
-                localStorage.setItem('gsocial_map_layers', JSON.stringify(newLayers));
+                const { data: { user } } = await supabase.auth.getUser();
+
+                const layersToInsert = layers.map(l => ({
+                    id: l.id,
+                    name: l.name,
+                    type: l.type,
+                    visible: true,
+                    color: l.color,
+                    data: l.data,
+                    details: l.details || {},
+                    pillar: l.pillar,
+                    group: l.group || 'Diagnóstico Ambiental',
+                    created_by: user?.id || null
+                }));
+
+                const { error } = await supabase
+                    .from('map_layers')
+                    .upsert(layersToInsert);
+
+                if (error) throw error;
+
                 setGeoLayers(prev => [...prev, ...layers]);
-                showSuccess(`${layers.length} camada(s) geoespacial(is) adicionada(s) ao mapa.`);
+                showSuccess(`${layers.length} camada(s) geoespacial(is) adicionada(s) ao banco e ao mapa.`);
             }
         } catch (err: any) {
             showError('Erro ao processar arquivo: ' + err.message);
@@ -344,7 +362,7 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
                         </Typography>
 
                         <div className="h-[280px] w-full">
-                            <ResponsiveContainer width="100%" height="100%">
+                            <ResponsiveContainer width="100%" height="100%" minWidth={0}>
                                 <RadarChart cx="50%" cy="50%" outerRadius="80%" data={chartData}>
                                     <PolarGrid stroke="#e5e7eb" />
                                     <PolarAngleAxis dataKey="subject" tick={{ fill: '#9ca3af', fontSize: 10, fontWeight: 'bold' }} />
