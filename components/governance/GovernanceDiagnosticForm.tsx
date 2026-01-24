@@ -35,11 +35,10 @@ import {
     PolarRadiusAxis,
     ResponsiveContainer,
 } from 'recharts';
-import { Map as MapIcon } from 'lucide-react';
-import { Layer } from '../../types';
+
 import { supabase } from '../../utils/supabase';
-import { processFile } from '../../utils/geoParser';
 import { showSuccess, showError } from '../../utils/notifications';
+import { LayerUploaderInline } from '../LayerUploaderInline';
 
 // --- Types & Config ---
 const MATURITY_LEVELS = {
@@ -115,8 +114,6 @@ const GOVERNANCE_QUESTIONS: Question[] = [
 export const GovernanceDiagnosticForm: React.FC = () => {
     const [answers, setAnswers] = useState<Record<string, number>>({});
     const [evidences, setEvidences] = useState<Record<string, File | null>>({});
-    const [geoLayers, setGeoLayers] = useState<Layer[]>([]);
-    const [isUploadingGeo, setIsUploadingGeo] = useState(false);
 
     const handleAnswerChange = (id: string, value: string) => {
         setAnswers(prev => ({ ...prev, [id]: parseInt(value) }));
@@ -125,50 +122,6 @@ export const GovernanceDiagnosticForm: React.FC = () => {
     const handleFileUpload = (id: string, e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0] || null;
         setEvidences(prev => ({ ...prev, [id]: file }));
-    };
-
-    const handleGeoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (!file) return;
-
-        setIsUploadingGeo(true);
-        try {
-            const layers = await processFile(file, {
-                pillar: 'Governance',
-                name: `Evidência Governança: ${file.name.split('.')[0]}`,
-                group: 'Diagnóstico Governança'
-            });
-
-            if (layers.length > 0) {
-                const { data: { user } } = await supabase.auth.getUser();
-
-                const layersToInsert = layers.map(l => ({
-                    id: l.id,
-                    name: l.name,
-                    type: l.type,
-                    visible: true,
-                    color: l.color,
-                    data: l.data,
-                    details: l.details || {},
-                    pillar: l.pillar,
-                    group: l.group || 'Diagnóstico Governança',
-                    created_by: user?.id || null
-                }));
-
-                const { error } = await supabase
-                    .from('map_layers')
-                    .upsert(layersToInsert);
-
-                if (error) throw error;
-
-                setGeoLayers(prev => [...prev, ...layers]);
-                showSuccess(`${layers.length} camada(s) geoespacial(is) adicionada(s) ao banco e ao mapa.`);
-            }
-        } catch (err: any) {
-            showError('Erro ao processar arquivo: ' + err.message);
-        } finally {
-            setIsUploadingGeo(false);
-        }
     };
 
     const score = useMemo(() => {
@@ -307,50 +260,29 @@ export const GovernanceDiagnosticForm: React.FC = () => {
                         </Box>
                     </Card>
 
-                    {/* Geospatial Upload */}
-                    <Card className="rounded-sm border border-gray-200 dark:border-white/5 shadow-none overflow-hidden">
-                        <Box className="p-4 bg-blue-500/5 border-b border-blue-500/10 flex items-center gap-2">
-                            <MapIcon className="text-blue-500 w-4 h-4" />
-                            <Typography className="text-xs font-black text-blue-500 uppercase tracking-widest">Evidência Geoespacial (SHP/KML)</Typography>
-                        </Box>
-                        <CardContent className="p-6">
-                            <div className="flex flex-col md:flex-row gap-6 items-center">
-                                <div className="flex-1">
-                                    <Typography className="text-sm font-bold text-gray-800 dark:text-gray-200 mb-2">
-                                        Vincular Infraestrutura de Governança
-                                    </Typography>
-                                    <Typography className="text-[10px] text-gray-500 uppercase font-medium">
-                                        Faça upload de Shapefiles (ZIP), KML ou GeoJSON para visualizar áreas no mapa do porto.
-                                    </Typography>
-                                </div>
-                                <div className="shrink-0">
-                                    <input id="geo-upload-gov" type="file" className="hidden" accept=".zip,.kml,.geojson,.json" onChange={handleGeoUpload} />
-                                    <Button
-                                        variant="outlined"
-                                        startIcon={isUploadingGeo ? <CircularProgress size={16} /> : <Upload size={16} />}
-                                        onClick={() => document.getElementById('geo-upload-gov')?.click()}
-                                        className="border-blue-200 text-blue-500 font-bold text-xs rounded-sm"
-                                        disabled={isUploadingGeo}
-                                    >
-                                        UPLOAD SHP/KML
-                                    </Button>
-                                </div>
-                            </div>
-                            {geoLayers.length > 0 && (
-                                <div className="mt-6 space-y-2">
-                                    {geoLayers.map((layer, idx) => (
-                                        <div key={idx} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-zinc-900 rounded-sm border border-gray-100 dark:border-white/5">
-                                            <div className="flex items-center gap-2">
-                                                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: layer.color }} />
-                                                <span className="text-xs font-bold text-gray-700 dark:text-gray-300">{layer.name}</span>
-                                            </div>
-                                            <span className="text-[9px] font-black bg-white dark:bg-black/20 px-1.5 py-0.5 rounded border border-gray-100 dark:border-white/10 text-gray-400 uppercase">{layer.type}</span>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-                        </CardContent>
-                    </Card>
+                    {/* Geospatial Upload - Bloco Inline ESG */}
+                    <LayerUploaderInline onLayersLoaded={async (layers) => {
+                        try {
+                            const { data: { user } } = await supabase.auth.getUser();
+                            const layersToInsert = layers.map(l => ({
+                                id: l.id,
+                                name: l.name,
+                                type: l.type,
+                                visible: true,
+                                color: l.color,
+                                data: l.data,
+                                details: l.details || {},
+                                pillar: l.pillar,
+                                group: l.group || 'Diagnóstico Governança',
+                                created_by: user?.id || null
+                            }));
+                            const { error } = await supabase.from('map_layers').upsert(layersToInsert);
+                            if (error) throw error;
+                            showSuccess(`${layers.length} camada(s) geoespacial(is) adicionada(s) ao banco e ao mapa.`);
+                        } catch (err: any) {
+                            showError('Erro ao salvar camadas: ' + err.message);
+                        }
+                    }} />
                 </div>
 
                 {/* Sidebar */}

@@ -34,11 +34,13 @@ import {
     Map as MapIcon,
     Group as PeopleIcon
 } from '@mui/icons-material';
-import { Plus, Table, ChevronRight, Search, Filter, CheckCircle2, Trash2 } from 'lucide-react';
+import { Plus, Table, ChevronRight, Search, Filter } from 'lucide-react';
 import { parseKmlToLayers } from '../../utils/geoUtils';
+
 import { Layer, CommunityAssessment } from '../../types';
 import { supabase } from '../../utils/supabase';
 import { showSuccess, showError } from '../../utils/notifications';
+import { LayerUploaderInline } from '../LayerUploaderInline';
 
 interface CommunityAssessmentFormProps {
     onSave?: (data: any) => void;
@@ -75,10 +77,6 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    // Geospatial Upload State
-    const [uploadedGeometry, setUploadedGeometry] = useState<Layer | null>(null);
-    const [isDragging, setIsDragging] = useState(false);
-    const fileInputRef = React.useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         const init = async () => {
@@ -96,25 +94,6 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
     }, []);
 
     // Import geoParser utilities
-    const handleFileUpload = async (file: File) => {
-        try {
-            const { processFile } = await import('../../utils/geoParser');
-            const layers = await processFile(file, {
-                pillar: 'Social',
-                name: communityName || file.name.replace(/\.[^/.]+$/, "")
-            });
-
-            if (layers.length > 0) {
-                setUploadedGeometry(layers[0]);
-                if (!communityName) setCommunityName(layers[0].name);
-                showSuccess(`${layers.length} geometria(s) carregada(s) com sucesso.`);
-            }
-        } catch (err: any) {
-            console.error('File Upload Error:', err);
-            showError('Erro ao processar arquivo geoespacial: ' + err.message);
-        }
-    };
-
     const fetchAssessments = async () => {
         try {
             const { data, error } = await supabase
@@ -172,8 +151,8 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
 
         setSaving(true);
         try {
-            // Se houver geometria uploadada, ela tem prioridade. Senão busca no KML fixo.
-            const sourceLayer = uploadedGeometry || availableCommunities.find(l => l.name === communityName);
+            // Usa geometria do KML se disponível
+            const sourceLayer = availableCommunities.find(l => l.name === communityName);
             const coordinates = sourceLayer ? calculateCentroid(sourceLayer) : [0, 0];
 
             const { data: { user } } = await supabase.auth.getUser();
@@ -221,7 +200,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
         setNegativeImpacts([]);
         setPriorityNeeds([]);
         setRelationshipLevel(3);
-        setUploadedGeometry(null);
+
     };
 
     const filteredAssessments = assessments.filter(a =>
@@ -413,64 +392,6 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                                         </div>
                                     </div>
                                 </div>
-
-                                {/* 🌐 Geospatial Upload Zone */}
-                                <div className="flex flex-col">
-                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">Geometria do Território (KML/SHP/GEOJSON)</label>
-
-                                    {!uploadedGeometry ? (
-                                        <div
-                                            onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
-                                            onDragLeave={() => setIsDragging(false)}
-                                            onDrop={(e) => {
-                                                e.preventDefault();
-                                                setIsDragging(false);
-                                                const file = e.dataTransfer.files?.[0];
-                                                if (file) handleFileUpload(file);
-                                            }}
-                                            onClick={() => fileInputRef.current?.click()}
-                                            className={`
-                                                flex-1 min-h-[180px] border-2 border-dashed rounded-sm transition-all flex flex-col items-center justify-center gap-3 cursor-pointer
-                                                ${isDragging ? 'border-happiness-1 bg-happiness-1/5' : 'border-gray-200 dark:border-white/5 bg-gray-50 dark:bg-white/5 hover:border-happiness-1/50'}
-                                            `}
-                                        >
-                                            <input
-                                                ref={fileInputRef}
-                                                type="file"
-                                                className="hidden"
-                                                onChange={(e) => {
-                                                    const file = e.target.files?.[0];
-                                                    if (file) handleFileUpload(file);
-                                                }}
-                                                accept=".kml,.geojson,.json,.zip"
-                                            />
-                                            <div className="p-3 bg-white dark:bg-zinc-800 rounded-full shadow-sm border border-gray-100 dark:border-white/10">
-                                                <MapIcon className="text-gray-400 w-6 h-6" />
-                                            </div>
-                                            <div className="text-center">
-                                                <p className="text-xs font-bold text-gray-600 dark:text-gray-300">Arraste o shape ou clique aqui</p>
-                                                <p className="text-[10px] text-gray-400 mt-1 uppercase">KML, GeoJSON ou Shapefile (ZIP)</p>
-                                            </div>
-                                        </div>
-                                    ) : (
-                                        <div className="flex-1 min-h-[180px] bg-blue-500/5 border border-blue-500/20 rounded-sm p-6 flex flex-col items-center justify-center text-center animate-in zoom-in-95 duration-200">
-                                            <div className="w-12 h-12 bg-blue-500/10 rounded-full flex items-center justify-center mb-4">
-                                                <CheckCircle2 className="w-6 h-6 text-blue-500" />
-                                            </div>
-                                            <Typography className="text-sm font-black text-gray-800 dark:text-gray-200 mb-1">{uploadedGeometry.name}</Typography>
-                                            <Typography className="text-[10px] text-gray-500 font-bold uppercase tracking-wider mb-4">Formato: {uploadedGeometry.type}</Typography>
-
-                                            <Button
-                                                size="small"
-                                                onClick={() => setUploadedGeometry(null)}
-                                                className="text-red-500 font-bold text-[10px] uppercase tracking-widest bg-white dark:bg-zinc-800 hover:bg-red-50"
-                                                startIcon={<Trash2 size={12} />}
-                                            >
-                                                Remover Geometria
-                                            </Button>
-                                        </div>
-                                    )}
-                                </div>
                             </div>
                         </CardContent>
                     </Card>
@@ -601,6 +522,30 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                             </div>
                         </CardContent>
                     </Card>
+
+                    {/* Geospatial Upload - Bloco Inline ESG */}
+                    <LayerUploaderInline onLayersLoaded={async (layers) => {
+                        try {
+                            const { data: { user } } = await supabase.auth.getUser();
+                            const layersToInsert = layers.map(l => ({
+                                id: l.id,
+                                name: l.name,
+                                type: l.type,
+                                visible: true,
+                                color: l.color,
+                                data: l.data,
+                                details: l.details || {},
+                                pillar: l.pillar,
+                                group: l.group || 'Diagnóstico Social',
+                                created_by: user?.id || null
+                            }));
+                            const { error } = await supabase.from('map_layers').upsert(layersToInsert);
+                            if (error) throw error;
+                            showSuccess(`${layers.length} camada(s) geoespacial(is) adicionada(s) ao banco e ao mapa.`);
+                        } catch (err: any) {
+                            showError('Erro ao salvar camadas: ' + err.message);
+                        }
+                    }} />
 
                     <div className="flex justify-end pt-4 pb-12">
                         <Button

@@ -38,11 +38,11 @@ import {
     PolarRadiusAxis,
     ResponsiveContainer,
 } from 'recharts';
-import { Map as MapIcon, ChevronRight } from 'lucide-react';
-import { Layer } from '../../types';
+import { ChevronRight } from 'lucide-react';
+
 import { supabase } from '../../utils/supabase';
-import { processFile } from '../../utils/geoParser';
 import { showSuccess, showError } from '../../utils/notifications';
+import { LayerUploaderInline } from '../LayerUploaderInline';
 
 // --- Types & Config ---
 const MATURITY_LEVELS = {
@@ -136,8 +136,6 @@ export const ESGDiagnosticForm: React.FC<ESGDiagnosticFormProps> = ({ initialTab
     const [tabIndex, setTabIndex] = useState(initialTab);
     const [answers, setAnswers] = useState<Record<string, number>>({});
     const [evidences, setEvidences] = useState<Record<string, File | null>>({});
-    const [geoLayers, setGeoLayers] = useState<Layer[]>([]);
-    const [isUploadingGeo, setIsUploadingGeo] = useState(false);
 
     const handleAnswerChange = (id: string, value: string) => {
         setAnswers(prev => ({ ...prev, [id]: parseInt(value) }));
@@ -146,51 +144,6 @@ export const ESGDiagnosticForm: React.FC<ESGDiagnosticFormProps> = ({ initialTab
     const handleFileUpload = (id: string, e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0] || null;
         setEvidences(prev => ({ ...prev, [id]: file }));
-    };
-
-    const handleGeoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (!file) return;
-
-        setIsUploadingGeo(true);
-        try {
-            const layers = await processFile(file, {
-                pillar: tabIndex === 0 ? 'Environmental' : 'Governance',
-                name: `Evidência: ${file.name.split('.')[0]}`,
-                group: 'Diagnóstico ESG'
-            });
-
-            if (layers.length > 0) {
-                const { data: { user } } = await supabase.auth.getUser();
-
-                const layersToInsert = layers.map(l => ({
-                    id: l.id,
-                    name: l.name,
-                    type: l.type,
-                    visible: true,
-                    color: l.color,
-                    data: l.data,
-                    details: l.details || {},
-                    pillar: l.pillar,
-                    group: l.group || 'Diagnóstico ESG',
-                    created_by: user?.id || null
-                }));
-
-                const { error } = await supabase
-                    .from('map_layers')
-                    .upsert(layersToInsert);
-
-                if (error) throw error;
-
-                setGeoLayers(prev => [...prev, ...layers]);
-                showSuccess(`${layers.length} camada(s) geoespacial(is) adicionada(s) ao banco e ao mapa global.`);
-            }
-        } catch (err: any) {
-            console.error(err);
-            showError('Erro ao processar arquivo geográfico: ' + err.message);
-        } finally {
-            setIsUploadingGeo(false);
-        }
     };
 
     // --- Scoring Logic ---
@@ -401,65 +354,31 @@ export const ESGDiagnosticForm: React.FC<ESGDiagnosticFormProps> = ({ initialTab
                         </Box>
                     </Card>
 
-                    {/* Geospatial Integration Section */}
-                    <Card className="rounded-sm border border-gray-200 dark:border-white/5 shadow-none overflow-hidden mt-8">
-                        <Box className="p-4 bg-blue-500/5 border-b border-blue-500/10 flex items-center gap-2">
-                            <MapIcon className="text-blue-500 w-4 h-4" />
-                            <Typography className="text-xs font-black text-blue-500 uppercase tracking-widest">Integração Geoespacial (SHP/KML)</Typography>
-                        </Box>
-                        <CardContent className="p-6">
-                            <div className="flex flex-col md:flex-row gap-6 items-center">
-                                <div className="flex-1">
-                                    <Typography className="text-sm font-bold text-gray-800 dark:text-gray-200 mb-2">
-                                        Vincular Evidência Geográfica ao Diagnóstico
-                                    </Typography>
-                                    <Typography className="text-[10px] text-gray-500 uppercase font-medium leading-relaxed">
-                                        Faça upload de Shapefiles (ZIP), KML ou GeoJSON para visualizar as áreas de impacto ambiental ou infraestrutura de governança diretamente no mapa do porto.
-                                    </Typography>
-                                </div>
-                                <div className="shrink-0 flex gap-3">
-                                    <input
-                                        id="geo-upload-input"
-                                        type="file"
-                                        className="hidden"
-                                        accept=".zip,.kml,.geojson,.json"
-                                        onChange={handleGeoUpload}
-                                    />
-                                    <Button
-                                        variant="outlined"
-                                        startIcon={isUploadingGeo ? <CircularProgress size={16} /> : <Upload size={16} />}
-                                        onClick={() => document.getElementById('geo-upload-input')?.click()}
-                                        className="border-blue-200 text-blue-500 font-bold text-xs rounded-sm hover:bg-blue-50"
-                                        disabled={isUploadingGeo}
-                                    >
-                                        UPLOAD SHP/KML
-                                    </Button>
-                                </div>
-                            </div>
-
-                            {geoLayers.length > 0 && (
-                                <div className="mt-6 space-y-2">
-                                    <Typography className="text-[9px] font-black text-gray-400 uppercase tracking-tighter mb-2">Camadas Vinculadas:</Typography>
-                                    {geoLayers.map((layer, idx) => (
-                                        <div key={idx} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-zinc-900 rounded-sm border border-gray-100 dark:border-white/5">
-                                            <div className="flex items-center gap-2">
-                                                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: layer.color }} />
-                                                <span className="text-xs font-bold text-gray-700 dark:text-gray-300">{layer.name}</span>
-                                            </div>
-                                            <span className="text-[9px] font-black bg-white dark:bg-black/20 px-1.5 py-0.5 rounded border border-gray-100 dark:border-white/10 text-gray-400 uppercase">{layer.type}</span>
-                                        </div>
-                                    ))}
-                                    <Button
-                                        className="w-full mt-4 bg-gray-900 dark:bg-white text-white dark:text-black font-black text-[10px] uppercase tracking-widest py-3 rounded-sm hover:scale-[1.01] transition-all"
-                                        endIcon={<ChevronRight size={14} />}
-                                        onClick={() => window.alert('Navegue para o Módulo Mapa ESG (GIS) para visualizar as novas camadas.')}
-                                    >
-                                        Visualizar no Mapa Global
-                                    </Button>
-                                </div>
-                            )}
-                        </CardContent>
-                    </Card>
+                    {/* Geospatial Upload - Bloco Inline ESG */}
+                    <div className="mt-8">
+                        <LayerUploaderInline onLayersLoaded={async (layers) => {
+                            try {
+                                const { data: { user } } = await supabase.auth.getUser();
+                                const layersToInsert = layers.map(l => ({
+                                    id: l.id,
+                                    name: l.name,
+                                    type: l.type,
+                                    visible: true,
+                                    color: l.color,
+                                    data: l.data,
+                                    details: l.details || {},
+                                    pillar: l.pillar,
+                                    group: l.group || 'Diagnóstico ESG',
+                                    created_by: user?.id || null
+                                }));
+                                const { error } = await supabase.from('map_layers').upsert(layersToInsert);
+                                if (error) throw error;
+                                showSuccess(`${layers.length} camada(s) geoespacial(is) adicionada(s) ao banco e ao mapa.`);
+                            } catch (err: any) {
+                                showError('Erro ao salvar camadas: ' + err.message);
+                            }
+                        }} />
+                    </div>
                 </div>
 
                 {/* Results & Chart Section */}

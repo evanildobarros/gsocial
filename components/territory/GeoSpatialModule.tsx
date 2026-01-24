@@ -6,7 +6,7 @@ import {
     ChevronRight, Database, Wrench, BarChart2, Star
 } from 'lucide-react';
 import { Rating } from '@mui/material';
-import { LayerUploader } from '../LayerUploader';
+import { LayerUploaderInline } from '../LayerUploaderInline';
 import { supabase } from '../../utils/supabase';
 import { showSuccess, showError } from '../../utils/notifications';
 
@@ -399,7 +399,7 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
 
                 {/* Layer Uploader */}
                 <div className="p-3 border-b border-gray-100 dark:border-white/5">
-                    <LayerUploader onLayersLoaded={handleLayersImported} />
+                    <LayerUploaderInline onLayersLoaded={handleLayersImported} />
                 </div>
 
                 <div className="flex-1 overflow-y-auto p-2 space-y-4">

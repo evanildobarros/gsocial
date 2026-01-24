@@ -4,9 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "dev": "node --max-old-space-size=1024 ./node_modules/.bin/vite",
+    "build": "node --max-old-space-size=1024 ./node_modules/.bin/vite build",
+    "preview": "node --max-old-space-size=1024 ./node_modules/.bin/vite preview"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
