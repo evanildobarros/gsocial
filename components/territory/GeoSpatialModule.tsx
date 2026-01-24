@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { Rating } from '@mui/material';
 import { LayerUploader } from '../LayerUploader';
+import { supabase } from '../../utils/supabase';
 
 // --- Global Styles for Scrollbar Hiding ---
 const infoWindowStyle = `
@@ -34,8 +35,6 @@ const infoWindowStyle = `
 // --- Types ---
 import { Layer, ESGPillar } from '../../types';
 
-// --- Mock Data ---
-const INITIAL_LAYERS: Layer[] = [];
 
 // --- Map Styles (Dark Mode) ---
 const darkMapStyle = [
@@ -114,32 +113,33 @@ interface GeoSpatialModuleProps {
 }
 
 export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLayers = [] }) => {
-    // Estado das camadas com persistência no localStorage
-    const [layers, setLayers] = useState<Layer[]>(() => {
-        if (typeof window !== 'undefined') {
-            const saved = localStorage.getItem('gsocial_map_layers');
-            if (saved) {
-                try {
-                    const parsed = JSON.parse(saved);
-                    // Garante que camadas de demonstração obsoletas sejam filtradas na inicialização
-                    return Array.isArray(parsed) ? parsed.filter((l: any) => l.id !== 'COFAM-01' && l.id !== '3') : INITIAL_LAYERS;
-                } catch (e) {
-                    console.error('Erro ao carregar camadas do localStorage:', e);
-                    return INITIAL_LAYERS;
+    // Estado das camadas
+    const [layers, setLayers] = useState<Layer[]>([]);
+    const [isInitialLoad, setIsInitialLoad] = useState(true);
+
+    // Carregar camadas do Supabase na inicialização
+    useEffect(() => {
+        const fetchLayers = async () => {
+            try {
+                const { data, error } = await supabase
+                    .from('map_layers')
+                    .select('*');
+
+                if (error) throw error;
+                if (data) {
+                    setLayers(data.map(l => ({
+                        ...l,
+                        visible: l.visible ?? true
+                    })));
                 }
+            } catch (err) {
+                console.error('Erro ao buscar camadas do banco:', err);
+            } finally {
+                setIsInitialLoad(false);
             }
-        }
-        return INITIAL_LAYERS;
-    });
+        };
 
-    // Salva camadas no localStorage sempre que mudarem
-    useEffect(() => {
-        localStorage.setItem('gsocial_map_layers', JSON.stringify(layers));
-    }, [layers]);
-
-    // Limpeza de camadas de cache obsoletas (dados de demonstração antigos)
-    useEffect(() => {
-        setLayers(prev => prev.filter(l => l.id !== 'COFAM-01' && l.id !== '3'));
+        fetchLayers();
     }, []);
 
     useEffect(() => {
@@ -239,12 +239,27 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
         return layers.filter(l => l.visible).map(l => l.id).join('-');
     }, [layers]);
 
-    const toggleLayer = useCallback((id: string) => {
+    const toggleLayer = useCallback(async (id: string) => {
         console.log('Toggling layer:', id);
+
+        // Se for uma camada de comunidade, apenas toggle local (não salva no banco map_layers)
+        if (id.startsWith('community-')) {
+            setLayers(prev => prev.map(l => l.id === id ? { ...l, visible: !l.visible } : l));
+            return;
+        }
+
         setLayers(prev => {
-            const updated = prev.map(l => l.id === id ? { ...l, visible: !l.visible } : l);
-            console.log('Updated layers:', updated.map(l => ({ id: l.id, name: l.name, visible: l.visible })));
-            return updated;
+            const current = prev.find(l => l.id === id);
+            if (!current) return prev;
+
+            const newVisible = !current.visible;
+
+            // Update Supabase in background
+            supabase.from('map_layers').update({ visible: newVisible }).eq('id', id).then(({ error }) => {
+                if (error) console.error('Erro ao atualizar visibilidade:', error);
+            });
+
+            return prev.map(l => l.id === id ? { ...l, visible: newVisible } : l);
         });
     }, []);
 
@@ -277,18 +292,55 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
         });
     }, [mapRef]);
 
-    const handleLayersImported = useCallback((newLayers: Layer[]) => {
-        console.log('Importing layers:', newLayers.length);
-        setLayers(prev => {
-            const existingIds = new Set(prev.map(l => l.id));
-            const uniqueNewLayers = newLayers.filter(l => !existingIds.has(l.id));
-            return [...prev, ...uniqueNewLayers];
-        });
+    const handleLayersImported = useCallback(async (newLayers: Layer[]) => {
+        console.log('Importing layers to Supabase:', newLayers.length);
+
+        try {
+            const { error } = await supabase
+                .from('map_layers')
+                .insert(newLayers.map(l => ({
+                    id: l.id,
+                    name: l.name,
+                    type: l.type,
+                    visible: l.visible,
+                    color: l.color,
+                    data: l.data,
+                    details: l.details,
+                    pillar: l.pillar,
+                    group: l.group
+                })));
+
+            if (error) throw error;
+
+            setLayers(prev => {
+                const existingIds = new Set(prev.map(l => l.id));
+                const uniqueNewLayers = newLayers.filter(l => !existingIds.has(l.id));
+                return [...prev, ...uniqueNewLayers];
+            });
+        } catch (err) {
+            console.error('Erro ao salvar novas camadas:', err);
+            alert('Erro ao salvar camadas no banco de dados.');
+        }
     }, []);
 
-    const removeLayer = useCallback((id: string) => {
+    const removeLayer = useCallback(async (id: string) => {
         console.log('Removing layer:', id);
-        setLayers(prev => prev.filter(l => l.id !== id));
+
+        try {
+            // Se não for camada de comunidade, remove do banco
+            if (!id.startsWith('community-')) {
+                const { error } = await supabase
+                    .from('map_layers')
+                    .delete()
+                    .eq('id', id);
+
+                if (error) throw error;
+            }
+
+            setLayers(prev => prev.filter(l => l.id !== id));
+        } catch (err) {
+            console.error('Erro ao remover camada:', err);
+        }
     }, []);
 
     const onLoad = useCallback((map: google.maps.Map) => {
@@ -364,12 +416,27 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
 
                                     <div className="flex items-center gap-0.5">
                                         <button
-                                            onClick={() => {
+                                            onClick={async () => {
                                                 const allVisible = pillarLayers.every(l => l.visible);
-                                                const newLayers = layers.map(l =>
-                                                    l.pillar === pillar ? { ...l, visible: !allVisible } : l
+                                                const newVisibility = !allVisible;
+
+                                                // Update locally
+                                                const updatedLayers = layers.map(l =>
+                                                    l.pillar === pillar ? { ...l, visible: newVisibility } : l
                                                 );
-                                                setLayers(newLayers);
+                                                setLayers(updatedLayers);
+
+                                                // Update Supabase for non-community layers
+                                                const nonCommunityIds = pillarLayers
+                                                    .filter(l => !l.id.startsWith('community-'))
+                                                    .map(l => l.id);
+
+                                                if (nonCommunityIds.length > 0) {
+                                                    await supabase
+                                                        .from('map_layers')
+                                                        .update({ visible: newVisibility })
+                                                        .in('id', nonCommunityIds);
+                                                }
                                             }}
                                             className={`p-1.5 rounded-sm border transition-all ${pillarLayers.every(l => l.visible)
                                                 ? 'bg-happiness-1/10 border-happiness-1/20 text-happiness-1'
@@ -381,8 +448,21 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
                                         </button>
 
                                         <button
-                                            onClick={() => {
+                                            onClick={async () => {
                                                 if (confirm(`Remover todas as camadas do pilar ${pillarConfig.label}?`)) {
+                                                    const idsToRemove = pillarLayers
+                                                        .filter(l => !l.id.startsWith('community-'))
+                                                        .map(l => l.id);
+
+                                                    if (idsToRemove.length > 0) {
+                                                        const { error } = await supabase
+                                                            .from('map_layers')
+                                                            .delete()
+                                                            .in('id', idsToRemove);
+
+                                                        if (error) console.error('Erro ao remover camadas do pilar:', error);
+                                                    }
+
                                                     setLayers(prev => prev.filter(l => l.pillar !== pillar));
                                                 }
                                             }}
@@ -419,9 +499,24 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
                                                     </button>
                                                     <div className="flex items-center gap-0.5 opacity-0 group-hover/header:opacity-100 transition-opacity">
                                                         <button
-                                                            onClick={() => {
+                                                            onClick={async () => {
                                                                 const allVisible = groupLayers.every(l => l.visible);
-                                                                setLayers(prev => prev.map(l => l.group === groupName ? { ...l, visible: !allVisible } : l));
+                                                                const newVisibility = !allVisible;
+
+                                                                // Update locally
+                                                                setLayers(prev => prev.map(l => l.group === groupName ? { ...l, visible: newVisibility } : l));
+
+                                                                // Update Supabase for non-community layers
+                                                                const nonCommunityIds = groupLayers
+                                                                    .filter(l => !l.id.startsWith('community-'))
+                                                                    .map(l => l.id);
+
+                                                                if (nonCommunityIds.length > 0) {
+                                                                    await supabase
+                                                                        .from('map_layers')
+                                                                        .update({ visible: newVisibility })
+                                                                        .in('id', nonCommunityIds);
+                                                                }
                                                             }}
                                                             className={`p-1 rounded-sm ${groupLayers.every(l => l.visible) ? 'text-happiness-1' : 'text-gray-400'} hover:bg-gray-100 dark:hover:bg-white/10`}
                                                             title="Alternar visibilidade do grupo"
@@ -429,8 +524,21 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
                                                             {groupLayers.every(l => l.visible) ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
                                                         </button>
                                                         <button
-                                                            onClick={() => {
+                                                            onClick={async () => {
                                                                 if (confirm(`Remover grupo '${groupName}' e todas as suas camadas?`)) {
+                                                                    const idsToRemove = groupLayers
+                                                                        .filter(l => !l.id.startsWith('community-'))
+                                                                        .map(l => l.id);
+
+                                                                    if (idsToRemove.length > 0) {
+                                                                        const { error } = await supabase
+                                                                            .from('map_layers')
+                                                                            .delete()
+                                                                            .in('id', idsToRemove);
+
+                                                                        if (error) console.error('Erro ao remover camadas do grupo:', error);
+                                                                    }
+
                                                                     setLayers(prev => prev.filter(l => l.group !== groupName));
                                                                 }
                                                             }}
