@@ -27,7 +27,6 @@ import {
     Upload,
     HelpCircle,
     Save,
-    Target,
     AlertCircle
 } from 'lucide-react';
 import {
@@ -43,6 +42,8 @@ import { ChevronRight } from 'lucide-react';
 import { supabase } from '../../utils/supabase';
 import { showSuccess, showError } from '../../utils/notifications';
 import { LayerUploaderInline } from '../LayerUploaderInline';
+import { EnvironmentalSummaryCard } from '../environmental/EnvironmentalSummaryCard';
+import { GovernanceSummaryCard } from './GovernanceSummaryCard';
 
 // --- Types & Config ---
 const MATURITY_LEVELS = {
@@ -201,13 +202,6 @@ export const ESGDiagnosticForm: React.FC<ESGDiagnosticFormProps> = ({ initialTab
                         Autoavaliação baseada na ABNT PR 2030 (Vol. II) e Materialidade (Vol. III)
                     </Typography>
                 </div>
-                <div className="bg-happiness-1/10 px-4 py-2 rounded-sm border border-happiness-1/20 flex items-center gap-3">
-                    <Target className="text-happiness-1 w-5 h-5" />
-                    <div>
-                        <p className="text-[10px] font-black text-happiness-1 uppercase tracking-widest leading-none">Status Global</p>
-                        <p className={`text-sm font-black ${currentMaturity.color} uppercase mt-1`}>Nível {Math.round(scores.global)} - {currentMaturity.label}</p>
-                    </div>
-                </div>
             </header>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
@@ -353,110 +347,43 @@ export const ESGDiagnosticForm: React.FC<ESGDiagnosticFormProps> = ({ initialTab
                             </Button>
                         </Box>
                     </Card>
-
-                    {/* Geospatial Upload - Bloco Inline ESG */}
-                    <div className="mt-8">
-                        <LayerUploaderInline onLayersLoaded={async (layers) => {
-                            try {
-                                const { data: { user } } = await supabase.auth.getUser();
-                                const layersToInsert = layers.map(l => ({
-                                    id: l.id,
-                                    name: l.name,
-                                    type: l.type,
-                                    visible: true,
-                                    color: l.color,
-                                    data: l.data,
-                                    details: l.details || {},
-                                    pillar: l.pillar,
-                                    group: l.group || 'Diagnóstico ESG',
-                                    created_by: user?.id || null
-                                }));
-                                const { error } = await supabase.from('map_layers').upsert(layersToInsert);
-                                if (error) throw error;
-                                showSuccess(`${layers.length} camada(s) geoespacial(is) adicionada(s) ao banco e ao mapa.`);
-                            } catch (err: any) {
-                                showError('Erro ao salvar camadas: ' + err.message);
-                            }
-                        }} />
-                    </div>
                 </div>
 
                 {/* Results & Chart Section */}
                 <div className="space-y-6 sticky top-24">
-                    <Card className="rounded-sm border border-gray-200 dark:border-white/5 shadow-sm p-6 bg-white dark:bg-[#1C1C1C]">
-                        <Typography className="text-xs font-black text-gray-400 uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
-                            <BarChart3 size={14} className="text-happiness-1" />
-                            Performance Preditiva
-                        </Typography>
+                    {tabIndex === 0 ? (
+                        <EnvironmentalSummaryCard answers={answers} />
+                    ) : (
+                        <GovernanceSummaryCard answers={answers} />
+                    )}
 
-                        <div className="h-[300px] w-full">
-                            <ResponsiveContainer width="100%" height="100%" minWidth={0}>
-                                <RadarChart cx="50%" cy="50%" outerRadius="80%" data={chartData}>
-                                    <PolarGrid stroke="#e5e7eb" />
-                                    <PolarAngleAxis dataKey="subject" tick={{ fill: '#9ca3af', fontSize: 10, fontWeight: 'bold' }} />
-                                    <PolarRadiusAxis angle={30} domain={[0, 5]} tick={false} axisLine={false} />
-                                    <Radar
-                                        name="Atual"
-                                        dataKey="current"
-                                        stroke="#1CA65B"
-                                        fill="#1CA65B"
-                                        fillOpacity={0.5}
-                                    />
-                                    <Radar
-                                        name="Meta (L5)"
-                                        dataKey="target"
-                                        stroke="#cbd5e1"
-                                        fill="transparent"
-                                        strokeDasharray="4 4"
-                                    />
-                                </RadarChart>
-                            </ResponsiveContainer>
-                        </div>
+                    {/* Geospatial Upload - Bloco Inline ESG */}
+                    <LayerUploaderInline onLayersLoaded={async (newLayers) => {
+                        try {
+                            const { data: { user } } = await supabase.auth.getUser();
+                            const layersToInsert = newLayers.map(l => ({
+                                id: l.id,
+                                name: l.name,
+                                type: l.type,
+                                visible: l.visible ?? true,
+                                color: l.color,
+                                data: l.data,
+                                details: l.details || {},
+                                pillar: l.pillar,
+                                group: l.group || 'Diagnóstico ESG',
+                                created_by: user?.id || null
+                            }));
 
-                        <Divider className="my-6 opacity-50" />
+                            const { error } = await supabase
+                                .from('map_layers')
+                                .upsert(layersToInsert);
 
-                        <div className="space-y-4">
-                            <div className="flex justify-between items-center text-xs">
-                                <span className="font-bold text-gray-500">Maturidade Ambiental</span>
-                                <span className="font-black text-emerald-500">{scores.environmental.toFixed(1)} / 5.0</span>
-                            </div>
-                            <div className="w-full bg-gray-100 dark:bg-white/5 h-1.5 rounded-full overflow-hidden">
-                                <div
-                                    className="bg-emerald-500 h-full transition-all duration-500"
-                                    style={{ width: `${(scores.environmental / 5) * 100}%` }}
-                                />
-                            </div>
-
-                            <div className="flex justify-between items-center text-xs mt-4">
-                                <span className="font-bold text-gray-500">Maturidade Governança</span>
-                                <span className="font-black text-blue-500">{scores.governance.toFixed(1)} / 5.0</span>
-                            </div>
-                            <div className="w-full bg-gray-100 dark:bg-white/5 h-1.5 rounded-full overflow-hidden">
-                                <div
-                                    className="bg-blue-500 h-full transition-all duration-500"
-                                    style={{ width: `${(scores.governance / 5) * 100}%` }}
-                                />
-                            </div>
-                        </div>
-                    </Card>
-
-                    <Paper className={`p-6 border border-gray-100 dark:border-white/5 rounded-sm shadow-sm ${currentMaturity.bg} transition-colors duration-500`}>
-                        <div className="flex items-start gap-4">
-                            <div className={`p-3 rounded-sm ${currentMaturity.bg.replace('bg-', 'bg-opacity-20 ')}`}>
-                                <AlertCircle className={currentMaturity.color} />
-                            </div>
-                            <div>
-                                <h4 className={`text-xs font-black uppercase tracking-widest ${currentMaturity.color} mb-1`}>
-                                    Destaque de Nível: {currentMaturity.label}
-                                </h4>
-                                <p className="text-sm text-gray-700 dark:text-gray-300 font-medium">
-                                    Sua organização está no estágio <strong>{currentMaturity.label}</strong>.
-                                    Para atingir o próximo nível, foque em
-                                    {tabIndex === 0 ? " rastreabilidade de dados ambientais" : " auditoria externa dos riscos ESG"}.
-                                </p>
-                            </div>
-                        </div>
-                    </Paper>
+                            if (error) throw error;
+                            showSuccess(`${newLayers.length} camada(s) geoespacial(is) adicionada(s) ao banco.`);
+                        } catch (err: any) {
+                            showError('Erro ao salvar camadas: ' + err.message);
+                        }
+                    }} />
                 </div>
             </div>
         </Box>

@@ -32,12 +32,13 @@ import {
     Add as AddIcon,
     Refresh as RefreshIcon,
     Map as MapIcon,
-    Group as PeopleIcon
+    Group as PeopleIcon,
+    Edit as EditIcon,
+    Delete as DeleteIcon
 } from '@mui/icons-material';
 import { Plus, Table, ChevronRight, Search, Filter } from 'lucide-react';
-import { parseKmlToLayers } from '../../utils/geoUtils';
 
-import { Layer, CommunityAssessment } from '../../types';
+import { CommunityAssessment } from '../../types';
 import { supabase } from '../../utils/supabase';
 import { showSuccess, showError } from '../../utils/notifications';
 import { LayerUploaderInline } from '../LayerUploaderInline';
@@ -70,19 +71,19 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
     const [priorityNeeds, setPriorityNeeds] = useState<string[]>([]);
     const [relationshipLevel, setRelationshipLevel] = useState<number | null>(3);
 
-    // KML Data State
-    const [availableCommunities, setAvailableCommunities] = useState<Layer[]>([]);
-    const [dynamicSettlementTypes, setDynamicSettlementTypes] = useState<string[]>(SETTLEMENT_TYPES);
+    // Static Data
+    const [dynamicSettlementTypes] = useState<string[]>(SETTLEMENT_TYPES);
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [editingId, setEditingId] = useState<string | null>(null);
 
 
     useEffect(() => {
         const init = async () => {
             setLoading(true);
             try {
-                await Promise.all([loadKmlData(), fetchAssessments()]);
+                await fetchAssessments();
             } catch (err: any) {
                 console.error(err);
                 setError(err.message);
@@ -109,38 +110,36 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
         }
     };
 
-    const loadKmlData = async () => {
-        try {
-            const response = await fetch('/Mapeamento da Poligonal do Porto do Itaqui.kml');
-            if (!response.ok) throw new Error('Falha ao carregar dados geográficos (KML).');
-            const kmlText = await response.text();
-
-            const layers = parseKmlToLayers(kmlText);
-            setAvailableCommunities(layers);
-
-            const parser = new DOMParser();
-            const kmlDoc = parser.parseFromString(kmlText, 'text/xml');
-            const dataNodes = kmlDoc.querySelectorAll('Data[name="Tipo_Povoa"] value');
-            const extractedTypes = Array.from(new Set(Array.from(dataNodes).map(node => node.textContent || '').filter(Boolean)));
-
-            if (extractedTypes.length > 0) {
-                setDynamicSettlementTypes(extractedTypes);
-            }
-        } catch (err: any) {
-            console.error('KML Load Error:', err);
-        }
+    const handleEdit = (assessment: CommunityAssessment) => {
+        setEditingId(assessment.id);
+        setCommunityName(assessment.community_name);
+        setSettlementType(assessment.settlement_type);
+        setEstimatedFamilies(assessment.estimated_families);
+        setWaterAccess(assessment.water_access);
+        setSanitationStatus(assessment.sanitation_status || '');
+        setNegativeImpacts(assessment.negative_impacts || []);
+        setPriorityNeeds(assessment.priority_needs || []);
+        setRelationshipLevel(assessment.relationship_level);
+        setViewMode('create');
     };
 
-    const calculateCentroid = (layer: Layer) => {
-        if (layer.type === 'MARKER') {
-            return [layer.data.lng, layer.data.lat];
-        } else if (layer.type === 'POLYGON' && Array.isArray(layer.data)) {
-            const coords = layer.data;
-            const lat = coords.reduce((acc: number, curr: any) => acc + curr.lat, 0) / coords.length;
-            const lng = coords.reduce((acc: number, curr: any) => acc + curr.lng, 0) / coords.length;
-            return [lng, lat];
+    const handleDelete = async (id: string, name: string) => {
+        if (!window.confirm(`Tem certeza que deseja excluir o diagnóstico da comunidade "${name}"?`)) return;
+
+        try {
+            const { error } = await supabase
+                .from('community_assessments')
+                .delete()
+                .eq('id', id);
+
+            if (error) throw error;
+
+            showSuccess('Diagnóstico excluído com sucesso!');
+            await fetchAssessments();
+        } catch (err: any) {
+            console.error('Delete error:', err);
+            showError('Erro ao excluir diagnóstico: ' + err.message);
         }
-        return [0, 0];
     };
 
     const handleSave = async () => {
@@ -151,13 +150,9 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
 
         setSaving(true);
         try {
-            // Usa geometria do KML se disponível
-            const sourceLayer = availableCommunities.find(l => l.name === communityName);
-            const coordinates = sourceLayer ? calculateCentroid(sourceLayer) : [0, 0];
-
             const { data: { user } } = await supabase.auth.getUser();
 
-            const newAssessment = {
+            const assessmentData = {
                 community_name: communityName,
                 settlement_type: settlementType,
                 estimated_families: estimatedFamilies === '' ? 0 : estimatedFamilies,
@@ -167,22 +162,31 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                 priority_needs: priorityNeeds,
                 relationship_level: relationshipLevel,
                 assessment_date: new Date().toISOString(),
-                coordinates: coordinates,
-                geometry: sourceLayer ? { type: sourceLayer.type, data: sourceLayer.data } : null,
+                coordinates: [0, 0],
+                geometry: null,
                 created_by: user?.id
             };
 
-            const { error: insertError } = await supabase
-                .from('community_assessments')
-                .insert([newAssessment]);
+            if (editingId) {
+                const { error: updateError } = await supabase
+                    .from('community_assessments')
+                    .update(assessmentData)
+                    .eq('id', editingId);
 
-            if (insertError) throw insertError;
+                if (updateError) throw updateError;
+                showSuccess('Diagnóstico atualizado com sucesso!');
+            } else {
+                const { error: insertError } = await supabase
+                    .from('community_assessments')
+                    .insert([assessmentData]);
 
-            showSuccess('Diagnóstico salvo com sucesso!');
+                if (insertError) throw insertError;
+                showSuccess('Diagnóstico salvo com sucesso!');
+            }
+
             resetForm();
             await fetchAssessments();
             setViewMode('list');
-            if (onSave) onSave(newAssessment);
         } catch (err: any) {
             console.error('Save error:', err);
             showError('Erro ao salvar diagnóstico: ' + err.message);
@@ -200,7 +204,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
         setNegativeImpacts([]);
         setPriorityNeeds([]);
         setRelationshipLevel(3);
-
+        setEditingId(null);
     };
 
     const filteredAssessments = assessments.filter(a =>
@@ -250,7 +254,10 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                     ) : (
                         <Button
                             variant="outlined"
-                            onClick={() => setViewMode('list')}
+                            onClick={() => {
+                                setViewMode('list');
+                                resetForm();
+                            }}
                             startIcon={<BackIcon />}
                             className="border-gray-200 dark:border-white/10 text-gray-500 dark:text-gray-400 font-bold rounded-sm text-xs px-4"
                         >
@@ -319,7 +326,32 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                                         <div className="flex items-center gap-1">
                                             <Rating value={assessment.relationship_level} size="small" readOnly />
                                         </div>
-                                        <Button size="small" className="text-happiness-1 font-bold text-[10px] uppercase tracking-widest">Detalhes <ChevronRight size={14} /></Button>
+                                        <div className="flex items-center gap-1">
+                                            <Tooltip title="Editar">
+                                                <IconButton
+                                                    size="small"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleEdit(assessment);
+                                                    }}
+                                                    className="text-blue-500 hover:bg-blue-50"
+                                                >
+                                                    <EditIcon sx={{ fontSize: 18 }} />
+                                                </IconButton>
+                                            </Tooltip>
+                                            <Tooltip title="Excluir">
+                                                <IconButton
+                                                    size="small"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleDelete(assessment.id, assessment.community_name);
+                                                    }}
+                                                    className="text-red-500 hover:bg-red-50"
+                                                >
+                                                    <DeleteIcon sx={{ fontSize: 18 }} />
+                                                </IconButton>
+                                            </Tooltip>
+                                        </div>
                                     </div>
                                 </CardContent>
                             </Card>
@@ -335,230 +367,255 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                     </div>
                 </Stack>
             ) : (
-                <Stack spacing={4}>
-                    {/* 📍 Identidade Territorial */}
-                    <Card className="rounded-sm border border-gray-200 dark:border-white/5 shadow-none overflow-visible">
-                        <CardContent className="p-8">
-                            <Box className="flex items-center gap-2 mb-6 border-b border-gray-100 dark:border-white/5 pb-4">
-                                <LocationIcon className="text-blue-500" />
-                                <Typography variant="h6" className="font-bold text-gray-900 dark:text-white uppercase tracking-wider text-sm">📍 Identidade Territorial</Typography>
-                            </Box>
+                <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-8">
+                    {/* Main Content */}
+                    <div className="space-y-6">
+                        {/* 📍 Identidade Territorial */}
+                        <Card className="rounded-sm border border-gray-200 dark:border-white/5 shadow-none overflow-visible">
+                            <CardContent className="p-8">
+                                <Box className="flex items-center gap-2 mb-6 border-b border-gray-100 dark:border-white/5 pb-4">
+                                    <LocationIcon className="text-blue-500" />
+                                    <Typography variant="h6" className="font-bold text-gray-900 dark:text-white uppercase tracking-wider text-sm">📍 Identidade Territorial</Typography>
+                                </Box>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                <div className="space-y-6">
-                                    <div>
-                                        <Autocomplete
-                                            freeSolo
-                                            options={availableCommunities.map((option) => option.name)}
-                                            value={communityName}
-                                            onChange={(_, newValue) => setCommunityName(newValue || '')}
-                                            onInputChange={(_, newInputValue) => setCommunityName(newInputValue)}
-                                            renderInput={(params) => (
-                                                <TextField
-                                                    {...params}
-                                                    label="Nome da Comunidade"
-                                                    placeholder="Selecione ou digite o nome..."
-                                                    className="rounded-sm"
-                                                />
-                                            )}
-                                        />
-                                    </div>
-                                    <div>
-                                        <TextField
-                                            fullWidth
-                                            type="number"
-                                            label="Nº Estimado de Famílias"
-                                            value={estimatedFamilies}
-                                            onChange={(e) => setEstimatedFamilies(e.target.value === '' ? '' : Number(e.target.value))}
-                                            className="rounded-sm"
-                                        />
-                                    </div>
-                                    <div>
-                                        <Typography className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">Perfil do Povoado</Typography>
-                                        <div className="flex flex-wrap gap-2">
-                                            {dynamicSettlementTypes.map((type) => (
-                                                <Chip
-                                                    key={type}
-                                                    label={type}
-                                                    clickable
-                                                    onClick={() => setSettlementType(type)}
-                                                    className={`rounded-sm transition-all font-bold ${settlementType === type
-                                                        ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/20'
-                                                        : 'hover:bg-gray-100 dark:hover:bg-white/5'
-                                                        }`}
-                                                    variant={settlementType === type ? "filled" : "outlined"}
-                                                />
-                                            ))}
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                    <div className="space-y-6">
+                                        <div>
+                                            <TextField
+                                                fullWidth
+                                                label="Nome da Comunidade"
+                                                placeholder="Digite o nome da comunidade..."
+                                                value={communityName}
+                                                onChange={(e) => setCommunityName(e.target.value)}
+                                                className="rounded-sm"
+                                            />
+                                        </div>
+                                        <div>
+                                            <TextField
+                                                fullWidth
+                                                type="number"
+                                                label="Nº Estimado de Famílias"
+                                                value={estimatedFamilies}
+                                                onChange={(e) => setEstimatedFamilies(e.target.value === '' ? '' : Number(e.target.value))}
+                                                className="rounded-sm"
+                                            />
+                                        </div>
+                                        <div>
+                                            <Typography className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">Perfil do Povoado</Typography>
+                                            <div className="flex flex-wrap gap-2">
+                                                {dynamicSettlementTypes.map((type) => (
+                                                    <Chip
+                                                        key={type}
+                                                        label={type}
+                                                        clickable
+                                                        onClick={() => setSettlementType(type)}
+                                                        className={`rounded-sm transition-all font-bold ${settlementType === type
+                                                            ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/20'
+                                                            : 'hover:bg-gray-100 dark:hover:bg-white/5'
+                                                            }`}
+                                                        variant={settlementType === type ? "filled" : "outlined"}
+                                                    />
+                                                ))}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </CardContent>
-                    </Card>
+                            </CardContent>
+                        </Card>
 
-                    {/* 🏗️ Infraestrutura Crítica (Vol. I) */}
-                    <Card className="rounded-sm border border-gray-200 dark:border-white/5 shadow-none">
-                        <CardContent className="p-8">
-                            <Box className="flex items-center gap-2 mb-6 border-b border-gray-100 dark:border-white/5 pb-4">
-                                <InfrastructureIcon className="text-emerald-500" />
-                                <Typography variant="h6" className="font-bold text-gray-900 dark:text-white uppercase tracking-wider text-sm">🏗️ Infraestrutura Crítica (Vol. I)</Typography>
-                            </Box>
+                        {/* 🏗️ Infraestrutura Crítica (Vol. I) */}
+                        <Card className="rounded-sm border border-gray-200 dark:border-white/5 shadow-none">
+                            <CardContent className="p-8">
+                                <Box className="flex items-center gap-2 mb-6 border-b border-gray-100 dark:border-white/5 pb-4">
+                                    <InfrastructureIcon className="text-emerald-500" />
+                                    <Typography variant="h6" className="font-bold text-gray-900 dark:text-white uppercase tracking-wider text-sm">🏗️ Infraestrutura Crítica (Vol. I)</Typography>
+                                </Box>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                                <FormControl component="fieldset">
-                                    <FormLabel component="legend" className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Abastecimento de Água</FormLabel>
-                                    <RadioGroup
-                                        value={waterAccess}
-                                        onChange={(e) => setWaterAccess(e.target.value)}
-                                        className="space-y-1"
-                                    >
-                                        {WATER_ACCESS_OPTIONS.map(opt => (
-                                            <FormControlLabel
-                                                key={opt}
-                                                value={opt}
-                                                control={<Radio size="small" />}
-                                                label={<Typography className="text-sm font-medium">{opt}</Typography>}
-                                            />
-                                        ))}
-                                    </RadioGroup>
-                                </FormControl>
-
-                                <FormControl component="fieldset">
-                                    <FormLabel component="legend" className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Esgotamento Sanitário</FormLabel>
-                                    <RadioGroup
-                                        value={sanitationStatus}
-                                        onChange={(e) => setSanitationStatus(e.target.value)}
-                                        className="space-y-1"
-                                    >
-                                        {SANITATION_OPTIONS.map(opt => (
-                                            <FormControlLabel
-                                                key={opt}
-                                                value={opt}
-                                                control={<Radio size="small" />}
-                                                label={<Typography className="text-sm font-medium">{opt}</Typography>}
-                                            />
-                                        ))}
-                                    </RadioGroup>
-                                </FormControl>
-                            </div>
-                        </CardContent>
-                    </Card>
-
-                    {/* 📊 Materialidade & Impactos (Vol. III) */}
-                    <Card className="rounded-sm border border-gray-200 dark:border-white/5 shadow-none overflow-visible">
-                        <CardContent className="p-8">
-                            <Box className="flex items-center gap-2 mb-6 border-b border-gray-100 dark:border-white/5 pb-4">
-                                <ImpactIcon className="text-amber-500" />
-                                <Typography variant="h6" className="font-bold text-gray-900 dark:text-white uppercase tracking-wider text-sm">📊 Materialidade & Impactos (Vol. III)</Typography>
-                            </Box>
-
-                            <div className="space-y-8">
-                                <Autocomplete
-                                    multiple
-                                    options={NEGATIVE_IMPACTS_OPTIONS}
-                                    value={negativeImpacts}
-                                    onChange={(_, newValue) => setNegativeImpacts(newValue)}
-                                    renderInput={(params) => (
-                                        <TextField {...params} label="Impactos Percebidos do Porto" placeholder="Selecione os impactos..." className="rounded-sm" />
-                                    )}
-                                    renderTags={(value, getTagProps) =>
-                                        value.map((option, index) => {
-                                            const { key, ...tagProps } = getTagProps({ index });
-                                            return (
-                                                <Chip
-                                                    key={key}
-                                                    label={option}
-                                                    {...tagProps}
-                                                    className="rounded-sm font-bold bg-red-50 text-red-600 border border-red-100"
-                                                    size="small"
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                                    <FormControl component="fieldset">
+                                        <FormLabel component="legend" className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Abastecimento de Água</FormLabel>
+                                        <RadioGroup
+                                            value={waterAccess}
+                                            onChange={(e) => setWaterAccess(e.target.value)}
+                                            className="space-y-1"
+                                        >
+                                            {WATER_ACCESS_OPTIONS.map(opt => (
+                                                <FormControlLabel
+                                                    key={opt}
+                                                    value={opt}
+                                                    control={<Radio size="small" />}
+                                                    label={<Typography className="text-sm font-medium">{opt}</Typography>}
                                                 />
-                                            );
-                                        })
-                                    }
-                                />
+                                            ))}
+                                        </RadioGroup>
+                                    </FormControl>
 
-                                <Autocomplete
-                                    multiple
-                                    options={PRIORITY_NEEDS_OPTIONS}
-                                    value={priorityNeeds}
-                                    onChange={(_, newValue) => setPriorityNeeds(newValue)}
-                                    renderInput={(params) => (
-                                        <TextField {...params} label="Demandas Prioritárias da Liderança" placeholder="Selecione as demandas..." className="rounded-sm" />
-                                    )}
-                                    renderTags={(value, getTagProps) =>
-                                        value.map((option, index) => {
-                                            const { key, ...tagProps } = getTagProps({ index });
-                                            return (
-                                                <Chip
-                                                    key={key}
-                                                    label={option}
-                                                    {...tagProps}
-                                                    className="rounded-sm font-bold bg-green-50 text-green-600 border border-green-100"
-                                                    size="small"
+                                    <FormControl component="fieldset">
+                                        <FormLabel component="legend" className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Esgotamento Sanitário</FormLabel>
+                                        <RadioGroup
+                                            value={sanitationStatus}
+                                            onChange={(e) => setSanitationStatus(e.target.value)}
+                                            className="space-y-1"
+                                        >
+                                            {SANITATION_OPTIONS.map(opt => (
+                                                <FormControlLabel
+                                                    key={opt}
+                                                    value={opt}
+                                                    control={<Radio size="small" />}
+                                                    label={<Typography className="text-sm font-medium">{opt}</Typography>}
                                                 />
-                                            );
-                                        })
-                                    }
-                                />
+                                            ))}
+                                        </RadioGroup>
+                                    </FormControl>
+                                </div>
+                            </CardContent>
+                        </Card>
 
-                                <div className="bg-gray-50 dark:bg-white/5 p-6 rounded-sm border border-gray-100 dark:border-white/10">
-                                    <Typography className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4">Nível de Relacionamento Empreendedor (EMAP)</Typography>
-                                    <div className="flex items-center gap-4">
-                                        <Rating
-                                            size="large"
-                                            value={relationshipLevel}
-                                            onChange={(_, newValue) => setRelationshipLevel(newValue)}
-                                            className="text-amber-500"
-                                        />
-                                        <Typography className="text-sm font-bold text-gray-500">
-                                            {relationshipLevel === 1 && 'Crítico'}
-                                            {relationshipLevel === 2 && 'Fraco'}
-                                            {relationshipLevel === 3 && 'Moderado'}
-                                            {relationshipLevel === 4 && 'Bom'}
-                                            {relationshipLevel === 5 && 'Exclente / Parceria'}
-                                        </Typography>
+                        {/* 📊 Materialidade & Impactos (Vol. III) */}
+                        <Card className="rounded-sm border border-gray-200 dark:border-white/5 shadow-none overflow-visible">
+                            <CardContent className="p-8">
+                                <Box className="flex items-center gap-2 mb-6 border-b border-gray-100 dark:border-white/5 pb-4">
+                                    <ImpactIcon className="text-amber-500" />
+                                    <Typography variant="h6" className="font-bold text-gray-900 dark:text-white uppercase tracking-wider text-sm">📊 Materialidade & Impactos (Vol. III)</Typography>
+                                </Box>
+
+                                <div className="space-y-8">
+                                    <Autocomplete
+                                        multiple
+                                        options={NEGATIVE_IMPACTS_OPTIONS}
+                                        value={negativeImpacts}
+                                        onChange={(_, newValue) => setNegativeImpacts(newValue)}
+                                        renderInput={(params) => (
+                                            <TextField {...params} label="Impactos Percebidos do Porto" placeholder="Selecione os impactos..." className="rounded-sm" />
+                                        )}
+                                        renderTags={(value, getTagProps) =>
+                                            value.map((option, index) => {
+                                                const { key, ...tagProps } = getTagProps({ index });
+                                                return (
+                                                    <Chip
+                                                        key={key}
+                                                        label={option}
+                                                        {...tagProps}
+                                                        className="rounded-sm font-bold bg-red-50 text-red-600 border border-red-100"
+                                                        size="small"
+                                                    />
+                                                );
+                                            })
+                                        }
+                                    />
+
+                                    <Autocomplete
+                                        multiple
+                                        options={PRIORITY_NEEDS_OPTIONS}
+                                        value={priorityNeeds}
+                                        onChange={(_, newValue) => setPriorityNeeds(newValue)}
+                                        renderInput={(params) => (
+                                            <TextField {...params} label="Demandas Prioritárias da Liderança" placeholder="Selecione as demandas..." className="rounded-sm" />
+                                        )}
+                                        renderTags={(value, getTagProps) =>
+                                            value.map((option, index) => {
+                                                const { key, ...tagProps } = getTagProps({ index });
+                                                return (
+                                                    <Chip
+                                                        key={key}
+                                                        label={option}
+                                                        {...tagProps}
+                                                        className="rounded-sm font-bold bg-green-50 text-green-600 border border-green-100"
+                                                        size="small"
+                                                    />
+                                                );
+                                            })
+                                        }
+                                    />
+
+                                    <div className="bg-gray-50 dark:bg-white/5 p-6 rounded-sm border border-gray-100 dark:border-white/10">
+                                        <Typography className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4">Nível de Relacionamento Empreendedor (EMAP)</Typography>
+                                        <div className="flex items-center gap-4">
+                                            <Rating
+                                                size="large"
+                                                value={relationshipLevel}
+                                                onChange={(_, newValue) => setRelationshipLevel(newValue)}
+                                                className="text-amber-500"
+                                            />
+                                            <Typography className="text-sm font-bold text-gray-500">
+                                                {relationshipLevel === 1 && 'Crítico'}
+                                                {relationshipLevel === 2 && 'Fraco'}
+                                                {relationshipLevel === 3 && 'Moderado'}
+                                                {relationshipLevel === 4 && 'Bom'}
+                                                {relationshipLevel === 5 && 'Exclente / Parceria'}
+                                            </Typography>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </CardContent>
-                    </Card>
-
-                    {/* Geospatial Upload - Bloco Inline ESG */}
-                    <LayerUploaderInline onLayersLoaded={async (layers) => {
-                        try {
-                            const { data: { user } } = await supabase.auth.getUser();
-                            const layersToInsert = layers.map(l => ({
-                                id: l.id,
-                                name: l.name,
-                                type: l.type,
-                                visible: true,
-                                color: l.color,
-                                data: l.data,
-                                details: l.details || {},
-                                pillar: l.pillar,
-                                group: l.group || 'Diagnóstico Social',
-                                created_by: user?.id || null
-                            }));
-                            const { error } = await supabase.from('map_layers').upsert(layersToInsert);
-                            if (error) throw error;
-                            showSuccess(`${layers.length} camada(s) geoespacial(is) adicionada(s) ao banco e ao mapa.`);
-                        } catch (err: any) {
-                            showError('Erro ao salvar camadas: ' + err.message);
-                        }
-                    }} />
-
-                    <div className="flex justify-end pt-4 pb-12">
-                        <Button
-                            variant="contained"
-                            onClick={handleSave}
-                            disabled={saving}
-                            className="bg-happiness-1 hover:bg-happiness-1/90 text-white px-10 py-4 rounded-sm font-black text-sm uppercase tracking-widest shadow-xl shadow-happiness-1/20 transition-all transform hover:scale-[1.02] active:scale-[0.98]"
-                            startIcon={saving ? <CircularProgress size={20} color="inherit" /> : <SaveIcon />}
-                        >
-                            {saving ? 'SALVANDO...' : 'SALVAR DIAGNÓSTICO 2026'}
-                        </Button>
+                            </CardContent>
+                        </Card>
+                        <div className="flex justify-end pt-4 pb-12">
+                            <Button
+                                variant="contained"
+                                onClick={handleSave}
+                                disabled={saving}
+                                className="bg-happiness-1 hover:bg-happiness-1/90 text-white px-10 py-4 rounded-sm font-black text-sm uppercase tracking-widest shadow-xl shadow-happiness-1/20 transition-all transform hover:scale-[1.02] active:scale-[0.98]"
+                                startIcon={saving ? <CircularProgress size={20} color="inherit" /> : <SaveIcon />}
+                            >
+                                {saving ? (editingId ? 'ATUALIZANDO...' : 'SALVANDO...') : (editingId ? 'ATUALIZAR DIAGNÓSTICO' : 'SALVAR DIAGNÓSTICO 2026')}
+                            </Button>
+                        </div>
                     </div>
-                </Stack>
+
+                    {/* Sidebar */}
+                    <div className="space-y-6 sticky top-24 h-fit">
+                        {/* Resumo do Diagnóstico */}
+                        <Card className="rounded-sm border border-gray-200 dark:border-white/5 shadow-sm p-6 bg-white dark:bg-[#1C1C1C]">
+                            <Typography className="text-xs font-black text-gray-400 uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
+                                <PeopleIcon sx={{ fontSize: 14 }} className="text-orange-500" />
+                                Resumo do Diagnóstico
+                            </Typography>
+
+                            <div className="space-y-3">
+                                <div className="flex justify-between items-center text-xs">
+                                    <span className="font-bold text-gray-500">Comunidade</span>
+                                    <span className="font-black text-gray-800 dark:text-gray-200 truncate max-w-[150px]">{communityName || '-'}</span>
+                                </div>
+                                <div className="flex justify-between items-center text-xs">
+                                    <span className="font-bold text-gray-500">Famílias</span>
+                                    <span className="font-black text-orange-500">{estimatedFamilies || 0}</span>
+                                </div>
+                                <div className="flex justify-between items-center text-xs">
+                                    <span className="font-bold text-gray-500">Perfil</span>
+                                    <span className="font-black text-gray-800 dark:text-gray-200">{settlementType || '-'}</span>
+                                </div>
+                                <div className="flex justify-between items-center text-xs">
+                                    <span className="font-bold text-gray-500">Relacionamento</span>
+                                    <span className="font-black text-amber-500">{relationshipLevel}/5</span>
+                                </div>
+                            </div>
+                        </Card>
+
+                        {/* Geospatial Upload - Bloco Inline ESG */}
+                        <LayerUploaderInline onLayersLoaded={async (layers) => {
+                            try {
+                                const { data: { user } } = await supabase.auth.getUser();
+                                const layersToInsert = layers.map(l => ({
+                                    id: l.id,
+                                    name: l.name,
+                                    type: l.type,
+                                    visible: true,
+                                    color: l.color,
+                                    data: l.data,
+                                    details: l.details || {},
+                                    pillar: l.pillar,
+                                    group: l.group || 'Diagnóstico Social',
+                                    created_by: user?.id || null
+                                }));
+                                const { error } = await supabase.from('map_layers').upsert(layersToInsert);
+                                if (error) throw error;
+                                showSuccess(`${layers.length} camada(s) geoespacial(is) adicionada(s) ao banco e ao mapa.`);
+                            } catch (err: any) {
+                                showError('Erro ao salvar camadas: ' + err.message);
+                            }
+                        }} />
+                    </div>
+                </div>
             )}
         </Box>
     );

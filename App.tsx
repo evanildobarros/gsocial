@@ -364,9 +364,11 @@ export default function App() {
             case AppMode.SOCIAL_ASSESSMENT:
                 return [home, { label: 'Diagnósticos', onClick: () => setMode(AppMode.ESG_CENTER) }, { label: 'Social' }];
             case AppMode.ENV_DIAGNOSTIC:
-                return [home, { label: 'Gestão Ambiental' }, { label: 'Diagnóstico ABNT' }];
+                return [home, { label: 'Diagnósticos', onClick: () => setMode(AppMode.ESG_CENTER) }, { label: 'Ambiental' }];
             case AppMode.GOV_ESG_DIAGNOSTIC:
-                return [home, { label: 'Governança' }, { label: 'Diagnóstico ABNT' }];
+                return [home, { label: 'Diagnósticos', onClick: () => setMode(AppMode.ESG_CENTER) }, { label: 'Governança' }];
+            case AppMode.GOV_DIAGNOSTIC:
+                return [home, { label: 'Diagnósticos', onClick: () => setMode(AppMode.ESG_CENTER) }, { label: 'Consolidado ABNT' }];
             case AppMode.SOCIAL_GIS:
                 return [home, { label: 'Diagnósticos', onClick: () => setMode(AppMode.ESG_CENTER) }, { label: 'Mapa ESG (GIS)' }];
 
@@ -397,6 +399,8 @@ export default function App() {
                 return [home, { label: 'Social & Resp.' }, { label: 'Diversidade' }];
             case AppMode.SOCIAL_HUMAN_RIGHTS:
                 return [home, { label: 'Social & Resp.' }, { label: 'Direitos Humanos' }];
+            case AppMode.SOCIAL_TERRITORY:
+                return [home, { label: 'Social & Resp.' }, { label: 'Relacionamento' }];
 
             // Governança
             case AppMode.GOV_RISK_MATRIX:
@@ -415,8 +419,12 @@ export default function App() {
             // Usuários
             case AppMode.USERS:
                 return [home, { label: 'Administração' }, { label: 'Usuários' }];
+            case AppMode.CREATE_USER:
+                return [home, { label: 'Administração' }, { label: 'Usuários', onClick: () => setMode(AppMode.USERS) }, { label: 'Novo Usuário' }];
             case AppMode.PROFILE:
                 return [home, { label: 'Conta' }, { label: 'Perfil' }];
+            case AppMode.NEW_PROJECT:
+                return [home, { label: 'Novos Projetos' }, { label: 'Cadastro' }];
 
             default:
                 return [home, { label: getPageTitle() }];

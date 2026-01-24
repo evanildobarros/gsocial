@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { SocialProject, SocialProjectStatus, NEIGHBORHOODS_LIST, MATERIALITY_TOPICS } from '../../types';
+import { SocialProject, SocialProjectStatus, MATERIALITY_TOPICS } from '../../types';
 import { Calendar, DollarSign, Users, MapPin, Target, BarChart3, Save, X, Search } from 'lucide-react';
 import { Autocomplete, TextField, Chip } from '@mui/material';
 
@@ -253,8 +253,9 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                         </label>
                         <Autocomplete
                             multiple
+                            freeSolo
                             id="neighborhoods-autocomplete"
-                            options={NEIGHBORHOODS_LIST}
+                            options={[]}
                             value={formData.neighborhoods}
                             onChange={(_event, newValue) => {
                                 setFormData(prev => ({ ...prev, neighborhoods: newValue }));
@@ -263,7 +264,7 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                                 <TextField
                                     {...params}
                                     variant="outlined"
-                                    placeholder="Busca de comunidades..."
+                                    placeholder="Digite o nome da comunidade e aperte Enter..."
                                     sx={{
                                         '& .MuiOutlinedInput-root': {
                                             borderRadius: '8px',

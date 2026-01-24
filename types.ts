@@ -187,13 +187,6 @@ export interface SocialProject {
   estimatedImpactValue: number; // Valor monetário estimado do benefício social
 }
 
-export const NEIGHBORHOODS_LIST = [
-  "Anjo da Guarda", "Alto da Esperança", "Vila Bacanga", "Vila dos Frades",
-  "Sá Viana", "Gancharia", "Vila Embratel", "Jamim", "Fumacê",
-  "Vila Maranhão", "Cajueiro", "Tajaçuaba", "Porto Grande",
-  "Vila Nova", "Gapara", "Resende", "Piancó", "Primavera"
-];
-
 export const MATERIALITY_TOPICS = [
   "Geração de Emprego e Renda",
   "Educação e Capacitação Técnica",

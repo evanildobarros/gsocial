@@ -23,7 +23,6 @@ import {
     Upload,
     HelpCircle,
     Save,
-    Target,
     AlertCircle,
     ChevronRight
 } from 'lucide-react';
@@ -39,6 +38,7 @@ import {
 import { supabase } from '../../utils/supabase';
 import { showSuccess, showError } from '../../utils/notifications';
 import { LayerUploaderInline } from '../LayerUploaderInline';
+import { EnvironmentalSummaryCard } from './EnvironmentalSummaryCard';
 
 // --- Types & Config ---
 const MATURITY_LEVELS = {
@@ -166,13 +166,6 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
                         Avaliação de maturidade em GEE, Resíduos e Eficiência baseada na Norma 2030.
                     </Typography>
                 </div>
-                <div className="bg-emerald-50 dark:bg-emerald-900/20 px-4 py-2 rounded-sm border border-emerald-200 dark:border-emerald-900/30 flex items-center gap-3">
-                    <Target className="text-emerald-500 w-5 h-5" />
-                    <div>
-                        <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest leading-none">Maturidade E</p>
-                        <p className={`text-sm font-black ${currentMaturity.color} uppercase mt-1`}>Nível {Math.round(score)} - {currentMaturity.label}</p>
-                    </div>
-                </div>
             </header>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
@@ -259,6 +252,11 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
                             </Button>
                         </Box>
                     </Card>
+                </div>
+
+                {/* Sidebar */}
+                <div className="space-y-6 sticky top-24">
+                    <EnvironmentalSummaryCard answers={answers} />
 
                     {/* Geospatial Upload - Bloco Inline ESG */}
                     <LayerUploaderInline onLayersLoaded={async (layers) => {
@@ -283,56 +281,6 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
                             showError('Erro ao salvar camadas: ' + err.message);
                         }
                     }} />
-                </div>
-
-                {/* Sidebar */}
-                <div className="space-y-6 sticky top-24">
-                    <Card className="rounded-sm border border-gray-200 dark:border-white/5 shadow-sm p-6 bg-white dark:bg-[#1C1C1C]">
-                        <Typography className="text-xs font-black text-gray-400 uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
-                            <BarChart3 size={14} className="text-emerald-500" />
-                            Performance Ambiental
-                        </Typography>
-
-                        <div className="h-[280px] w-full">
-                            <ResponsiveContainer width="100%" height="100%" minWidth={0}>
-                                <RadarChart cx="50%" cy="50%" outerRadius="80%" data={chartData}>
-                                    <PolarGrid stroke="#e5e7eb" />
-                                    <PolarAngleAxis dataKey="subject" tick={{ fill: '#9ca3af', fontSize: 10, fontWeight: 'bold' }} />
-                                    <PolarRadiusAxis angle={30} domain={[0, 5]} tick={false} axisLine={false} />
-                                    <Radar name="Atual" dataKey="current" stroke="#10B981" fill="#10B981" fillOpacity={0.5} />
-                                    <Radar name="Meta (L5)" dataKey="target" stroke="#cbd5e1" fill="transparent" strokeDasharray="4 4" />
-                                </RadarChart>
-                            </ResponsiveContainer>
-                        </div>
-
-                        <Divider className="my-6 opacity-50" />
-
-                        <div className="space-y-2">
-                            <div className="flex justify-between items-center text-xs">
-                                <span className="font-bold text-gray-500">Pontuação</span>
-                                <span className="font-black text-emerald-500">{score.toFixed(1)} / 5.0</span>
-                            </div>
-                            <div className="w-full bg-gray-100 dark:bg-white/5 h-2 rounded-full overflow-hidden">
-                                <div className="bg-emerald-500 h-full transition-all duration-500" style={{ width: `${(score / 5) * 100}%` }} />
-                            </div>
-                        </div>
-                    </Card>
-
-                    <Paper className={`p-6 border border-gray-100 dark:border-white/5 rounded-sm shadow-sm ${currentMaturity.bg}`}>
-                        <div className="flex items-start gap-4">
-                            <div className="p-3 rounded-sm bg-white/50">
-                                <AlertCircle className={currentMaturity.color} />
-                            </div>
-                            <div>
-                                <h4 className={`text-xs font-black uppercase tracking-widest ${currentMaturity.color} mb-1`}>
-                                    Nível: {currentMaturity.label}
-                                </h4>
-                                <p className="text-sm text-gray-700 dark:text-gray-300 font-medium">
-                                    {currentMaturity.desc}. Foque em rastreabilidade de dados ambientais para evoluir.
-                                </p>
-                            </div>
-                        </div>
-                    </Paper>
                 </div>
             </div>
         </Box>
