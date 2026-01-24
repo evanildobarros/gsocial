@@ -215,7 +215,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
     if (loading && viewMode === 'list') return <Box className="flex flex-col justify-center items-center py-40 gap-4"><CircularProgress /><Typography className="text-gray-400 font-bold uppercase tracking-widest text-xs">Carregando Inventário...</Typography></Box>;
 
     return (
-        <Box className="max-w-6xl mx-auto p-4 space-y-8 animate-in fade-in duration-700">
+        <Box className="w-full p-4 space-y-8 animate-in fade-in duration-700">
             {/* Header Section */}
             <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>

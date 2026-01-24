@@ -2,6 +2,46 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* Padrão G-Social (Azul Marítimo) */
+  --brand-primary: 21 77 191;
+  --brand-secondary: 75 147 242;
+  --brand-tertiary: 159 195 242;
+  --brand-accent-1: 242 218 101;
+  --brand-accent-2: 242 190 94;
+  --brand-bg-tint: rgba(21, 77, 191, 0.03);
+}
+
+[data-theme='azure'] {
+  --brand-primary: 73 115 242;
+  --brand-secondary: 92 130 242;
+  --brand-tertiary: 133 160 242;
+  --brand-accent-1: 217 216 210;
+  --brand-accent-2: 64 56 50;
+  --brand-bg-tint: rgba(73, 115, 242, 0.05);
+}
+
+[data-theme='emerald'] {
+  --brand-primary: 41 166 131;
+  --brand-secondary: 27 43 64;
+  --brand-tertiary: 210 213 217;
+  --brand-accent-1: 166 121 104;
+  --brand-accent-2: 115 78 64;
+  --brand-bg-tint: rgba(41, 166, 131, 0.05);
+}
+
+[data-theme='burgundy'] {
+  --brand-primary: 191 38 51;
+  --brand-secondary: 89 10 24;
+  --brand-tertiary: 217 177 163;
+  --brand-accent-1: 242 118 107;
+  --brand-accent-2: 115 86 86;
+  --brand-bg-tint: rgba(191, 38, 51, 0.05);
+}
+
+
+
+
 /* Custom Scrollbar Premium Design */
 ::-webkit-scrollbar {
   width: 10px;
@@ -13,37 +53,37 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.2);
+  background: rgb(var(--brand-primary) / 0.2);
   border-radius: 20px;
   border: 3px solid transparent;
   background-clip: content-box;
 }
 
 .dark ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgb(var(--brand-primary) / 0.3);
   border-radius: 20px;
   border: 3px solid transparent;
   background-clip: content-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.4);
+  background: rgb(var(--brand-primary) / 0.5);
   background-clip: content-box;
 }
 
 .dark ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.4);
+  background: rgb(var(--brand-primary) / 0.6);
   background-clip: content-box;
 }
 
 /* Firefox support */
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+  scrollbar-color: rgb(var(--brand-primary) / 0.2) transparent;
 }
 
 .dark * {
-  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+  scrollbar-color: rgb(var(--brand-primary) / 0.3) transparent;
 }
 
 /* Ensure scrolling is smooth */

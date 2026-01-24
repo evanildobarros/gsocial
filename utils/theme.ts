@@ -6,14 +6,14 @@ export const theme = createTheme({
     palette: {
         mode: 'light',
         primary: {
-            main: '#2148C0', // happiness-1 (azul principal)
-            light: '#4B93F2', // happiness-2
+            main: '#2148C0',
+            light: '#4B93F2',
             dark: '#154DBF',
             contrastText: '#ffffff',
         },
         secondary: {
-            main: '#F2BE5E', // happiness-5 (dourado)
-            light: '#F2DA65', // happiness-4
+            main: '#F2BE5E',
+            light: '#F2DA65',
             dark: '#D4A54E',
             contrastText: '#1C1C1C',
         },

@@ -149,7 +149,7 @@ export const UserProfilePage: React.FC = () => {
     }
 
     return (
-        <div className="max-w-4xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <div className="w-full animate-in fade-in slide-in-from-bottom-4 duration-700">
             <div className="bg-white rounded-[2.5rem] shadow-xl shadow-blue-900/5 border border-gray-100 overflow-hidden">
                 {/* Header/Cover Background */}
                 <div

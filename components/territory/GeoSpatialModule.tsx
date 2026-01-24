@@ -637,9 +637,7 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
                     </div>
                 </div>
             </div>
-        </div>
 
-            {/* Map Container */ }
             <div className="flex-1 bg-gray-200 dark:bg-gray-800 rounded-sm border border-gray-200 dark:border-white/5 overflow-hidden relative shadow-inner">
                 <GoogleMap
                     mapContainerStyle={containerStyle}
@@ -652,175 +650,184 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
                         streetViewControl: true,
                         fullscreenControl: true,
                         zoomControl: true,
-                    }}
+                    }
+                    }
                 >
                     {/* Render Polygon Layers */}
-                    {layers.filter(l => l.type === 'POLYGON' && l.visible).map(layer => (
-                        <Polygon
-                            key={`polygon-${layer.id}`}
-                            paths={layer.data as google.maps.LatLngLiteral[]}
-                            options={{
-                                fillColor: layer.color,
-                                fillOpacity: 0.2,
-                                strokeColor: layer.color,
-                                strokeOpacity: 0.8,
-                                strokeWeight: 2,
-                            }}
-                            onClick={(e) => setSelectedElement({ type: 'POLYGON', layer, position: e.latLng })}
-                        />
-                    ))}
+                    {
+                        layers.filter(l => l.type === 'POLYGON' && l.visible).map(layer => (
+                            <Polygon
+                                key={`polygon-${layer.id}`}
+                                paths={layer.data as google.maps.LatLngLiteral[]}
+                                options={{
+                                    fillColor: layer.color,
+                                    fillOpacity: 0.2,
+                                    strokeColor: layer.color,
+                                    strokeOpacity: 0.8,
+                                    strokeWeight: 2,
+                                }}
+                                onClick={(e) => setSelectedElement({ type: 'POLYGON', layer, position: e.latLng })}
+                            />
+                        ))
+                    }
 
                     {/* Render Marker Layers */}
-                    {layers.filter(l => l.type === 'MARKER' && l.visible).map(layer => (
-                        <MarkerF
-                            key={`marker-${layer.id}`}
-                            position={layer.data as google.maps.LatLngLiteral}
-                            onClick={() => setSelectedElement({ type: 'MARKER', layer, position: layer.data })}
-                        />
-                    ))}
+                    {
+                        layers.filter(l => l.type === 'MARKER' && l.visible).map(layer => (
+                            <MarkerF
+                                key={`marker-${layer.id}`}
+                                position={layer.data as google.maps.LatLngLiteral}
+                                onClick={() => setSelectedElement({ type: 'MARKER', layer, position: layer.data })}
+                            />
+                        ))
+                    }
 
                     {/* Render Polyline Layers */}
-                    {layers.filter(l => l.type === 'POLYLINE' && l.visible).map(layer => (
-                        <Polyline
-                            key={`polyline-${layer.id}`}
-                            path={layer.data as google.maps.LatLngLiteral[]}
-                            options={{
-                                strokeColor: layer.color,
-                                strokeOpacity: 0.8,
-                                strokeWeight: 3,
-                            }}
-                            onClick={(e) => setSelectedElement({ type: 'POLYLINE', layer, position: e.latLng })}
-                        />
-                    ))}
+                    {
+                        layers.filter(l => l.type === 'POLYLINE' && l.visible).map(layer => (
+                            <Polyline
+                                key={`polyline-${layer.id}`}
+                                path={layer.data as google.maps.LatLngLiteral[]}
+                                options={{
+                                    strokeColor: layer.color,
+                                    strokeOpacity: 0.8,
+                                    strokeWeight: 3,
+                                }}
+                                onClick={(e) => setSelectedElement({ type: 'POLYLINE', layer, position: e.latLng })}
+                            />
+                        ))
+                    }
 
                     {/* Info Window */}
-                    {selectedElement && (
-                        <InfoWindowF
-                            position={selectedElement.position}
-                            onCloseClick={() => setSelectedElement(null)}
-                            options={{
-                                pixelOffset: new google.maps.Size(0, -30),
-                                maxWidth: 320
-                            }}
-                        >
-                            <div className="custom-pop-content min-w-[300px] bg-white dark:bg-[#121212] overflow-hidden -m-3">
-                                {/* Accent Bar */}
-                                <div className="h-1.5 bg-gradient-to-r from-happiness-1 via-blue-500 to-indigo-600 w-full" />
+                    {
+                        selectedElement && (
+                            <InfoWindowF
+                                position={selectedElement.position}
+                                onCloseClick={() => setSelectedElement(null)}
+                                options={{
+                                    pixelOffset: new google.maps.Size(0, -30),
+                                    maxWidth: 320
+                                }}
+                            >
+                                <div className="custom-pop-content min-w-[300px] bg-white dark:bg-[#121212] overflow-hidden -m-3">
+                                    {/* Accent Bar */}
+                                    <div className="h-1.5 bg-gradient-to-r from-happiness-1 via-blue-500 to-indigo-600 w-full" />
 
-                                <div className="p-5">
-                                    {/* Header Section */}
-                                    <div className="flex items-start justify-between mb-5">
-                                        <div className="flex-1 min-w-0 pr-4">
-                                            <div className="flex items-center gap-2 mb-1">
-                                                <div className="w-2 h-2 rounded-full bg-happiness-1 animate-pulse" />
-                                                <span className="text-[9px] font-black text-happiness-1 uppercase tracking-[0.2em]">Live Data</span>
-                                            </div>
-                                            <h4 className="font-black text-gray-900 dark:text-white text-lg tracking-tight leading-tight truncate">
-                                                {selectedElement.layer.name}
-                                            </h4>
-                                            <div className="flex items-center gap-2 mt-1.5">
-                                                <span className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
-                                                    {selectedElement.layer.details?.tipo || 'Território'}
-                                                </span>
-                                                <div className="w-1 h-1 rounded-full bg-gray-300 dark:bg-gray-700" />
-                                                <span className="text-[10px] font-mono text-gray-400 dark:text-gray-600">
-                                                    ID: {selectedElement.layer.id.substring(0, 6)}
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div className="w-10 h-10 bg-blue-50 dark:bg-blue-900/10 rounded-xl flex items-center justify-center shadow-sm border border-blue-100/50 dark:border-blue-500/10 transition-transform hover:scale-110">
-                                            <MapPin className="text-blue-500 w-5 h-5 fill-blue-500/20" />
-                                        </div>
-                                    </div>
-
-                                    {/* Stats List - Dynamic based on Pillar */}
-                                    {selectedElement.layer.pillar === 'Environmental' ? (
-                                        <div className="space-y-4 mb-6">
-                                            <div className="flex justify-between items-center text-xs">
-                                                <span className="font-bold text-gray-500 uppercase tracking-widest text-[9px]">Índice de Carbono</span>
-                                                <span className="font-black text-emerald-500">L4 - Conforme</span>
-                                            </div>
-                                            <div className="flex justify-between items-center text-xs">
-                                                <span className="font-bold text-gray-500 uppercase tracking-widest text-[9px]">Gestão de Resíduos</span>
-                                                <span className="font-black text-blue-500">L3 - Operacional</span>
-                                            </div>
-                                            <div className="flex justify-between items-center text-xs">
-                                                <span className="font-bold text-gray-500 uppercase tracking-widest text-[9px]">Risco de Derramamento</span>
-                                                <span className="font-black text-orange-500">Baixo Risco</span>
-                                            </div>
-                                            <div className="flex justify-between items-center text-xs">
-                                                <span className="font-bold text-gray-500 uppercase tracking-widest text-[9px]">Monitoramento Hídrico</span>
-                                                <div className="flex items-center gap-1">
-                                                    <div className="w-2 h-2 rounded-full bg-green-500" />
-                                                    <span className="font-black text-gray-800 dark:text-gray-200">Ativo</span>
+                                    <div className="p-5">
+                                        {/* Header Section */}
+                                        <div className="flex items-start justify-between mb-5">
+                                            <div className="flex-1 min-w-0 pr-4">
+                                                <div className="flex items-center gap-2 mb-1">
+                                                    <div className="w-2 h-2 rounded-full bg-happiness-1 animate-pulse" />
+                                                    <span className="text-[9px] font-black text-happiness-1 uppercase tracking-[0.2em]">Live Data</span>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    ) : (
-                                        <div className="space-y-4 mb-6">
-                                            <div className="flex justify-between items-center text-xs">
-                                                <span className="font-bold text-gray-500 uppercase tracking-widest text-[9px]">Comunidade</span>
-                                                <span className="font-black text-gray-800 dark:text-gray-200 truncate max-w-[180px]">{selectedElement.layer.name}</span>
-                                            </div>
-                                            <div className="flex justify-between items-center text-xs">
-                                                <span className="font-bold text-gray-500 uppercase tracking-widest text-[9px]">Famílias</span>
-                                                <span className="font-black text-orange-500">{selectedElement.layer.details?.familias || 0}</span>
-                                            </div>
-                                            <div className="flex justify-between items-center text-xs">
-                                                <span className="font-bold text-gray-500 uppercase tracking-widest text-[9px]">Perfil</span>
-                                                <span className="font-black text-gray-800 dark:text-gray-200">{selectedElement.layer.details?.tipo || 'Território'}</span>
-                                            </div>
-                                            <div className="flex justify-between items-center text-xs">
-                                                <span className="font-bold text-gray-500 uppercase tracking-widest text-[9px]">Relacionamento</span>
-                                                <div className="flex items-center gap-2">
-                                                    <Rating
-                                                        value={selectedElement.layer.details?.relacionamento || 0}
-                                                        size="small"
-                                                        readOnly
-                                                        sx={{ fontSize: '14px' }}
-                                                        emptyIcon={<Star className="w-2.5 h-2.5 text-gray-200 dark:text-gray-800" />}
-                                                        icon={<Star className="w-2.5 h-2.5 text-amber-500 fill-amber-500" />}
-                                                    />
-                                                    <span className="font-black text-amber-500 text-[10px]">{selectedElement.layer.details?.relacionamento || 0}/5</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    {/* Priority Needs Link / Extra Info */}
-                                    {selectedElement.layer.pillar === 'Social' && selectedElement.layer.details?.demandas > 0 && (
-                                        <div className="pt-2 mb-6">
-                                            <div className="bg-blue-50 dark:bg-blue-900/10 p-2.5 rounded-sm border border-blue-100 dark:border-blue-900/20 flex items-center justify-between group cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-900/20 transition-colors"
-                                                onClick={() => { }}
-                                            >
-                                                <div className="flex items-center gap-2">
-                                                    <BarChart2 className="w-3.5 h-3.5 text-blue-500" />
-                                                    <span className="text-[10px] font-bold text-blue-700 dark:text-blue-300 uppercase tracking-widest">
-                                                        {selectedElement.layer.details.demandas} Demandas Ativas
+                                                <h4 className="font-black text-gray-900 dark:text-white text-lg tracking-tight leading-tight truncate">
+                                                    {selectedElement.layer.name}
+                                                </h4>
+                                                <div className="flex items-center gap-2 mt-1.5">
+                                                    <span className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+                                                        {selectedElement.layer.details?.tipo || 'Território'}
+                                                    </span>
+                                                    <div className="w-1 h-1 rounded-full bg-gray-300 dark:bg-gray-700" />
+                                                    <span className="text-[10px] font-mono text-gray-400 dark:text-gray-600">
+                                                        ID: {selectedElement.layer.id.substring(0, 6)}
                                                     </span>
                                                 </div>
-                                                <ChevronRight className="w-3 h-3 text-blue-400 group-hover:translate-x-0.5 transition-transform" />
+                                            </div>
+                                            <div className="w-10 h-10 bg-blue-50 dark:bg-blue-900/10 rounded-xl flex items-center justify-center shadow-sm border border-blue-100/50 dark:border-blue-500/10 transition-transform hover:scale-110">
+                                                <MapPin className="text-blue-500 w-5 h-5 fill-blue-500/20" />
                                             </div>
                                         </div>
-                                    )}
-                                    {/* Type Badge */}
-                                    <div className="mb-6">
-                                        <div className="inline-flex items-center px-2 py-1 bg-gray-100 dark:bg-white/5 rounded border border-gray-200 dark:border-white/10">
-                                            <div className="w-2 h-2 rounded-full mr-2" style={{ backgroundColor: selectedElement.layer.color }} />
-                                            <span className="text-[10px] font-black text-gray-600 dark:text-gray-400 uppercase tracking-widest">
-                                                {selectedElement.layer.type}
-                                            </span>
+
+                                        {/* Stats List - Dynamic based on Pillar */}
+                                        {selectedElement.layer.pillar === 'Environmental' ? (
+                                            <div className="space-y-4 mb-6">
+                                                <div className="flex justify-between items-center text-xs">
+                                                    <span className="font-bold text-gray-500 uppercase tracking-widest text-[9px]">Índice de Carbono</span>
+                                                    <span className="font-black text-emerald-500">L4 - Conforme</span>
+                                                </div>
+                                                <div className="flex justify-between items-center text-xs">
+                                                    <span className="font-bold text-gray-500 uppercase tracking-widest text-[9px]">Gestão de Resíduos</span>
+                                                    <span className="font-black text-blue-500">L3 - Operacional</span>
+                                                </div>
+                                                <div className="flex justify-between items-center text-xs">
+                                                    <span className="font-bold text-gray-500 uppercase tracking-widest text-[9px]">Risco de Derramamento</span>
+                                                    <span className="font-black text-orange-500">Baixo Risco</span>
+                                                </div>
+                                                <div className="flex justify-between items-center text-xs">
+                                                    <span className="font-bold text-gray-500 uppercase tracking-widest text-[9px]">Monitoramento Hídrico</span>
+                                                    <div className="flex items-center gap-1">
+                                                        <div className="w-2 h-2 rounded-full bg-green-500" />
+                                                        <span className="font-black text-gray-800 dark:text-gray-200">Ativo</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <div className="space-y-4 mb-6">
+                                                <div className="flex justify-between items-center text-xs">
+                                                    <span className="font-bold text-gray-500 uppercase tracking-widest text-[9px]">Comunidade</span>
+                                                    <span className="font-black text-gray-800 dark:text-gray-200 truncate max-w-[180px]">{selectedElement.layer.name}</span>
+                                                </div>
+                                                <div className="flex justify-between items-center text-xs">
+                                                    <span className="font-bold text-gray-500 uppercase tracking-widest text-[9px]">Famílias</span>
+                                                    <span className="font-black text-orange-500">{selectedElement.layer.details?.familias || 0}</span>
+                                                </div>
+                                                <div className="flex justify-between items-center text-xs">
+                                                    <span className="font-bold text-gray-500 uppercase tracking-widest text-[9px]">Perfil</span>
+                                                    <span className="font-black text-gray-800 dark:text-gray-200">{selectedElement.layer.details?.tipo || 'Território'}</span>
+                                                </div>
+                                                <div className="flex justify-between items-center text-xs">
+                                                    <span className="font-bold text-gray-500 uppercase tracking-widest text-[9px]">Relacionamento</span>
+                                                    <div className="flex items-center gap-2">
+                                                        <Rating
+                                                            value={selectedElement.layer.details?.relacionamento || 0}
+                                                            size="small"
+                                                            readOnly
+                                                            sx={{ fontSize: '14px' }}
+                                                            emptyIcon={<Star className="w-2.5 h-2.5 text-gray-200 dark:text-gray-800" />}
+                                                            icon={<Star className="w-2.5 h-2.5 text-amber-500 fill-amber-500" />}
+                                                        />
+                                                        <span className="font-black text-amber-500 text-[10px]">{selectedElement.layer.details?.relacionamento || 0}/5</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {/* Priority Needs Link / Extra Info */}
+                                        {selectedElement.layer.pillar === 'Social' && selectedElement.layer.details?.demandas > 0 && (
+                                            <div className="pt-2 mb-6">
+                                                <div className="bg-blue-50 dark:bg-blue-900/10 p-2.5 rounded-sm border border-blue-100 dark:border-blue-900/20 flex items-center justify-between group cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-900/20 transition-colors"
+                                                    onClick={() => { }}
+                                                >
+                                                    <div className="flex items-center gap-2">
+                                                        <BarChart2 className="w-3.5 h-3.5 text-blue-500" />
+                                                        <span className="text-[10px] font-bold text-blue-700 dark:text-blue-300 uppercase tracking-widest">
+                                                            {selectedElement.layer.details.demandas} Demandas Ativas
+                                                        </span>
+                                                    </div>
+                                                    <ChevronRight className="w-3 h-3 text-blue-400 group-hover:translate-x-0.5 transition-transform" />
+                                                </div>
+                                            </div>
+                                        )}
+                                        {/* Type Badge */}
+                                        <div className="mb-6">
+                                            <div className="inline-flex items-center px-2 py-1 bg-gray-100 dark:bg-white/5 rounded border border-gray-200 dark:border-white/10">
+                                                <div className="w-2 h-2 rounded-full mr-2" style={{ backgroundColor: selectedElement.layer.color }} />
+                                                <span className="text-[10px] font-black text-gray-600 dark:text-gray-400 uppercase tracking-widest">
+                                                    {selectedElement.layer.type}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        {/* Footer Section */}
+                                        <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-white/5">
+                                            <span className="text-[8px] font-black text-gray-400 uppercase tracking-widest">Complexo Portuário do Itaqui • ESG 2026</span>
                                         </div>
                                     </div>
-
-                                    {/* Footer Section */}
-                                    <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-white/5">
-                                        <span className="text-[8px] font-black text-gray-400 uppercase tracking-widest">Complexo Portuário do Itaqui • ESG 2026</span>
-                                    </div>
                                 </div>
-                            </div>
-                        </InfoWindowF>
-                    )}
+                            </InfoWindowF>
+                        )
+                    }
                 </GoogleMap>
 
                 {/* Floating Status Overlay */}
@@ -847,6 +854,6 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
                 onClose={() => setIsUploadModalOpen(false)}
                 onLayersLoaded={handleLayersImported}
             />
-        </div >
+        </div>
     );
 };

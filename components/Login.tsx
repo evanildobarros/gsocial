@@ -99,8 +99,8 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
       <div className="hidden lg:flex w-2/5 bg-happiness-1 relative overflow-hidden items-center justify-center p-12">
         {/* Abstract Blobs */}
         <div className="absolute -top-[10%] -left-[10%] w-[60%] h-[60%] bg-white/10 rounded-full blur-[80px]" />
-        <div className="absolute -bottom-[20%] -right-[10%] w-[70%] h-[70%] bg-[#4F46E5]/30 rounded-full blur-[80px]" />
-        <div className="absolute top-[20%] -right-[5%] w-[30%] h-[30%] bg-[#22D3EE]/20 rounded-full blur-[60px]" />
+        <div className="absolute -bottom-[20%] -right-[10%] w-[70%] h-[70%] bg-happiness-2/30 rounded-full blur-[80px]" />
+        <div className="absolute top-[20%] -right-[5%] w-[30%] h-[30%] bg-happiness-4/20 rounded-full blur-[60px]" />
 
         <div className="relative z-10 text-center flex flex-col items-center gap-8">
           <ESGLogo />

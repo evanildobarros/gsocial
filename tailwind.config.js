@@ -10,11 +10,12 @@ export default {
         extend: {
             colors: {
                 happiness: {
-                    1: '#154DBF',
-                    2: '#4B93F2',
-                    3: '#9FC3F2',
-                    4: '#F2DA65',
-                    5: '#F2BE5E',
+                    1: 'rgb(var(--brand-primary) / <alpha-value>)',
+                    2: 'rgb(var(--brand-secondary) / <alpha-value>)',
+                    3: 'rgb(var(--brand-tertiary) / <alpha-value>)',
+                    4: 'rgb(var(--brand-accent-1) / <alpha-value>)',
+                    5: 'rgb(var(--brand-accent-2) / <alpha-value>)',
+                    'bg-tint': 'var(--brand-bg-tint)',
                 }
             }
         },

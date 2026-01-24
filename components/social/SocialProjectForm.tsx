@@ -114,7 +114,7 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
     };
 
     return (
-        <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 w-full max-w-[95%] mx-auto border border-gray-100 dark:border-gray-700 animate-in fade-in zoom-in-95 duration-500">
+        <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 w-full border border-gray-100 dark:border-gray-700 animate-in fade-in zoom-in-95 duration-500">
 
             {/* Cabeçalho */}
             <div className="flex justify-between items-center mb-8 border-b pb-4 dark:border-gray-700">
