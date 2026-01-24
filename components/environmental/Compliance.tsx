@@ -10,17 +10,17 @@ export const Compliance: React.FC = () => {
                     <h2 className="text-3xl font-black text-gray-900 tracking-tight">Conformidade & Licenciamento</h2>
                     <p className="text-gray-500 font-medium">Controle de condicionantes ambientais e repositório de evidências.</p>
                 </div>
-                <div className="flex items-center gap-2 px-4 py-2 bg-blue-50 border border-blue-100 rounded-xl">
+                <div className="flex items-center gap-2 px-4 py-2 bg-blue-50 border border-blue-100 rounded-sm">
                     <ShieldCheck className="w-4 h-4 text-[#2148C0]" />
                     <span className="text-xs font-black text-[#2148C0] uppercase tracking-widest">ISO 14001 Compliant</span>
                 </div>
             </div>
 
             {/* Traffic Light Conditions */}
-            <div className="bg-white rounded-[2.5rem] border border-gray-100 shadow-xl shadow-blue-900/5 overflow-hidden">
+            <div className="bg-white rounded-sm border border-gray-100 shadow-xl shadow-blue-900/5 overflow-hidden">
                 <div className="p-8 border-b border-gray-50 flex justify-between items-center bg-gray-50/30">
                     <div className="flex items-center gap-4">
-                        <div className="p-3 bg-white rounded-2xl shadow-sm">
+                        <div className="p-3 bg-white rounded-sm shadow-sm">
                             <AlertCircle className="w-6 h-6 text-yellow-500" />
                         </div>
                         <h3 className="text-xl font-black text-gray-900">Semáforo de Condicionantes</h3>
@@ -89,9 +89,9 @@ export const Compliance: React.FC = () => {
 
             {/* Evidence Repository */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div className="bg-gray-900 p-8 rounded-[2.5rem] text-white">
+                <div className="bg-gray-900 p-8 rounded-sm text-white">
                     <div className="flex items-center gap-4 mb-8">
-                        <div className="p-3 bg-white/10 rounded-2xl">
+                        <div className="p-3 bg-white/10 rounded-sm">
                             <FileText className="w-6 h-6 text-white" />
                         </div>
                         <h3 className="text-xl font-black">Repositório de Evidências</h3>
@@ -102,7 +102,7 @@ export const Compliance: React.FC = () => {
                             { name: "Relatorio_Biota_Q4_2025.pdf", size: "12.4 MB", type: "Monitoramento" },
                             { name: "MTR_7458_Terminal_TEGRAM.pdf", size: "1.2 MB", type: "Resíduos" }
                         ].map((file, i) => (
-                            <div key={i} className="p-4 bg-white/5 rounded-2xl border border-white/5 flex items-center justify-between group hover:bg-white/10 transition-all cursor-pointer">
+                            <div key={i} className="p-4 bg-white/5 rounded-sm border border-white/5 flex items-center justify-between group hover:bg-white/10 transition-all cursor-pointer">
                                 <div className="flex items-center gap-3">
                                     <div className="p-2 bg-blue-600 rounded-lg">
                                         <FileText className="w-4 h-4" />
@@ -118,7 +118,7 @@ export const Compliance: React.FC = () => {
                     </div>
                 </div>
 
-                <div className="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-xl shadow-blue-900/5 flex flex-col items-center justify-center text-center space-y-4">
+                <div className="bg-white p-8 rounded-sm border border-gray-100 shadow-xl shadow-blue-900/5 flex flex-col items-center justify-center text-center space-y-4">
                     <ShieldCheck className="w-16 h-16 text-[#2148C0]" />
                     <h4 className="text-xl font-black text-gray-900">Trilha de Auditoria</h4>
                     <p className="text-sm text-gray-500 font-medium max-w-xs">

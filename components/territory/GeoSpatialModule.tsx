@@ -734,7 +734,7 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div className="w-10 h-10 bg-blue-50 dark:bg-blue-900/10 rounded-xl flex items-center justify-center shadow-sm border border-blue-100/50 dark:border-blue-500/10 transition-transform hover:scale-110">
+                                            <div className="w-10 h-10 bg-blue-50 dark:bg-blue-900/10 rounded-sm flex items-center justify-center shadow-sm border border-blue-100/50 dark:border-blue-500/10 transition-transform hover:scale-110">
                                                 <MapPin className="text-blue-500 w-5 h-5 fill-blue-500/20" />
                                             </div>
                                         </div>

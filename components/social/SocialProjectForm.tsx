@@ -114,7 +114,7 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
     };
 
     return (
-        <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 w-full border border-gray-100 dark:border-gray-700 animate-in fade-in zoom-in-95 duration-500">
+        <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 rounded-sm shadow-2xl p-8 w-full border border-gray-100 dark:border-gray-700 animate-in fade-in zoom-in-95 duration-500">
 
             {/* Cabeçalho */}
             <div className="flex justify-between items-center mb-8 border-b pb-4 dark:border-gray-700">
@@ -175,7 +175,7 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                                     required
                                     value={formData.budget.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                                     onChange={handleBudgetChange}
-                                    className="w-full pl-10 p-3 border rounded-xl dark:bg-gray-700 dark:border-gray-600 font-mono font-bold text-blue-600 text-lg"
+                                    className="w-full pl-10 p-3 border rounded-sm dark:bg-gray-700 dark:border-gray-600 font-mono font-bold text-blue-600 text-lg"
                                     placeholder="0,00"
                                 />
                             </div>
@@ -184,7 +184,7 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status Atual</label>
                             <select
                                 name="status" value={formData.status} onChange={handleChange}
-                                className="w-full p-3 border rounded-xl dark:bg-gray-700 dark:border-gray-600 text-lg font-medium"
+                                className="w-full p-3 border rounded-sm dark:bg-gray-700 dark:border-gray-600 text-lg font-medium"
                             >
                                 <option value="planning">Planejamento</option>
                                 <option value="active">Em Execução</option>
@@ -197,11 +197,11 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Data Início</label>
-                            <input type="date" name="startDate" required value={formData.startDate} onChange={handleChange} className="w-full p-3 border rounded-xl dark:bg-gray-700 dark:border-gray-600 text-lg" />
+                            <input type="date" name="startDate" required value={formData.startDate} onChange={handleChange} className="w-full p-3 border rounded-sm dark:bg-gray-700 dark:border-gray-600 text-lg" />
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Data Fim</label>
-                            <input type="date" name="endDate" required value={formData.endDate} onChange={handleChange} className="w-full p-3 border rounded-xl dark:bg-gray-700 dark:border-gray-600 text-lg" />
+                            <input type="date" name="endDate" required value={formData.endDate} onChange={handleChange} className="w-full p-3 border rounded-sm dark:bg-gray-700 dark:border-gray-600 text-lg" />
                         </div>
                     </div>
                 </div>
@@ -213,7 +213,7 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                     </h3>
 
                     {/* SROI Widget */}
-                    <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-xl border border-blue-100 dark:border-blue-800">
+                    <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-sm border border-blue-100 dark:border-blue-800">
                         <div className="flex items-center justify-between mb-2">
                             <h4 className="text-sm font-bold text-blue-800 dark:text-blue-300 flex items-center gap-2">
                                 <BarChart3 className="w-4 h-4" />

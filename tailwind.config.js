@@ -17,6 +17,9 @@ export default {
                     5: 'rgb(var(--brand-accent-2) / <alpha-value>)',
                     'bg-tint': 'var(--brand-bg-tint)',
                 }
+            },
+            fontFamily: {
+                sans: ['Roboto', 'ui-sans-serif', 'system-ui', 'sans-serif'],
             }
         },
     },

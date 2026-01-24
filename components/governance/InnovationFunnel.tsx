@@ -42,14 +42,14 @@ export const InnovationFunnel: React.FC = () => {
     return (
         <div className="space-y-8 animate-in fade-in duration-700">
             {/* Header */}
-            <div className="flex flex-col md:flex-row justify-between items-center bg-gradient-to-r from-[#1C1C1C] to-gray-800 p-8 rounded-[2.5rem] text-white shadow-2xl gap-6">
+            <div className="flex flex-col md:flex-row justify-between items-center bg-gradient-to-r from-[#1C1C1C] to-gray-800 p-8 rounded-sm text-white shadow-2xl gap-6">
                 <div>
                     <h2 className="text-3xl font-black tracking-tight flex items-center gap-3">
                         <Sparkles className="w-8 h-8 text-yellow-400" /> Roda da Inovação
                     </h2>
                     <p className="text-gray-400 font-medium italic mt-2">Funil de Ideias e Melhoria Contínua EMAP (CRIARE)</p>
                 </div>
-                <button className="bg-happiness-1 text-white px-8 py-4 rounded-2xl font-black text-sm uppercase tracking-widest flex items-center gap-2 shadow-xl shadow-happiness-1/20 hover:scale-105 transition-all w-full md:w-auto">
+                <button className="bg-happiness-1 text-white px-8 py-4 rounded-sm font-black text-sm uppercase tracking-widest flex items-center gap-2 shadow-xl shadow-happiness-1/20 hover:scale-105 transition-all w-full md:w-auto">
                     <Plus className="w-5 h-5" /> Submeter Ideia
                 </button>
             </div>
@@ -58,8 +58,8 @@ export const InnovationFunnel: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 {stages.map((stage, i) => (
                     <div key={i} className="relative group">
-                        <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm group-hover:shadow-md transition-all text-center space-y-3">
-                            <div className={`${stage.color} text-white w-12 h-12 rounded-2xl flex items-center justify-center mx-auto shadow-lg`}>
+                        <div className="bg-white p-6 rounded-sm border border-gray-100 shadow-sm group-hover:shadow-md transition-all text-center space-y-3">
+                            <div className={`${stage.color} text-white w-12 h-12 rounded-sm flex items-center justify-center mx-auto shadow-lg`}>
                                 {stage.icon}
                             </div>
                             <h4 className="text-[10px] font-black uppercase text-gray-400 tracking-widest">{stage.name}</h4>
@@ -83,7 +83,7 @@ export const InnovationFunnel: React.FC = () => {
             ) : (
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     {ideas.map(idea => (
-                        <div key={idea.id} className="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-xl shadow-gray-200/50 hover:border-happiness-1/30 transition-all flex flex-col justify-between">
+                        <div key={idea.id} className="bg-white p-8 rounded-sm border border-gray-100 shadow-xl shadow-gray-200/50 hover:border-happiness-1/30 transition-all flex flex-col justify-between">
                             <div className="space-y-4">
                                 <div className="flex justify-between items-start">
                                     <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest text-white ${idea.impact_area === 'Environmental' ? 'bg-green-500' :
@@ -120,7 +120,7 @@ export const InnovationFunnel: React.FC = () => {
                         </div>
                     ))}
                     {ideas.length === 0 && (
-                        <div className="col-span-full py-20 text-center bg-gray-50 rounded-[2.5rem] border-2 border-dashed border-gray-200">
+                        <div className="col-span-full py-20 text-center bg-gray-50 rounded-sm border-2 border-dashed border-gray-200">
                             <p className="text-gray-400 font-medium">Nenhuma ideia submetida ainda.</p>
                         </div>
                     )}
@@ -128,8 +128,8 @@ export const InnovationFunnel: React.FC = () => {
             )}
 
             {/* Criare Branding */}
-            <div className="bg-gradient-to-r from-happiness-1/5 to-happiness-3/5 p-8 rounded-[2.5rem] border border-happiness-1/10 flex items-center gap-6">
-                <div className="w-16 h-16 bg-white rounded-3xl shadow-sm flex items-center justify-center border border-happiness-1/20 shrink-0">
+            <div className="bg-gradient-to-r from-happiness-1/5 to-happiness-3/5 p-8 rounded-sm border border-happiness-1/10 flex items-center gap-6">
+                <div className="w-16 h-16 bg-white rounded-sm shadow-sm flex items-center justify-center border border-happiness-1/20 shrink-0">
                     <Heart className="w-8 h-8 text-happiness-1 fill-happiness-1" />
                 </div>
                 <div>

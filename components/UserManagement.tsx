@@ -237,14 +237,14 @@ export const UserManagement: React.FC<UserManagementProps> = ({ onAddUser }) => 
                 </div>
                 <button
                     onClick={onAddUser}
-                    className="bg-happiness-1 text-white px-6 py-3 rounded-2xl shadow-xl shadow-happiness-1/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2 font-black text-sm uppercase tracking-widest"
+                    className="bg-happiness-1 text-white px-6 py-3 rounded-sm shadow-xl shadow-happiness-1/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2 font-black text-sm uppercase tracking-widest"
                 >
                     <UserPlus className="w-4 h-4" /> Convidar Membro
                 </button>
             </div>
 
             {/* Main Content Card */}
-            <div className="bg-white rounded-[2rem] shadow-sm border border-gray-100 overflow-hidden">
+            <div className="bg-white rounded-sm shadow-sm border border-gray-100 overflow-hidden">
                 {/* Table Controls */}
                 <div className="p-6 border-b border-gray-50 flex flex-col sm:flex-row justify-between items-center gap-4 bg-gray-50/30">
                     <div className="relative w-full sm:w-96 group">
@@ -254,7 +254,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ onAddUser }) => 
                             placeholder="Buscar por nome ou e-mail..."
                             value={filter}
                             onChange={(e) => setFilter(e.target.value)}
-                            className="w-full pl-12 pr-4 py-3 bg-white border-2 border-gray-100 rounded-2xl text-sm font-medium focus:border-happiness-1 transition-all outline-none"
+                            className="w-full pl-12 pr-4 py-3 bg-white border-2 border-gray-100 rounded-sm text-sm font-medium focus:border-happiness-1 transition-all outline-none"
                         />
                     </div>
                     <div className="flex items-center gap-2">
@@ -284,7 +284,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ onAddUser }) => 
                                     <tr key={profile.id} className="hover:bg-gray-50/80 transition-colors group">
                                         <td className="px-8 py-5">
                                             <div className="flex items-center gap-4">
-                                                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-black text-white shadow-lg transition-transform group-hover:scale-110 duration-500 ${profile.role === 'master' ? 'bg-gradient-to-tr from-purple-600 to-indigo-500 shadow-purple-200' :
+                                                <div className={`w-12 h-12 rounded-sm flex items-center justify-center font-black text-white shadow-lg transition-transform group-hover:scale-110 duration-500 ${profile.role === 'master' ? 'bg-gradient-to-tr from-purple-600 to-indigo-500 shadow-purple-200' :
                                                     profile.role === 'admin' ? 'bg-gradient-to-tr from-happiness-1 to-happiness-2 shadow-happiness-1/20' :
                                                         'bg-gradient-to-tr from-gray-400 to-gray-300 shadow-gray-200'
                                                     }`}>
@@ -343,10 +343,10 @@ export const UserManagement: React.FC<UserManagementProps> = ({ onAddUser }) => 
             </div>
 
             {/* Footer Info */}
-            <div className="bg-[#1C1C1C] p-8 rounded-[2rem] flex flex-col md:flex-row items-center justify-between text-white overflow-hidden relative group">
+            <div className="bg-[#1C1C1C] p-8 rounded-sm flex flex-col md:flex-row items-center justify-between text-white overflow-hidden relative group">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-happiness-2/20 rounded-full blur-[100px] -mr-32 -mt-32"></div>
                 <div className="relative z-10 flex items-center gap-6">
-                    <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center border border-white/10">
+                    <div className="w-16 h-16 bg-white/10 rounded-sm flex items-center justify-center border border-white/10">
                         <ShieldCheck className="w-8 h-8 text-happiness-3" />
                     </div>
                     <div>
@@ -354,7 +354,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ onAddUser }) => 
                         <p className="text-gray-400 text-sm font-medium">Todas as alterações de nível de acesso são auditadas pelo sistema central.</p>
                     </div>
                 </div>
-                <button className="relative z-10 mt-6 md:mt-0 px-6 py-3 border border-white/20 hover:bg-white/10 transition-colors rounded-xl font-bold text-sm uppercase tracking-widest">
+                <button className="relative z-10 mt-6 md:mt-0 px-6 py-3 border border-white/20 hover:bg-white/10 transition-colors rounded-sm font-bold text-sm uppercase tracking-widest">
                     Ver Logs de Auditoria
                 </button>
             </div>

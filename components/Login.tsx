@@ -147,7 +147,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
           </div>
 
           {resetSuccess ? (
-            <div className="bg-green-50 border-2 border-green-500 text-center p-8 rounded-3xl">
+            <div className="bg-green-50 border-2 border-green-500 text-center p-8 rounded-sm">
               <CheckCircle sx={{ fontSize: 48, color: '#22c55e', mb: 2 }} />
               <h3 className="text-lg font-black text-gray-900 mb-1">
                 E-mail Enviado!

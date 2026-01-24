@@ -53,13 +53,13 @@ export const ShipWaste: React.FC = () => {
                 <div className="flex gap-3">
                     <button
                         onClick={handleExportANTAQ}
-                        className="bg-gray-100 text-gray-700 px-6 py-3 rounded-2xl font-black text-sm uppercase tracking-widest flex items-center gap-2 hover:bg-gray-200 transition-all"
+                        className="bg-gray-100 text-gray-700 px-6 py-3 rounded-sm font-black text-sm uppercase tracking-widest flex items-center gap-2 hover:bg-gray-200 transition-all"
                     >
                         <Download className="w-5 h-5" /> Exportar ANTAQ/GISIS
                     </button>
                     <button
                         onClick={() => setIsFormOpen(true)}
-                        className="bg-happiness-1 text-white px-6 py-3 rounded-2xl font-black text-sm uppercase tracking-widest flex items-center gap-2 shadow-xl shadow-happiness-1/20 hover:scale-105 transition-all"
+                        className="bg-happiness-1 text-white px-6 py-3 rounded-sm font-black text-sm uppercase tracking-widest flex items-center gap-2 shadow-xl shadow-happiness-1/20 hover:scale-105 transition-all"
                     >
                         <Plus className="w-5 h-5" /> Novo Recebimento
                     </button>
@@ -69,18 +69,18 @@ export const ShipWaste: React.FC = () => {
             {/* Regulatory Status Widget */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 {stats.map((stat, i) => (
-                    <div key={i} className="bg-white p-5 rounded-3xl border border-gray-100 shadow-sm flex items-center justify-between">
+                    <div key={i} className="bg-white p-5 rounded-sm border border-gray-100 shadow-sm flex items-center justify-between">
                         <div>
                             <span className="text-[10px] font-black uppercase text-gray-400 block mb-1">{stat.label}</span>
                             <p className="text-2xl font-black text-gray-900 tracking-tighter">{stat.value}</p>
                         </div>
-                        <div className="p-3 bg-gray-50 rounded-2xl">{stat.icon}</div>
+                        <div className="p-3 bg-gray-50 rounded-sm">{stat.icon}</div>
                     </div>
                 ))}
             </div>
 
             {/* Main Table */}
-            <div className="bg-white rounded-3xl border border-gray-100 shadow-xl overflow-hidden">
+            <div className="bg-white rounded-sm border border-gray-100 shadow-xl overflow-hidden">
                 {isLoading ? (
                     <div className="flex flex-col items-center justify-center py-20 space-y-4">
                         <Loader2 className="w-10 h-10 text-happiness-1 animate-spin" />
@@ -102,7 +102,7 @@ export const ShipWaste: React.FC = () => {
                                 <tr key={r.id} className="hover:bg-gray-50/50 transition-colors group">
                                     <td className="px-8 py-6">
                                         <div className="flex items-center gap-3">
-                                            <div className="w-10 h-10 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center font-black">
+                                            <div className="w-10 h-10 bg-blue-50 text-blue-600 rounded-sm flex items-center justify-center font-black">
                                                 {r.vessel_name.charAt(0)}
                                             </div>
                                             <div>
@@ -153,7 +153,7 @@ export const ShipWaste: React.FC = () => {
             </div>
 
             {/* Validation Note */}
-            <div className="bg-red-50 p-6 rounded-3xl border-2 border-red-100 flex items-start gap-4">
+            <div className="bg-red-50 p-6 rounded-sm border-2 border-red-100 flex items-start gap-4">
                 <AlertCircle className="w-6 h-6 text-red-500" />
                 <div>
                     <h4 className="text-red-900 font-black text-sm uppercase mb-1">Trava de Segurança PC-112</h4>

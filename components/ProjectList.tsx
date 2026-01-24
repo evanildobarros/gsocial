@@ -85,7 +85,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onAddNew, onEdit }) =>
 
   return (
     <div className="space-y-8 animate-in fade-in duration-700">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-white/5 p-6 rounded-2xl border border-gray-100 dark:border-white/10 shadow-sm">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-white/5 p-6 rounded-sm border border-gray-100 dark:border-white/10 shadow-sm">
         <div>
           <h2 className="text-2xl font-black text-gray-900 dark:text-white tracking-tighter">Portfólio de Projetos Sociais</h2>
           <p className="text-gray-400 font-medium text-sm mt-1 italic">Gestão integrada da Área de Influência do Itaqui (Dados em Tempo Real)</p>
@@ -99,12 +99,12 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onAddNew, onEdit }) =>
               placeholder="Filtrar projetos..."
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
-              className="pl-10 pr-4 py-2 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-xl text-sm focus:ring-2 focus:ring-happiness-1/20 focus:border-happiness-1 outline-none transition-all w-full md:w-64"
+              className="pl-10 pr-4 py-2 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-sm text-sm focus:ring-2 focus:ring-happiness-1/20 focus:border-happiness-1 outline-none transition-all w-full md:w-64"
             />
           </div>
           <button
             onClick={onAddNew}
-            className="flex items-center gap-2 px-6 py-2.5 bg-happiness-1 hover:bg-happiness-2 text-white rounded-xl shadow-lg shadow-happiness-1/20 transition-all font-black text-xs uppercase tracking-widest active:scale-95"
+            className="flex items-center gap-2 px-6 py-2.5 bg-happiness-1 hover:bg-happiness-2 text-white rounded-sm shadow-lg shadow-happiness-1/20 transition-all font-black text-xs uppercase tracking-widest active:scale-95"
           >
             <ArrowUpRight className="w-4 h-4" />
             Novo Projeto
@@ -120,7 +120,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onAddNew, onEdit }) =>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredProjects.map((p) => (
-            <div key={p.id} className="bg-white dark:bg-white/5 rounded-xl shadow-sm border border-gray-100 dark:border-white/10 p-5 hover:shadow-md transition group cursor-pointer h-full flex flex-col">
+            <div key={p.id} className="bg-white dark:bg-white/5 rounded-sm shadow-sm border border-gray-100 dark:border-white/10 p-5 hover:shadow-md transition group cursor-pointer h-full flex flex-col">
               <div className="flex justify-between items-start mb-4">
                 <span className={`text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded border flex items-center gap-1 ${getPilarColor(p.pilar)}`}>
                   {getPilarIcon(p.pilar)}
@@ -129,7 +129,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onAddNew, onEdit }) =>
                 <div className="flex gap-2">
                   <button
                     onClick={(e) => { e.stopPropagation(); onEdit?.(p); }}
-                    className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-white/5 hover:bg-happiness-1 hover:text-white rounded-xl text-happiness-1 transition-all border-2 border-happiness-1/20 hover:border-happiness-1 shadow-sm font-bold text-xs"
+                    className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-white/5 hover:bg-happiness-1 hover:text-white rounded-sm text-happiness-1 transition-all border-2 border-happiness-1/20 hover:border-happiness-1 shadow-sm font-bold text-xs"
                     title="Editar Projeto"
                   >
                     <Edit2 className="w-3.5 h-3.5" />
@@ -137,7 +137,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onAddNew, onEdit }) =>
                   </button>
                   <button
                     onClick={(e) => { e.stopPropagation(); setProjectToDelete(p.id); }}
-                    className="flex items-center justify-center w-10 h-10 bg-white dark:bg-white/5 hover:bg-red-500 hover:text-white rounded-xl text-red-500 transition-all border-2 border-red-100 dark:border-red-900/20 hover:border-red-500 shadow-sm"
+                    className="flex items-center justify-center w-10 h-10 bg-white dark:bg-white/5 hover:bg-red-500 hover:text-white rounded-sm text-red-500 transition-all border-2 border-red-100 dark:border-red-900/20 hover:border-red-500 shadow-sm"
                     title="Excluir Projeto"
                   >
                     <Trash2 className="w-4 h-4" />
@@ -187,7 +187,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onAddNew, onEdit }) =>
             </div>
           ))}
           {filteredProjects.length === 0 && (
-            <div className="col-span-full py-12 text-center bg-gray-50 dark:bg-white/5 rounded-xl border-2 border-dashed border-gray-200 dark:border-white/10">
+            <div className="col-span-full py-12 text-center bg-gray-50 dark:bg-white/5 rounded-sm border-2 border-dashed border-gray-200 dark:border-white/10">
               <p className="text-gray-400 font-medium">Nenhum projeto encontrado.</p>
             </div>
           )}
@@ -222,7 +222,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onAddNew, onEdit }) =>
               {/* Bloco de Mensagem */}
               <div className="bg-red-50/50 dark:bg-red-900/10 p-5 rounded-[24px] border border-red-100/50 dark:border-red-900/20 mb-8">
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 shrink-0 bg-white dark:bg-zinc-800 rounded-2xl flex items-center justify-center shadow-sm">
+                  <div className="w-10 h-10 shrink-0 bg-white dark:bg-zinc-800 rounded-sm flex items-center justify-center shadow-sm">
                     <Trash2 className="w-5 h-5 text-red-500" />
                   </div>
                   <p className="text-sm font-bold text-gray-600 dark:text-gray-400 leading-relaxed">
@@ -235,13 +235,13 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onAddNew, onEdit }) =>
                 <button
                   onClick={() => handleDelete(projectToDelete)}
                   disabled={isDeleting}
-                  className="w-full py-4 px-6 bg-red-500 hover:bg-red-600 text-white rounded-[20px] font-black text-sm shadow-xl shadow-red-500/20 transition-all flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50"
+                  className="w-full py-4 px-6 bg-red-500 hover:bg-red-600 text-white rounded-sm font-black text-sm shadow-xl shadow-red-500/20 transition-all flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50"
                 >
                   {isDeleting ? <Loader2 className="w-5 h-5 animate-spin" /> : 'CONFIRMAR EXCLUSÃO'}
                 </button>
                 <button
                   onClick={() => setProjectToDelete(null)}
-                  className="w-full py-4 px-6 bg-gray-50 dark:bg-white/5 hover:bg-gray-100 dark:hover:bg-white/10 text-gray-400 dark:text-gray-500 rounded-[20px] font-black text-xs transition-all uppercase tracking-widest"
+                  className="w-full py-4 px-6 bg-gray-50 dark:bg-white/5 hover:bg-gray-100 dark:hover:bg-white/10 text-gray-400 dark:text-gray-500 rounded-sm font-black text-xs transition-all uppercase tracking-widest"
                 >
                   Manter Projeto
                 </button>

@@ -156,7 +156,7 @@ export const LayerUploadModal: React.FC<LayerUploadModalProps> = ({ open, onClos
                             }}
                             onClick={() => fileInputRef.current?.click()}
                             className={`
-                                relative border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all flex flex-col items-center justify-center
+                                relative border-2 border-dashed rounded-sm p-8 text-center cursor-pointer transition-all flex flex-col items-center justify-center
                                 ${isDragging ? 'border-happiness-1 bg-happiness-1/5 scale-[0.99]' : 'border-gray-200 dark:border-white/10 hover:border-happiness-1/50 hover:bg-gray-50 dark:hover:bg-white/5'}
                             `}
                         >
@@ -214,7 +214,7 @@ export const LayerUploadModal: React.FC<LayerUploadModalProps> = ({ open, onClos
                                         key={opt.value}
                                         onClick={() => setSelectedPillar(opt.value)}
                                         className={`
-                                            flex items-center gap-4 p-4 rounded-xl border transition-all text-left
+                                            flex items-center gap-4 p-4 rounded-sm border transition-all text-left
                                             ${selectedPillar === opt.value
                                                 ? `${opt.bg} border-happiness-1/50 ring-1 ring-happiness-1/20`
                                                 : 'border-gray-100 dark:border-white/5 bg-gray-50 dark:bg-white/5 hover:border-gray-300 dark:hover:border-white/10'
@@ -236,7 +236,7 @@ export const LayerUploadModal: React.FC<LayerUploadModalProps> = ({ open, onClos
 
                 {/* Status Feedback */}
                 {uploadState.status !== 'idle' && (
-                    <div className={`p-5 rounded-xl border transition-all animate-in slide-in-from-top-2 ${uploadState.status === 'processing' ? 'bg-blue-50 dark:bg-blue-900/10 border-blue-100' :
+                    <div className={`p-5 rounded-sm border transition-all animate-in slide-in-from-top-2 ${uploadState.status === 'processing' ? 'bg-blue-50 dark:bg-blue-900/10 border-blue-100' :
                             uploadState.status === 'success' ? 'bg-green-50 dark:bg-green-900/10 border-green-100' :
                                 'bg-red-50 dark:bg-red-900/10 border-red-100 dark:border-red-900/20'
                         }`}>

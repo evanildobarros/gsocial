@@ -9,6 +9,8 @@ import {
     ThemeProvider,
     createTheme,
     CssBaseline,
+    Avatar,
+    IconButton,
 } from '@mui/material';
 import {
     Dashboard as DashboardIcon,
@@ -165,13 +167,13 @@ export default function App() {
                     contrastText: '#ffffff',
                 },
             },
-            shape: { borderRadius: 4 },
+            shape: { borderRadius: 1 },
             typography: {
-                fontFamily: '"Inter", sans-serif',
+                fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
                 button: { fontWeight: 700, textTransform: 'none' },
             },
             components: {
-                MuiButton: { styleOverrides: { root: { borderRadius: 4, padding: '10px 24px' } } },
+                MuiButton: { styleOverrides: { root: { borderRadius: 1, padding: '10px 24px' } } },
                 MuiMenuItem: { styleOverrides: { root: { fontWeight: 600 } } }
             }
         });
@@ -500,7 +502,6 @@ export default function App() {
         { icon: <ComplianceIcon />, label: "Digital LAIA (PC-56)", mode: AppMode.ENV_LAIA },
         { icon: <AnchorIcon />, label: "Resíduos (PC-112)", mode: AppMode.ENV_WASTE_SHIP },
         { icon: <AnalyticsIcon />, label: "Inteligência Climática", mode: AppMode.ENV_METEO },
-        { icon: <AnalyticsIcon />, label: "Diagnóstico (ABNT)", mode: AppMode.ENV_DIAGNOSTIC },
     ];
 
     const socialItems = [
@@ -515,7 +516,6 @@ export default function App() {
         { icon: <ReportingIcon />, label: "Relatórios & Padrões", mode: AppMode.GOV_REPORTING },
         { icon: <SupplyChainIcon />, label: "Cadeia de Valor", mode: AppMode.GOV_SUPPLY_CHAIN },
         { icon: <LightbulbIcon />, label: "Roda da Inovação", mode: AppMode.GOV_INNOVATION_FUNNEL },
-        { icon: <AnalyticsIcon />, label: "Diagnóstico (ABNT)", mode: AppMode.GOV_ESG_DIAGNOSTIC },
     ];
 
     const diagItems = [
@@ -544,13 +544,11 @@ export default function App() {
                 `}>
                         {sidebarOpen ? (
                             <>
-                                <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 bg-happiness-1 rounded-sm flex items-center justify-center transform hover:rotate-6 transition-transform shadow-lg shadow-happiness-1/20 shrink-0">
-                                        <AnchorIcon className="text-white" sx={{ fontSize: 24 }} />
-                                    </div>
+                                <div className="flex flex-col items-start gap-2">
+                                    <img src="/logo_itaqui.png" alt="Porto do Itaqui" className="h-10 w-auto object-contain" />
                                     <div className="animate-in fade-in duration-300">
                                         <h1 className="text-lg font-black tracking-tighter leading-none text-gray-900 dark:text-white">ESGporto</h1>
-                                        <p className="text-[9px] font-black text-gray-400 dark:text-happiness-3 uppercase tracking-widest mt-0.5">Dash Intelligence</p>
+                                        <p className="text-[9px] font-black text-gray-400 dark:text-happiness-3 uppercase tracking-widest mt-1">Dash Intelligence</p>
                                     </div>
                                 </div>
                                 <button
@@ -561,12 +559,15 @@ export default function App() {
                                 </button>
                             </>
                         ) : (
-                            <button
-                                onClick={() => setSidebarOpen(true)}
-                                className="p-2 text-gray-400 hover:text-happiness-1 hover:bg-happiness-1/5 rounded-sm transition-all"
-                            >
-                                <MenuIcon sx={{ fontSize: 24 }} />
-                            </button>
+                            <div className="flex flex-col items-center gap-4">
+                                <img src="/logo_itaqui.png" alt="Logo" className="w-10 h-10 object-contain" />
+                                <button
+                                    onClick={() => setSidebarOpen(true)}
+                                    className="p-2 text-gray-400 hover:text-happiness-1 hover:bg-happiness-1/5 rounded-sm transition-all"
+                                >
+                                    <MenuIcon sx={{ fontSize: 24 }} />
+                                </button>
+                            </div>
                         )}
                     </div>
 
@@ -775,16 +776,33 @@ export default function App() {
                             </Tooltip>
 
                             <Tooltip title="Seu Perfil">
-                                <button
+                                <IconButton
                                     onClick={handleProfileClick}
-                                    className="w-10 h-10 rounded-xl bg-happiness-1 flex items-center justify-center text-white text-[10px] font-black hover:scale-105 transition-transform shadow-md shadow-happiness-1/20 overflow-hidden border-2 border-white dark:border-zinc-800"
+                                    sx={{
+                                        p: 0,
+                                        border: '2px solid white',
+                                        boxShadow: '0 4px 12px rgba(var(--brand-primary), 0.2)',
+                                        borderRadius: '4px',
+                                        '&:hover': { scale: '1.05' },
+                                        transition: 'all 0.2s'
+                                    }}
                                 >
-                                    {userProfile?.avatar_url ? (
-                                        <img src={userProfile.avatar_url} alt="Avatar" className="w-full h-full object-cover" />
-                                    ) : (
-                                        getInitials(userProfile?.full_name)
-                                    )}
-                                </button>
+                                    <Avatar
+                                        alt={userProfile?.full_name || 'Usuário'}
+                                        src={userProfile?.avatar_url || ''}
+                                        variant="square"
+                                        sx={{
+                                            width: 40,
+                                            height: 40,
+                                            bgcolor: 'primary.main',
+                                            fontWeight: 900,
+                                            fontSize: '0.75rem',
+                                            borderRadius: '4px'
+                                        }}
+                                    >
+                                        {getInitials(userProfile?.full_name)}
+                                    </Avatar>
+                                </IconButton>
                             </Tooltip>
 
                             <Menu
@@ -800,7 +818,7 @@ export default function App() {
                                         overflow: 'visible',
                                         filter: 'drop-shadow(0px 10px 20px rgba(0,0,0,0.1))',
                                         mt: 1.5,
-                                        borderRadius: '1rem',
+                                        borderRadius: '4px',
                                         minWidth: 200,
                                         border: '1px solid rgba(0,0,0,0.05)',
                                         '& .MuiAvatar-root': {

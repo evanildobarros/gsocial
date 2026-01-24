@@ -150,7 +150,7 @@ export const UserProfilePage: React.FC = () => {
 
     return (
         <div className="w-full animate-in fade-in slide-in-from-bottom-4 duration-700">
-            <div className="bg-white rounded-[2.5rem] shadow-xl shadow-blue-900/5 border border-gray-100 overflow-hidden">
+            <div className="bg-white rounded-sm shadow-xl shadow-blue-900/5 border border-gray-100 overflow-hidden">
                 {/* Header/Cover Background */}
                 <div
                     className="h-48 bg-gradient-to-r from-[#2148C0] via-blue-600 to-indigo-600 relative bg-cover bg-center group/cover"
@@ -167,7 +167,7 @@ export const UserProfilePage: React.FC = () => {
                     <button
                         onClick={() => coverInputRef.current?.click()}
                         disabled={uploading === 'cover'}
-                        className="absolute bottom-4 right-4 p-3 bg-black/30 backdrop-blur-md border border-white/20 rounded-xl text-white hover:bg-black/50 transition-all flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] disabled:opacity-50 z-10"
+                        className="absolute bottom-4 right-4 p-3 bg-black/30 backdrop-blur-md border border-white/20 rounded-sm text-white hover:bg-black/50 transition-all flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] disabled:opacity-50 z-10"
                     >
                         {uploading === 'cover' ? <Loader2 className="w-3 h-3 animate-spin" /> : <Camera className="w-3 h-3" />}
                         Alterar Capa
@@ -186,15 +186,15 @@ export const UserProfilePage: React.FC = () => {
                     {/* Avatar Positioning */}
                     <div className="relative -mt-20 mb-8 flex items-end justify-between">
                         <div className="relative group">
-                            <div className="w-40 h-40 rounded-[2.5rem] bg-white p-2 shadow-2xl relative overflow-hidden">
+                            <div className="w-40 h-40 rounded-sm bg-white p-2 shadow-2xl relative overflow-hidden">
                                 {profile.avatar_url ? (
                                     <img
                                         src={profile.avatar_url}
                                         alt={profile.full_name}
-                                        className="w-full h-full rounded-[2rem] object-cover"
+                                        className="w-full h-full rounded-sm object-cover"
                                     />
                                 ) : (
-                                    <div className={`w-full h-full rounded-[2rem] flex items-center justify-center text-white font-black text-4xl shadow-inner ${profile.role === 'master' ? 'bg-gradient-to-tr from-purple-600 to-indigo-500' :
+                                    <div className={`w-full h-full rounded-sm flex items-center justify-center text-white font-black text-4xl shadow-inner ${profile.role === 'master' ? 'bg-gradient-to-tr from-purple-600 to-indigo-500' :
                                         profile.role === 'admin' ? 'bg-gradient-to-tr from-blue-600 to-cyan-500' :
                                             'bg-gradient-to-tr from-gray-400 to-gray-300'
                                         }`}>
@@ -205,7 +205,7 @@ export const UserProfilePage: React.FC = () => {
                             <button
                                 onClick={() => avatarInputRef.current?.click()}
                                 disabled={uploading === 'avatar'}
-                                className="absolute bottom-2 right-2 p-3 bg-white rounded-2xl shadow-xl text-gray-400 hover:text-[#2148C0] transition-all transform hover:scale-110 active:scale-95 border border-gray-50 disabled:opacity-50"
+                                className="absolute bottom-2 right-2 p-3 bg-white rounded-sm shadow-xl text-gray-400 hover:text-[#2148C0] transition-all transform hover:scale-110 active:scale-95 border border-gray-50 disabled:opacity-50"
                             >
                                 {uploading === 'avatar' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Camera className="w-5 h-5" />}
                             </button>
@@ -222,7 +222,7 @@ export const UserProfilePage: React.FC = () => {
                             {!isEditing ? (
                                 <button
                                     onClick={() => setIsEditing(true)}
-                                    className="flex items-center gap-2 px-6 py-3 bg-gray-50 text-gray-600 font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-gray-100 transition-all border border-gray-100"
+                                    className="flex items-center gap-2 px-6 py-3 bg-gray-50 text-gray-600 font-black text-xs uppercase tracking-widest rounded-sm hover:bg-gray-100 transition-all border border-gray-100"
                                 >
                                     <Edit2 className="w-4 h-4" /> Editar Perfil
                                 </button>
@@ -230,14 +230,14 @@ export const UserProfilePage: React.FC = () => {
                                 <>
                                     <button
                                         onClick={() => setIsEditing(false)}
-                                        className="flex items-center gap-2 px-6 py-3 bg-red-50 text-red-600 font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-red-100 transition-all border border-red-100"
+                                        className="flex items-center gap-2 px-6 py-3 bg-red-50 text-red-600 font-black text-xs uppercase tracking-widest rounded-sm hover:bg-red-100 transition-all border border-red-100"
                                     >
                                         <X className="w-4 h-4" /> Cancelar
                                     </button>
                                     <button
                                         onClick={handleUpdate}
                                         disabled={saving}
-                                        className="flex items-center gap-2 px-6 py-3 bg-[#2148C0] text-white font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-blue-700 shadow-xl shadow-blue-600/20 transition-all disabled:opacity-50"
+                                        className="flex items-center gap-2 px-6 py-3 bg-[#2148C0] text-white font-black text-xs uppercase tracking-widest rounded-sm hover:bg-blue-700 shadow-xl shadow-blue-600/20 transition-all disabled:opacity-50"
                                     >
                                         {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
                                         Salvar Alterações
@@ -257,7 +257,7 @@ export const UserProfilePage: React.FC = () => {
                                         type="text"
                                         value={formData.full_name}
                                         onChange={(e) => setFormData({ full_name: e.target.value })}
-                                        className="w-full bg-gray-50 border-2 border-gray-100 rounded-2xl px-6 py-4 font-bold text-gray-900 focus:border-[#2148C0] transition-all outline-none"
+                                        className="w-full bg-gray-50 border-2 border-gray-100 rounded-sm px-6 py-4 font-bold text-gray-900 focus:border-[#2148C0] transition-all outline-none"
                                     />
                                 ) : (
                                     <p className="text-3xl font-black text-gray-900 tracking-tight">{profile.full_name || 'Não informado'}</p>
@@ -267,14 +267,14 @@ export const UserProfilePage: React.FC = () => {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <div className="space-y-1">
                                     <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">E-mail Corporativo</label>
-                                    <div className="flex items-center gap-3 px-6 py-4 bg-gray-50 rounded-2xl border border-gray-100">
+                                    <div className="flex items-center gap-3 px-6 py-4 bg-gray-50 rounded-sm border border-gray-100">
                                         <Mail className="w-5 h-5 text-gray-300" />
                                         <span className="font-bold text-gray-600">{profile.email}</span>
                                     </div>
                                 </div>
                                 <div className="space-y-1">
                                     <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">Data de Ingresso</label>
-                                    <div className="flex items-center gap-3 px-6 py-4 bg-gray-50 rounded-2xl border border-gray-100">
+                                    <div className="flex items-center gap-3 px-6 py-4 bg-gray-50 rounded-sm border border-gray-100">
                                         <Calendar className="w-5 h-5 text-gray-300" />
                                         <span className="font-bold text-gray-600">{new Date(profile.created_at).toLocaleDateString('pt-BR')}</span>
                                     </div>
@@ -283,14 +283,14 @@ export const UserProfilePage: React.FC = () => {
                         </div>
 
                         <div className="space-y-8">
-                            <div className="bg-gray-50 p-8 rounded-[2rem] border border-gray-100 relative overflow-hidden group">
+                            <div className="bg-gray-50 p-8 rounded-sm border border-gray-100 relative overflow-hidden group">
                                 <div className="absolute top-0 right-0 p-4 opacity-5 transform group-hover:scale-110 transition-transform">
                                     <Shield className="w-20 h-20" />
                                 </div>
                                 <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-4 block">Seu Nível de Acesso</label>
 
                                 <div className="space-y-4 relative z-10">
-                                    <div className={`flex items-center gap-3 p-4 rounded-2xl border ${profile.role === 'master' ? 'bg-purple-100/50 border-purple-200 text-purple-700' :
+                                    <div className={`flex items-center gap-3 p-4 rounded-sm border ${profile.role === 'master' ? 'bg-purple-100/50 border-purple-200 text-purple-700' :
                                         profile.role === 'admin' ? 'bg-blue-100/50 border-blue-200 text-blue-700' :
                                             'bg-gray-200/50 border-gray-300 text-gray-600'
                                         }`}>
@@ -309,7 +309,7 @@ export const UserProfilePage: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className="flex items-center gap-2 p-6 bg-green-50 rounded-2xl border border-green-100">
+                            <div className="flex items-center gap-2 p-6 bg-green-50 rounded-sm border border-green-100">
                                 <CheckCircle2 className="w-5 h-5 text-green-500" />
                                 <span className="text-xs font-bold text-green-700">Conta Verificada ESGporto</span>
                             </div>

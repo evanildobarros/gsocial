@@ -132,7 +132,7 @@ export const LayerUploaderInline: React.FC<LayerUploaderInlineProps> = ({ onLaye
                             onDrop={onDrop}
                             onClick={() => fileInputRef.current?.click()}
                             className={`
-                                relative border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all flex flex-col items-center justify-center
+                                relative border-2 border-dashed rounded-sm p-6 text-center cursor-pointer transition-all flex flex-col items-center justify-center
                                 ${isDragging ? 'border-happiness-1 bg-happiness-1/5 scale-[0.99]' : 'border-gray-200 dark:border-white/10 hover:border-happiness-1/50 hover:bg-gray-50 dark:hover:bg-white/5'}
                             `}
                         >
@@ -189,7 +189,7 @@ export const LayerUploaderInline: React.FC<LayerUploaderInlineProps> = ({ onLaye
                                         key={opt.value}
                                         onClick={() => setSelectedPillar(opt.value)}
                                         className={`
-                                            flex items-center gap-3 p-3 rounded-xl border text-xs font-bold transition-all text-left
+                                            flex items-center gap-3 p-3 rounded-sm border text-xs font-bold transition-all text-left
                                             ${selectedPillar === opt.value
                                                 ? `${opt.bg} ${opt.border} ring-1 ring-inset ring-happiness-1/20 shadow-sm transition-all duration-300`
                                                 : 'border-gray-100 dark:border-white/5 bg-white dark:bg-white/5 hover:border-gray-300 dark:hover:border-white/10'
@@ -207,7 +207,7 @@ export const LayerUploaderInline: React.FC<LayerUploaderInlineProps> = ({ onLaye
 
                 {/* Status Feedback */}
                 {uploadState.status !== 'idle' && (
-                    <div className={`p-4 rounded-xl border transition-all animate-in slide-in-from-top-2 ${uploadState.status === 'processing' ? 'bg-blue-50 dark:bg-blue-900/10 border-blue-100' :
+                    <div className={`p-4 rounded-sm border transition-all animate-in slide-in-from-top-2 ${uploadState.status === 'processing' ? 'bg-blue-50 dark:bg-blue-900/10 border-blue-100' :
                         uploadState.status === 'success' ? 'bg-green-50 dark:bg-green-900/10 border-green-100' :
                             'bg-red-50 dark:bg-red-900/10 border-red-100 dark:border-red-900/20'
                         }`}>
@@ -236,7 +236,7 @@ export const LayerUploaderInline: React.FC<LayerUploaderInlineProps> = ({ onLaye
                     onClick={handleImport}
                     disabled={!selectedFile || !selectedPillar || !layerName || uploadState.status === 'processing'}
                     className={`
-                        flex items-center gap-2 px-8 py-2.5 rounded-xl text-sm font-bold transition-all shadow-lg
+                        flex items-center gap-2 px-8 py-2.5 rounded-sm text-sm font-bold transition-all shadow-lg
                         ${!selectedFile || !selectedPillar || !layerName || uploadState.status === 'processing'
                             ? 'bg-gray-200 dark:bg-white/5 text-gray-400 cursor-not-allowed shadow-none'
                             : 'bg-happiness-1 hover:bg-happiness-1/90 text-white hover:scale-[1.02] active:scale-[0.98]'
