@@ -124,21 +124,29 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
     };
 
     const handleDelete = async (id: string, name: string) => {
-        if (!window.confirm(`Tem certeza que deseja excluir o diagnóstico da comunidade "${name}"?`)) return;
+        if (!window.confirm(`Tem certeza que deseja excluir o diagnóstico da comunidade "${name}"? Todas as camadas de mapa vinculadas também serão removidas.`)) return;
 
         try {
-            const { error } = await supabase
+            // 1. Deleta as camadas do mapa que pertencem a esta comunidade
+            // Procuramos por nome ou grupo que combine com o nome da comunidade
+            await supabase
+                .from('map_layers')
+                .delete()
+                .or(`name.eq.${name},group.eq.${name}`);
+
+            // 2. Deleta a comunidade
+            const { error: communityError } = await supabase
                 .from('community_assessments')
                 .delete()
                 .eq('id', id);
 
-            if (error) throw error;
+            if (communityError) throw communityError;
 
-            showSuccess('Diagnóstico excluído com sucesso!');
+            showSuccess('Comunidade e camadas vinculadas excluídas com sucesso!');
             await fetchAssessments();
         } catch (err: any) {
             console.error('Delete error:', err);
-            showError('Erro ao excluir diagnóstico: ' + err.message);
+            showError('Erro ao excluir: ' + err.message);
         }
     };
 
@@ -182,6 +190,32 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
 
                 if (insertError) throw insertError;
                 showSuccess('Diagnóstico salvo com sucesso!');
+            }
+
+            // Sincronizar metadados com map_layers existentes que coincidam com o nome ou grupo
+            const detailsToSync = {
+                familias: assessmentData.estimated_families,
+                tipo: assessmentData.settlement_type,
+                relacionamento: assessmentData.relationship_level,
+                community_name: communityName,
+                demandas: assessmentData.priority_needs.length
+            };
+
+            const { data: layersToSync } = await supabase
+                .from('map_layers')
+                .select('id, details')
+                .or(`name.eq."${communityName}",group.eq."${communityName}"`);
+
+            if (layersToSync && layersToSync.length > 0) {
+                for (const layer of layersToSync) {
+                    const currentDetails = layer.details || {};
+                    await supabase
+                        .from('map_layers')
+                        .update({
+                            details: { ...currentDetails, ...detailsToSync }
+                        })
+                        .eq('id', layer.id);
+                }
             }
 
             resetForm();
@@ -602,14 +636,22 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                                     visible: true,
                                     color: l.color,
                                     data: l.data,
-                                    details: l.details || {},
+                                    details: {
+                                        ...l.details,
+                                        community_name: communityName,
+                                        sync_id: editingId,
+                                        familias: estimatedFamilies === '' ? 0 : estimatedFamilies,
+                                        tipo: settlementType,
+                                        relacionamento: relationshipLevel,
+                                        demandas: priorityNeeds?.length || 0
+                                    },
                                     pillar: l.pillar,
-                                    group: l.group || 'Diagnóstico Social',
+                                    group: communityName || l.group || 'Diagnóstico Social',
                                     created_by: user?.id || null
                                 }));
                                 const { error } = await supabase.from('map_layers').upsert(layersToInsert);
                                 if (error) throw error;
-                                showSuccess(`${layers.length} camada(s) geoespacial(is) adicionada(s) ao banco e ao mapa.`);
+                                showSuccess(`${layers.length} camada(s) geoespacial(is) vinculada(s) à comunidade "${communityName}".`);
                             } catch (err: any) {
                                 showError('Erro ao salvar camadas: ' + err.message);
                             }

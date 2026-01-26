@@ -10,7 +10,7 @@ import {
     createTheme,
     CssBaseline,
     Avatar,
-    IconButton,
+    IconButton
 } from '@mui/material';
 import {
     Dashboard as DashboardIcon,
@@ -138,6 +138,7 @@ export default function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [mode, setMode] = useState<AppMode>(AppMode.DASHBOARD);
+    const [searchTerm, setSearchTerm] = useState('');
     const [sidebarOpen, setSidebarOpen] = useState(true);
     const [settingsOpen, setSettingsOpen] = useState(false);
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
@@ -529,7 +530,6 @@ export default function App() {
             <div className="flex h-screen overflow-hidden bg-gray-50 dark:bg-zinc-950 font-sans transition-colors duration-300 relative">
                 <div className="absolute inset-0 bg-happiness-bg-tint pointer-events-none" />
                 <ToastContainer />
-
                 {/* Sidebar */}
                 <aside
                     className={`
@@ -764,6 +764,7 @@ export default function App() {
                             <div className="hidden sm:block">
                                 <ThemeSwitcher />
                             </div>
+
 
                             <div className="h-6 w-px bg-gray-200 dark:bg-white/10"></div>
 
