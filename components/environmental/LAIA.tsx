@@ -49,13 +49,13 @@ export const LAIA: React.FC = () => {
                     <h2 className="text-3xl font-black text-gray-900 tracking-tight">Digital LAIA (Levantamento PC-56)</h2>
                     <p className="text-gray-500 font-medium italic">Aspectos e Impactos Ambientais do Porto do Itaqui</p>
                 </div>
-                <button className="bg-happiness-1 text-white px-6 py-3 rounded-sm font-black text-sm uppercase tracking-widest flex items-center gap-2 shadow-xl shadow-happiness-1/20 hover:scale-105 transition-all">
+                <button className="bg-happiness-1 text-white px-6 py-3 rounded-3xl font-black text-sm uppercase tracking-widest flex items-center gap-2 shadow-xl shadow-happiness-1/20 hover:scale-105 transition-all">
                     <Plus className="w-5 h-5" /> Novo Registro
                 </button>
             </div>
 
             {/* Workflow Logic Breadcrumb */}
-            <div className="bg-white p-4 rounded-sm border border-gray-100 flex items-center gap-4 text-[10px] font-black uppercase tracking-widest text-gray-400">
+            <div className="bg-white p-4 rounded-3xl border border-gray-100 flex items-center gap-4 text-[10px] font-black uppercase tracking-widest text-gray-400">
                 <span className="text-happiness-1">1. Atividade</span>
                 <ArrowRight className="w-3 h-3" />
                 <span>2. Aspecto</span>
@@ -66,7 +66,7 @@ export const LAIA: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="md:col-span-2 bg-white p-4 rounded-sm border border-gray-100 flex items-center gap-4 shadow-sm">
+                <div className="md:col-span-2 bg-white p-4 rounded-3xl border border-gray-100 flex items-center gap-4 shadow-sm">
                     <Search className="w-5 h-5 text-gray-300" />
                     <input
                         type="text"
@@ -76,13 +76,13 @@ export const LAIA: React.FC = () => {
                         onChange={e => setSearchTerm(e.target.value)}
                     />
                 </div>
-                <div className="bg-white p-4 rounded-sm border border-gray-100 flex items-center justify-between shadow-sm">
+                <div className="bg-white p-4 rounded-3xl border border-gray-100 flex items-center justify-between shadow-sm">
                     <span className="text-xs font-black uppercase text-gray-400">Total Monitorado</span>
                     <p className="text-2xl font-black text-gray-900">{records.length}</p>
                 </div>
             </div>
 
-            <div className="bg-white rounded-sm border border-gray-100 shadow-xl overflow-hidden">
+            <div className="bg-white rounded-3xl border border-gray-100 shadow-xl overflow-hidden">
                 {isLoading ? (
                     <div className="flex flex-col items-center justify-center py-20 space-y-4">
                         <Loader2 className="w-10 h-10 text-happiness-1 animate-spin" />

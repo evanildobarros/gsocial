@@ -1,18 +1,10 @@
 import React from 'react';
 import {
-    Box,
-    Grid,
-    Card,
-    CardContent,
-    Typography,
-    Button,
-} from '@mui/material';
-import {
     Users,
     Leaf,
-    ShieldCheck,
+    Shield,
     ChevronRight,
-    ArrowUpRight,
+    ArrowRight,
     ClipboardCheck
 } from 'lucide-react';
 import { AppMode } from '../types';
@@ -22,95 +14,113 @@ interface ESGDiagnosticsCenterProps {
 }
 
 export const ESGDiagnosticsCenter: React.FC<ESGDiagnosticsCenterProps> = ({ onSelectMode }) => {
+
     const modules = [
         {
             title: "Diagnóstico Social",
             subtitle: "Inventário & Território",
             desc: "Levantamento socioeconômico das comunidades do entorno e materialidade social.",
-            icon: <Users className="w-8 h-8 text-blue-500" />,
+            icon: <Users className="w-8 h-8" />,
             mode: AppMode.SOCIAL_ASSESSMENT,
-            color: "border-blue-500",
-            bg: "bg-blue-50/50"
+            colorClass: "text-blue-600",
+            bgClass: "bg-blue-50 dark:bg-blue-900/10",
+            borderClass: "border-blue-600"
         },
         {
             title: "Diagnóstico Ambiental",
             subtitle: "ABNT PR 2030 (E)",
             desc: "Avaliação de maturidade em GEE, Resíduos e Eficiência Baseada na Norma 2030.",
-            icon: <Leaf className="w-8 h-8 text-emerald-500" />,
+            icon: <Leaf className="w-8 h-8" />,
             mode: AppMode.ENV_DIAGNOSTIC,
-            color: "border-emerald-500",
-            bg: "bg-emerald-50/50"
+            colorClass: "text-green-600",
+            bgClass: "bg-green-50 dark:bg-green-900/10",
+            borderClass: "border-green-600"
         },
         {
             title: "Diagnóstico Governança",
             subtitle: "ABNT PR 2030 (G)",
             desc: "Estrutura de compliance, transparência e gestão de riscos corporativos.",
-            icon: <ShieldCheck className="w-8 h-8 text-indigo-500" />,
+            icon: <Shield className="w-8 h-8" />,
             mode: AppMode.GOV_ESG_DIAGNOSTIC,
-            color: "border-indigo-500",
-            bg: "bg-indigo-50/50"
+            colorClass: "text-purple-600",
+            bgClass: "bg-purple-50 dark:bg-purple-900/10",
+            borderClass: "border-purple-600"
         }
     ];
 
     return (
-        <Box className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <div className="flex flex-col gap-12 animate-in fade-in duration-500">
             {/* Header */}
-            <header className="flex flex-col gap-2">
-                <Typography variant="h4" className="font-black text-gray-900 dark:text-white tracking-tighter flex items-center gap-3">
-                    <ClipboardCheck className="w-10 h-10 text-happiness-1" />
-                    Central de Diagnósticos ESG
-                </Typography>
-                <Typography className="text-gray-500 font-medium italic">
-                    Selecione o módulo de levantamento de dados ou autoavaliação para iniciar.
-                </Typography>
+            <header className="flex flex-col md:flex-row items-center gap-4">
+                <div className="w-14 h-14 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-600/30">
+                    <ClipboardCheck size={32} />
+                </div>
+                <div>
+                    <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">
+                        Central de Diagnósticos ESG
+                    </h1>
+                    <p className="text-sm font-medium text-gray-500 italic">
+                        Selecione o módulo de levantamento de dados ou autoavaliação para iniciar.
+                    </p>
+                </div>
             </header>
 
             {/* Grid of Modules */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {modules.map((m, idx) => (
-                    <Card
+                    <button
                         key={idx}
-                        className={`h-full rounded-sm border-t-4 ${m.color} border-x-0 border-b-0 shadow-sm hover:shadow-xl transition-all group cursor-pointer dark:bg-[#1C1C1C] flex flex-col`}
                         onClick={() => onSelectMode(m.mode)}
+                        className={`
+                            group relative rounded-[32px] p-8 border border-gray-200 dark:border-white/5 bg-white dark:bg-[#1C1C1C] 
+                            text-left transition-all duration-300 hover:-translate-y-1 hover:shadow-xl
+                            overflow-hidden h-full flex flex-col
+                        `}
                     >
-                        <CardContent className="p-8 flex flex-col flex-1">
-                            <div className={`w-16 h-16 ${m.bg} rounded-sm flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
-                                {m.icon}
-                            </div>
+                        <div className={`absolute top-0 left-0 w-full h-1.5 ${m.bgClass.replace('/10', '')}`} />
 
-                            <Typography className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">
-                                {m.subtitle}
-                            </Typography>
-                            <Typography variant="h5" className="font-black text-gray-900 dark:text-white tracking-tight mb-4">
-                                {m.title}
-                            </Typography>
-                            <Typography className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed mb-8 flex-1">
-                                {m.desc}
-                            </Typography>
+                        <div className={`w-20 h-20 rounded-2xl flex items-center justify-center mb-8 ${m.bgClass} ${m.colorClass}`}>
+                            {m.icon}
+                        </div>
 
-                            <div className="flex items-center justify-between pt-6 border-t border-gray-100 dark:border-white/5">
-                                <span className="text-[10px] font-black text-gray-900 dark:text-white uppercase tracking-widest flex items-center gap-1 group-hover:text-happiness-1 transition-colors">
-                                    Entrar no Módulo <ArrowUpRight className="w-3 h-3" />
-                                </span>
-                                <ChevronRight className="w-5 h-5 text-gray-300 group-hover:translate-x-1 transition-transform group-hover:text-happiness-1" />
+                        <span className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-1">
+                            {m.subtitle}
+                        </span>
+                        <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-3 tracking-tight">
+                            {m.title}
+                        </h2>
+                        <p className="text-sm text-gray-500 font-medium leading-relaxed mb-8 flex-grow">
+                            {m.desc}
+                        </p>
+
+                        <div className="pt-6 border-t border-gray-100 dark:border-white/5 flex items-center justify-between w-full group-hover:border-transparent transition-colors">
+                            <span className="text-xs font-black uppercase tracking-wider flex items-center gap-2 group-hover:translate-x-2 transition-transform duration-300">
+                                Entrar no Módulo <ArrowRight size={14} />
+                            </span>
+                            <div className={`w-8 h-8 rounded-full flex items-center justify-center ${m.bgClass} ${m.colorClass} opacity-0 group-hover:opacity-100 transition-opacity`}>
+                                <ChevronRight size={16} />
                             </div>
-                        </CardContent>
-                    </Card>
+                        </div>
+                    </button>
                 ))}
             </div>
 
-            {/* Info Box */}
-            <Box className="bg-gray-900 dark:bg-white p-8 rounded-sm text-white dark:text-black flex flex-col md:flex-row justify-between items-center gap-6 shadow-2xl">
-                <div>
-                    <Typography variant="h6" className="font-black tracking-tight mb-1">Consolidação de Dados 2026</Typography>
-                    <Typography className="text-xs opacity-70 font-medium uppercase tracking-widest">Os resultados alimentam automaticamente o Dashboard Estratégico.</Typography>
+            {/* Info Banner */}
+            <div className="bg-[#121212] rounded-[40px] p-12 relative overflow-hidden text-white shadow-2xl">
+                <div className="absolute top-[-100px] right-[-100px] w-80 h-80 bg-white/5 rounded-full pointer-events-none" />
+
+                <div className="relative z-10 flex flex-col md:flex-row justify-between items-center gap-8">
+                    <div>
+                        <h3 className="text-3xl font-black mb-2 tracking-tight">Consolidação 2026</h3>
+                        <p className="text-xs font-bold text-white/60 uppercase tracking-widest">
+                            Os resultados alimentam automaticamente o Dashboard Estratégico.
+                        </p>
+                    </div>
+                    <button className="bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 rounded-full font-black text-sm uppercase tracking-widest shadow-lg shadow-blue-600/30 transition-all hover:scale-105">
+                        Relatório Consolidado
+                    </button>
                 </div>
-                <Button
-                    className="bg-happiness-1 text-white font-black text-xs px-8 py-3 rounded-sm uppercase tracking-widest shadow-lg shadow-happiness-1/20 transition-all hover:scale-105"
-                >
-                    Visualizar Report Consolidado
-                </Button>
-            </Box>
-        </Box>
+            </div>
+        </div>
     );
 };

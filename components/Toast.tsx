@@ -34,7 +34,7 @@ export const ToastContainer: React.FC = () => {
                     key={n.id}
                     className={`
                         pointer-events-auto
-                        flex items-start gap-4 p-4 rounded-sm shadow-xl shadow-gray-200/50 border
+                        flex items-start gap-4 p-4 rounded-3xl shadow-xl shadow-gray-200/50 border
                         animate-in slide-in-from-right duration-500
                         ${getStyles(n.type)}
                     `}

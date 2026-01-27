@@ -1,16 +1,14 @@
 import React, { useEffect, useState, useRef } from 'react';
 import {
-    User,
-    Mail,
-    Shield,
-    Calendar,
-    Edit2,
-    Save,
-    X,
-    Camera,
-    Loader2,
-    CheckCircle2
-} from 'lucide-react';
+    Mail as MailIcon,
+    Shield as ShieldIcon,
+    CalendarToday as CalendarIcon,
+    Edit as EditIcon,
+    Save as SaveIcon,
+    Close as CloseIcon,
+    PhotoCamera as CameraIcon,
+    Verified as VerifiedIcon,
+} from '@mui/icons-material';
 import { UserProfile } from '../types';
 import { supabase } from '../utils/supabase';
 import { showSuccess, showError } from '../utils/notifications';
@@ -20,9 +18,7 @@ export const UserProfilePage: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [isEditing, setIsEditing] = useState(false);
     const [saving, setSaving] = useState(false);
-    const [formData, setFormData] = useState({
-        full_name: ''
-    });
+    const [formData, setFormData] = useState({ full_name: '' });
     const avatarInputRef = useRef<HTMLInputElement>(null);
     const coverInputRef = useRef<HTMLInputElement>(null);
     const [uploading, setUploading] = useState<'avatar' | 'cover' | null>(null);
@@ -35,19 +31,14 @@ export const UserProfilePage: React.FC = () => {
         try {
             setLoading(true);
             const { data: { user } } = await supabase.auth.getUser();
-
             let profileData: UserProfile | null = null;
 
             if (user) {
-                const { data, error } = await supabase
-                    .from('profiles')
-                    .select('*')
-                    .eq('id', user.id)
-                    .single();
+                const { data } = await supabase.from('profiles').select('*').eq('id', user.id).single();
                 if (data) profileData = data as UserProfile;
             }
 
-            // Fallback para demonstração se não houver usuário logado ou perfil no banco
+            // Fallback para desenvolvimento
             if (!profileData) {
                 profileData = {
                     id: '00000000-0000-0000-0000-000000000000',
@@ -71,21 +62,15 @@ export const UserProfilePage: React.FC = () => {
 
     const handleUpdate = async () => {
         if (!profile) return;
-
         try {
             setSaving(true);
-            const { error } = await supabase
-                .from('profiles')
-                .update({ full_name: formData.full_name })
-                .eq('id', profile.id);
-
+            const { error } = await supabase.from('profiles').update({ full_name: formData.full_name }).eq('id', profile.id);
             if (error) throw error;
-
             setProfile({ ...profile, full_name: formData.full_name });
             setIsEditing(false);
-            showSuccess('Perfil atualizado com sucesso!');
+            showSuccess('Perfil atualizado!');
         } catch (error: any) {
-            showError('Erro ao atualizar perfil: ' + error.message);
+            showError('Erro ao atualizar: ' + error.message);
         } finally {
             setSaving(false);
         }
@@ -94,37 +79,23 @@ export const UserProfilePage: React.FC = () => {
     const handlePhotoUpload = async (event: React.ChangeEvent<HTMLInputElement>, type: 'avatar' | 'cover') => {
         const file = event.target.files?.[0];
         if (!file || !profile) return;
-
         try {
             setUploading(type);
             const fileExt = file.name.split('.').pop();
             const fileName = `${profile.id}-${Math.random()}.${fileExt}`;
             const filePath = `${type}s/${fileName}`;
 
-            const { error: uploadError } = await supabase.storage
-                .from('profile_images')
-                .upload(filePath, file);
+            const { error: uploadError } = await supabase.storage.from('profile_images').upload(filePath, file);
+            if (uploadError) throw new Error('Erro ao subir imagem.');
 
-            if (uploadError) {
-                throw new Error('Erro ao subir imagem. Certifique-se que o bucket "profile_images" existe no Supabase e é público.');
-            }
-
-            const { data: { publicUrl } } = supabase.storage
-                .from('profile_images')
-                .getPublicUrl(filePath);
-
+            const { data: { publicUrl } } = supabase.storage.from('profile_images').getPublicUrl(filePath);
             const updateData = type === 'avatar' ? { avatar_url: publicUrl } : { cover_url: publicUrl };
-            const { error: updateError } = await supabase
-                .from('profiles')
-                .update(updateData)
-                .eq('id', profile.id);
-
+            const { error: updateError } = await supabase.from('profiles').update(updateData).eq('id', profile.id);
             if (updateError) throw updateError;
 
             setProfile({ ...profile, ...updateData });
-            showSuccess(`${type === 'avatar' ? 'Foto de perfil' : 'Capa'} atualizada com sucesso!`);
+            showSuccess(`${type === 'avatar' ? 'Foto' : 'Capa'} atualizada!`);
         } catch (error: any) {
-            console.error('Upload error:', error);
             showError(error.message);
         } finally {
             setUploading(null);
@@ -133,185 +104,170 @@ export const UserProfilePage: React.FC = () => {
 
     if (loading) {
         return (
-            <div className="flex flex-col items-center justify-center py-20 space-y-4">
-                <Loader2 className="w-12 h-12 text-[#2148C0] animate-spin" />
-                <p className="text-gray-400 font-bold uppercase tracking-widest text-xs">Carregando seu perfil...</p>
+            <div className="flex flex-col items-center py-20 gap-4">
+                <div className="w-16 h-16 rounded-full border-4 border-gray-200 border-t-primary animate-spin"></div>
+                <span className="text-xs font-black uppercase tracking-widest text-gray-400 animate-pulse">
+                    Sincronizando seu perfil...
+                </span>
             </div>
         );
     }
 
-    if (!profile) {
-        return (
-            <div className="text-center py-20">
-                <p className="text-gray-500">Não foi possível carregar as informações do perfil.</p>
-            </div>
-        );
-    }
+    if (!profile) return null;
 
     return (
-        <div className="w-full animate-in fade-in slide-in-from-bottom-4 duration-700">
-            <div className="bg-white rounded-sm shadow-xl shadow-blue-900/5 border border-gray-100 overflow-hidden">
-                {/* Header/Cover Background */}
-                <div
-                    className="h-48 bg-gradient-to-r from-[#2148C0] via-blue-600 to-indigo-600 relative bg-cover bg-center group/cover"
-                    style={profile.cover_url ? { backgroundImage: `url(${profile.cover_url})` } : {}}
-                >
-                    <div className="absolute inset-0 bg-blue-900/40 opacity-20"></div>
-                    <div className="absolute inset-0 opacity-20">
-                        <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-                            <path d="M0,100 C30,80 70,120 100,100 L100,0 L0,0 Z" fill="white" opacity="0.1" />
-                        </svg>
-                    </div>
+        <div className="w-full mb-8 animate-in fade-in duration-500">
+            <div className="bg-white dark:bg-zinc-900 rounded-[40px] overflow-hidden shadow-sm border border-gray-100 dark:border-white/5">
 
-                    {/* Cover Edit Button */}
-                    <button
-                        onClick={() => coverInputRef.current?.click()}
-                        disabled={uploading === 'cover'}
-                        className="absolute bottom-4 right-4 p-3 bg-black/30 backdrop-blur-md border border-white/20 rounded-sm text-white hover:bg-black/50 transition-all flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] disabled:opacity-50 z-10"
-                    >
-                        {uploading === 'cover' ? <Loader2 className="w-3 h-3 animate-spin" /> : <Camera className="w-3 h-3" />}
-                        Alterar Capa
-                    </button>
-                    <input
-                        type="file"
-                        ref={coverInputRef}
-                        className="hidden"
-                        accept="image/*"
-                        onChange={(e) => handlePhotoUpload(e, 'cover')}
-                    />
+                {/* Header/Cover Section */}
+                <div
+                    className="h-60 relative bg-cover bg-center transition-all duration-500 ease-in-out"
+                    style={{
+                        backgroundImage: profile.cover_url
+                            ? `linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.5)), url(${profile.cover_url})`
+                            : 'linear-gradient(135deg, #4973F2 0%, #0A1929 100%)'
+                    }}
+                >
+                    <div className="absolute bottom-6 right-6 z-10">
+                        <button
+                            onClick={() => coverInputRef.current?.click()}
+                            disabled={uploading === 'cover'}
+                            className="group flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/30 rounded-full text-white font-bold text-sm transition-all"
+                        >
+                            {uploading === 'cover' ? <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div> : <CameraIcon fontSize="small" />}
+                            Alterar Capa
+                        </button>
+                        <input type="file" ref={coverInputRef} className="hidden" accept="image/*" onChange={(e) => handlePhotoUpload(e, 'cover')} />
+                    </div>
                 </div>
 
-                {/* Profile Info Section */}
-                <div className="px-12 pb-12 relative">
-                    {/* Avatar Positioning */}
-                    <div className="relative -mt-20 mb-8 flex items-end justify-between">
-                        <div className="relative group">
-                            <div className="w-40 h-40 rounded-sm bg-white p-2 shadow-2xl relative overflow-hidden">
+                {/* Profile Identity Section */}
+                <div className="px-6 md:px-12 pb-12">
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 relative">
+                        <div className="relative -mt-20 ml-0 md:ml-6 group">
+                            <div
+                                className={`w-40 h-40 rounded-[40px] border-8 border-white dark:border-zinc-900 shadow-2xl overflow-hidden flex items-center justify-center text-5xl font-black text-white ${profile.role === 'master' ? 'bg-gradient-to-br from-purple-600 to-red-600' : 'bg-primary'
+                                    }`}
+                            >
                                 {profile.avatar_url ? (
-                                    <img
-                                        src={profile.avatar_url}
-                                        alt={profile.full_name}
-                                        className="w-full h-full rounded-sm object-cover"
-                                    />
+                                    <img src={profile.avatar_url} alt={profile.full_name} className="w-full h-full object-cover" />
                                 ) : (
-                                    <div className={`w-full h-full rounded-sm flex items-center justify-center text-white font-black text-4xl shadow-inner ${profile.role === 'master' ? 'bg-gradient-to-tr from-purple-600 to-indigo-500' :
-                                        profile.role === 'admin' ? 'bg-gradient-to-tr from-blue-600 to-cyan-500' :
-                                            'bg-gradient-to-tr from-gray-400 to-gray-300'
-                                        }`}>
-                                        {profile.full_name?.substring(0, 2).toUpperCase() || 'GS'}
-                                    </div>
+                                    profile.full_name?.substring(0, 2).toUpperCase()
                                 )}
                             </div>
                             <button
                                 onClick={() => avatarInputRef.current?.click()}
                                 disabled={uploading === 'avatar'}
-                                className="absolute bottom-2 right-2 p-3 bg-white rounded-sm shadow-xl text-gray-400 hover:text-[#2148C0] transition-all transform hover:scale-110 active:scale-95 border border-gray-50 disabled:opacity-50"
+                                className="absolute bottom-2 right-2 p-3 bg-white dark:bg-zinc-800 rounded-2xl shadow-lg border border-gray-100 dark:border-white/10 text-primary hover:text-primary-hover transition-colors"
                             >
-                                {uploading === 'avatar' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Camera className="w-5 h-5" />}
+                                {uploading === 'avatar' ? <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin"></div> : <CameraIcon fontSize="small" />}
                             </button>
-                            <input
-                                type="file"
-                                ref={avatarInputRef}
-                                className="hidden"
-                                accept="image/*"
-                                onChange={(e) => handlePhotoUpload(e, 'avatar')}
-                            />
+                            <input type="file" ref={avatarInputRef} className="hidden" accept="image/*" onChange={(e) => handlePhotoUpload(e, 'avatar')} />
                         </div>
 
-                        <div className="flex gap-3 pb-4">
+                        <div className="flex gap-3 mb-2 w-full md:w-auto">
                             {!isEditing ? (
                                 <button
                                     onClick={() => setIsEditing(true)}
-                                    className="flex items-center gap-2 px-6 py-3 bg-gray-50 text-gray-600 font-black text-xs uppercase tracking-widest rounded-sm hover:bg-gray-100 transition-all border border-gray-100"
+                                    className="flex-1 md:flex-none items-center justify-center gap-2 px-6 py-3 border-2 border-gray-200 dark:border-white/10 rounded-full font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors flex"
                                 >
-                                    <Edit2 className="w-4 h-4" /> Editar Perfil
+                                    <EditIcon fontSize="small" />
+                                    Editar Perfil
                                 </button>
                             ) : (
                                 <>
                                     <button
                                         onClick={() => setIsEditing(false)}
-                                        className="flex items-center gap-2 px-6 py-3 bg-red-50 text-red-600 font-black text-xs uppercase tracking-widest rounded-sm hover:bg-red-100 transition-all border border-red-100"
+                                        className="flex items-center justify-center gap-2 px-6 py-3 text-red-500 font-bold hover:bg-red-50 dark:hover:bg-red-900/10 rounded-full transition-colors"
                                     >
-                                        <X className="w-4 h-4" /> Cancelar
+                                        <CloseIcon fontSize="small" /> Cancelar
                                     </button>
                                     <button
                                         onClick={handleUpdate}
                                         disabled={saving}
-                                        className="flex items-center gap-2 px-6 py-3 bg-[#2148C0] text-white font-black text-xs uppercase tracking-widest rounded-sm hover:bg-blue-700 shadow-xl shadow-blue-600/20 transition-all disabled:opacity-50"
+                                        className="flex items-center justify-center gap-2 px-8 py-3 bg-primary hover:bg-primary-hover text-white rounded-full font-bold shadow-lg shadow-primary/20 transition-all disabled:opacity-70"
                                     >
-                                        {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                                        Salvar Alterações
+                                        {saving ? <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div> : <SaveIcon fontSize="small" />}
+                                        Salvar
                                     </button>
                                 </>
                             )}
                         </div>
                     </div>
 
-                    {/* Details */}
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mt-4">
-                        <div className="lg:col-span-2 space-y-8">
-                            <div className="space-y-1">
-                                <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">Nome Completo</label>
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mt-8 md:mt-12">
+                        <div className="lg:col-span-2 space-y-10">
+                            <div>
+                                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 block mb-2">
+                                    Identificação
+                                </span>
                                 {isEditing ? (
                                     <input
-                                        type="text"
                                         value={formData.full_name}
                                         onChange={(e) => setFormData({ full_name: e.target.value })}
-                                        className="w-full bg-gray-50 border-2 border-gray-100 rounded-sm px-6 py-4 font-bold text-gray-900 focus:border-[#2148C0] transition-all outline-none"
+                                        className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white w-full bg-transparent border-b-2 border-gray-200 dark:border-white/10 focus:border-primary outline-none transition-colors pb-2"
+                                        placeholder="Seu Nome Completo"
                                     />
                                 ) : (
-                                    <p className="text-3xl font-black text-gray-900 tracking-tight">{profile.full_name || 'Não informado'}</p>
+                                    <h1 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white tracking-tight">
+                                        {profile.full_name || 'Usuário ESGporto'}
+                                    </h1>
                                 )}
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                <div className="space-y-1">
-                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">E-mail Corporativo</label>
-                                    <div className="flex items-center gap-3 px-6 py-4 bg-gray-50 rounded-sm border border-gray-100">
-                                        <Mail className="w-5 h-5 text-gray-300" />
-                                        <span className="font-bold text-gray-600">{profile.email}</span>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="p-6 rounded-3xl border border-gray-200 dark:border-white/5 bg-gray-50/50 dark:bg-white/5 flex items-center gap-4">
+                                    <div className="w-12 h-12 rounded-2xl bg-white dark:bg-zinc-800 flex items-center justify-center text-primary shadow-sm">
+                                        <MailIcon fontSize="small" />
+                                    </div>
+                                    <div>
+                                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wide">E-mail Corporativo</p>
+                                        <p className="font-bold text-gray-900 dark:text-white break-all">{profile.email}</p>
                                     </div>
                                 </div>
-                                <div className="space-y-1">
-                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">Data de Ingresso</label>
-                                    <div className="flex items-center gap-3 px-6 py-4 bg-gray-50 rounded-sm border border-gray-100">
-                                        <Calendar className="w-5 h-5 text-gray-300" />
-                                        <span className="font-bold text-gray-600">{new Date(profile.created_at).toLocaleDateString('pt-BR')}</span>
+
+                                <div className="p-6 rounded-3xl border border-gray-200 dark:border-white/5 bg-gray-50/50 dark:bg-white/5 flex items-center gap-4">
+                                    <div className="w-12 h-12 rounded-2xl bg-white dark:bg-zinc-800 flex items-center justify-center text-primary shadow-sm">
+                                        <CalendarIcon fontSize="small" />
+                                    </div>
+                                    <div>
+                                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wide">Data de Ingresso</p>
+                                        <p className="font-bold text-gray-900 dark:text-white">
+                                            {new Date(profile.created_at).toLocaleDateString('pt-BR')}
+                                        </p>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="space-y-8">
-                            <div className="bg-gray-50 p-8 rounded-sm border border-gray-100 relative overflow-hidden group">
-                                <div className="absolute top-0 right-0 p-4 opacity-5 transform group-hover:scale-110 transition-transform">
-                                    <Shield className="w-20 h-20" />
+                        <div className="space-y-6">
+                            <div className="p-8 rounded-[32px] border border-dashed border-primary/30 bg-primary/5 dark:bg-primary/10">
+                                <div className="flex items-center gap-3 mb-6">
+                                    <ShieldIcon className="text-primary" />
+                                    <span className="text-xs font-black uppercase tracking-[0.1em] text-primary">Nível de Acesso</span>
                                 </div>
-                                <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-4 block">Seu Nível de Acesso</label>
 
-                                <div className="space-y-4 relative z-10">
-                                    <div className={`flex items-center gap-3 p-4 rounded-sm border ${profile.role === 'master' ? 'bg-purple-100/50 border-purple-200 text-purple-700' :
-                                        profile.role === 'admin' ? 'bg-blue-100/50 border-blue-200 text-blue-700' :
-                                            'bg-gray-200/50 border-gray-300 text-gray-600'
-                                        }`}>
-                                        <Shield className="w-6 h-6 shrink-0" />
-                                        <span className="font-black uppercase tracking-widest text-xs">
-                                            {profile.role === 'master' ? 'Master Admin' :
-                                                profile.role === 'admin' ? 'Administrador' : 'Usuário Comum'}
-                                        </span>
-                                    </div>
-
-                                    <p className="text-xs text-gray-500 font-medium leading-relaxed">
-                                        {profile.role === 'master' ? 'Você possui privilégios totais para gerenciar membros, projetos e métricas de impacto.' :
-                                            profile.role === 'admin' ? 'Você pode gerenciar projetos e visualizar métricas, mas não alterar permissões de segurança.' :
-                                                'Você tem acesso de visualização ao dashboard e portfólio de projetos.'}
-                                    </p>
+                                <div className={`inline-block px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wide mb-6 ${profile.role === 'master' ? 'bg-purple-100 text-purple-700 dark:bg-black dark:text-purple-300' :
+                                        profile.role === 'admin' ? 'bg-blue-100 text-blue-700 dark:bg-black dark:text-blue-300' :
+                                            'bg-gray-200 text-gray-700 dark:bg-black dark:text-gray-300'
+                                    }`}>
+                                    {profile.role === 'master' ? 'Master Admin' : profile.role === 'admin' ? 'Administrador' : 'Colaborador'}
                                 </div>
+
+                                <p className="text-sm text-gray-600 dark:text-gray-400 font-medium italic leading-relaxed">
+                                    {profile.role === 'master'
+                                        ? 'Você possui privilégios totais de supervisão, auditoria e gestão de membros do ecossistema ESGporto.'
+                                        : profile.role === 'admin'
+                                            ? 'Permissão para gestão operacional e relatórios estratégicos.'
+                                            : 'Acesso às ferramentas de monitoramento e input de dados.'}
+                                </p>
                             </div>
 
-                            <div className="flex items-center gap-2 p-6 bg-green-50 rounded-sm border border-green-100">
-                                <CheckCircle2 className="w-5 h-5 text-green-500" />
-                                <span className="text-xs font-bold text-green-700">Conta Verificada ESGporto</span>
+                            <div className="px-6 py-4 rounded-2xl border border-emerald-200 bg-emerald-50 dark:bg-emerald-900/10 dark:border-emerald-500/20 flex items-center gap-3">
+                                <VerifiedIcon className="text-emerald-500" />
+                                <span className="text-[10px] font-black text-emerald-700 dark:text-emerald-300 uppercase tracking-widest">
+                                    Conta Verificada
+                                </span>
                             </div>
                         </div>
                     </div>

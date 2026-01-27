@@ -2,41 +2,82 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  /* Padrão G-Social (Azul Marítimo) */
-  --brand-primary: 21 77 191;
-  --brand-secondary: 75 147 242;
-  --brand-tertiary: 159 195 242;
-  --brand-accent-1: 242 218 101;
-  --brand-accent-2: 242 190 94;
-  --brand-bg-tint: rgba(21, 77, 191, 0.03);
+@layer base {
+  :root {
+    /* M3 Light Theme Colors (Porto do Itaqui / ESGporto Base) */
+    --color-primary: 21 77 191;
+    /* #154DBF */
+    --color-primary-container: 217 226 255;
+    /* #D9E2FF */
+    --color-on-primary: 255 255 255;
+    /* #FFFFFF */
+
+    --color-secondary: 88 94 113;
+    /* #585E71 */
+    --color-secondary-container: 221 225 249;
+    /* #DDE1F9 */
+    --color-on-secondary: 255 255 255;
+    /* #FFFFFF */
+
+    --color-tertiary: 115 87 97;
+    /* #735761 */
+    --color-tertiary-container: 255 217 226;
+    /* #FFD9E2 */
+
+    --color-error: 186 26 26;
+    /* #BA1A1A */
+
+    --color-background: 254 251 255;
+    /* #FEFBFF */
+    --color-surface: 254 251 255;
+    /* #FEFBFF */
+    --color-on-surface: 27 27 31;
+    /* #1B1B1F */
+    --color-outline: 117 119 128;
+    /* #757780 */
+  }
+
+  .dark {
+    /* M3 Dark Theme Colors */
+    --color-primary: 176 198 255;
+    /* #B0C6FF */
+    --color-primary-container: 0 66 154;
+    /* #00429A */
+    --color-on-primary: 0 45 111;
+    /* #002D6F */
+
+    --color-secondary: 193 198 221;
+    /* #C1C6DD */
+    --color-secondary-container: 65 70 89;
+    /* #414659 */
+    --color-on-secondary: 43 48 66;
+    /* #2B3042 */
+
+    --color-tertiary: 226 189 201;
+    /* #E2BDC9 */
+    --color-tertiary-container: 90 63 73;
+    /* #5A3F49 */
+
+    --color-error: 255 180 171;
+    /* #FFB4AB */
+
+    --color-background: 27 27 31;
+    /* #1B1B1F */
+    --color-surface: 27 27 31;
+    /* #1B1B1F */
+    --color-on-surface: 227 226 230;
+    /* #E3E2E6 */
+    --color-outline: 143 144 153;
+    /* #8F9099 */
+  }
 }
 
-[data-theme='azure'] {
-  --brand-primary: 73 115 242;
-  --brand-secondary: 92 130 242;
-  --brand-tertiary: 133 160 242;
-  --brand-accent-1: 217 216 210;
-  --brand-accent-2: 64 56 50;
-  --brand-bg-tint: rgba(73, 115, 242, 0.05);
-}
-
-[data-theme='emerald'] {
-  --brand-primary: 41 166 131;
-  --brand-secondary: 27 43 64;
-  --brand-tertiary: 210 213 217;
-  --brand-accent-1: 166 121 104;
-  --brand-accent-2: 115 78 64;
-  --brand-bg-tint: rgba(41, 166, 131, 0.05);
-}
-
-[data-theme='burgundy'] {
-  --brand-primary: 191 38 51;
-  --brand-secondary: 89 10 24;
-  --brand-tertiary: 217 177 163;
-  --brand-accent-1: 242 118 107;
-  --brand-accent-2: 115 86 86;
-  --brand-bg-tint: rgba(191, 38, 51, 0.05);
+body {
+  background-color: rgb(var(--color-background));
+  color: rgb(var(--color-on-surface));
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
 }
 
 
@@ -93,7 +134,7 @@ html {
 }
 
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Crimson Text', serif;
   overflow-y: auto;
   overflow-x: hidden;
   min-height: 100%;
@@ -149,6 +190,14 @@ textarea {
 
 /* Specific fix for inputs with dark:bg-black/20 or similar in light mode */
 input.bg-white,
-textarea.bg-white {
-  color: #111827 !important;
+
+/* Global override for rounded corners as per user request */
+.rounded-3xl {
+  border-radius: 0.5rem !important;
+}
+
+/* Also ensure other card-like rounded classes follow suit if needed for consistency */
+.rounded-\[32px\],
+.rounded-\[40px\] {
+  border-radius: 0.5rem !important;
 }

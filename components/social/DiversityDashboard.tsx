@@ -1,6 +1,17 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Users, Scale, TrendingUp, AlertTriangle, Filter, ChevronDown, Download, Loader2, ShieldCheck as ShieldCheckIcon } from 'lucide-react';
-import { Button } from '@mui/material';
+import {
+    Users,
+    Scale,
+    TrendingUp,
+    AlertTriangle,
+    Filter,
+    Download,
+    Shield,
+    Briefcase,
+    Accessibility,
+    BarChart3,
+    Loader2
+} from 'lucide-react';
 import { supabase } from '../../utils/supabase';
 
 // --- Types ---
@@ -18,15 +29,62 @@ interface Employee {
     salary_band?: number;
 }
 
-// --- Logic Helpers ---
-const calculateRepresentation = (data: Employee[], filterFn: (e: Employee) => boolean) => {
-    const total = data.length;
-    if (total === 0) return 0;
-    const count = data.filter(filterFn).length;
-    return (count / total) * 100;
+const FunnelRow = ({ label, employees, active }: { label: string, employees: Employee[], active?: boolean }) => {
+    const total = employees.length || 1;
+    const wPct = (employees.filter(e => e.gender === 'Woman').length / total) * 100;
+    const bPct = (employees.filter(e => ['Preto', 'Pardo'].includes(e.race)).length / total) * 100;
+
+    return (
+        <div className={`
+            p-6 rounded-[20px] bg-gray-50 dark:bg-zinc-900/30 border transition-all duration-300
+            ${active
+                ? 'bg-blue-50/50 dark:bg-blue-900/10 border-blue-500'
+                : 'border-transparent hover:border-blue-200 dark:hover:border-blue-900/30'
+            }
+        `}>
+            <div className="flex justify-between items-center mb-4">
+                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500">{label}</span>
+                <span className="text-xs font-black text-gray-900 dark:text-gray-100">N = {employees.length}</span>
+            </div>
+            <div className="grid grid-cols-2 gap-8">
+                <div>
+                    <div className="flex justify-between items-center mb-2">
+                        <span className="text-xs font-bold text-gray-600 dark:text-gray-400">Feminino</span>
+                        <span className="text-xs font-black text-blue-600 dark:text-blue-400">{wPct.toFixed(1)}%</span>
+                    </div>
+                    <div className="h-1.5 w-full bg-gray-200 dark:bg-white/10 rounded-full overflow-hidden">
+                        <div className="h-full bg-blue-500 rounded-full" style={{ width: `${wPct}%` }} />
+                    </div>
+                </div>
+                <div>
+                    <div className="flex justify-between items-center mb-2">
+                        <span className="text-xs font-bold text-gray-600 dark:text-gray-400">Preto/Pardo</span>
+                        <span className="text-xs font-black text-purple-600 dark:text-purple-400">{bPct.toFixed(1)}%</span>
+                    </div>
+                    <div className="h-1.5 w-full bg-gray-200 dark:bg-white/10 rounded-full overflow-hidden">
+                        <div className="h-full bg-purple-500 rounded-full" style={{ width: `${bPct}%` }} />
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
 };
 
-// --- Components ---
+const WageGapMonitor = ({ label, gap }: { label: string, gap: number }) => (
+    <div>
+        <div className="flex justify-between items-center mb-2">
+            <span className="text-xs font-black text-gray-700 dark:text-gray-300">{label}</span>
+            <span className={`text-xs font-black ${gap > 5 ? 'text-red-500' : 'text-green-500'}`}>{gap.toFixed(1)}%</span>
+        </div>
+        <div className="h-1 w-full bg-gray-100 dark:bg-white/10 rounded-full overflow-hidden">
+            <div
+                className={`h-full rounded-full transition-all duration-500 ${gap > 5 ? 'bg-red-500' : 'bg-green-500'}`}
+                style={{ width: `${Math.min(gap * 5, 100)}%` }}
+            />
+        </div>
+    </div>
+);
+
 export const DiversityDashboard: React.FC = () => {
     const [employees, setEmployees] = useState<Employee[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -40,20 +98,16 @@ export const DiversityDashboard: React.FC = () => {
     const fetchEmployees = async () => {
         try {
             setIsLoading(true);
-            const { data, error } = await supabase
-                .from('employee_diversity')
-                .select('*');
-
+            const { data, error } = await supabase.from('employee_diversity').select('*');
             if (error) throw error;
             if (data) setEmployees(data as Employee[]);
         } catch (error) {
-            console.error('Erro ao buscar dados de diversidade:', error);
+            console.error('Erro ao buscar dados:', error);
         } finally {
             setIsLoading(false);
         }
     };
 
-    // Filter Data
     const filteredData = useMemo(() => {
         return employees.filter(e => {
             if (selectedDept !== 'All' && e.department !== selectedDept) return false;
@@ -63,25 +117,19 @@ export const DiversityDashboard: React.FC = () => {
     }, [employees, selectedDept, selectedLevel]);
 
     const departments = useMemo(() => {
-        const depts = new Set(employees.map(e => e.department));
-        return Array.from(depts);
+        return Array.from(new Set(employees.map(e => e.department)));
     }, [employees]);
 
-    // Metrics
-    const pcdPercentage = calculateRepresentation(employees, e => e.is_pcd);
+    const pcdPercentage = (employees.filter(e => e.is_pcd).length / (employees.length || 1)) * 100;
 
-    // Wage Gap calculation (Simplified)
     const calculateWageGap = (levelName: JobLevel) => {
-        const employeesInLevel = filteredData.filter(e => e.level === levelName);
-        const men = employeesInLevel.filter(e => e.gender === 'Man');
-        const women = employeesInLevel.filter(e => e.gender === 'Woman');
-
+        const inLevel = filteredData.filter(e => e.level === levelName);
+        const men = inLevel.filter(e => e.gender === 'Man');
+        const women = inLevel.filter(e => e.gender === 'Woman');
         if (men.length === 0 || women.length === 0) return 0;
-
-        const avgMen = men.reduce((acc, curr) => acc + (curr.salary_band || 0), 0) / men.length;
-        const avgWomen = women.reduce((acc, curr) => acc + (curr.salary_band || 0), 0) / women.length;
-
-        return ((avgMen - avgWomen) / avgMen) * 100;
+        const avgM = men.reduce((a, b) => a + (b.salary_band || 0), 0) / men.length;
+        const avgW = women.reduce((a, b) => a + (b.salary_band || 0), 0) / women.length;
+        return ((avgM - avgW) / avgM) * 100;
     };
 
     const wageGaps = {
@@ -92,176 +140,158 @@ export const DiversityDashboard: React.FC = () => {
 
     if (isLoading) {
         return (
-            <div className="flex flex-col items-center justify-center py-40 space-y-4">
-                <Loader2 className="w-12 h-12 text-happiness-1 animate-spin" />
-                <p className="text-gray-400 font-black uppercase tracking-widest text-xs">Sincronizando Dados DE&I...</p>
+            <div className="flex flex-col items-center py-20 gap-4 text-center">
+                <Loader2 className="w-16 h-16 text-blue-500 animate-spin" />
+                <span className="text-xs font-black uppercase tracking-widest text-gray-500">Sincronizando Dados DE&I...</span>
             </div>
         );
     }
 
     return (
-        <div className="space-y-6 animate-in fade-in duration-500">
+        <div className="flex flex-col gap-8 animate-in fade-in duration-500">
             {/* Header */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h1 className="text-2xl font-black text-gray-900 dark:text-white tracking-tight flex items-center gap-2">
-                        Diversidade, Equidade e Inclusão (DE&I)
-                        <span className="text-xs bg-gray-100 dark:bg-white/10 px-2 py-0.5 rounded-sm text-gray-500 font-bold tracking-wider uppercase border border-gray-200 dark:border-white/5">
-                            GRI 405
-                        </span>
-                    </h1>
-                    <p className="text-sm text-gray-500 mt-1">Monitoramento em tempo real para conformidade e equidade conforme regulamentação EMAP.</p>
-                </div>
-
-                <div className="flex items-center gap-2">
-                    <div className="bg-purple-50 dark:bg-purple-900/10 text-purple-700 dark:text-purple-300 px-3 py-1.5 rounded-sm font-bold text-xs border border-purple-100 dark:border-purple-800 flex items-center gap-1.5">
-                        <ShieldCheckIcon className="w-3 h-3" />
-                        Privacidade K-Anonymity ATIVA
+                    <div className="flex items-center gap-4 mb-1">
+                        <div className="w-14 h-14 bg-purple-50 dark:bg-purple-900/10 text-purple-600 rounded-2xl flex items-center justify-center">
+                            <Accessibility size={32} />
+                        </div>
+                        <div>
+                            <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">Diversidade e Inclusão</h1>
+                            <div className="flex items-center gap-2">
+                                <span className="px-2 py-0.5 rounded bg-gray-100 dark:bg-white/10 text-[10px] font-black uppercase text-gray-600 dark:text-gray-300">GRI 405</span>
+                                <span className="text-xs font-bold text-gray-500">Conformidade EMAP 2026</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            {/* Filters Toolbar */}
-            <div className="bg-white dark:bg-[#1C1C1C] p-3 rounded-sm border border-gray-200 dark:border-white/5 shadow-sm flex flex-wrap items-center gap-4">
-                <div className="flex items-center gap-2 text-gray-500 text-sm font-bold mr-2">
-                    <Filter className="w-4 h-4" /> Filtros:
-                </div>
-
-                <select
-                    className="bg-gray-50 dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-sm text-sm px-3 py-1.5 text-gray-700 dark:text-gray-300 outline-none focus:ring-1 focus:ring-happiness-1"
-                    value={selectedDept}
-                    onChange={(e) => setSelectedDept(e.target.value)}
-                >
-                    <option value="All">Todos Departamentos</option>
-                    {departments.map(dept => (
-                        <option key={dept} value={dept}>{dept}</option>
-                    ))}
-                </select>
-
-                <select
-                    className="bg-gray-50 dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-sm text-sm px-3 py-1.5 text-gray-700 dark:text-gray-300 outline-none focus:ring-1 focus:ring-happiness-1"
-                    value={selectedLevel}
-                    onChange={(e) => setSelectedLevel(e.target.value)}
-                >
-                    <option value="All">Todos Níveis</option>
-                    {['Board', 'Executive', 'Management', 'Specialist', 'Operational'].map(level => (
-                        <option key={level} value={level}>{level}</option>
-                    ))}
-                </select>
-
-                <div className="ml-auto">
-                    <Button startIcon={<Download className="w-4 h-4" />} size="small" sx={{ textTransform: 'none', borderRadius: '4px', fontWeight: 900 }}>
-                        Exportar Relatório
-                    </Button>
+                <div className="px-3 py-1.5 border border-purple-200 dark:border-purple-900/30 text-purple-700 dark:text-purple-300 font-black text-xs uppercase rounded-xl flex items-center gap-1.5 bg-purple-50 dark:bg-purple-900/10">
+                    <Shield size={14} />
+                    K-Anonymity ATIVA
                 </div>
             </div>
 
-            {/* Wage Gap Alert */}
-            {Object.values(wageGaps).some(gap => gap > 5) && (
-                <div className="bg-red-50 dark:bg-red-900/10 border-l-4 border-red-500 p-4 rounded-r-sm flex items-start gap-4">
-                    <AlertTriangle className="w-6 h-6 text-red-500 shrink-0" />
+            {/* Toolbar */}
+            <div className="p-4 rounded-[24px] bg-white dark:bg-[#1C1C1C] border border-gray-200 dark:border-white/5 flex flex-wrap gap-4 items-center">
+                <div className="flex items-center gap-2 mr-4 text-gray-500">
+                    <Filter className="w-5 h-5" />
+                    <span className="text-xs font-black uppercase tracking-widest">Filtros de Visão</span>
+                </div>
+
+                <div className="flex-1 min-w-[200px]">
+                    <select
+                        value={selectedDept}
+                        onChange={(e) => setSelectedDept(e.target.value)}
+                        className="w-full px-4 py-2 bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-white/10 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                    >
+                        <option value="All">Todos Departamentos</option>
+                        {departments.map(d => <option key={d} value={d}>{d}</option>)}
+                    </select>
+                </div>
+
+                <div className="flex-1 min-w-[200px]">
+                    <select
+                        value={selectedLevel}
+                        onChange={(e) => setSelectedLevel(e.target.value)}
+                        className="w-full px-4 py-2 bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-white/10 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                    >
+                        <option value="All">Todos Níveis</option>
+                        {['Board', 'Executive', 'Management', 'Specialist', 'Operational'].map(l => <option key={l} value={l}>{l}</option>)}
+                    </select>
+                </div>
+
+                <button className="bg-gray-900 dark:bg-white text-white dark:text-black px-6 py-2 rounded-full font-black text-xs uppercase tracking-widest flex items-center gap-2 hover:opacity-90 ml-auto">
+                    <Download size={14} />
+                    Exportar DE&I
+                </button>
+            </div>
+
+            {/* Critical Alert */}
+            {Object.values(wageGaps).some(g => g > 5) && (
+                <div className="p-6 rounded-[24px] bg-red-50 dark:bg-red-900/10 border-l-[6px] border-red-500 flex items-center gap-4">
+                    <div className="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center shrink-0">
+                        <AlertTriangle className="text-white w-5 h-5" />
+                    </div>
                     <div>
-                        <h3 className="font-bold text-red-800 dark:text-red-400 text-sm italic underline">DISPARIDADE CRÍTICA: Gap Salarial em Níveis Estruturais</h3>
-                        <p className="text-xs text-red-700 dark:text-red-500 mt-1 font-medium">
-                            Detectamos um gap salarial superior a 5% em {Object.entries(wageGaps).filter(([_, g]) => g > 5).length} níveis hierárquicos.
-                            Recomendamos revisão imediata da folha pela diretoria.
+                        <h3 className="text-sm font-black text-red-600 dark:text-red-400 uppercase tracking-wide">Disparidade Salarial Crítica Detectada</h3>
+                        <p className="text-sm font-medium text-gray-600 dark:text-gray-300 mt-1">
+                            Identificamos lacunas superiores a 5% em cargos estratégicos. Recomenda-se revisão imediata conforme Volume III ESG.
                         </p>
                     </div>
                 </div>
             )}
 
-            {/* Widgets Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-                {/* 1. Funil de Representatividade */}
-                <div className="bg-white dark:bg-[#1C1C1C] p-6 rounded-sm border border-gray-200 dark:border-white/5 shadow-sm lg:col-span-2">
-                    <div className="flex justify-between items-start mb-6">
-                        <div>
-                            <h3 className="font-bold text-gray-700 dark:text-gray-200 text-sm">Matriz de Ocupação (Raça & Gênero)</h3>
-                            <p className="text-xs text-gray-400 mt-1 italic">Análise de representatividade por estrato hierárquico.</p>
-                        </div>
-                        <Scale className="w-4 h-4 text-gray-400" />
-                    </div>
-
-                    <div className="space-y-6">
-                        <FunnelRow
-                            level="Operational"
-                            employees={filteredData.filter(e => e.level === 'Operational')}
-                            label="Nível Operacional (Entrada)"
-                        />
-                        <div className="flex justify-center -my-2 opacity-30">
-                            <ChevronDown className="w-4 h-4 text-gray-400" />
-                        </div>
-                        <FunnelRow
-                            level="Management"
-                            employees={filteredData.filter(e => e.level === 'Management')}
-                            label="Nível Gerencial (Gestão)"
-                        />
-                        <div className="flex justify-center -my-2 opacity-30">
-                            <ChevronDown className="w-4 h-4 text-gray-400" />
-                        </div>
-                        <FunnelRow
-                            level="Executive"
-                            employees={filteredData.filter(e => ['Executive', 'Board'].includes(e.level))}
-                            label="Conselho & Executivo (Estratégico)"
-                        />
-                    </div>
-                </div>
-
-                {/* 2. Key Metrics Column */}
-                <div className="space-y-6">
-                    {/* PCD Gauge */}
-                    <div className="bg-white dark:bg-[#1C1C1C] p-6 rounded-sm border border-gray-200 dark:border-white/5 shadow-sm flex flex-col items-center justify-center relative">
-                        <div className="flex justify-between items-start w-full mb-2">
-                            <h3 className="font-bold text-gray-700 dark:text-gray-200 text-sm uppercase tracking-tighter">Conformidade PCD</h3>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                {/* REPRESENTATION FUNNEL */}
+                <div className="lg:col-span-2">
+                    <div className="bg-white dark:bg-[#1C1C1C] rounded-[32px] p-8 border border-gray-200 dark:border-white/5 shadow-sm hover:shadow-md transition-all h-full">
+                        <div className="flex justify-between items-center mb-8">
+                            <div>
+                                <h2 className="text-lg font-black flex items-center gap-2">
+                                    <Scale className="text-blue-500 w-5 h-5" /> Funil de Ocupação
+                                </h2>
+                                <p className="text-xs font-bold text-gray-500 mt-1">Representatividade por estrato hierárquico</p>
+                            </div>
                         </div>
 
-                        <div className="relative w-40 h-20 overflow-hidden mt-4">
-                            <div className="absolute top-0 left-0 w-full h-[200%] rounded-full border-[15px] border-gray-100 dark:border-white/5" />
-                            <div
-                                className={`
-                                    absolute top-0 left-0 w-full h-[200%] rounded-full border-[15px] border-transparent 
-                                    ${pcdPercentage >= 5 ? 'border-t-green-500' : pcdPercentage >= 3 ? 'border-t-yellow-500' : 'border-t-red-500'}
-                                    transition-all duration-1000 ease-out
-                                `}
-                                style={{
-                                    transform: `rotate(${(pcdPercentage / 10) * 180 - 135}deg)`
-                                }}
-                            />
-                        </div>
-
-                        <div className="text-center -mt-8 relative z-10">
-                            <span className="text-3xl font-black text-gray-900 dark:text-white">{pcdPercentage.toFixed(1)}%</span>
-                            <p className={`text-[10px] font-black uppercase tracking-widest mt-1 ${pcdPercentage >= 5 ? 'text-green-600' : 'text-red-500'}`}>
-                                {pcdPercentage >= 5 ? 'Meta Atingida' : 'Abaixo da Cota'}
-                            </p>
-                            <p className="text-[9px] text-gray-400 mt-1 italic font-medium">Meta Lei 8.213: 5.0%</p>
-                        </div>
-                    </div>
-
-                    {/* Wage Gap Monitor Stats */}
-                    <div className="bg-white dark:bg-[#1C1C1C] p-6 rounded-sm border border-gray-200 dark:border-white/5 shadow-sm">
-                        <div className="flex justify-between items-center mb-4">
-                            <h3 className="font-bold text-gray-700 dark:text-gray-200 text-sm">Monitor de Equidade Salarial</h3>
-                            <TrendingUp className="w-4 h-4 text-gray-400" />
-                        </div>
                         <div className="space-y-4">
-                            <WageGapRow label="Executivo" gap={wageGaps.Executive} />
-                            <WageGapRow label="Gestão" gap={wageGaps.Management} />
-                            <WageGapRow label="Especialista" gap={wageGaps.Specialist} />
-                        </div>
-                        <div className="mt-4 pt-4 border-t border-gray-100 dark:border-white/5">
-                            <p className="text-[9px] text-gray-400 leading-tight font-medium italic">
-                                *Gap calculado em tempo real com base na folha de pagamento ativa.
-                            </p>
+                            <FunnelRow label="Conselho & Executivo" employees={filteredData.filter(e => ['Executive', 'Board'].includes(e.level))} />
+                            <FunnelRow label="Gerência & Gestão" employees={filteredData.filter(e => e.level === 'Management')} active />
+                            <FunnelRow label="Corpo Operacional" employees={filteredData.filter(e => e.level === 'Operational')} />
                         </div>
                     </div>
+                </div>
 
-                    <div className="bg-gradient-to-br from-purple-600 to-blue-700 p-6 rounded-sm text-white shadow-xl">
-                        <h4 className="font-black text-lg mb-2">Cultura de Inclusão</h4>
-                        <p className="text-xs font-bold opacity-80 leading-relaxed italic">
-                            "O Porto do Itaqui valoriza a pluralidade como motor de eficiência e inovação portuária."
-                        </p>
+                {/* KEY PERFORMANCE INDICATORS */}
+                <div className="lg:col-span-1 space-y-6">
+                    <div className="bg-purple-50/30 dark:bg-purple-900/5 rounded-[32px] p-8 border border-purple-100 dark:border-purple-900/20 text-center relative overflow-hidden">
+                        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500">Conformidade PCD</span>
+
+                        <div className="relative py-8 flex justify-center">
+                            {/* Custom Circular Progress */}
+                            <div className="relative w-40 h-40">
+                                <svg className="w-full h-full transform -rotate-90">
+                                    <circle
+                                        cx="80"
+                                        cy="80"
+                                        r="70"
+                                        stroke="currentColor"
+                                        strokeWidth="8"
+                                        fill="transparent"
+                                        className="text-gray-200 dark:text-white/5"
+                                    />
+                                    <circle
+                                        cx="80"
+                                        cy="80"
+                                        r="70"
+                                        stroke="currentColor"
+                                        strokeWidth="8"
+                                        fill="transparent"
+                                        strokeDasharray={440}
+                                        strokeDashoffset={440 - (440 * (pcdPercentage * 20)) / 100} // Scaling for visual (assuming 5% is target)
+                                        className={pcdPercentage >= 5 ? 'text-green-500' : 'text-red-500'}
+                                    />
+                                </svg>
+                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+                                    <span className="text-3xl font-black block">{pcdPercentage.toFixed(1)}%</span>
+                                    <span className={`text-[9px] font-black uppercase ${pcdPercentage >= 5 ? 'text-green-600' : 'text-red-500'}`}>
+                                        {pcdPercentage >= 5 ? 'Em Conformidade' : 'Abaixo da Cota'}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <p className="text-xs font-medium text-gray-400 italic">Meta Lei 8.213: 5.0%</p>
+                    </div>
+
+                    <div className="bg-white dark:bg-[#1C1C1C] rounded-[32px] p-8 border border-gray-200 dark:border-white/5 shadow-sm hover:shadow-md transition-all">
+                        <h2 className="text-sm font-black flex items-center gap-2 mb-6">
+                            <BarChart3 className="text-blue-500 w-5 h-5" /> Monitor de Equidade
+                        </h2>
+                        <div className="space-y-6">
+                            <WageGapMonitor label="Executivo" gap={wageGaps.Executive} />
+                            <WageGapMonitor label="Gestão" gap={wageGaps.Management} />
+                            <WageGapMonitor label="Especialista" gap={wageGaps.Specialist} />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -269,67 +299,4 @@ export const DiversityDashboard: React.FC = () => {
     );
 };
 
-// --- Sub-components ---
-
-const FunnelRow = ({ employees, label }: { level: string, employees: Employee[], label: string }) => {
-    const total = employees.length || 0;
-    const women = employees.filter(e => e.gender === 'Woman').length;
-    const blackPardo = employees.filter(e => ['Preto', 'Pardo'].includes(e.race)).length;
-
-    const womenPct = total > 0 ? (women / total) * 100 : 0;
-    const blackPardoPct = total > 0 ? (blackPardo / total) * 100 : 0;
-
-    return (
-        <div className="bg-gray-50 dark:bg-white/5 p-4 rounded-sm border border-gray-100 dark:border-white/5 hover:border-happiness-1/30 transition-all">
-            <div className="flex justify-between text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">
-                <span>{label}</span>
-                <span>N: {total}</span>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Women Bar */}
-                <div>
-                    <div className="flex justify-between text-[11px] font-black mb-1.5 text-gray-700 dark:text-gray-300">
-                        <span>Feminino</span>
-                        <span>{womenPct.toFixed(1)}%</span>
-                    </div>
-                    <div className="h-1.5 w-full bg-gray-200 dark:bg-white/10 rounded-full overflow-hidden">
-                        <div className="h-full bg-happiness-1" style={{ width: `${womenPct}%` }} />
-                    </div>
-                </div>
-
-                {/* Black/Pardo Bar */}
-                <div>
-                    <div className="flex justify-between text-[11px] font-black mb-1.5 text-gray-700 dark:text-gray-300">
-                        <span>PPI (Pretos/Pardos/Indíg.)</span>
-                        <span>{blackPardoPct.toFixed(1)}%</span>
-                    </div>
-                    <div className="h-1.5 w-full bg-gray-200 dark:bg-white/10 rounded-full overflow-hidden">
-                        <div className="h-full bg-purple-500" style={{ width: `${blackPardoPct}%` }} />
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-};
-
-const WageGapRow = ({ label, gap }: { label: string, gap: number }) => {
-    const isHigh = gap > 5;
-    return (
-        <div className="flex items-center justify-between">
-            <span className="text-[11px] font-bold text-gray-600 dark:text-gray-400 uppercase tracking-tighter">{label}</span>
-            <div className="flex items-center gap-3">
-                <div className="w-24 h-1 bg-gray-100 dark:bg-white/5 rounded-full overflow-hidden relative">
-                    <div
-                        className={`absolute left-0 h-full rounded-full ${isHigh ? 'bg-red-500' : 'bg-green-500'}`}
-                        style={{ width: `${Math.min(gap * 5, 100)}%` }}
-                    />
-                </div>
-                <span className={`text-[11px] font-black w-10 text-right ${isHigh ? 'text-red-500' : 'text-green-600 dark:text-green-400'}`}>
-                    {gap.toFixed(1)}%
-                </span>
-            </div>
-        </div>
-    );
-};
-
+export default DiversityDashboard;

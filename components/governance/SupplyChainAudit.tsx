@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Search, ShieldAlert, ShieldCheck, Truck, XCircle, AlertCircle } from 'lucide-react';
-import { Chip } from '@mui/material';
 
 // Mock Data
 const suppliers = [
@@ -36,7 +35,7 @@ export const SupplyChainAudit: React.FC = () => {
                         Monitoramento de fornecedores e Due Diligence ESG automatizada.
                     </p>
                 </div>
-                <div className="bg-orange-50 dark:bg-orange-900/10 text-orange-700 dark:text-orange-300 px-4 py-2 rounded-sm font-bold text-sm border border-orange-200 dark:border-orange-800 flex items-center gap-2">
+                <div className="bg-orange-50 dark:bg-orange-900/10 text-orange-700 dark:text-orange-300 px-4 py-2 rounded-3xl font-bold text-sm border border-orange-200 dark:border-orange-800 flex items-center gap-2">
                     <ShieldAlert className="w-4 h-4" />
                     2 Fornecedores Bloqueados
                 </div>
@@ -44,7 +43,7 @@ export const SupplyChainAudit: React.FC = () => {
 
             {/* Search & Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="md:col-span-2 bg-white dark:bg-[#1C1C1C] p-4 rounded-sm border border-gray-200 dark:border-white/5 shadow-sm flex items-center gap-4">
+                <div className="md:col-span-2 bg-white dark:bg-[#1C1C1C] p-4 rounded-3xl border border-gray-200 dark:border-white/5 shadow-sm flex items-center gap-4">
                     <Search className="w-5 h-5 text-gray-400" />
                     <input
                         type="text"
@@ -54,7 +53,7 @@ export const SupplyChainAudit: React.FC = () => {
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
-                <div className="bg-white dark:bg-[#1C1C1C] p-4 rounded-sm border border-gray-200 dark:border-white/5 shadow-sm flex items-center justify-between">
+                <div className="bg-white dark:bg-[#1C1C1C] p-4 rounded-3xl border border-gray-200 dark:border-white/5 shadow-sm flex items-center justify-between">
                     <div>
                         <span className="text-xs text-gray-400 font-bold uppercase">Total Monitorado</span>
                         <p className="text-2xl font-black text-gray-900 dark:text-white">1,248</p>
@@ -64,7 +63,7 @@ export const SupplyChainAudit: React.FC = () => {
             </div>
 
             {/* List */}
-            <div className="bg-white dark:bg-[#1C1C1C] rounded-sm border border-gray-200 dark:border-white/5 shadow-sm overflow-hidden">
+            <div className="bg-white dark:bg-[#1C1C1C] rounded-3xl border border-gray-200 dark:border-white/5 shadow-sm overflow-hidden">
                 <table className="w-full text-sm text-left">
                     <thead className="bg-gray-50 dark:bg-zinc-900 text-gray-500 dark:text-gray-400 font-bold uppercase text-xs">
                         <tr>
@@ -135,7 +134,7 @@ export const SupplyChainAudit: React.FC = () => {
                 )}
             </div>
 
-            <div className="bg-gray-50 dark:bg-white/5 p-4 rounded-sm border border-gray-200 dark:border-white/10">
+            <div className="bg-gray-50 dark:bg-white/5 p-4 rounded-3xl border border-gray-200 dark:border-white/10">
                 <h4 className="font-bold text-gray-700 dark:text-gray-200 text-xs uppercase mb-2">Lógica de Bloqueio Automático</h4>
                 <p className="text-xs text-gray-500">
                     Fornecedores com <strong>Risk Score &gt; 80</strong> são automaticamente bloqueados de novos contratos no ERP financeiro.

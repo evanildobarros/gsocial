@@ -1,17 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-    Tooltip,
-    Badge,
-    Collapse,
-    Menu,
-    MenuItem,
-    ListItemIcon,
-    ThemeProvider,
-    createTheme,
-    CssBaseline,
-    Avatar,
-    IconButton
-} from '@mui/material';
+
 import {
     Dashboard as DashboardIcon,
     Assignment as ProjectsIcon,
@@ -87,30 +75,29 @@ interface NavItemProps {
 }
 
 const NavItem: React.FC<NavItemProps> = ({ icon, label, active, onClick, collapsed }) => (
-    <Tooltip title={collapsed ? label : ''} placement="right" arrow>
-        <div className="mb-1 px-2">
-            <button
-                onClick={onClick}
-                className={`
-                    w-full flex items-center py-3.5 px-4 rounded-sm transition-all duration-200 ease-in-out
-                    ${collapsed ? 'justify-center' : 'justify-start'}
-                    ${active
-                        ? 'bg-happiness-1/10 text-happiness-1 dark:text-white dark:bg-happiness-1 shadow-sm'
-                        : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white'
-                    }
-                `}
-            >
-                <div className={`flex items-center justify-center ${collapsed ? '' : 'min-w-[40px]'}`}>
-                    {React.cloneElement(icon as React.ReactElement<any>, { sx: { fontSize: 20 } })}
-                </div>
-                {!collapsed && (
-                    <span className={`text-sm font-medium whitespace-nowrap ${active ? 'font-bold' : ''}`}>
-                        {label}
-                    </span>
-                )}
-            </button>
-        </div>
-    </Tooltip>
+    <div className="mb-1 px-2 group relative">
+        <button
+            onClick={onClick}
+            title={collapsed ? label : ''}
+            className={`
+                w-full flex items-center py-3.5 px-4 rounded-sm transition-all duration-200 ease-in-out
+                ${collapsed ? 'justify-center' : 'justify-start'}
+                ${active
+                    ? 'bg-happiness-1/10 text-happiness-1 dark:text-white dark:bg-happiness-1 shadow-sm'
+                    : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white'
+                }
+            `}
+        >
+            <div className={`flex items-center justify-center ${collapsed ? '' : 'min-w-[40px]'}`}>
+                {React.cloneElement(icon as React.ReactElement<any>, { sx: { fontSize: 20 } })}
+            </div>
+            {!collapsed && (
+                <span className={`text-sm font-medium whitespace-nowrap ${active ? 'font-bold' : ''}`}>
+                    {label}
+                </span>
+            )}
+        </button>
+    </div>
 );
 
 const SectionHeader: React.FC<{
@@ -146,39 +133,6 @@ export default function App() {
     const [selectedProject, setSelectedProject] = useState<any | null>(null);
     const [currentTheme, setCurrentTheme] = useState(localStorage.getItem('gsocial-theme') || 'azure');
 
-    // Configurações de cores sincronizadas com index.css
-    const themePresets = {
-        azure: { primary: '#4973F2', secondary: '#5C82F2', accent: '#D9D8D2' },
-        emerald: { primary: '#29A683', secondary: '#1B2B40', accent: '#A67968' },
-        burgundy: { primary: '#BF2633', secondary: '#590A18', accent: '#F2766B' }
-    };
-
-    const muiTheme = React.useMemo(() => {
-        const preset = themePresets[currentTheme as keyof typeof themePresets] || themePresets.azure;
-        return createTheme({
-            palette: {
-                mode: 'light',
-                primary: {
-                    main: preset.primary,
-                    light: preset.secondary,
-                    contrastText: '#ffffff',
-                },
-                secondary: {
-                    main: preset.accent,
-                    contrastText: '#ffffff',
-                },
-            },
-            shape: { borderRadius: 1 },
-            typography: {
-                fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-                button: { fontWeight: 700, textTransform: 'none' },
-            },
-            components: {
-                MuiButton: { styleOverrides: { root: { borderRadius: 1, padding: '10px 24px' } } },
-                MuiMenuItem: { styleOverrides: { root: { fontWeight: 600 } } }
-            }
-        });
-    }, [currentTheme]);
 
     useEffect(() => {
         document.documentElement.setAttribute('data-theme', currentTheme);
@@ -211,8 +165,12 @@ export default function App() {
     };
 
     useEffect(() => {
-        supabase.auth.getSession().then(({ data: { session } }) => {
-            if (session) {
+        supabase.auth.getSession().then(({ data: { session }, error }) => {
+            if (error) {
+                console.warn('Sessão inválida ou expirada:', error.message);
+                setIsAuthenticated(false);
+                setUserProfile(null);
+            } else if (session) {
                 setIsAuthenticated(true);
                 fetchUserProfile(session.user.id);
             }
@@ -236,14 +194,19 @@ export default function App() {
     }, []);
 
     // Estados do Menu de Perfil (Header)
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const openMenu = Boolean(anchorEl);
-    const handleProfileClick = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleCloseMenu = () => {
-        setAnchorEl(null);
-    };
+    // Estados do Menu de Perfil (Header)
+    const [isProfileOpen, setIsProfileOpen] = useState(false);
+    const profileMenuRef = React.useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (profileMenuRef.current && !profileMenuRef.current.contains(event.target as Node)) {
+                setIsProfileOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
 
     const handleLogout = async () => {
         await supabase.auth.signOut();
@@ -525,394 +488,339 @@ export default function App() {
     ];
 
     return (
-        <ThemeProvider theme={muiTheme}>
-            <CssBaseline />
-            <div className="flex h-screen overflow-hidden bg-gray-50 dark:bg-zinc-950 font-sans transition-colors duration-300 relative">
-                <div className="absolute inset-0 bg-happiness-bg-tint pointer-events-none" />
-                <ToastContainer />
-                {/* Sidebar */}
-                <aside
-                    className={`
+        <div className="flex h-screen overflow-hidden bg-gray-50 dark:bg-zinc-950 font-sans transition-colors duration-300 relative">
+            <div className="absolute inset-0 bg-happiness-bg-tint pointer-events-none" />
+            <ToastContainer />
+            {/* Sidebar */}
+            <aside
+                className={`
                     fixed left-0 top-0 h-full bg-white dark:bg-[#1C1C1C] text-gray-900 dark:text-white transition-all duration-300 ease-in-out z-50 flex flex-col border-r border-gray-200 dark:border-white/5
                     ${sidebarOpen ? 'w-80' : 'w-24'}
                 `}
-                >
-                    {/* Header */}
-                    <div className={`
+            >
+                {/* Header */}
+                <div className={`
                     h-24 flex items-center px-8 transition-all duration-300
                     ${sidebarOpen ? 'justify-between' : 'justify-center'}
                 `}>
-                        {sidebarOpen ? (
-                            <>
-                                <div className="flex flex-col items-start gap-2">
-                                    <img src="/logo_itaqui.png" alt="Porto do Itaqui" className="h-10 w-auto object-contain" />
-                                    <div className="animate-in fade-in duration-300">
-                                        <h1 className="text-lg font-black tracking-tighter leading-none text-gray-900 dark:text-white">ESGporto</h1>
-                                        <p className="text-[9px] font-black text-gray-400 dark:text-happiness-3 uppercase tracking-widest mt-1">Dash Intelligence</p>
-                                    </div>
+                    {sidebarOpen ? (
+                        <>
+                            <div className="flex flex-col items-start gap-2">
+                                <img src="/logo_itaqui.png" alt="Porto do Itaqui" className="h-10 w-auto object-contain" />
+                                <div className="animate-in fade-in duration-300">
+                                    <h1 className="text-lg font-black tracking-tighter leading-none text-gray-900 dark:text-white">ESGporto</h1>
+                                    <p className="text-[9px] font-black text-gray-400 dark:text-happiness-3 uppercase tracking-widest mt-1">Dash Intelligence</p>
                                 </div>
-                                <button
-                                    onClick={() => setSidebarOpen(false)}
-                                    className="p-1.5 text-gray-400 hover:text-happiness-1 hover:bg-happiness-1/5 rounded-sm transition-all"
-                                >
-                                    <MenuIcon sx={{ fontSize: 20 }} />
-                                </button>
-                            </>
-                        ) : (
-                            <div className="flex flex-col items-center gap-4">
-                                <img src="/logo_itaqui.png" alt="Logo" className="w-10 h-10 object-contain" />
-                                <button
-                                    onClick={() => setSidebarOpen(true)}
-                                    className="p-2 text-gray-400 hover:text-happiness-1 hover:bg-happiness-1/5 rounded-sm transition-all"
-                                >
-                                    <MenuIcon sx={{ fontSize: 24 }} />
-                                </button>
                             </div>
-                        )}
+                            <button
+                                onClick={() => setSidebarOpen(false)}
+                                className="p-1.5 text-gray-400 hover:text-happiness-1 hover:bg-happiness-1/5 rounded-sm transition-all"
+                            >
+                                <MenuIcon sx={{ fontSize: 20 }} />
+                            </button>
+                        </>
+                    ) : (
+                        <div className="flex flex-col items-center gap-4">
+                            <img src="/logo_itaqui.png" alt="Logo" className="w-10 h-10 object-contain" />
+                            <button
+                                onClick={() => setSidebarOpen(true)}
+                                className="p-2 text-gray-400 hover:text-happiness-1 hover:bg-happiness-1/5 rounded-sm transition-all"
+                            >
+                                <MenuIcon sx={{ fontSize: 24 }} />
+                            </button>
+                        </div>
+                    )}
+                </div>
+
+                {/* Navigation Scroll Area */}
+                <div className="flex-1 overflow-y-auto overflow-x-hidden py-4 custom-scrollbar">
+
+                    <SectionHeader
+                        label="Visão Geral"
+                        collapsed={!sidebarOpen}
+                        open={overviewOpen}
+                        onToggle={() => setOverviewOpen(!overviewOpen)}
+                    />
+                    <div className={`overflow-hidden transition-all duration-300 ease-in-out ${overviewOpen || !sidebarOpen ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                        <NavItem
+                            icon={<DashboardIcon />}
+                            label="Dashboard Home"
+                            active={mode === AppMode.DASHBOARD}
+                            onClick={() => setMode(AppMode.DASHBOARD)}
+                            collapsed={!sidebarOpen}
+                        />
+                        {diagItems.map(item => (
+                            <NavItem
+                                key={item.label}
+                                icon={item.icon}
+                                label={item.label}
+                                active={mode === item.mode || mode === AppMode.SOCIAL_ASSESSMENT || mode === AppMode.GOV_DIAGNOSTIC}
+                                onClick={() => setMode(item.mode)}
+                                collapsed={!sidebarOpen}
+                            />
+                        ))}
                     </div>
 
-                    {/* Navigation Scroll Area */}
-                    <div className="flex-1 overflow-y-auto overflow-x-hidden py-4 custom-scrollbar">
+                    <div className="my-2 border-t border-gray-100 dark:border-white/5 mx-4" />
 
-                        <SectionHeader
-                            label="Visão Geral"
-                            collapsed={!sidebarOpen}
-                            open={overviewOpen}
-                            onToggle={() => setOverviewOpen(!overviewOpen)}
-                        />
-                        <Collapse in={overviewOpen || !sidebarOpen} timeout="auto" unmountOnExit>
+                    <SectionHeader
+                        label="Pilar Ambiental (E)"
+                        collapsed={!sidebarOpen}
+                        open={envOpen}
+                        onToggle={() => setEnvOpen(!envOpen)}
+                    />
+                    <div className={`overflow-hidden transition-all duration-300 ease-in-out ${envOpen || !sidebarOpen ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                        {envItems.map(item => (
                             <NavItem
-                                icon={<DashboardIcon />}
-                                label="Dashboard Home"
-                                active={mode === AppMode.DASHBOARD}
-                                onClick={() => setMode(AppMode.DASHBOARD)}
+                                key={item.label}
+                                icon={item.icon}
+                                label={item.label}
+                                active={mode === item.mode}
+                                onClick={() => setMode(item.mode)}
                                 collapsed={!sidebarOpen}
                             />
-                            {diagItems.map(item => (
-                                <NavItem
-                                    key={item.label}
-                                    icon={item.icon}
-                                    label={item.label}
-                                    active={mode === item.mode || mode === AppMode.SOCIAL_ASSESSMENT || mode === AppMode.GOV_DIAGNOSTIC}
-                                    onClick={() => setMode(item.mode)}
-                                    collapsed={!sidebarOpen}
-                                />
-                            ))}
-                        </Collapse>
+                        ))}
+                    </div>
 
-                        <div className="my-2 border-t border-gray-100 dark:border-white/5 mx-4" />
+                    <div className="my-2 border-t border-gray-100 dark:border-white/5 mx-4" />
 
-                        <SectionHeader
-                            label="Pilar Ambiental (E)"
-                            collapsed={!sidebarOpen}
-                            open={envOpen}
-                            onToggle={() => setEnvOpen(!envOpen)}
-                        />
-                        <Collapse in={envOpen || !sidebarOpen} timeout="auto" unmountOnExit>
-                            {envItems.map(item => (
-                                <NavItem
-                                    key={item.label}
-                                    icon={item.icon}
-                                    label={item.label}
-                                    active={mode === item.mode}
-                                    onClick={() => setMode(item.mode)}
-                                    collapsed={!sidebarOpen}
-                                />
-                            ))}
-                        </Collapse>
-
-                        <div className="my-2 border-t border-gray-100 dark:border-white/5 mx-4" />
-
-                        <SectionHeader
-                            label="Pilar Social (S)"
-                            collapsed={!sidebarOpen}
-                            open={socialOpen}
-                            onToggle={() => setSocialOpen(!socialOpen)}
-                        />
-                        <Collapse in={socialOpen || !sidebarOpen} timeout="auto" unmountOnExit>
-                            {socialItems.map(item => (
-                                <NavItem
-                                    key={item.label}
-                                    icon={item.icon}
-                                    label={item.label}
-                                    active={mode === item.mode || (item.mode === AppMode.PROJECTS && mode === AppMode.NEW_SOCIAL_PROJECT)}
-                                    onClick={() => setMode(item.mode)}
-                                    collapsed={!sidebarOpen}
-                                />
-                            ))}
-                        </Collapse>
-
-                        <div className="my-2 border-t border-gray-100 dark:border-white/5 mx-4" />
-
-                        <SectionHeader
-                            label="Pilar Governança (G)"
-                            collapsed={!sidebarOpen}
-                            open={govOpen}
-                            onToggle={() => setGovOpen(!govOpen)}
-                        />
-                        <Collapse in={govOpen || !sidebarOpen} timeout="auto" unmountOnExit>
-                            {govItems.map(item => (
-                                <NavItem
-                                    key={item.label}
-                                    icon={item.icon}
-                                    label={item.label}
-                                    active={mode === item.mode}
-                                    onClick={() => setMode(item.mode)}
-                                    collapsed={!sidebarOpen}
-                                />
-                            ))}
-                        </Collapse>
-
-                        <div className="my-2 border-t border-gray-100 dark:border-white/5 mx-4" />
-
-                        <SectionHeader
-                            label="Inteligência & IA"
-                            collapsed={!sidebarOpen}
-                            open={strategicOpen}
-                            onToggle={() => setStrategicOpen(!strategicOpen)}
-                        />
-                        <Collapse in={strategicOpen || !sidebarOpen} timeout="auto" unmountOnExit>
+                    <SectionHeader
+                        label="Pilar Social (S)"
+                        collapsed={!sidebarOpen}
+                        open={socialOpen}
+                        onToggle={() => setSocialOpen(!socialOpen)}
+                    />
+                    <div className={`overflow-hidden transition-all duration-300 ease-in-out ${socialOpen || !sidebarOpen ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                        {socialItems.map(item => (
                             <NavItem
-                                icon={<AnalyticsIcon />}
-                                label="Análise Preditiva"
-                                active={mode === AppMode.STRATEGIC_PREDICTIVE}
-                                onClick={() => setMode(AppMode.STRATEGIC_PREDICTIVE)}
+                                key={item.label}
+                                icon={item.icon}
+                                label={item.label}
+                                active={mode === item.mode || (item.mode === AppMode.PROJECTS && mode === AppMode.NEW_SOCIAL_PROJECT)}
+                                onClick={() => setMode(item.mode)}
                                 collapsed={!sidebarOpen}
                             />
-                            <NavItem icon={<NotificationsIcon />} label="Alertas & Notificações" active={false} onClick={() => { }} collapsed={!sidebarOpen} />
-                        </Collapse>
+                        ))}
+                    </div>
 
-                        <div className="my-4 border-t border-gray-100 dark:border-white/5 mx-4" />
+                    <div className="my-2 border-t border-gray-100 dark:border-white/5 mx-4" />
 
-                        {/* Settings Submenu logic can be simplified or implemented similarly if needed */}
-                        <Tooltip title={!sidebarOpen ? 'Configurações' : ''} placement="right" arrow>
-                            <div className="mb-1 px-2">
-                                <button
-                                    onClick={() => setSettingsOpen(!settingsOpen)}
-                                    className={`
+                    <SectionHeader
+                        label="Pilar Governança (G)"
+                        collapsed={!sidebarOpen}
+                        open={govOpen}
+                        onToggle={() => setGovOpen(!govOpen)}
+                    />
+                    <div className={`overflow-hidden transition-all duration-300 ease-in-out ${govOpen || !sidebarOpen ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                        {govItems.map(item => (
+                            <NavItem
+                                key={item.label}
+                                icon={item.icon}
+                                label={item.label}
+                                active={mode === item.mode}
+                                onClick={() => setMode(item.mode)}
+                                collapsed={!sidebarOpen}
+                            />
+                        ))}
+                    </div>
+
+                    <div className="my-2 border-t border-gray-100 dark:border-white/5 mx-4" />
+
+                    <SectionHeader
+                        label="Inteligência & IA"
+                        collapsed={!sidebarOpen}
+                        open={strategicOpen}
+                        onToggle={() => setStrategicOpen(!strategicOpen)}
+                    />
+                    <div className={`overflow-hidden transition-all duration-300 ease-in-out ${strategicOpen || !sidebarOpen ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                        <NavItem
+                            icon={<AnalyticsIcon />}
+                            label="Análise Preditiva"
+                            active={mode === AppMode.STRATEGIC_PREDICTIVE}
+                            onClick={() => setMode(AppMode.STRATEGIC_PREDICTIVE)}
+                            collapsed={!sidebarOpen}
+                        />
+                        <NavItem icon={<NotificationsIcon />} label="Alertas & Notificações" active={false} onClick={() => { }} collapsed={!sidebarOpen} />
+                    </div>
+
+                    <div className="my-4 border-t border-gray-100 dark:border-white/5 mx-4" />
+
+                    {/* Settings Submenu logic can be simplified or implemented similarly if needed */}
+                    <div className="mb-1 px-2 group relative" title={!sidebarOpen ? 'Configurações' : ''}>
+                        <button
+                            onClick={() => setSettingsOpen(!settingsOpen)}
+                            className={`
                                     w-full flex items-center py-3 px-3 rounded-sm transition-all duration-200 ease-in-out
                                     ${!sidebarOpen ? 'justify-center' : 'justify-start'}
                                     ${mode === AppMode.USERS
-                                            ? 'bg-happiness-1/10 text-happiness-1 dark:bg-happiness-1 dark:text-white'
-                                            : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white'
-                                        }
+                                    ? 'bg-happiness-1/10 text-happiness-1 dark:bg-happiness-1 dark:text-white'
+                                    : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white'
+                                }
                                 `}
-                                >
-                                    <div className={`flex items-center justify-center ${!sidebarOpen ? '' : 'min-w-[40px]'}`}>
-                                        <SettingsIcon sx={{ fontSize: 20 }} />
-                                    </div>
-                                    {sidebarOpen && (
-                                        <>
-                                            <span className="text-sm font-medium flex-1 text-left">Configurações</span>
-                                            {settingsOpen ? <ExpandLess fontSize="small" /> : <ExpandMore fontSize="small" />}
-                                        </>
-                                    )}
-                                </button>
+                        >
+                            <div className={`flex items-center justify-center ${!sidebarOpen ? '' : 'min-w-[40px]'}`}>
+                                <SettingsIcon sx={{ fontSize: 20 }} />
                             </div>
-                        </Tooltip>
-
-                        <Collapse in={settingsOpen && sidebarOpen} timeout="auto" unmountOnExit>
-                            <div className="pl-4 pr-2">
-                                <button
-                                    onClick={() => setMode(AppMode.USERS)}
-                                    className={`
-                                    w-full flex items-center py-2 px-3 rounded-sm transition-all duration-200 mt-1 ml-4 border-l-2
-                                    ${mode === AppMode.USERS
-                                            ? 'border-happiness-1 bg-happiness-1/5 text-happiness-1 dark:text-white dark:bg-happiness-1/10'
-                                            : 'border-gray-200 dark:border-white/10 text-gray-400 hover:text-gray-700 dark:hover:text-white hover:border-gray-300 dark:hover:border-white/30'
-                                        }
-                                `}
-                                >
-                                    <UsersIcon sx={{ fontSize: 16, marginRight: '12px' }} />
-                                    <span className="text-xs font-bold">Usuários</span>
-                                </button>
-                            </div>
-                        </Collapse>
+                            {sidebarOpen && (
+                                <>
+                                    <span className="text-sm font-medium flex-1 text-left">Configurações</span>
+                                    {settingsOpen ? <ExpandLess fontSize="small" /> : <ExpandMore fontSize="small" />}
+                                </>
+                            )}
+                        </button>
                     </div>
 
 
-                </aside>
+                    <div className={`overflow-hidden transition-all duration-300 ease-in-out ${settingsOpen && sidebarOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                        <div className="pl-4 pr-2">
+                            <button
+                                onClick={() => setMode(AppMode.USERS)}
+                                className={`
+                                    w-full flex items-center py-2 px-3 rounded-sm transition-all duration-200 mt-1 ml-4 border-l-2
+                                    ${mode === AppMode.USERS
+                                        ? 'border-happiness-1 bg-happiness-1/5 text-happiness-1 dark:text-white dark:bg-happiness-1/10'
+                                        : 'border-gray-200 dark:border-white/10 text-gray-400 hover:text-gray-700 dark:hover:text-white hover:border-gray-300 dark:hover:border-white/30'
+                                    }
+                                `}
+                            >
+                                <UsersIcon sx={{ fontSize: 16, marginRight: '12px' }} />
+                                <span className="text-xs font-bold">Usuários</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
 
-                {/* Main Content Area */}
-                <main
-                    className={`
+
+            </aside>
+
+            {/* Main Content Area */}
+            <main
+                className={`
                     flex-1 flex flex-col h-screen overflow-y-auto transition-all duration-300 ease-in-out
                     ${sidebarOpen ? 'ml-80' : 'ml-24'}
                 `}
-                >
-                    {/* Topbar/Header */}
-                    <header className="h-24 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md sticky top-0 z-40 border-b border-gray-100 dark:border-white/5 px-12 flex items-center justify-between transition-colors duration-300">
-                        <div className="flex items-center gap-6">
-                            {/* Toggle Removed from Header */}
-                            <div className="h-6 w-px bg-gray-200 dark:bg-white/10 hidden sm:block"></div>
-                            <h2 className="hidden sm:block text-sm font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.15em]">
-                                {getPageTitle()}
-                            </h2>
+            >
+                {/* Topbar/Header */}
+                < header className="h-24 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md sticky top-0 z-40 border-b border-gray-100 dark:border-white/5 px-12 flex items-center justify-between transition-colors duration-300" >
+                    <div className="flex items-center gap-6">
+                        {/* Toggle Removed from Header */}
+                        <div className="h-6 w-px bg-gray-200 dark:bg-white/10 hidden sm:block"></div>
+                        <h2 className="hidden sm:block text-sm font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.15em]">
+                            {getPageTitle()}
+                        </h2>
+                    </div>
+
+                    <div className="flex items-center gap-8">
+                        {/* Search Bar - Hidden on mobile */}
+                        <div className="hidden lg:flex items-center bg-gray-50 dark:bg-white/5 rounded-sm px-6 py-3 w-96 border border-gray-100 dark:border-white/10 focus-within:border-happiness-1/30 focus-within:ring-4 focus-within:ring-happiness-1/5 transition-all">
+                            <SearchIcon className="text-gray-400 w-5 h-5 mr-3" />
+                            <input
+                                type="text"
+                                placeholder="Busca Inteligente..."
+                                className="bg-transparent border-none outline-none text-sm font-medium text-gray-700 dark:text-gray-200 w-full placeholder-gray-400 dark:placeholder-gray-500"
+                            />
                         </div>
 
-                        <div className="flex items-center gap-8">
-                            {/* Search Bar - Hidden on mobile */}
-                            <div className="hidden lg:flex items-center bg-gray-50 dark:bg-white/5 rounded-sm px-6 py-3 w-96 border border-gray-100 dark:border-white/10 focus-within:border-happiness-1/30 focus-within:ring-4 focus-within:ring-happiness-1/5 transition-all">
-                                <SearchIcon className="text-gray-400 w-5 h-5 mr-3" />
-                                <input
-                                    type="text"
-                                    placeholder="Busca Inteligente..."
-                                    className="bg-transparent border-none outline-none text-sm font-medium text-gray-700 dark:text-gray-200 w-full placeholder-gray-400 dark:placeholder-gray-500"
-                                />
-                            </div>
-
-                            <div className="hidden sm:block">
-                                <ThemeSwitcher />
-                            </div>
+                        <div className="hidden sm:block">
+                            <ThemeSwitcher />
+                        </div>
 
 
-                            <div className="h-6 w-px bg-gray-200 dark:bg-white/10"></div>
+                        <div className="h-6 w-px bg-gray-200 dark:bg-white/10"></div>
 
-                            <Tooltip title="Notificações">
-                                <button className="relative p-2 text-gray-400 hover:text-happiness-1 transition-colors">
-                                    <Badge badgeContent={3} color="error" variant="dot">
-                                        <NotificationsIcon />
-                                    </Badge>
-                                </button>
-                            </Tooltip>
+                        <div className="relative group">
+                            <button className="relative p-2 text-gray-400 hover:text-happiness-1 transition-colors">
+                                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-zinc-900"></span>
+                                <NotificationsIcon />
+                            </button>
+                        </div>
 
-                            <Tooltip title="Seu Perfil">
-                                <IconButton
-                                    onClick={handleProfileClick}
-                                    sx={{
-                                        p: 0,
-                                        border: '2px solid white',
-                                        boxShadow: '0 4px 12px rgba(var(--brand-primary), 0.2)',
-                                        borderRadius: 1,
-                                        '&:hover': { scale: '1.05' },
-                                        transition: 'all 0.2s'
-                                    }}
-                                >
-                                    <Avatar
-                                        alt={userProfile?.full_name || 'Usuário'}
-                                        src={userProfile?.avatar_url || ''}
-                                        variant="square"
-                                        sx={{
-                                            width: 40,
-                                            height: 40,
-                                            bgcolor: 'primary.main',
-                                            fontWeight: 900,
-                                            fontSize: '0.75rem',
-                                            borderRadius: 1
-                                        }}
-                                    >
-                                        {getInitials(userProfile?.full_name)}
-                                    </Avatar>
-                                </IconButton>
-                            </Tooltip>
-
-                            <Menu
-                                anchorEl={anchorEl}
-                                open={openMenu}
-                                onClose={handleCloseMenu}
-                                onClick={handleCloseMenu}
-                                transformOrigin={{ horizontal: 'center', vertical: 'top' }}
-                                anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
-                                PaperProps={{
-                                    elevation: 0,
-                                    sx: {
-                                        overflow: 'visible',
-                                        filter: 'drop-shadow(0px 10px 20px rgba(0,0,0,0.1))',
-                                        mt: 1.5,
-                                        borderRadius: 1,
-                                        minWidth: 200,
-                                        border: '1px solid rgba(0,0,0,0.05)',
-                                        '& .MuiAvatar-root': {
-                                            width: 32,
-                                            height: 32,
-                                            ml: -0.5,
-                                            mr: 1,
-                                        },
-                                        '&:before': {
-                                            content: '""',
-                                            display: 'block',
-                                            position: 'absolute',
-                                            top: 0,
-                                            left: '50%',
-                                            width: 10,
-                                            height: 10,
-                                            bgcolor: 'background.paper',
-                                            transform: 'translate(-50%, -50%) rotate(45deg)',
-                                            zIndex: 0,
-                                        },
-                                    },
-                                }}
+                        <div className="relative" ref={profileMenuRef}>
+                            <button
+                                onClick={() => setIsProfileOpen(!isProfileOpen)}
+                                className="p-0 border-2 border-white dark:border-zinc-900 shadow-lg rounded-lg hover:scale-105 transition-transform overflow-hidden"
                             >
-                                <div className="px-4 py-3 border-b border-gray-100 dark:border-white/5 mb-2">
-                                    <p className="text-xs font-black text-gray-400 uppercase tracking-widest">{userProfile?.role || 'Usuário'}</p>
-                                    <p className="text-sm font-bold text-gray-900 dark:text-gray-100">{userProfile?.full_name}</p>
+                                <div className="w-10 h-10 bg-happiness-1 flex items-center justify-center text-white font-black text-xs">
+                                    {userProfile?.avatar_url ? (
+                                        <img src={userProfile.avatar_url} alt="Profile" className="w-full h-full object-cover" />
+                                    ) : (
+                                        getInitials(userProfile?.full_name)
+                                    )}
                                 </div>
-                                <MenuItem onClick={() => setMode(AppMode.PROFILE)} className="text-sm font-bold gap-3 py-3">
-                                    <ListItemIcon><AccountCircleIcon fontSize="small" /></ListItemIcon>
-                                    Seu Perfil
-                                </MenuItem>
-                                <MenuItem onClick={() => setMode(AppMode.DASHBOARD)} className="text-sm font-bold gap-3 py-3">
-                                    <ListItemIcon><SettingsIcon fontSize="small" /></ListItemIcon>
-                                    Configurações
-                                </MenuItem>
+                            </button>
 
-                                {/* Gestor de Temas */}
-                                <div className="px-4 py-4 border-t border-gray-100 dark:border-white/5 bg-gray-50/10 dark:bg-white/5">
-                                    <p className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-4 flex items-center gap-2">
-                                        <ZapIcon sx={{ fontSize: 14 }} />
-                                        Ambiente de Cores
-                                    </p>
-                                    <div className="flex items-center justify-between gap-2">
-                                        {[
-                                            { id: 'azure', label: 'Marítimo', colors: ['#4973F2', '#1B2B40'] },
-                                            { id: 'emerald', label: 'Eco', colors: ['#29A683', '#1B2B40'] },
-                                            { id: 'burgundy', label: 'Executivo', colors: ['#BF2633', '#590A18'] }
-                                        ].map((themeOpt) => (
-                                            <button
-                                                key={themeOpt.id}
-                                                onClick={() => setCurrentTheme(themeOpt.id)}
-                                                className={`
-                                                relative flex-1 group transition-all duration-300
-                                                ${currentTheme === themeOpt.id ? 'scale-105' : 'opacity-60 hover:opacity-100'}
-                                            `}
-                                            >
-                                                <div
+                            {isProfileOpen && (
+                                <div className="absolute right-0 top-full mt-4 w-72 bg-white dark:bg-[#1E1E1E] rounded-xl shadow-2xl border border-gray-100 dark:border-white/5 overflow-hidden z-50 transform origin-top-right animate-in fade-in zoom-in-95 duration-200">
+                                    {/* Arrow */}
+                                    <div className="absolute -top-1.5 right-5 w-3 h-3 bg-white dark:bg-[#1E1E1E] transform rotate-45 border-l border-t border-gray-100 dark:border-white/5"></div>
+
+                                    <div className="px-6 py-5 border-b border-gray-100 dark:border-white/5 bg-gray-50/50 dark:bg-white/5">
+                                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">{userProfile?.role || 'Usuário'}</p>
+                                        <p className="text-base font-bold text-gray-900 dark:text-white leading-tight truncate">{userProfile?.full_name}</p>
+                                        <p className="text-xs text-gray-400 truncate mt-0.5">{userProfile?.email}</p>
+                                    </div>
+
+                                    <div className="p-2">
+                                        <button onClick={() => { setMode(AppMode.PROFILE); setIsProfileOpen(false); }} className="w-full text-left px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg flex items-center gap-3 transition-colors">
+                                            <AccountCircleIcon fontSize="small" className="text-gray-400" />
+                                            Seu Perfil
+                                        </button>
+                                        <button onClick={() => { setMode(AppMode.DASHBOARD); setIsProfileOpen(false); }} className="w-full text-left px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg flex items-center gap-3 transition-colors">
+                                            <SettingsIcon fontSize="small" className="text-gray-400" />
+                                            Configurações
+                                        </button>
+                                    </div>
+
+                                    {/* Gestor de Temas */}
+                                    <div className="px-4 py-4 border-t border-gray-100 dark:border-white/5 bg-gray-50/30 dark:bg-white/[0.02]">
+                                        <p className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3 flex items-center gap-2">
+                                            <ZapIcon sx={{ fontSize: 14 }} />
+                                            Ambiente de Cores
+                                        </p>
+                                        <div className="flex items-center justify-between gap-2">
+                                            {[
+                                                { id: 'azure', label: 'Marítimo', colors: ['#4973F2', '#1B2B40'] },
+                                                { id: 'emerald', label: 'Eco', colors: ['#29A683', '#1B2B40'] },
+                                                { id: 'burgundy', label: 'Executivo', colors: ['#BF2633', '#590A18'] }
+                                            ].map((themeOpt) => (
+                                                <button
+                                                    key={themeOpt.id}
+                                                    onClick={() => setCurrentTheme(themeOpt.id)}
                                                     className={`
-                                                    h-12 w-full rounded-sm mb-1.5 transition-all
-                                                    ${currentTheme === themeOpt.id ? 'ring-2 ring-happiness-1 ring-offset-2 dark:ring-offset-zinc-900 border-none' : 'border border-gray-200 dark:border-white/10'}
-                                                `}
-                                                    style={{ background: `linear-gradient(135deg, ${themeOpt.colors[0]} 50%, ${themeOpt.colors[1]} 50%)` }}
-                                                />
-                                                <span className={`text-[9px] font-black uppercase tracking-widest block text-center ${currentTheme === themeOpt.id ? 'text-happiness-1' : 'text-gray-400'}`}>
-                                                    {themeOpt.label}
-                                                </span>
-                                                {currentTheme === themeOpt.id && (
-                                                    <div className="absolute -top-1 -right-1 w-4 h-4 bg-happiness-1 text-white rounded-full flex items-center justify-center shadow-sm">
-                                                        <div className="w-1.5 h-1.5 bg-white rounded-full" />
-                                                    </div>
-                                                )}
-                                            </button>
-                                        ))}
+                                                        relative flex-1 group transition-all duration-300
+                                                        ${currentTheme === themeOpt.id ? 'scale-105' : 'opacity-60 hover:opacity-100'}
+                                                    `}
+                                                >
+                                                    <div
+                                                        className={`
+                                                            h-8 w-full rounded-md mb-1.5 transition-all
+                                                            ${currentTheme === themeOpt.id ? 'ring-2 ring-happiness-1 ring-offset-2 dark:ring-offset-zinc-900' : 'border border-gray-200 dark:border-white/10'}
+                                                        `}
+                                                        style={{ background: `linear-gradient(135deg, ${themeOpt.colors[0]} 50%, ${themeOpt.colors[1]} 50%)` }}
+                                                    />
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    <div className="p-2 border-t border-gray-100 dark:border-white/5">
+                                        <button onClick={handleLogout} className="w-full text-left px-4 py-3 text-sm font-bold text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-lg flex items-center gap-3 transition-colors">
+                                            <LogoutIcon fontSize="small" />
+                                            Sair do Sistema
+                                        </button>
                                     </div>
                                 </div>
-
-                                <div className="border-t border-gray-100 dark:border-white/5 pt-2">
-                                    <MenuItem onClick={handleLogout} className="text-sm font-bold gap-3 py-3 text-red-500">
-                                        <ListItemIcon><LogoutIcon fontSize="small" className="text-red-500" /></ListItemIcon>
-                                        Sair do Sistema
-                                    </MenuItem>
-                                </div>
-                            </Menu>
+                            )}
                         </div>
-                    </header>
-
-                    {/* Content Render */}
-                    <div className="flex-1 p-6 md:p-10 w-full animate-in fade-in duration-500">
-                        {mode !== AppMode.DASHBOARD && <Breadcrumb items={getBreadcrumbs()} />}
-                        {renderContent()}
                     </div>
-                </main>
-            </div>
-        </ThemeProvider>
+                </header>
+
+                {/* Content Render */}
+                <div className="flex-1 p-6 md:p-10 w-full animate-in fade-in duration-500">
+                    {mode !== AppMode.DASHBOARD && <Breadcrumb items={getBreadcrumbs()} />}
+                    {renderContent()}
+                </div>
+            </main>
+        </div>
     );
 }

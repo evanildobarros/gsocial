@@ -15,7 +15,7 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({ items }) => {
         <nav className="flex items-center gap-2 mb-6 text-sm">
             <button
                 onClick={() => items[0]?.onClick?.()}
-                className="p-1.5 rounded-sm hover:bg-gray-100 dark:hover:bg-white/5 transition-colors"
+                className="p-1.5 rounded-3xl hover:bg-gray-100 dark:hover:bg-white/5 transition-colors"
             >
                 <Home className="w-4 h-4 text-gray-400" />
             </button>

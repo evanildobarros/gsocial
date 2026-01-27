@@ -1,14 +1,24 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import {
-    CloudRain, Wind, Thermometer, Droplets, AlertTriangle,
-    Calendar, TrendingUp, Compass, Loader2, FileUp, Zap, ChevronRight
+    Cloud,
+    Wind,
+    Thermometer,
+    Droplets,
+    AlertTriangle,
+    Calendar,
+    TrendingUp,
+    Compass,
+    RefreshCw,
+    Upload,
+    Zap,
+    ChevronRight,
+    BarChart3
 } from 'lucide-react';
 import {
     ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid,
-    Tooltip, Legend, BarChart, Bar, RadarChart, PolarGrid,
+    Tooltip as RechartsTooltip, Legend, RadarChart, PolarGrid,
     PolarAngleAxis, PolarRadiusAxis, Radar
 } from 'recharts';
-import { Button, Card, CardContent, Typography, Box, Chip } from '@mui/material';
 
 // --- Types ---
 interface MeteoData {
@@ -21,11 +31,9 @@ interface MeteoData {
     riskStatus: 'LOW' | 'MEDIUM' | 'HIGH';
 }
 
-// --- Component ---
 export const MeteoPredictiveModule: React.FC = () => {
     const [data, setData] = useState<MeteoData[]>([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [selectedDate, setSelectedDate] = useState<string>('2025-01-17');
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,8 +46,6 @@ export const MeteoPredictiveModule: React.FC = () => {
             const text = e.target?.result as string;
             const lines = text.split('\n');
             const headers = lines[0].split(/[;,]/);
-
-            // Map headers to indices
             const getIdx = (name: string) => headers.findIndex(h => h.includes(name));
             const idx = {
                 time: getIdx('Data e Hora'),
@@ -71,16 +77,13 @@ export const MeteoPredictiveModule: React.FC = () => {
                 };
             }).filter(d => d.timestamp);
 
-            // Limited to 24 points for visualization
             setData(parsed.slice(0, 24));
             setIsLoading(false);
         };
         reader.readAsText(file);
     };
 
-    // Simulate Data Generation (based on CSV 2025 specs)
     useEffect(() => {
-        // Only generate mock data if no data has been loaded yet (e.g., from CSV)
         if (data.length === 0) {
             setIsLoading(true);
             setTimeout(() => {
@@ -89,8 +92,6 @@ export const MeteoPredictiveModule: React.FC = () => {
                     const speed = Math.random() * 12;
                     const direction = Math.random() * 360;
                     const rain = Math.random() > 0.8 ? Math.random() * 25 : 0;
-
-                    // Risk Logic: IF wind_direction BETWEEN 45 AND 135 AND wind_speed > 6 -> HIGH
                     let risk: 'LOW' | 'MEDIUM' | 'HIGH' = 'LOW';
                     if (direction >= 45 && direction <= 135 && speed > 6) risk = 'HIGH';
                     else if (speed > 8 || rain > 10) risk = 'MEDIUM';
@@ -109,24 +110,20 @@ export const MeteoPredictiveModule: React.FC = () => {
                 setIsLoading(false);
             }, 1000);
         }
-    }, [selectedDate, data.length]); // Added data.length to dependency array to prevent re-mocking if data is loaded
+    }, [data.length]);
 
-    // Wind Rose Logic (Binned Data)
     const windRoseData = useMemo(() => {
         const bins = [
             { name: 'N', angle: 0 }, { name: 'NE', angle: 45 }, { name: 'E', angle: 90 },
             { name: 'SE', angle: 135 }, { name: 'S', angle: 180 }, { name: 'SW', angle: 225 },
             { name: 'W', angle: 270 }, { name: 'NW', angle: 315 }
         ];
-
         return bins.map(bin => {
             const count = data.filter(d => Math.abs(d.windDirection - bin.angle) < 22.5 || (bin.name === 'N' && d.windDirection > 337.5)).length;
             return { subject: bin.name, A: count, fullMark: data.length / 2 };
         });
     }, [data]);
 
-    // Operational Window Heatmap Logic
-    // Score = (10 - wind_speed) - (rain_mm * 2)
     const operationalWindows = useMemo(() => {
         return data.map(d => {
             const score = (10 - d.windSpeed) - (d.rainMm * 2);
@@ -142,185 +139,206 @@ export const MeteoPredictiveModule: React.FC = () => {
 
     if (isLoading) {
         return (
-            <div className="flex flex-col items-center justify-center py-40 space-y-4">
-                <Loader2 className="w-12 h-12 text-happiness-1 animate-spin" />
-                <p className="text-gray-400 font-black uppercase tracking-widest text-xs italic">Ingerindo Dados Meteo (Berço 100)...</p>
+            <div className="flex flex-col items-center py-20 gap-4 text-center">
+                <RefreshCw className="w-16 h-16 text-blue-500 animate-spin" />
+                <span className="text-xs font-black uppercase tracking-widest text-gray-500">Sincronizando Berço 100...</span>
             </div>
         );
     }
 
     return (
-        <div className="space-y-8 animate-in fade-in duration-700">
+        <div className="flex flex-col gap-8 animate-in fade-in duration-500">
             {/* Header */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h2 className="text-3xl font-black text-gray-900 dark:text-white tracking-tighter italic">Inteligência Climática</h2>
-                    <p className="text-gray-500 font-medium italic">Análise preditiva Berço 100 baseada em dados históricos 2025.</p>
-                </div>
-                <div className="flex gap-3">
-                    <input
-                        type="file"
-                        ref={fileInputRef}
-                        onChange={handleFileUpload}
-                        accept=".csv"
-                        className="hidden"
-                    />
-                    <Button
-                        variant="outlined"
-                        startIcon={<FileUp className="w-4 h-4" />}
-                        onClick={() => fileInputRef.current?.click()}
-                        sx={{ borderRadius: '2px', fontWeight: 900, borderColor: '#CCC', color: '#666', fontSize: '11px' }}
-                    >
-                        IMPORTAR CSV HISTÓRICO
-                    </Button>
-                    <div className="px-4 py-2 bg-blue-50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-900/30 rounded-sm flex items-center gap-2">
-                        <Compass className="w-4 h-4 text-blue-600" />
-                        <span className="text-[10px] font-black text-blue-700 dark:text-blue-400 uppercase tracking-widest">Estação Meteo Ativa</span>
-                    </div>
-                </div>
-            </div>
-
-            {/* Top Widgets */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <ConditionWidget icon={<Wind />} label="Velocidade Escalar" value={`${data[23]?.windSpeed.toFixed(1)} m/s`} trend="+12%" />
-                <ConditionWidget icon={<CloudRain />} label="Precipitação (Acum.)" value={`${data.reduce((acc, c) => acc + c.rainMm, 0).toFixed(1)} mm`} trend="Alerta" isAlert={data.some(d => d.rainMm > 20)} />
-                <ConditionWidget icon={<Thermometer />} label="Temperatura" value={`${data[23]?.temp.toFixed(1)}°C`} trend="Estável" />
-                <ConditionWidget icon={<Droplets />} label="Umidade Relativa" value={`${data[23]?.humidity.toFixed(0)}%`} trend="-5%" />
-            </div>
-
-            {/* Alerts Section */}
-            {extremeAlerts.length > 0 && (
-                <div className="bg-red-500 text-white p-4 rounded-sm flex items-center justify-between shadow-lg animate-pulse">
-                    <div className="flex items-center gap-4">
-                        <AlertTriangle className="w-6 h-6" />
+                    <div className="flex items-center gap-4 mb-1">
+                        <div className="w-14 h-14 bg-blue-50 dark:bg-blue-900/10 text-blue-600 rounded-2xl flex items-center justify-center">
+                            <Compass className="w-8 h-8" />
+                        </div>
                         <div>
-                            <p className="font-black text-xs uppercase tracking-widest">Alerta de Evento Extremo Detectado</p>
-                            <p className="text-sm font-medium">Precipitação superior a 20mm/hora identificada às {extremeAlerts[0].timestamp}. Ativar planos de drenagem.</p>
+                            <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">Inteligência Climática</h1>
+                            <p className="text-sm font-medium text-gray-500 italic">Predição Operacional • Berço 100</p>
                         </div>
                     </div>
-                    <Button variant="contained" sx={{ bgcolor: 'white', color: 'red', fontWeight: 900, fontSize: '10px' }}>PROTOCOLOS</Button>
+                </div>
+
+                <div className="flex gap-3">
+                    <input type="file" ref={fileInputRef} onChange={handleFileUpload} accept=".csv" className="hidden" />
+                    <button
+                        onClick={() => fileInputRef.current?.click()}
+                        className="px-4 py-2 border border-gray-200 dark:border-white/10 rounded-full font-bold text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 flex items-center gap-2 transition-colors"
+                    >
+                        <Upload size={16} />
+                        Importar Histórico
+                    </button>
+                    <div className="px-3 py-1 bg-green-50 dark:bg-green-900/10 text-green-700 dark:text-green-400 font-black text-xs uppercase rounded-full flex items-center gap-1.5 border border-green-100 dark:border-green-900/20">
+                        <RefreshCw size={14} className="animate-pulse" />
+                        Estação Ativa
+                    </div>
+                </div>
+            </div>
+
+            {/* Extreme Alerts Banner */}
+            {extremeAlerts.length > 0 && (
+                <div className="bg-red-500 text-white p-6 rounded-[32px] shadow-xl shadow-red-500/30 animate-pulse flex flex-col md:flex-row items-center justify-between gap-4">
+                    <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 bg-white text-red-500 rounded-full flex items-center justify-center shrink-0">
+                            <AlertTriangle className="w-6 h-6" />
+                        </div>
+                        <div>
+                            <h3 className="text-lg font-black uppercase tracking-wide">Evento Extremo Detectado</h3>
+                            <p className="font-medium text-sm text-white/90">Chuva superior a 20mm/h identificada. Ativar protocolos de contingência de drenagem.</p>
+                        </div>
+                    </div>
+                    <button className="bg-white text-red-600 px-6 py-2 rounded-full font-black text-sm uppercase tracking-widest hover:scale-105 transition-transform">
+                        Ver Protocolos
+                    </button>
                 </div>
             )}
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                {/* Wind Rose & Risk */}
-                <div className="lg:col-span-1 space-y-6">
-                    <Card sx={{ borderRadius: '2px', bgcolor: 'background.paper', border: '1px solid', borderColor: 'divider', boxShadow: 'none' }}>
-                        <CardContent>
-                            <Typography variant="overline" sx={{ fontWeight: 900, color: 'text.secondary' }}>Rosa dos Ventos (Frequência)</Typography>
-                            <div className="h-[250px] mt-4">
-                                <ResponsiveContainer width="100%" height="100%">
-                                    <RadarChart cx="50%" cy="50%" outerRadius="80%" data={windRoseData}>
-                                        <PolarGrid stroke="#eee" />
-                                        <PolarAngleAxis dataKey="subject" tick={{ fontSize: 10, fontWeight: 900 }} />
-                                        <Radar name="Vento" dataKey="A" stroke="#2148C0" fill="#2148C0" fillOpacity={0.6} />
-                                    </RadarChart>
-                                </ResponsiveContainer>
-                            </div>
-                        </CardContent>
-                    </Card>
-
-                    <Card sx={{ borderRadius: '2px', bgcolor: '#1C1C1C', color: 'white', border: 'none', boxShadow: '2xl' }}>
-                        <CardContent>
-                            <Typography variant="overline" sx={{ fontWeight: 900, color: 'gray.400' }}>Risco de Dispersão de Particulados</Typography>
-                            <div className="mt-4 space-y-4">
-                                <div className="flex justify-between items-center">
-                                    <span className="text-sm font-medium">Janela Crítica (Sore/Direção)</span>
-                                    <Chip
-                                        label={data.some(d => d.riskStatus === 'HIGH') ? "ALTO RISCO" : "BAIXO"}
-                                        color={data.some(d => d.riskStatus === 'HIGH') ? "error" : "success"}
-                                        size="small"
-                                        sx={{ fontWeight: 900, borderRadius: '2px' }}
-                                    />
-                                </div>
-                                <p className="text-[10px] text-gray-500 uppercase leading-relaxed">
-                                    Ventos de SE ({'>'}6m/s) sopram em direção à zona urbana.
-                                    Sistema de canhões de névoa deve ser operado em modo automatizado.
-                                </p>
-                                <Button fullWidth variant="contained" sx={{ bgcolor: '#333', color: 'white', fontWeight: 900, py: 1.5, fontSize: '11px' }}>
-                                    CONFIGURAR GATILHOS
-                                </Button>
-                            </div>
-                        </CardContent>
-                    </Card>
+            {/* Metrics Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="bg-white dark:bg-[#1C1C1C] rounded-[24px] p-6 border border-gray-200 dark:border-white/5 shadow-sm hover:-translate-y-1 transition-transform duration-200">
+                    <div className="flex justify-between items-start mb-2">
+                        <Wind className="text-blue-500" />
+                        <TrendingUp className="w-4 h-4 text-green-500" />
+                    </div>
+                    <span className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">VENTO ESCALAR</span>
+                    <div className="mt-1 text-3xl font-black text-gray-900 dark:text-white">
+                        {data[23]?.windSpeed.toFixed(1)} <span className="text-sm font-normal text-gray-400">m/s</span>
+                    </div>
                 </div>
 
-                {/* Operational Window & Trends */}
-                <div className="lg:col-span-2 space-y-8">
-                    {/* Operational Heatmap */}
-                    <Card sx={{ borderRadius: '2px', boxShadow: 'none', border: '1px solid', borderColor: 'divider' }}>
-                        <CardContent>
-                            <div className="flex justify-between items-center mb-6">
-                                <Typography variant="overline" sx={{ fontWeight: 900 }}>Janelas Operacionais (Escalabilidade)</Typography>
-                                <Zap className="w-4 h-4 text-yellow-500" />
+                <div className="bg-white dark:bg-[#1C1C1C] rounded-[24px] p-6 border border-gray-200 dark:border-white/5 shadow-sm hover:-translate-y-1 transition-transform duration-200">
+                    <div className="flex justify-between items-start mb-2">
+                        <Cloud className="text-cyan-500" />
+                        <span className="text-[10px] font-black text-red-500 uppercase">ALERTA</span>
+                    </div>
+                    <span className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">PRECIPITAÇÃO ACUM.</span>
+                    <div className="mt-1 text-3xl font-black text-gray-900 dark:text-white">
+                        {data.reduce((acc, c) => acc + c.rainMm, 0).toFixed(1)} <span className="text-sm font-normal text-gray-400">mm</span>
+                    </div>
+                </div>
+
+                <div className="bg-white dark:bg-[#1C1C1C] rounded-[24px] p-6 border border-gray-200 dark:border-white/5 shadow-sm hover:-translate-y-1 transition-transform duration-200">
+                    <div className="flex justify-between items-start mb-2">
+                        <Thermometer className="text-amber-500" />
+                        <span className="text-[10px] font-black text-gray-400 uppercase">ESTÁVEL</span>
+                    </div>
+                    <span className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">TEMPERATURA</span>
+                    <div className="mt-1 text-3xl font-black text-gray-900 dark:text-white">
+                        {data[23]?.temp.toFixed(1)} <span className="text-sm font-normal text-gray-400">°C</span>
+                    </div>
+                </div>
+
+                <div className="bg-white dark:bg-[#1C1C1C] rounded-[24px] p-6 border border-gray-200 dark:border-white/5 shadow-sm hover:-translate-y-1 transition-transform duration-200">
+                    <div className="flex justify-between items-start mb-2">
+                        <Droplets className="text-purple-500" />
+                        <span className="text-[10px] font-black text-green-500 uppercase">-5%</span>
+                    </div>
+                    <span className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">UMIDADE</span>
+                    <div className="mt-1 text-3xl font-black text-gray-900 dark:text-white">
+                        {data[23]?.humidity.toFixed(0)} <span className="text-sm font-normal text-gray-400">%</span>
+                    </div>
+                </div>
+            </div>
+
+            {/* Analysis Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-[350px_1fr] gap-8">
+                <div className="space-y-6">
+                    <div className="bg-white/80 dark:bg-zinc-900/50 backdrop-blur-xl rounded-[32px] p-6 border border-gray-200 dark:border-white/5 shadow-lg">
+                        <h3 className="text-sm font-black text-gray-900 dark:text-white uppercase tracking-wider mb-6">ROSA DOS VENTOS</h3>
+                        <div className="h-[280px] w-full flex justify-center">
+                            <ResponsiveContainer>
+                                <RadarChart cx="50%" cy="50%" outerRadius="80%" data={windRoseData}>
+                                    <PolarGrid stroke="rgba(128,128,128,0.2)" />
+                                    <PolarAngleAxis dataKey="subject" tick={{ fontSize: 10, fontWeight: 900, fill: '#9CA3AF' }} />
+                                    <Radar name="Vento" dataKey="A" stroke="#3B82F6" fill="#3B82F6" fillOpacity={0.3} />
+                                </RadarChart>
+                            </ResponsiveContainer>
+                        </div>
+                    </div>
+
+                    <div className="bg-white dark:bg-[#1C1C1C] rounded-[32px] p-6 border border-gray-200 dark:border-white/5">
+                        <h3 className="text-sm font-black text-gray-900 dark:text-white mb-4">ANÁLISE DE RISCO AMBIENTAL</h3>
+                        <div className="space-y-4">
+                            <div>
+                                <div className="flex justify-between items-center mb-2">
+                                    <span className="text-xs font-black text-gray-500 uppercase">DISPERSÃO DE PARTICULADOS</span>
+                                    <span className="px-2 py-0.5 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 text-[10px] font-black uppercase rounded-lg">ALTO RISCO</span>
+                                </div>
+                                <p className="text-sm text-gray-500 italic mb-4">
+                                    Ventos de Sudeste ({'>'}6m/s) sopram em direção à zona urbana.
+                                </p>
+                                <button disabled className="w-full bg-gray-100 dark:bg-white/10 text-gray-400 py-3 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-2 cursor-not-allowed">
+                                    <Zap size={16} />
+                                    Gatilhos Automáticos Ativados
+                                </button>
                             </div>
-                            <div className="grid grid-cols-12 gap-1">
-                                {operationalWindows.map((win, idx) => (
+                        </div>
+                    </div>
+                </div>
+
+                <div className="space-y-6">
+                    <div className="bg-white/80 dark:bg-zinc-900/50 backdrop-blur-xl rounded-[32px] p-6 border border-gray-200 dark:border-white/5 shadow-lg">
+                        <div className="flex justify-between items-center mb-6">
+                            <h3 className="text-sm font-black text-gray-900 dark:text-white uppercase tracking-wider">JANELAS OPERACIONAIS (PRÓXIMAS 24H)</h3>
+                            <Zap className="text-amber-500 w-5 h-5" />
+                        </div>
+
+                        <div className="grid grid-cols-12 gap-1 mb-4">
+                            {operationalWindows.map((win, idx) => (
+                                <div key={idx} className="group relative" title={`Score Operacional: ${win.score.toFixed(1)}`}>
                                     <div
-                                        key={idx}
                                         className={`
-                                            h-10 rounded-sm flex flex-col items-center justify-center group relative
-                                            ${win.status === 'OPEN' ? 'bg-green-500/20 text-green-700' : win.status === 'WARNING' ? 'bg-yellow-500/20 text-yellow-700' : 'bg-red-500/20 text-red-700'}
+                                            h-12 rounded-xl flex items-center justify-center border border-transparent transition-all group-hover:scale-105 group-hover:z-10 group-hover:border-current cursor-help
+                                            ${win.status === 'OPEN'
+                                                ? 'bg-green-500/10 text-green-600'
+                                                : win.status === 'WARNING'
+                                                    ? 'bg-amber-500/10 text-amber-600'
+                                                    : 'bg-red-500/10 text-red-600'
+                                            }
                                         `}
                                     >
-                                        <span className="text-[8px] font-black">{win.time.split(':')[0]}</span>
-                                        <div className="absolute bottom-full mb-2 bg-black text-white text-[9px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity z-10 whitespace-nowrap">
-                                            Score: {win.score.toFixed(1)}
-                                        </div>
+                                        <span className="text-[10px] font-black">{win.time.split(':')[0]}</span>
                                     </div>
-                                ))}
-                            </div>
-                            <div className="flex justify-between mt-2">
-                                <span className="text-[9px] font-bold text-gray-400">00:00</span>
-                                <span className="text-[9px] font-bold text-gray-400">Tempo Real</span>
-                                <span className="text-[9px] font-bold text-gray-400">23:00</span>
-                            </div>
-                        </CardContent>
-                    </Card>
 
-                    {/* Wind Speed Line Chart */}
-                    <Card sx={{ borderRadius: '2px', boxShadow: 'none', border: '1px solid', borderColor: 'divider' }}>
-                        <CardContent>
-                            <Typography variant="overline" sx={{ fontWeight: 900, mb: 4, display: 'block' }}>Velocidade do Vento vs. Precipitação</Typography>
-                            <div className="h-[300px] w-full mt-4">
-                                <ResponsiveContainer width="100%" height="100%">
-                                    <LineChart data={data}>
-                                        <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                                        <XAxis dataKey="timestamp" tick={{ fontSize: 10, fontWeight: 700 }} />
-                                        <YAxis tick={{ fontSize: 10, fontWeight: 700 }} />
-                                        <Tooltip
-                                            contentStyle={{ backgroundColor: '#1C1C1C', border: 'none', borderRadius: '4px', color: 'white' }}
-                                            itemStyle={{ fontSize: '11px', fontWeight: 900 }}
-                                        />
-                                        <Legend wrapperStyle={{ fontSize: '10px', fontWeight: 900, textTransform: 'uppercase' }} />
-                                        <Line type="monotone" dataKey="windSpeed" stroke="#2148C0" strokeWidth={3} dot={false} name="Velocidade (m/s)" />
-                                        <Line type="monotone" dataKey="rainMm" stroke="#F43F5E" strokeWidth={3} dot={false} name="Chuva (mm)" />
-                                    </LineChart>
-                                </ResponsiveContainer>
-                            </div>
-                        </CardContent>
-                    </Card>
+                                    {/* Custom Tooltip */}
+                                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-white text-[10px] font-bold rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-20 pointer-events-none">
+                                        Score: {win.score.toFixed(1)}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="flex justify-between px-2">
+                            <span className="text-[10px] font-bold text-gray-400">00:00</span>
+                            <span className="text-[10px] font-black text-blue-600">AGORA</span>
+                            <span className="text-[10px] font-bold text-gray-400">23:00</span>
+                        </div>
+                    </div>
+
+                    <div className="bg-white dark:bg-[#1C1C1C] rounded-[32px] p-6 border border-gray-200 dark:border-white/5">
+                        <h3 className="text-sm font-black text-gray-900 dark:text-white uppercase tracking-wider mb-6">VELOCIDADE DO VENTO VS. PRECIPITAÇÃO</h3>
+                        <div className="h-[320px] w-full">
+                            <ResponsiveContainer>
+                                <LineChart data={data}>
+                                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(128,128,128,0.1)" />
+                                    <XAxis dataKey="timestamp" tick={{ fontSize: 10, fontWeight: 700, fill: '#6B7280' }} axisLine={false} tickLine={false} />
+                                    <YAxis tick={{ fontSize: 10, fontWeight: 700, fill: '#6B7280' }} axisLine={false} tickLine={false} />
+                                    <RechartsTooltip
+                                        contentStyle={{ backgroundColor: '#fff', borderRadius: 12, border: 'none', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' }}
+                                        labelStyle={{ fontWeight: 900, marginBottom: 8, color: '#111' }}
+                                    />
+                                    <Legend verticalAlign="top" align="right" wrapperStyle={{ paddingBottom: 20, fontSize: 10, fontWeight: 900 }} />
+                                    <Line type="monotone" dataKey="windSpeed" stroke="#3B82F6" strokeWidth={4} dot={false} animationDuration={2000} name="Vento (m/s)" />
+                                    <Line type="monotone" dataKey="rainMm" stroke="#EF4444" strokeWidth={4} dot={false} animationDuration={2000} name="Precipitação (mm)" />
+                                </LineChart>
+                            </ResponsiveContainer>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     );
 };
-
-// --- Sub-components ---
-const ConditionWidget = ({ icon, label, value, trend, isAlert = false }: { icon: any, label: string, value: string, trend: string, isAlert?: boolean }) => (
-    <div className={`p-5 rounded-sm border ${isAlert ? 'bg-red-50 border-red-200 dark:bg-red-900/10 dark:border-red-900/30' : 'bg-white dark:bg-[#1C1C1C] border-gray-200 dark:border-white/5'} shadow-sm transition-all hover:translate-y-[-2px]`}>
-        <div className="flex items-center gap-3 mb-3">
-            <div className={`p-2 rounded-sm ${isAlert ? 'bg-red-500 text-white' : 'bg-gray-100 dark:bg-white/5 text-gray-500'}`}>
-                {React.cloneElement(icon, { size: 16 })}
-            </div>
-            <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none">{label}</span>
-        </div>
-        <div className="flex justify-between items-end">
-            <span className={`text-2xl font-black tracking-tighter ${isAlert ? 'text-red-600' : 'text-gray-900 dark:text-white'}`}>{value}</span>
-            <div className={`flex items-center gap-1 text-[9px] font-black ${trend.includes('+') ? 'text-green-500' : trend === 'Alerta' ? 'text-red-500' : 'text-gray-400'}`}>
-                {trend}
-                {trend.includes('%') && <TrendingUp size={10} />}
-            </div>
-        </div>
-    </div>
-);

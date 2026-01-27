@@ -1,6 +1,22 @@
 import React from 'react';
 import { MessageSquare, AlertCircle, CheckCircle, Clock, Users, ArrowUpRight } from 'lucide-react';
-import { Chip } from '@mui/material';
+
+const StatusChip = ({ status }: { status: string }) => {
+    const getStatusStyles = (status: string) => {
+        switch (status) {
+            case 'Recebido': return 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300';
+            case 'Em Análise': return 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400';
+            case 'Ação Tomada': return 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400';
+            case 'Feedback Enviado': return 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400';
+            default: return 'bg-gray-100 text-gray-600';
+        }
+    };
+    return (
+        <span className={`px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase ${getStatusStyles(status)}`}>
+            {status}
+        </span>
+    );
+};
 
 export const CommunityRelations: React.FC = () => {
     const tickets = [
@@ -9,16 +25,6 @@ export const CommunityRelations: React.FC = () => {
         { id: 'T-003', category: 'Solicitação de Apoio', local: 'Alto da Esperança', status: 'Ação Tomada', severity: 'low', date: 'Ontem' },
         { id: 'T-004', category: 'Tráfego Caminhões', local: 'BR-135', status: 'Feedback Enviado', severity: 'high', date: 'Há 2 dias' },
     ];
-
-    const getStatusColor = (status: string) => {
-        switch (status) {
-            case 'Recebido': return 'default';
-            case 'Em Análise': return 'warning';
-            case 'Ação Tomada': return 'info';
-            case 'Feedback Enviado': return 'success';
-            default: return 'default';
-        }
-    };
 
     return (
         <div className="space-y-6 animate-in fade-in duration-500">
@@ -31,13 +37,13 @@ export const CommunityRelations: React.FC = () => {
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {/* Ticket System (Ouvidoria 2.0) */}
-                <div className="lg:col-span-2 bg-white dark:bg-[#1C1C1C] rounded-sm border border-gray-200 dark:border-white/5 shadow-sm overflow-hidden">
+                <div className="lg:col-span-2 bg-white dark:bg-[#1C1C1C] rounded-3xl border border-gray-200 dark:border-white/5 shadow-sm overflow-hidden">
                     <div className="p-6 border-b border-gray-100 dark:border-white/5 flex justify-between items-center">
                         <div className="flex items-center gap-2">
                             <MessageSquare className="w-5 h-5 text-happiness-1" />
                             <h2 className="text-lg font-bold text-gray-900 dark:text-white">Ouvidoria 2.0 (Tickets)</h2>
                         </div>
-                        <span className="text-xs font-bold bg-red-100 text-red-600 px-2 py-1 rounded-sm border border-red-200">
+                        <span className="text-xs font-bold bg-red-100 text-red-600 px-2 py-1 rounded-3xl border border-red-200">
                             1 Crítico Pendente
                         </span>
                     </div>
@@ -47,7 +53,7 @@ export const CommunityRelations: React.FC = () => {
                             <div key={ticket.id} className="p-4 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors flex items-center justify-between group cursor-pointer">
                                 <div className="flex items-center gap-4">
                                     <div className={`
-                                        w-10 h-10 rounded-sm flex items-center justify-center shrink-0
+                                        w-10 h-10 rounded-3xl flex items-center justify-center shrink-0
                                         ${ticket.severity === 'critical' ? 'bg-red-100 text-red-600' :
                                             ticket.severity === 'high' ? 'bg-orange-100 text-orange-600' :
                                                 ticket.severity === 'medium' ? 'bg-yellow-100 text-yellow-600' :
@@ -64,12 +70,7 @@ export const CommunityRelations: React.FC = () => {
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-4">
-                                    <Chip
-                                        label={ticket.status}
-                                        size="small"
-                                        color={getStatusColor(ticket.status) as any}
-                                        sx={{ borderRadius: 1, fontWeight: 700, fontSize: '10px', height: 24 }}
-                                    />
+                                    <StatusChip status={ticket.status} />
                                     <ArrowUpRight className="w-4 h-4 text-gray-300 group-hover:text-happiness-1 transition-colors" />
                                 </div>
                             </div>
@@ -81,13 +82,13 @@ export const CommunityRelations: React.FC = () => {
                 </div>
 
                 {/* Stakeholder Matrix Placeholder */}
-                <div className="bg-white dark:bg-[#1C1C1C] rounded-sm border border-gray-200 dark:border-white/5 shadow-sm p-6 flex flex-col">
+                <div className="bg-white dark:bg-[#1C1C1C] rounded-3xl border border-gray-200 dark:border-white/5 shadow-sm p-6 flex flex-col">
                     <div className="flex items-center gap-2 mb-6 text-gray-900 dark:text-white">
                         <Users className="w-5 h-5 text-purple-500" />
                         <h2 className="text-lg font-bold">Matriz de Stakeholders</h2>
                     </div>
 
-                    <div className="flex-1 bg-gray-50 dark:bg-white/5 rounded-sm border border-dashed border-gray-200 dark:border-white/10 relative p-4">
+                    <div className="flex-1 bg-gray-50 dark:bg-white/5 rounded-3xl border border-dashed border-gray-200 dark:border-white/10 relative p-4">
                         {/* Axes */}
                         <div className="absolute left-4 bottom-4 w-[calc(100%-32px)] h-px bg-gray-300 dark:bg-white/20" /> {/* X Axis */}
                         <div className="absolute left-4 bottom-4 h-[calc(100%-32px)] w-px bg-gray-300 dark:bg-white/20" /> {/* Y Axis */}

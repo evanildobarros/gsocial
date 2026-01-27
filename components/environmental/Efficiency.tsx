@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { Droplets, Lightbulb, Target, LayoutGrid, ArrowUpRight, Gauge, Save, Loader2, History, Zap, TrendingDown, Percent, Download } from 'lucide-react';
-import { Button, TextField, Dialog, DialogTitle, DialogContent, DialogActions, Box, Slider, Typography } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Droplets, Target, Zap, History, Download, Save, Loader2, X, Percent } from 'lucide-react';
 import { supabase } from '../../utils/supabase';
 import { toast } from 'react-toastify';
 import jsPDF from 'jspdf';
@@ -149,22 +148,18 @@ export const Efficiency: React.FC = () => {
                     <p className="text-gray-500 font-medium italic">Gestão hídrica e energética para operações portuárias sustentáveis.</p>
                 </div>
                 <div className="flex gap-3">
-                    <Button
-                        variant="outlined"
-                        startIcon={<Download className="w-4 h-4" />}
+                    <button
                         onClick={generatePDF}
-                        sx={{ borderRadius: '2px', fontWeight: 900, fontSize: '11px', borderColor: '#CCC', color: '#666' }}
+                        className="px-4 py-2 rounded-lg border border-gray-300 dark:border-white/10 text-gray-600 dark:text-gray-300 font-black text-[11px] hover:bg-gray-50 dark:hover:bg-white/5 transition-colors flex items-center gap-2"
                     >
-                        EXPORTAR
-                    </Button>
-                    <Button
-                        variant="contained"
-                        startIcon={<History className="w-4 h-4" />}
+                        <Download className="w-4 h-4" /> EXPORTAR
+                    </button>
+                    <button
                         onClick={() => setIsModalOpen(true)}
-                        sx={{ borderRadius: '2px', fontWeight: 900, fontSize: '11px', bgcolor: '#1C1C1C', '&:hover': { bgcolor: '#333' } }}
+                        className="px-4 py-2 rounded-lg bg-[#1C1C1C] hover:bg-[#333] text-white font-black text-[11px] transition-colors flex items-center gap-2"
                     >
-                        LANÇAR MEDIÇÃO
-                    </Button>
+                        <History className="w-4 h-4" /> LANÇAR MEDIÇÃO
+                    </button>
                 </div>
             </div>
 
@@ -195,7 +190,7 @@ export const Efficiency: React.FC = () => {
                     bg="bg-green-50 dark:bg-green-900/10"
                 />
 
-                <div className="bg-[#1C1C1C] p-8 rounded-sm text-white relative overflow-hidden group">
+                <div className="bg-[#1C1C1C] p-8 rounded-lg text-white relative overflow-hidden group">
                     <Target className="absolute -right-4 -top-4 w-24 h-24 opacity-10 group-hover:rotate-12 transition-transform" />
                     <h4 className="font-black text-xs uppercase tracking-[0.2em] text-gray-500 mb-4">Meta de Redução</h4>
                     <div className="flex items-baseline gap-2 mb-4">
@@ -211,7 +206,7 @@ export const Efficiency: React.FC = () => {
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* History Table */}
-                <div className="lg:col-span-3 bg-white dark:bg-[#1C1C1C] rounded-sm border border-gray-200 dark:border-white/5 shadow-sm overflow-hidden">
+                <div className="lg:col-span-3 bg-white dark:bg-[#1C1C1C] rounded-lg border border-gray-200 dark:border-white/5 shadow-sm overflow-hidden">
                     <div className="p-6 border-b border-gray-100 dark:border-white/5 flex justify-between items-center">
                         <div className="flex items-center gap-3">
                             <History className="w-5 h-5 text-gray-400" />
@@ -246,7 +241,7 @@ export const Efficiency: React.FC = () => {
                                         </td>
                                         <td className="px-8 py-4">
                                             <div className="flex items-center gap-2">
-                                                <div className="w-1.5 h-1.5 rounded-full bg-green-500 animation-pulse" />
+                                                <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
                                                 <span className="text-[10px] font-black uppercase text-green-600">Auditado</span>
                                             </div>
                                         </td>
@@ -259,85 +254,102 @@ export const Efficiency: React.FC = () => {
             </div>
 
             {/* Modal de Medição */}
-            <Dialog open={isModalOpen} onClose={() => !isSaving && setIsModalOpen(false)} PaperProps={{ sx: { borderRadius: '2px' } }}>
-                <DialogTitle sx={{ fontWeight: 900, textTransform: 'uppercase', letterSpacing: '-0.05em' }}>
-                    Lançar Medição de Recursos
-                </DialogTitle>
-                <DialogContent sx={{ pt: 3, display: 'flex', flexDirection: 'column', gap: 3 }}>
-                    <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2 }}>
-                        <TextField
-                            label="Mês"
-                            type="number"
-                            size="small"
-                            value={formData.month}
-                            onChange={(e) => setFormData({ ...formData, month: Number(e.target.value) })}
-                        />
-                        <TextField
-                            label="Ano"
-                            type="number"
-                            size="small"
-                            value={formData.year}
-                            onChange={(e) => setFormData({ ...formData, year: Number(e.target.value) })}
-                        />
-                    </Box>
-                    <TextField
-                        label="Consumo de Água (m³)"
-                        type="number"
-                        fullWidth
-                        size="small"
-                        required
-                        value={formData.water}
-                        onChange={(e) => setFormData({ ...formData, water: Number(e.target.value) })}
-                    />
-                    <TextField
-                        label="Consumo de Energia (kWh)"
-                        type="number"
-                        fullWidth
-                        size="small"
-                        required
-                        value={formData.energy}
-                        onChange={(e) => setFormData({ ...formData, energy: Number(e.target.value) })}
-                    />
-                    <TextField
-                        label="Horas de Operação"
-                        type="number"
-                        fullWidth
-                        size="small"
-                        required
-                        value={formData.hours}
-                        onChange={(e) => setFormData({ ...formData, hours: Number(e.target.value) })}
-                    />
-                    <Box>
-                        <Typography variant="caption" sx={{ fontWeight: 900, textTransform: 'uppercase', color: 'gray' }}>
-                            Energia Renovável: {formData.renewable}%
-                        </Typography>
-                        <Slider
-                            value={formData.renewable}
-                            onChange={(_, val) => setFormData({ ...formData, renewable: val as number })}
-                            sx={{ color: '#10b981' }}
-                        />
-                    </Box>
-                </DialogContent>
-                <DialogActions sx={{ p: 3 }}>
-                    <Button onClick={() => setIsModalOpen(false)} sx={{ fontWeight: 900, color: 'gray' }}>CANCELAR</Button>
-                    <Button
-                        onClick={handleSave}
-                        variant="contained"
-                        disabled={isSaving}
-                        startIcon={isSaving ? <Loader2 className="animate-spin" /> : <Save />}
-                        sx={{ fontWeight: 900, borderRadius: '2px', px: 4, bgcolor: '#1C1C1C' }}
-                    >
-                        {isSaving ? 'SALVANDO...' : 'REGISTRAR'}
-                    </Button>
-                </DialogActions>
-            </Dialog>
+            {isModalOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
+                    <div className="bg-white dark:bg-[#1C1C1C] w-full max-w-sm rounded-[32px] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
+                        <div className="px-6 py-5 border-b border-gray-100 dark:border-white/5 flex justify-between items-center">
+                            <h3 className="text-lg font-black text-gray-900 dark:text-white uppercase tracking-tight">Lançar Medição</h3>
+                            <button onClick={() => !isSaving && setIsModalOpen(false)} className="text-gray-400 hover:text-gray-900 dark:hover:text-white">
+                                <X className="w-5 h-5" />
+                            </button>
+                        </div>
+
+                        <div className="p-6 space-y-4">
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-1">
+                                    <label className="text-xs font-bold text-gray-500 uppercase ml-1">Mês</label>
+                                    <input
+                                        type="number"
+                                        value={formData.month}
+                                        onChange={(e) => setFormData({ ...formData, month: Number(e.target.value) })}
+                                        className="w-full px-4 py-2 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg text-sm font-bold focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                                    />
+                                </div>
+                                <div className="space-y-1">
+                                    <label className="text-xs font-bold text-gray-500 uppercase ml-1">Ano</label>
+                                    <input
+                                        type="number"
+                                        value={formData.year}
+                                        onChange={(e) => setFormData({ ...formData, year: Number(e.target.value) })}
+                                        className="w-full px-4 py-2 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg text-sm font-bold focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="space-y-1">
+                                <label className="text-xs font-bold text-gray-500 uppercase ml-1">Água (m³)</label>
+                                <input
+                                    type="number"
+                                    value={formData.water}
+                                    onChange={(e) => setFormData({ ...formData, water: Number(e.target.value) })}
+                                    className="w-full px-4 py-2 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg text-sm font-bold focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                                />
+                            </div>
+
+                            <div className="space-y-1">
+                                <label className="text-xs font-bold text-gray-500 uppercase ml-1">Energia (kWh)</label>
+                                <input
+                                    type="number"
+                                    value={formData.energy}
+                                    onChange={(e) => setFormData({ ...formData, energy: Number(e.target.value) })}
+                                    className="w-full px-4 py-2 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg text-sm font-bold focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                                />
+                            </div>
+
+                            <div className="space-y-1">
+                                <label className="text-xs font-bold text-gray-500 uppercase ml-1">Horas Oper.</label>
+                                <input
+                                    type="number"
+                                    value={formData.hours}
+                                    onChange={(e) => setFormData({ ...formData, hours: Number(e.target.value) })}
+                                    className="w-full px-4 py-2 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg text-sm font-bold focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                                />
+                            </div>
+
+                            <div className="space-y-2 pt-2">
+                                <div className="flex justify-between items-center text-xs font-bold text-gray-500 uppercase">
+                                    <span>Energia Renovável</span>
+                                    <span className="text-green-600">{formData.renewable}%</span>
+                                </div>
+                                <input
+                                    type="range"
+                                    min="0"
+                                    max="100"
+                                    value={formData.renewable}
+                                    onChange={(e) => setFormData({ ...formData, renewable: Number(e.target.value) })}
+                                    className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-green-500"
+                                />
+                            </div>
+
+                            <button
+                                onClick={handleSave}
+                                disabled={isSaving}
+                                className="w-full mt-2 py-3 bg-[#1C1C1C] hover:bg-black text-white rounded-lg font-black text-sm transition-all flex items-center justify-center gap-2 disabled:opacity-70"
+                            >
+                                {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                                {isSaving ? 'SALVANDO...' : 'REGISTRAR'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
 
 const EfficiencyCard = ({ label, value, unit, icon: Icon, color, bg }: any) => (
-    <div className={`${bg} p-8 rounded-sm border border-transparent hover:border-gray-200 dark:hover:border-white/10 transition-all group`}>
-        <div className={`w-10 h-10 rounded-sm ${bg} border border-white/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
+    <div className={`${bg} p-8 rounded-lg border border-transparent hover:border-gray-200 dark:hover:border-white/10 transition-all group`}>
+        <div className={`w-10 h-10 rounded-lg ${bg} border border-white/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
             <Icon className={`w-5 h-5 ${color}`} />
         </div>
         <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-1">{label}</p>

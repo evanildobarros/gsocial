@@ -1,10 +1,22 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Leaf, Zap, BarChart3, Calculator, TrendingDown, Info, AlertTriangle, Loader2, Save, History, TrendingUp, Download } from 'lucide-react';
-import { Button, TextField, Dialog, DialogTitle, DialogContent, DialogActions, Box } from '@mui/material';
 import { supabase } from '../../utils/supabase';
 import { toast } from 'react-toastify';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import {
+    Cloud,
+    Download,
+    Plus,
+    TrendingDown,
+    TrendingUp,
+    Zap,
+    DollarSign,
+    Info,
+    CheckCircle2,
+    Save,
+    Loader2,
+    X
+} from 'lucide-react';
 
 interface EmissionRecord {
     id: string;
@@ -24,7 +36,6 @@ export const Decarbonization: React.FC = () => {
     const [isSaving, setIsSaving] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    // Form State
     const [formData, setFormData] = useState({
         month: new Date().getMonth() + 1,
         year: new Date().getFullYear(),
@@ -49,7 +60,7 @@ export const Decarbonization: React.FC = () => {
             if (error) throw error;
             if (data) setRecords(data as EmissionRecord[]);
         } catch (error) {
-            console.error('Erro ao buscar registros de emissões:', error);
+            console.error('Erro ao buscar registros:', error);
             toast.error('Erro ao carregar dados históricos.');
         } finally {
             setIsLoading(false);
@@ -61,7 +72,6 @@ export const Decarbonization: React.FC = () => {
             toast.warning('A carga movimentada deve ser maior que zero.');
             return;
         }
-
         try {
             setIsSaving(true);
             const { error } = await supabase
@@ -75,12 +85,10 @@ export const Decarbonization: React.FC = () => {
                 }, { onConflict: 'period_month,period_year' });
 
             if (error) throw error;
-
-            toast.success('Registro de emissões salvo com sucesso!');
+            toast.success('Lançamento realizado com sucesso!');
             setIsModalOpen(false);
             fetchRecords();
         } catch (error: any) {
-            console.error('Erro ao salvar emissões:', error);
             toast.error(error.message || 'Erro ao persistir dados.');
         } finally {
             setIsSaving(false);
@@ -89,33 +97,14 @@ export const Decarbonization: React.FC = () => {
 
     const generatePDF = () => {
         const doc = new jsPDF();
-
-        // Header
-        doc.setFillColor(33, 72, 192); // #2148C0
+        doc.setFillColor(33, 72, 192);
         doc.rect(0, 0, 210, 40, 'F');
         doc.setTextColor(255, 255, 255);
         doc.setFontSize(22);
-        doc.setFont('helvetica', 'bold');
         doc.text('ESGporto - Climate Report', 14, 25);
-
         doc.setFontSize(10);
         doc.text(`Gerado em: ${new Date().toLocaleDateString('pt-BR')}`, 14, 32);
 
-        // Body Header
-        doc.setTextColor(0, 0, 0);
-        doc.setFontSize(16);
-        doc.text('Inventário de Emissões de Carbono', 14, 55);
-
-        // Summary Stats
-        if (records.length > 0) {
-            const latest = records[0];
-            doc.setFontSize(12);
-            doc.text(`Último Período: ${latest.period_month}/${latest.period_year}`, 14, 65);
-            doc.text(`Intensidade de Carbono: ${latest.carbon_intensity.toFixed(4)} kgCO2e/Ton`, 14, 72);
-            doc.text(`Total de Emissões: ${latest.total_co2e_kg.toLocaleString('pt-BR')} kgCO2e`, 14, 79);
-        }
-
-        // Table
         const tableData = records.map(rec => [
             `${rec.period_month}/${rec.period_year}`,
             rec.fuel_consumption_liters.toLocaleString('pt-BR'),
@@ -125,21 +114,19 @@ export const Decarbonization: React.FC = () => {
         ]);
 
         (doc as any).autoTable({
-            startY: 90,
+            startY: 50,
             head: [['Período', 'Diesel (L)', 'Energia (kWh)', 'Carga (Ton)', 'Intensidade']],
             body: tableData,
             theme: 'striped',
-            headStyles: { fillStyle: [33, 72, 192], textColor: [255, 255, 255] },
-            styles: { fontSize: 9 }
+            headStyles: { fillColor: [33, 72, 192] }
         });
 
-        doc.save(`Relatorio_Descarbonizacao_ESGporto_${new Date().getTime()}.pdf`);
-        toast.success('Relatório gerado com sucesso!');
+        doc.save(`Relatorio_Emissoes_${new Date().getTime()}.pdf`);
+        toast.success('Relatório gerado!');
     };
 
     const latestRecord = records[0];
     const previousRecord = records[1];
-
     const intensityTrend = useMemo(() => {
         if (!latestRecord || !previousRecord) return 0;
         return ((latestRecord.carbon_intensity - previousRecord.carbon_intensity) / previousRecord.carbon_intensity) * 100;
@@ -147,207 +134,270 @@ export const Decarbonization: React.FC = () => {
 
     if (isLoading) {
         return (
-            <div className="flex flex-col items-center justify-center py-40 space-y-4">
-                <Loader2 className="w-12 h-12 text-green-500 animate-spin" />
-                <p className="text-gray-400 font-black uppercase tracking-widest text-xs">Sincronizando Inventário de Carbono...</p>
+            <div className="flex flex-col items-center py-20 gap-4">
+                <Loader2 className="w-12 h-12 text-emerald-500 animate-spin" />
+                <span className="text-xs font-black uppercase tracking-widest text-gray-400 animate-pulse">
+                    Sincronizando Inventário de Carbono...
+                </span>
             </div>
         );
     }
 
     return (
-        <div className="space-y-8 animate-in fade-in duration-700">
-            {/* Header */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+        <div className="flex flex-col gap-8 pb-8 animate-in fade-in duration-500">
+            {/* Header Section */}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
                 <div>
-                    <h2 className="text-3xl font-black text-gray-900 dark:text-white tracking-tighter italic">Clima & Descarbonização</h2>
-                    <p className="text-gray-500 font-medium italic">Monitoramento de emissões de Escopo 1 e 2 (Protocolo GHG).</p>
-                </div>
-                <div className="flex gap-3">
-                    <Button
-                        variant="outlined"
-                        startIcon={<Download className="w-4 h-4" />}
-                        onClick={generatePDF}
-                        sx={{ borderRadius: '2px', fontWeight: 900, fontSize: '11px', borderColor: '#CCC', color: '#666' }}
-                    >
-                        EXPORTAR PDF
-                    </Button>
-                    <div className="px-4 py-2 bg-green-50 dark:bg-green-900/10 border border-green-100 dark:border-green-900/30 rounded-sm flex items-center gap-2">
-                        <Leaf className="w-4 h-4 text-green-600" />
-                        <span className="text-[10px] font-black text-green-700 dark:text-green-400 uppercase tracking-widest">Compromisso Net Zero 2050</span>
+                    <div className="flex items-center gap-3 mb-2">
+                        <div className="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-900/10 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+                            <Cloud className="w-6 h-6" />
+                        </div>
+                        <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">
+                            Clima & Descarbonização
+                        </h1>
                     </div>
-                    <Button
-                        variant="contained"
-                        color="success"
-                        startIcon={<History className="w-4 h-4" />}
-                        onClick={() => setIsModalOpen(true)}
-                        sx={{ borderRadius: '2px', fontWeight: 900, fontSize: '11px', boxShadow: 'none' }}
+                    <p className="text-gray-500 dark:text-gray-400 font-medium italic ml-16 max-w-2xl">
+                        Monitoramento de emissões de Escopo 1 e 2 (Protocolo GHG). Acompanhe a intensidade de carbono por tonelada movimentada.
+                    </p>
+                </div>
+
+                <div className="flex gap-3">
+                    <button
+                        onClick={generatePDF}
+                        className="px-6 py-2.5 rounded-full border border-gray-200 dark:border-white/10 font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors flex items-center gap-2 text-sm"
                     >
-                        LANÇAR DADOS
-                    </Button>
+                        <Download className="w-4 h-4" /> Relatório PDF
+                    </button>
+                    <button
+                        onClick={() => setIsModalOpen(true)}
+                        className="px-6 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-black text-sm shadow-lg shadow-emerald-600/20 transition-all flex items-center gap-2"
+                    >
+                        <Plus className="w-4 h-4" /> Lançar Dados
+                    </button>
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                {/* KPI Panel */}
-                <div className="lg:col-span-1 space-y-6">
-                    <div className="bg-[#1C1C1C] text-white p-8 rounded-sm shadow-2xl relative overflow-hidden group">
-                        <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:rotate-12 transition-transform">
-                            <TrendingDown className="w-24 h-24" />
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                {/* Left side: Stats */}
+                <div className="lg:col-span-4 space-y-6">
+                    <div className="relative p-8 rounded-[32px] bg-white dark:bg-zinc-900 border border-gray-200 dark:border-white/5 shadow-sm group hover:-translate-y-1 transition-transform duration-300">
+                        <div className="absolute -top-4 -right-4 text-gray-100 dark:text-white/5 transform rotate-12 group-hover:rotate-0 transition-transform duration-500">
+                            <TrendingDown size={140} strokeWidth={1} />
                         </div>
-                        <div className="relative z-10">
-                            <h3 className="text-xs font-black text-gray-400 uppercase tracking-[0.2em] mb-4">Intensidade de Carbono Atual</h3>
-                            <div className="flex items-baseline gap-2 mb-2">
-                                <span className="text-5xl font-black tracking-tighter">
-                                    {latestRecord?.carbon_intensity.toFixed(4) || "0.0000"}
-                                </span>
-                                <span className="text-[10px] font-bold text-gray-500">kgCO2e / Ton</span>
-                            </div>
-                            <div className={`flex items-center gap-1.5 text-xs font-black px-2 py-0.5 rounded-full w-fit ${intensityTrend <= 0 ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
-                                {intensityTrend <= 0 ? <TrendingDown className="w-3 h-3" /> : <TrendingUp className="w-3 h-3" />}
-                                {Math.abs(intensityTrend).toFixed(1)}% vs. Mês Anterior
-                            </div>
+
+                        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">
+                            Intensidade de Carbono
+                        </span>
+
+                        <div className="flex items-baseline gap-2 mt-4 mb-2 relative z-10">
+                            <span className="text-6xl font-black text-gray-900 dark:text-white tracking-tighter">
+                                {latestRecord?.carbon_intensity.toFixed(4) || "0.0000"}
+                            </span>
+                            <span className="text-xs font-bold text-gray-500">kgCO2e / Ton</span>
+                        </div>
+
+                        <div className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wide ${intensityTrend <= 0
+                                ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300'
+                                : 'bg-red-100 text-red-700 dark:bg-red-500/20 dark:text-red-300'
+                            }`}>
+                            {intensityTrend <= 0 ? <TrendingDown className="w-3 h-3" /> : <TrendingUp className="w-3 h-3" />}
+                            {Math.abs(intensityTrend).toFixed(1)}% vs. anterior
                         </div>
                     </div>
 
-                    <div className="bg-white dark:bg-[#1C1C1C] p-6 rounded-sm border border-gray-200 dark:border-white/5 shadow-sm">
-                        <h4 className="font-black text-gray-700 dark:text-gray-300 text-xs uppercase tracking-widest mb-4">Quebra de Emissões (kgCO2e)</h4>
-                        <div className="space-y-4">
+                    <div className="p-8 rounded-[32px] border border-gray-200 dark:border-white/5 bg-white dark:bg-zinc-900">
+                        <h3 className="text-sm font-black uppercase tracking-wider text-gray-900 dark:text-white mb-6">
+                            Quebra de Emissões (kgCO2e)
+                        </h3>
+                        <div className="space-y-6">
                             <EmissionStat
                                 label="Diesel (Escopo 1)"
                                 value={(latestRecord?.fuel_consumption_liters || 0) * 2.68}
-                                color="bg-blue-500"
-                                percentage={65}
+                                color="bg-primary"
+                                textColor="text-primary"
+                                icon={<DollarSign className="w-4 h-4" />}
                             />
                             <EmissionStat
                                 label="Energia (Escopo 2)"
                                 value={(latestRecord?.energy_consumption_kwh || 0) * 0.08}
-                                color="bg-yellow-500"
-                                percentage={35}
+                                color="bg-amber-500"
+                                textColor="text-amber-500"
+                                icon={<Zap className="w-4 h-4" />}
                             />
                         </div>
                     </div>
                 </div>
 
-                {/* Historico & Simulador */}
-                <div className="lg:col-span-2 space-y-8">
-                    <div className="bg-white dark:bg-[#1C1C1C] p-8 rounded-sm border border-gray-200 dark:border-white/5 shadow-sm">
-                        <div className="flex justify-between items-center mb-6">
-                            <h3 className="text-lg font-black text-gray-900 dark:text-white uppercase tracking-tighter italic">Histórico de Performance Climática</h3>
-                            <BarChart3 className="w-5 h-5 text-gray-400" />
+                {/* Right side: Charts & Projects */}
+                <div className="lg:col-span-8 space-y-6">
+                    <div className="p-8 rounded-[32px] border border-gray-200 dark:border-white/5 bg-white dark:bg-zinc-900 h-full flex flex-col">
+                        <div className="flex justify-between items-center mb-8">
+                            <h3 className="text-lg font-black text-gray-900 dark:text-white">Desempenho Climático Histórico</h3>
+                            <div className="px-3 py-1 rounded-full border border-emerald-200 bg-emerald-50 dark:bg-emerald-900/10 dark:border-emerald-500/20 flex items-center gap-2">
+                                <CheckCircle2 className="w-3 h-3 text-emerald-500" />
+                                <span className="text-[10px] font-bold text-emerald-700 dark:text-emerald-300 uppercase tracking-wide">Net Zero 2050</span>
+                            </div>
                         </div>
 
-                        <div className="h-48 flex items-end gap-3 px-2">
-                            {records.slice(0, 8).reverse().map((rec, idx) => (
-                                <div key={rec.id} className="flex-1 flex flex-col items-center gap-2 group relative">
-                                    <div
-                                        className="w-full bg-gray-100 dark:bg-white/5 rounded-t-sm transition-all duration-500 group-hover:bg-green-500/30 cursor-pointer"
-                                        style={{ height: `${(rec.carbon_intensity / records[0].carbon_intensity) * 100}%` }}
-                                    >
-                                        <div className="absolute -top-12 left-1/2 -translate-x-1/2 bg-black text-white text-[10px] px-2 py-1 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-20 font-black">
-                                            {rec.carbon_intensity.toFixed(4)}
+                        <div className="flex-1 flex items-end gap-2 px-2 h-[260px] min-h-[260px] relative">
+                            {/* Grid Lines */}
+                            <div className="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-5">
+                                <div className="w-full h-px bg-black dark:bg-white"></div>
+                                <div className="w-full h-px bg-black dark:bg-white"></div>
+                                <div className="w-full h-px bg-black dark:bg-white"></div>
+                                <div className="w-full h-px bg-black dark:bg-white"></div>
+                                <div className="w-full h-px bg-black dark:bg-white"></div>
+                            </div>
+
+                            {records.slice(0, 10).reverse().map((rec) => {
+                                const maxVal = Math.max(...records.map(r => r.carbon_intensity));
+                                const height = rec.carbon_intensity > 0 ? (rec.carbon_intensity / maxVal) * 100 : 0;
+                                return (
+                                    <div key={rec.id} className="flex-1 flex flex-col items-center gap-2 group relative z-10">
+                                        <div className="relative w-full flex items-end justify-center h-full">
+                                            <div
+                                                className="w-full bg-emerald-500/10 dark:bg-emerald-500/20 rounded-t-lg transition-all duration-300 group-hover:bg-emerald-500/30 cursor-pointer relative"
+                                                style={{ height: `${height}%` }}
+                                            >
+                                                <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-[10px] font-bold px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-20 pointer-events-none">
+                                                    {rec.carbon_intensity.toFixed(4)}
+                                                </div>
+                                            </div>
                                         </div>
+                                        <span className="text-[10px] font-bold text-gray-400 uppercase">
+                                            {rec.period_month}/{rec.period_year.toString().slice(-2)}
+                                        </span>
                                     </div>
-                                    <span className="text-[10px] font-bold text-gray-400">{rec.period_month}/{rec.period_year.toString().slice(-2)}</span>
-                                </div>
-                            ))}
+                                );
+                            })}
                         </div>
                     </div>
 
-                    <div className="bg-gradient-to-br from-green-600 to-emerald-800 p-8 rounded-sm text-white shadow-xl relative overflow-hidden">
-                        <Zap className="absolute -right-10 -bottom-10 w-48 h-48 opacity-10 rotate-12" />
+                    <div className="relative p-8 rounded-[32px] bg-gradient-to-br from-emerald-600 to-emerald-500 overflow-hidden text-white shadow-xl shadow-emerald-500/20">
+                        <div className="absolute -right-8 -bottom-8 opacity-20 transform rotate-12">
+                            <Zap size={240} />
+                        </div>
                         <div className="relative z-10 max-w-lg">
-                            <h3 className="text-xl font-black mb-2 italic">Transição Energética</h3>
-                            <p className="text-sm font-medium opacity-80 mb-6">
-                                Estimamos que a eletrificação de 4 guindastes RTG no Porto do Itaqui reduziria as emissões locais em até <strong>1,200 toneladas de CO2e por ano</strong>.
+                            <h3 className="text-2xl font-black mb-2">Transição Energética</h3>
+                            <p className="text-emerald-50 font-medium leading-relaxed mb-6 opacity-90">
+                                A eletrificação de guindastes RTG pode reduzir as emissões em até 1.200 toneladas de CO2e/ano.
                             </p>
-                            <Button
-                                variant="contained"
-                                sx={{ bgcolor: 'white', color: 'emerald.800', fontWeight: 900, '&:hover': { bgcolor: 'rgba(255,255,255,0.9)' }, borderRadius: '2px' }}
-                            >
-                                VER PROJETO DE VIABILIDADE
-                            </Button>
+                            <button className="px-6 py-3 rounded-full bg-white text-emerald-700 font-black text-xs uppercase tracking-widest hover:bg-emerald-50 transition-colors shadow-lg">
+                                Ver Viabilidade Econômica
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
 
             {/* Modal de Lançamento */}
-            <Dialog open={isModalOpen} onClose={() => !isSaving && setIsModalOpen(false)} PaperProps={{ sx: { borderRadius: '2px' } }}>
-                <DialogTitle sx={{ fontWeight: 900, textTransform: 'uppercase', letterSpacing: '-0.05em' }}>
-                    Lançamento de Inventário CO2
-                </DialogTitle>
-                <DialogContent sx={{ pt: 3, display: 'flex', flexDirection: 'column', gap: 3 }}>
-                    <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2 }}>
-                        <TextField
-                            label="Mês"
-                            type="number"
-                            size="small"
-                            value={formData.month}
-                            onChange={(e) => setFormData({ ...formData, month: Number(e.target.value) })}
-                        />
-                        <TextField
-                            label="Ano"
-                            type="number"
-                            size="small"
-                            value={formData.year}
-                            onChange={(e) => setFormData({ ...formData, year: Number(e.target.value) })}
-                        />
-                    </Box>
-                    <TextField
-                        label="Consumo Diesel (Litros)"
-                        type="number"
-                        fullWidth
-                        size="small"
-                        required
-                        value={formData.fuel}
-                        onChange={(e) => setFormData({ ...formData, fuel: Number(e.target.value) })}
-                    />
-                    <TextField
-                        label="Energia Elétrica (kWh)"
-                        type="number"
-                        fullWidth
-                        size="small"
-                        required
-                        value={formData.energy}
-                        onChange={(e) => setFormData({ ...formData, energy: Number(e.target.value) })}
-                    />
-                    <TextField
-                        label="Carga Movimentada (Ton)"
-                        type="number"
-                        fullWidth
-                        size="small"
-                        required
-                        value={formData.cargo}
-                        onChange={(e) => setFormData({ ...formData, cargo: Number(e.target.value) })}
-                    />
-                </DialogContent>
-                <DialogActions sx={{ p: 3 }}>
-                    <Button onClick={() => setIsModalOpen(false)} sx={{ fontWeight: 900, color: 'gray' }}>CANCELAR</Button>
-                    <Button
-                        onClick={handleSave}
-                        variant="contained"
-                        color="success"
-                        disabled={isSaving}
-                        startIcon={isSaving ? <Loader2 className="animate-spin" /> : <Save />}
-                        sx={{ fontWeight: 900, borderRadius: '2px', px: 4 }}
-                    >
-                        {isSaving ? 'SALVANDO...' : 'SALVAR INVENTÁRIO'}
-                    </Button>
-                </DialogActions>
-            </Dialog>
+            {isModalOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
+                    <div className="bg-white dark:bg-[#1C1C1C] w-full max-w-md rounded-3xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
+                        <div className="px-6 py-5 border-b border-gray-100 dark:border-white/5 flex justify-between items-center">
+                            <h3 className="text-lg font-black text-gray-900 dark:text-white">Lançamento de Inventário</h3>
+                            <button onClick={() => !isSaving && setIsModalOpen(false)} className="text-gray-400 hover:text-gray-900 dark:hover:text-white">
+                                <X className="w-5 h-5" />
+                            </button>
+                        </div>
+
+                        <div className="p-6 space-y-5">
+                            <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">
+                                Insira os dados de consumo para o cálculo automático das emissões de CO2 equivalente.
+                            </p>
+
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-1">
+                                    <label className="text-xs font-bold text-gray-500 uppercase ml-1">Mês</label>
+                                    <input
+                                        type="number"
+                                        value={formData.month}
+                                        onChange={(e) => setFormData({ ...formData, month: Number(e.target.value) })}
+                                        className="w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-sm font-bold text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+                                    />
+                                </div>
+                                <div className="space-y-1">
+                                    <label className="text-xs font-bold text-gray-500 uppercase ml-1">Ano</label>
+                                    <input
+                                        type="number"
+                                        value={formData.year}
+                                        onChange={(e) => setFormData({ ...formData, year: Number(e.target.value) })}
+                                        className="w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-sm font-bold text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="space-y-4">
+                                <div className="space-y-1">
+                                    <label className="text-xs font-bold text-gray-500 uppercase ml-1">Diesel (Litros)</label>
+                                    <input
+                                        type="number"
+                                        value={formData.fuel}
+                                        onChange={(e) => setFormData({ ...formData, fuel: Number(e.target.value) })}
+                                        className="w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-sm font-bold text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+                                    />
+                                </div>
+                                <div className="space-y-1">
+                                    <label className="text-xs font-bold text-gray-500 uppercase ml-1">Energia (kWh)</label>
+                                    <input
+                                        type="number"
+                                        value={formData.energy}
+                                        onChange={(e) => setFormData({ ...formData, energy: Number(e.target.value) })}
+                                        className="w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-sm font-bold text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+                                    />
+                                </div>
+                                <div className="space-y-1">
+                                    <label className="text-xs font-bold text-gray-500 uppercase ml-1">Carga (Toneladas)</label>
+                                    <input
+                                        type="number"
+                                        value={formData.cargo}
+                                        onChange={(e) => setFormData({ ...formData, cargo: Number(e.target.value) })}
+                                        className="w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-sm font-bold text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="pt-2 flex gap-3">
+                                <button
+                                    onClick={() => setIsModalOpen(false)}
+                                    className="flex-1 py-3 bg-gray-100 hover:bg-gray-200 dark:bg-white/5 dark:hover:bg-white/10 text-gray-600 dark:text-gray-300 rounded-xl font-bold text-sm transition-colors"
+                                >
+                                    Cancelar
+                                </button>
+                                <button
+                                    onClick={handleSave}
+                                    disabled={isSaving}
+                                    className="flex-1 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-black text-sm shadow-lg shadow-emerald-600/20 transition-all flex items-center justify-center gap-2 disabled:opacity-70"
+                                >
+                                    {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                                    {isSaving ? 'Salvando...' : 'Salvar Dados'}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
 
-const EmissionStat = ({ label, value, color, percentage }: { label: string, value: number, color: string, percentage: number }) => (
-    <div className="space-y-1.5">
-        <div className="flex justify-between items-baseline">
-            <span className="text-[10px] font-black text-gray-500 uppercase">{label}</span>
-            <span className="text-sm font-black text-gray-900 dark:text-white">{value.toLocaleString('pt-BR')} kg</span>
+const EmissionStat = ({ label, value, color, textColor, icon }: { label: string, value: number, color: string, textColor: string, icon: React.ReactNode }) => {
+    const percentage = Math.min(100, (value / 5000) * 100);
+    return (
+        <div>
+            <div className="flex justify-between items-center mb-2">
+                <div className="flex items-center gap-2">
+                    <div className={`${textColor}`}>{icon}</div>
+                    <span className="text-xs font-bold text-gray-500 uppercase tracking-tight">{label}</span>
+                </div>
+                <span className="text-sm font-black text-gray-900 dark:text-white">{value.toLocaleString('pt-BR')} kg</span>
+            </div>
+            <div className="h-2 w-full bg-gray-100 dark:bg-white/5 rounded-full overflow-hidden">
+                <div
+                    className={`h-full ${color} rounded-full`}
+                    style={{ width: `${percentage}%` }}
+                ></div>
+            </div>
         </div>
-        <div className="h-1.5 w-full bg-gray-100 dark:bg-white/5 rounded-full overflow-hidden">
-            <div className={`h-full ${color}`} style={{ width: `${percentage}%` }} />
-        </div>
-    </div>
-);
-
+    );
+};

@@ -1,14 +1,5 @@
 import React, { useState } from 'react';
 import {
-  Button,
-  TextField,
-  InputAdornment,
-  IconButton,
-  Alert,
-  CircularProgress,
-  Tooltip,
-} from '@mui/material';
-import {
   Email as EmailIcon,
   Lock as LockIcon,
   Visibility,
@@ -76,187 +67,187 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
   };
 
   const ESGLogo = () => (
-    <div className="flex items-center justify-center p-4">
-      <img src="/logo_itaqui.png" alt="Porto do Itaqui" className="w-24 h-auto object-contain" />
+    <div className="flex justify-center mb-8">
+      <img
+        src="/logo_itaqui.png"
+        alt="Porto do Itaqui"
+        className="w-32 h-auto brightness-0 invert"
+      />
     </div>
   );
 
   return (
-    <div className="min-h-screen flex font-sans bg-gray-50">
+    <div className="min-h-screen flex bg-gray-50 dark:bg-zinc-950">
       {/* Left Side: Visual Identity */}
-      <div className="hidden lg:flex w-2/5 bg-happiness-1 relative overflow-hidden items-center justify-center p-12">
-        {/* Abstract Blobs */}
-        <div className="absolute -top-[10%] -left-[10%] w-[60%] h-[60%] bg-white/10 rounded-full blur-[80px]" />
-        <div className="absolute -bottom-[20%] -right-[10%] w-[70%] h-[70%] bg-happiness-2/30 rounded-full blur-[80px]" />
-        <div className="absolute top-[20%] -right-[5%] w-[30%] h-[30%] bg-happiness-4/20 rounded-full blur-[60px]" />
+      <div className="hidden lg:flex lg:flex-[0_0_40%] bg-primary relative overflow-hidden items-center justify-center p-12">
+        {/* Glow Effects */}
+        <div className="absolute w-[600px] h-[600px] -top-[10%] -left-[10%] bg-white/10 rounded-full blur-[80px] z-0 pointer-events-none"></div>
+        <div className="absolute w-[700px] h-[700px] -bottom-[20%] -right-[10%] bg-black/20 rounded-full blur-[80px] z-0 pointer-events-none"></div>
 
-        <div className="relative z-10 text-center flex flex-col items-center gap-8">
+        <div className="relative z-10 text-center flex flex-col items-center gap-6">
           <ESGLogo />
-          <div className="flex flex-col gap-4">
-            <h1 className="text-5xl font-bold text-white tracking-tight">
+          <div>
+            <h2 className="text-5xl font-black text-white mb-2 tracking-tight">
               ESGporto
-            </h1>
-            <p className="text-white/80 text-lg max-w-[280px]">
+            </h2>
+            <p className="text-lg text-white/70 max-w-xs mx-auto font-medium leading-relaxed">
               Gestão e Monitoramento de Sustentabilidade para o Porto do Itaqui.
             </p>
           </div>
 
-          <div className="pt-12">
-            <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md text-white font-bold text-[10px] uppercase tracking-widest border border-white/20 px-3 py-1.5 rounded-full">
-              <AutoAwesome sx={{ color: 'cyan', fontSize: 14 }} />
-              <span>Powered by AI Studio</span>
+          <div className="pt-8">
+            <div className="flex items-center gap-2 px-6 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 shadow-lg">
+              <AutoAwesome style={{ color: '#00e5ff', fontSize: 18 }} />
+              <span className="text-[10px] font-black text-white uppercase tracking-[0.2em]">
+                Powered by AI Studio
+              </span>
             </div>
           </div>
         </div>
 
-        {/* Footer Info */}
-        <div className="absolute bottom-6 left-12 right-12 flex justify-between text-white/40 font-bold text-[9px] uppercase tracking-[0.15em]">
-          <span>© 2026 Porto do Itaqui</span>
-          <span>Versão 2.5.0</span>
+        <div className="absolute bottom-6 left-10 right-10 flex justify-between z-10">
+          <span className="text-xs font-bold text-white/40">
+            © 2026 Porto do Itaqui
+          </span>
+          <span className="text-xs font-bold text-white/40">
+            Versão 2.5.0
+          </span>
         </div>
       </div>
 
       {/* Right Side: Login Form */}
-      <div className="flex-1 flex items-center justify-center p-6 sm:p-12 lg:p-24">
-        <div className="w-full max-w-md">
+      <div className="flex-1 flex items-center justify-center p-6 md:p-20 lg:p-32">
+        <div className="w-full max-w-sm">
           {/* Mobile Logo */}
-          <div className="flex lg:hidden flex-col items-center mb-12">
-            <div className="scale-75 mb-2"><ESGLogo /></div>
-            <h2 className="text-2xl font-black text-happiness-1">ESGporto</h2>
+          <div className="lg:hidden text-center mb-10">
+            <img src="/logo_itaqui.png" alt="Porto do Itaqui" className="w-20 mx-auto mb-4" />
+            <h2 className="text-3xl font-black text-primary">
+              ESGporto
+            </h2>
           </div>
 
-          <div className="mb-8">
-            <h2 className="text-3xl font-black text-gray-900 tracking-tight mb-2">
+          <div className="mb-10">
+            <h3 className="text-3xl font-black mb-2 tracking-tight text-gray-900 dark:text-white">
               {resetMode ? 'Recuperar Senha' : 'Login'}
-            </h2>
-            <p className="text-sm text-gray-500">
-              {resetMode ? 'Insira seu e-mail para receber as instruções.' : 'Insira suas credenciais para acessar o painel.'}
+            </h3>
+            <p className="text-gray-500 dark:text-gray-400 font-medium">
+              {resetMode ? 'Insira seu e-mail para receber as instruções.' : 'Acesse o painel integrado de sustentabilidade.'}
             </p>
           </div>
 
           {resetSuccess ? (
-            <div className="bg-green-50 border-2 border-green-500 text-center p-8 rounded-sm">
-              <CheckCircle sx={{ fontSize: 48, color: '#22c55e', mb: 2 }} />
-              <h3 className="text-lg font-black text-gray-900 mb-1">
-                E-mail Enviado!
-              </h3>
-              <p className="text-sm text-gray-600 italic mb-6">
+            <div className="p-8 text-center rounded-3xl border border-emerald-500 bg-emerald-50 dark:bg-emerald-900/10">
+              <CheckCircle style={{ fontSize: 64 }} className="text-emerald-500 mb-4" />
+              <h4 className="text-lg font-black text-gray-900 dark:text-white mb-2">
+                Link de acesso enviado!
+              </h4>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mb-6 font-medium">
                 Verifique sua caixa de entrada (e o spam) para redefinir sua senha.
               </p>
-              <Button
-                variant="text"
+              <button
                 onClick={() => { setResetMode(false); setResetSuccess(false); }}
-                sx={{ fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: 11 }}
+                className="w-full py-3 rounded-full border border-gray-300 dark:border-white/20 text-gray-700 dark:text-gray-200 font-bold hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
               >
-                Voltar para o Login
-              </Button>
+                Voltar ao Login
+              </button>
             </div>
           ) : (
-            <form onSubmit={resetMode ? handleResetPassword : handleSubmit}>
-              <div className="flex flex-col gap-6">
-                {error && (
-                  <Alert severity="error" variant="filled" sx={{ borderRadius: 1 }}>
-                    {error === 'Invalid login credentials' ? 'E-mail ou senha incorretos.' : error}
-                  </Alert>
-                )}
+            <form onSubmit={resetMode ? handleResetPassword : handleSubmit} className="flex flex-col gap-5">
+              {error && (
+                <div className="p-4 rounded-2xl bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-500/20 text-red-600 dark:text-red-400 text-sm font-bold flex items-center gap-2">
+                  <span>{error === 'Invalid login credentials' ? 'E-mail ou senha incorretos.' : error}</span>
+                </div>
+              )}
 
-                <TextField
-                  label={resetMode ? 'E-mail de Recuperação' : 'E-mail'}
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  fullWidth
-                  placeholder="seu-email@exemplo.com"
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <EmailIcon color="action" />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
+              <div className="relative">
+                <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 mb-1 ml-1">
+                  {resetMode ? 'E-MAIL DE RECUPERAÇÃO' : 'E-MAIL CORPORATIVO'}
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                    <EmailIcon fontSize="small" />
+                  </div>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className="w-full pl-10 pr-4 py-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-white/10 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-gray-900 dark:text-white"
+                  />
+                </div>
+              </div>
 
-                {!resetMode && (
-                  <div>
-                    <TextField
-                      label="Senha"
+              {!resetMode && (
+                <div className="relative">
+                  <div className="flex justify-between items-center mb-1 ml-1">
+                    <label className="text-xs font-bold text-gray-500 dark:text-gray-400">
+                      SENHA DE ACESSO
+                    </label>
+                  </div>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                      <LockIcon fontSize="small" />
+                    </div>
+                    <input
                       type={showPassword ? 'text' : 'password'}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       required
-                      fullWidth
-                      placeholder="Sua senha"
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            <LockIcon color="action" />
-                          </InputAdornment>
-                        ),
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <Tooltip title={showPassword ? 'Ocultar senha' : 'Mostrar senha'}>
-                              <IconButton
-                                onClick={() => setShowPassword(!showPassword)}
-                                edge="end"
-                              >
-                                {showPassword ? <VisibilityOff /> : <Visibility />}
-                              </IconButton>
-                            </Tooltip>
-                          </InputAdornment>
-                        ),
-                      }}
+                      className="w-full pl-10 pr-10 py-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-white/10 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-gray-900 dark:text-white"
                     />
-                    <div className="flex justify-end mt-2">
-                      <Button
-                        variant="text"
-                        size="small"
-                        onClick={() => setResetMode(true)}
-                        sx={{ fontSize: 11, fontWeight: 700, color: 'text.secondary', '&:hover': { color: 'primary.main' } }}
-                      >
-                        Esqueceu a senha?
-                      </Button>
-                    </div>
-                  </div>
-                )}
-
-                <div className="flex flex-col gap-4">
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    size="large"
-                    fullWidth
-                    disabled={loading}
-                    endIcon={loading ? <CircularProgress size={20} color="inherit" /> : (resetMode ? <Send /> : <ArrowForward />)}
-                    sx={{
-                      py: 1.75,
-                      fontWeight: 800,
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.1em',
-                      fontSize: 13,
-                    }}
-                  >
-                    {resetMode ? 'Enviar Instruções' : 'Entrar no Sistema'}
-                  </Button>
-
-                  {resetMode && (
-                    <Button
-                      variant="text"
-                      onClick={() => setResetMode(false)}
-                      startIcon={<ArrowBack />}
-                      sx={{ fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: 11, color: 'text.secondary' }}
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
                     >
-                      Voltar ao Login
-                    </Button>
-                  )}
+                      {showPassword ? <VisibilityOff fontSize="small" /> : <Visibility fontSize="small" />}
+                    </button>
+                  </div>
+                  <div className="flex justify-end mt-2">
+                    <button
+                      type="button"
+                      onClick={() => setResetMode(true)}
+                      className="text-xs font-bold text-primary hover:text-primary-hover transition-colors"
+                    >
+                      Esqueceu a senha?
+                    </button>
+                  </div>
                 </div>
-              </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full py-4 mt-2 bg-primary hover:bg-primary-hover text-white rounded-full font-black text-sm tracking-wide shadow-lg shadow-primary/25 transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+              >
+                {loading ? (
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                ) : (
+                  <>
+                    {resetMode ? 'REDEFINIR SENHA' : 'ENTRAR NO SISTEMA'}
+                    {resetMode ? <Send fontSize="small" /> : <ArrowForward fontSize="small" />}
+                  </>
+                )}
+              </button>
+
+              {resetMode && (
+                <button
+                  type="button"
+                  onClick={() => setResetMode(false)}
+                  className="w-full py-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white text-xs font-bold transition-colors flex items-center justify-center gap-2"
+                >
+                  <ArrowBack fontSize="small" />
+                  Voltar ao Login
+                </button>
+              )}
             </form>
           )}
 
-          <p className="text-center mt-8 text-xs text-gray-500 font-semibold tracking-wide">
-            Ambiente Seguro e Monitorado · gSocial ESGporto
-          </p>
+          <div className="mt-10 text-center">
+            <span className="text-[10px] font-bold text-gray-400 dark:text-gray-600 uppercase tracking-widest block">
+              Ambiente Seguro · gSocial ESGporto v2.5
+            </span>
+          </div>
         </div>
       </div>
     </div>

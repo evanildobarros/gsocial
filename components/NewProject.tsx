@@ -118,7 +118,7 @@ export const NewProject: React.FC<NewProjectProps> = ({ onBack }) => {
                 <ArrowLeft className="w-4 h-4 mr-2" /> Voltar
             </button>
 
-            <div className="bg-white rounded-sm shadow-xl overflow-hidden border border-gray-100">
+            <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
                 <div className="bg-happiness-1 p-6 text-white flex justify-between items-center">
                     <div>
                         <h2 className="text-xl font-bold">Cadastrar Iniciativa ESG</h2>
@@ -134,7 +134,7 @@ export const NewProject: React.FC<NewProjectProps> = ({ onBack }) => {
                             <input
                                 value={formData.name}
                                 onChange={e => setFormData({ ...formData, name: e.target.value })}
-                                className="w-full border-2 border-gray-100 rounded-sm p-3 focus:border-happiness-1 focus:outline-none transition text-gray-900 placeholder:text-gray-400 font-semibold"
+                                className="w-full border-2 border-gray-100 rounded-3xl p-3 focus:border-happiness-1 focus:outline-none transition text-gray-900 placeholder:text-gray-400 font-semibold"
                                 placeholder="Ex: Monitoramento Hídrico Vila Maranhão"
                             />
                         </div>
@@ -143,7 +143,7 @@ export const NewProject: React.FC<NewProjectProps> = ({ onBack }) => {
                             <select
                                 value={formData.pilar}
                                 onChange={e => setFormData({ ...formData, pilar: e.target.value })}
-                                className="w-full border-2 border-gray-100 rounded-sm p-3 focus:border-happiness-1 focus:outline-none bg-white transition text-gray-900 font-semibold"
+                                className="w-full border-2 border-gray-100 rounded-3xl p-3 focus:border-happiness-1 focus:outline-none bg-white transition text-gray-900 font-semibold"
                             >
                                 <option value="">Selecione...</option>
                                 <option value="Ambiental">Ambiental (E)</option>
@@ -156,7 +156,7 @@ export const NewProject: React.FC<NewProjectProps> = ({ onBack }) => {
                             <select
                                 value={formData.tema}
                                 onChange={e => setFormData({ ...formData, tema: e.target.value })}
-                                className="w-full border-2 border-gray-100 rounded-sm p-3 focus:border-happiness-1 focus:outline-none bg-white transition text-gray-900 font-semibold"
+                                className="w-full border-2 border-gray-100 rounded-3xl p-3 focus:border-happiness-1 focus:outline-none bg-white transition text-gray-900 font-semibold"
                             >
                                 <option value="">Selecione o tema mapeado...</option>
                                 <option>Atração de novos negócios e investimentos</option>
@@ -174,14 +174,14 @@ export const NewProject: React.FC<NewProjectProps> = ({ onBack }) => {
                                 value={formData.objeto}
                                 onChange={e => setFormData({ ...formData, objeto: e.target.value })}
                                 rows={3}
-                                className="w-full border-2 border-gray-100 rounded-sm p-3 focus:border-happiness-1 focus:outline-none transition text-gray-900 placeholder:text-gray-400 font-semibold"
+                                className="w-full border-2 border-gray-100 rounded-3xl p-3 focus:border-happiness-1 focus:outline-none transition text-gray-900 placeholder:text-gray-400 font-semibold"
                                 placeholder="Descreva as ações, público-alvo e metodologia..."
                             />
                         </div>
                     </div>
 
                     {/* AI Section */}
-                    <div className="bg-gradient-to-br from-happiness-3/10 to-happiness-1/5 p-6 rounded-sm border border-happiness-3/30 relative overflow-hidden">
+                    <div className="bg-gradient-to-br from-happiness-3/10 to-happiness-1/5 p-6 rounded-3xl border border-happiness-3/30 relative overflow-hidden">
                         <div className="absolute top-0 right-0 p-4 opacity-10">
                             <Sparkles className="w-24 h-24 text-happiness-1" />
                         </div>
@@ -194,7 +194,7 @@ export const NewProject: React.FC<NewProjectProps> = ({ onBack }) => {
                             <button
                                 onClick={handleAnalyze}
                                 disabled={isAnalyzing || !formData.name}
-                                className="bg-happiness-1 text-white px-4 py-2 rounded-sm text-sm font-bold hover:opacity-90 transition flex items-center space-x-2 disabled:opacity-50"
+                                className="bg-happiness-1 text-white px-4 py-2 rounded-3xl text-sm font-bold hover:opacity-90 transition flex items-center space-x-2 disabled:opacity-50"
                             >
                                 {isAnalyzing ? <Loader2 className="w-4 h-4 animate-spin" /> : <span>Analisar Aderência</span>}
                             </button>
@@ -203,24 +203,24 @@ export const NewProject: React.FC<NewProjectProps> = ({ onBack }) => {
                         {analysis ? (
                             <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2">
                                 <div className="flex items-center gap-4">
-                                    <div className="bg-white px-4 py-2 rounded-sm shadow-sm border border-happiness-3/30">
+                                    <div className="bg-white px-4 py-2 rounded-3xl shadow-sm border border-happiness-3/30">
                                         <span className="text-xs text-gray-500 uppercase font-bold">Score de Alinhamento</span>
                                         <div className="text-2xl font-bold text-happiness-1">{analysis.alinhamento_score}/100</div>
                                     </div>
                                     <div className="flex gap-2 flex-wrap">
                                         {analysis.ods_relacionados?.map(ods => (
-                                            <span key={ods} className="bg-happiness-4/20 text-happiness-5 text-xs px-2 py-1 rounded-sm font-bold border border-happiness-4/40">
+                                            <span key={ods} className="bg-happiness-4/20 text-happiness-5 text-xs px-2 py-1 rounded-3xl font-bold border border-happiness-4/40">
                                                 {ods}
                                             </span>
                                         ))}
                                     </div>
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div className="bg-white/60 p-4 rounded-sm border border-happiness-3/30">
+                                    <div className="bg-white/60 p-4 rounded-3xl border border-happiness-3/30">
                                         <h4 className="text-xs font-bold uppercase text-green-700 mb-1">Impactos Positivos</h4>
                                         <p className="text-sm text-gray-700">{analysis.impactos}</p>
                                     </div>
-                                    <div className="bg-white/60 p-4 rounded-sm border border-happiness-3/30">
+                                    <div className="bg-white/60 p-4 rounded-3xl border border-happiness-3/30">
                                         <h4 className="text-xs font-bold uppercase text-red-700 mb-1">Riscos Mapeados</h4>
                                         <p className="text-sm text-gray-700">{analysis.riscos}</p>
                                     </div>
@@ -238,7 +238,7 @@ export const NewProject: React.FC<NewProjectProps> = ({ onBack }) => {
                         <button
                             onClick={handleSave}
                             disabled={isSaving || !formData.name}
-                            className="px-8 py-3 bg-happiness-5 text-white font-bold rounded-sm shadow-lg hover:opacity-90 transform hover:-translate-y-0.5 transition-all disabled:opacity-50"
+                            className="px-8 py-3 bg-happiness-5 text-white font-bold rounded-3xl shadow-lg hover:opacity-90 transform hover:-translate-y-0.5 transition-all disabled:opacity-50"
                         >
                             {isSaving ? <Loader2 className="w-4 h-4 animate-spin inline mr-2" /> : null}
                             Salvar Projeto

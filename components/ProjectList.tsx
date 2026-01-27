@@ -1,5 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { MapPin, ArrowUpRight, Leaf, Users, ShieldCheck, Loader2, Edit2, Trash2, X } from 'lucide-react';
+import {
+  Search as SearchIcon,
+  Add as AddIcon,
+  Edit as EditIcon,
+  Delete as DeleteIcon,
+  LocationOn as MapPinIcon,
+  Nature as LeafIcon,
+  People as UsersIcon,
+  VerifiedUser as ShieldIcon,
+  Warning as WarningIcon,
+  Close as CloseIcon,
+  AttachMoney as MoneyIcon,
+  FilterList as FilterIcon
+} from '@mui/icons-material';
 import { Project } from '../types';
 import { supabase } from '../utils/supabase';
 import { showSuccess, showError } from '../utils/notifications';
@@ -59,21 +72,12 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onAddNew, onEdit }) =>
     }
   };
 
-  const getPilarIcon = (pilar: string) => {
+  const getPilarInfo = (pilar: string) => {
     switch (pilar) {
-      case 'Ambiental': return <Leaf className="w-3 h-3" />;
-      case 'Social': return <Users className="w-3 h-3" />;
-      case 'Governança': return <ShieldCheck className="w-3 h-3" />;
-      default: return null;
-    }
-  };
-
-  const getPilarColor = (pilar: string) => {
-    switch (pilar) {
-      case 'Ambiental': return 'text-green-600 bg-green-50 border-green-100';
-      case 'Social': return 'text-blue-600 bg-blue-50 border-blue-100';
-      case 'Governança': return 'text-purple-600 bg-purple-50 border-purple-100';
-      default: return 'text-gray-600 bg-gray-50 border-gray-200';
+      case 'Ambiental': return { icon: <LeafIcon fontSize="small" />, color: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400' };
+      case 'Social': return { icon: <UsersIcon fontSize="small" />, color: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' };
+      case 'Governança': return { icon: <ShieldIcon fontSize="small" />, color: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400' };
+      default: return { icon: null, color: 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-400' };
     }
   };
 
@@ -84,164 +88,189 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onAddNew, onEdit }) =>
   );
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-700">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-white/5 p-6 rounded-sm border border-gray-100 dark:border-white/10 shadow-sm">
+    <div className="flex flex-col gap-8 pb-10">
+      {/* Search and Action Bar */}
+      <div className="p-6 rounded-3xl flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-white/5 shadow-sm">
         <div>
-          <h2 className="text-2xl font-black text-gray-900 dark:text-white tracking-tighter">Portfólio de Projetos Sociais</h2>
-          <p className="text-gray-400 font-medium text-sm mt-1 italic">Gestão integrada da Área de Influência do Itaqui (Dados em Tempo Real)</p>
+          <h2 className="text-xl font-black text-gray-900 dark:text-white tracking-tight">
+            Portfólio de Projetos Estratégicos
+          </h2>
+          <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+            Gestão integrada da Área de Influência do Itaqui
+          </p>
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="relative group">
-            <SearchIcon sx={{ fontSize: 18 }} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-happiness-1 transition-colors" />
+          <div className="relative w-full md:w-72">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400">
+              <SearchIcon fontSize="small" />
+            </div>
             <input
               type="text"
               placeholder="Filtrar projetos..."
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
-              className="pl-10 pr-4 py-2 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-sm text-sm focus:ring-2 focus:ring-happiness-1/20 focus:border-happiness-1 outline-none transition-all w-full md:w-64"
+              className="w-full pl-10 pr-4 py-2 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-full text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
             />
           </div>
           <button
             onClick={onAddNew}
-            className="flex items-center gap-2 px-6 py-2.5 bg-happiness-1 hover:bg-happiness-2 text-white rounded-sm shadow-lg shadow-happiness-1/20 transition-all font-black text-xs uppercase tracking-widest active:scale-95"
+            className="flex items-center gap-2 px-6 py-2 rounded-full bg-primary hover:bg-primary-hover text-white font-bold text-sm transition-colors shadow-lg shadow-primary/20 whitespace-nowrap"
           >
-            <ArrowUpRight className="w-4 h-4" />
+            <AddIcon fontSize="small" />
             Novo Projeto
           </button>
         </div>
       </div>
 
       {loading ? (
-        <div className="flex flex-col items-center justify-center py-20 space-y-4">
-          <Loader2 className="w-10 h-10 text-happiness-1 animate-spin" />
-          <p className="text-gray-400 font-black uppercase tracking-widest text-[10px]">Conectando ao Supabase...</p>
+        <div className="flex flex-col items-center py-20 gap-4">
+          <div className="w-12 h-12 rounded-full border-4 border-gray-200 border-t-primary animate-spin"></div>
+          <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 animate-pulse">
+            Sincronizando Portfólio...
+          </span>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredProjects.map((p) => (
-            <div key={p.id} className="bg-white dark:bg-white/5 rounded-sm shadow-sm border border-gray-100 dark:border-white/10 p-5 hover:shadow-md transition group cursor-pointer h-full flex flex-col">
-              <div className="flex justify-between items-start mb-4">
-                <span className={`text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded border flex items-center gap-1 ${getPilarColor(p.pilar)}`}>
-                  {getPilarIcon(p.pilar)}
-                  {p.pilar}
-                </span>
-                <div className="flex gap-2">
-                  <button
-                    onClick={(e) => { e.stopPropagation(); onEdit?.(p); }}
-                    className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-white/5 hover:bg-happiness-1 hover:text-white rounded-sm text-happiness-1 transition-all border-2 border-happiness-1/20 hover:border-happiness-1 shadow-sm font-bold text-xs"
-                    title="Editar Projeto"
-                  >
-                    <Edit2 className="w-3.5 h-3.5" />
-                    <span>EDITAR</span>
-                  </button>
-                  <button
-                    onClick={(e) => { e.stopPropagation(); setProjectToDelete(p.id); }}
-                    className="flex items-center justify-center w-10 h-10 bg-white dark:bg-white/5 hover:bg-red-500 hover:text-white rounded-sm text-red-500 transition-all border-2 border-red-100 dark:border-red-900/20 hover:border-red-500 shadow-sm"
-                    title="Excluir Projeto"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredProjects.map((p) => {
+            const pilarInfo = getPilarInfo(p.pilar);
+            return (
+              <div
+                key={p.id}
+                className="group flex flex-col h-full bg-white dark:bg-zinc-900 rounded-3xl border border-gray-200 dark:border-white/5 p-6 hover:-translate-y-1 hover:shadow-xl transition-all duration-300"
+              >
+                {/* Header Card */}
+                <div className="flex justify-between items-start mb-4">
+                  <span className={`flex items-center gap-1.5 px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider ${pilarInfo.color}`}>
+                    {pilarInfo.icon}
+                    {p.pilar}
+                  </span>
+                  <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button
+                      onClick={() => onEdit?.(p)}
+                      className="p-1.5 rounded-lg border border-gray-200 dark:border-white/10 text-gray-400 hover:text-primary hover:border-primary transition-colors"
+                      title="Editar"
+                    >
+                      <EditIcon fontSize="small" />
+                    </button>
+                    <button
+                      onClick={() => setProjectToDelete(p.id)}
+                      className="p-1.5 rounded-lg border border-gray-200 dark:border-white/10 text-gray-400 hover:text-red-500 hover:border-red-500 transition-colors"
+                      title="Excluir"
+                    >
+                      <DeleteIcon fontSize="small" />
+                    </button>
+                  </div>
                 </div>
-              </div>
-              <h4 className="font-black text-happiness-1 mb-1 text-xl group-hover:translate-x-1 transition-transform">{p.name}</h4>
-              <p className="text-xs text-gray-500 mb-4 font-medium flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-happiness-1/30"></span>
-                {p.tema}
-              </p>
 
-              {/* ODS Section in Card */}
-              <div className="flex flex-wrap gap-1.5 mb-6">
-                {(p.sdg_targets && p.sdg_targets.length > 0 ? p.sdg_targets : [4, 8, 9, 11]).slice(0, 4).map(ods => (
-                  <div key={ods} className="w-7 h-7 rounded-sm overflow-hidden border border-gray-100 shadow-sm" title={`ODS ${ods}`}>
+                {/* Title and Theme */}
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 leading-tight">
+                  {p.name}
+                </h3>
+                <div className="flex items-center gap-2 mb-6">
+                  <span className="w-2 h-2 rounded-full bg-primary/80"></span>
+                  <span className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide">
+                    {p.tema}
+                  </span>
+                </div>
+
+                {/* ODS Icons */}
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {(p.sdg_targets && p.sdg_targets.length > 0 ? p.sdg_targets : [4, 8, 9, 11]).slice(0, 4).map(ods => (
                     <img
+                      key={ods}
                       src={`https://brasil.un.org/profiles/undg_country/themes/custom/undg/images/SDGs/pt-br/SDG-${ods}.svg`}
                       alt={`ODS ${ods}`}
-                      className="w-full h-full object-cover"
+                      className="w-8 h-8 rounded-3xl border border-gray-100 dark:border-white/5"
+                      title={`ODS ${ods}`}
                     />
-                  </div>
-                ))}
-                {(p.sdg_targets?.length || 0) > 4 && (
-                  <div className="w-7 h-7 rounded-sm bg-gray-50 border border-dashed border-gray-200 flex items-center justify-center text-[8px] font-bold text-gray-400">
-                    +{p.sdg_targets!.length - 4}
-                  </div>
-                )}
-              </div>
-
-              <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-50 dark:border-white/5">
-                <div className="flex flex-col gap-1">
-                  <div className="flex items-center text-[10px] text-gray-400 font-bold uppercase tracking-wider">
-                    <MapPin className="w-3 h-3 mr-1 text-red-400" />
-                    {p.community}
-                  </div>
-                  {p.budget && (
-                    <div className="text-[10px] font-mono font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 px-2 py-0.5 rounded w-fit">
-                      {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(parseFloat(p.budget))}
+                  ))}
+                  {(p.sdg_targets?.length || 0) > 4 && (
+                    <div className="w-8 h-8 rounded-3xl bg-gray-50 dark:bg-white/5 border border-dashed border-gray-300 dark:border-white/20 flex items-center justify-center text-[10px] font-black text-gray-500">
+                      +{p.sdg_targets!.length - 4}
                     </div>
                   )}
                 </div>
-                <span className={`text-[10px] font-black tracking-[0.2em] px-2 py-1 rounded bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 ${p.status === 'Concluído' ? 'text-green-600' : 'text-happiness-2'}`}>
-                  {p.status.toUpperCase()}
-                </span>
+
+                {/* Footer Info */}
+                <div className="mt-auto pt-4 border-t border-gray-100 dark:border-white/5 flex items-end justify-between">
+                  <div className="flex flex-col gap-1">
+                    <div className="flex items-center gap-1.5 text-red-500">
+                      <MapPinIcon style={{ fontSize: 14 }} />
+                      <span className="text-[10px] font-black uppercase tracking-wider">
+                        {p.community}
+                      </span>
+                    </div>
+                    {p.budget && (
+                      <div className="flex items-center gap-1 bg-blue-50 dark:bg-blue-900/20 px-2 py-0.5 rounded text-blue-700 dark:text-blue-400 w-fit">
+                        <MoneyIcon style={{ fontSize: 14 }} />
+                        <span className="text-xs font-bold">
+                          {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(parseFloat(p.budget))}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                  <span className={`text-[10px] font-black uppercase tracking-widest ${p.status === 'Concluído' ? 'text-emerald-500' :
+                      p.status === 'Planejado' ? 'text-amber-500' : 'text-blue-500'
+                    }`}>
+                    {p.status}
+                  </span>
+                </div>
               </div>
-            </div>
-          ))}
-          {filteredProjects.length === 0 && (
-            <div className="col-span-full py-12 text-center bg-gray-50 dark:bg-white/5 rounded-sm border-2 border-dashed border-gray-200 dark:border-white/10">
-              <p className="text-gray-400 font-medium">Nenhum projeto encontrado.</p>
-            </div>
-          )}
+            );
+          })}
         </div>
       )}
-      {/* Modal de Confirmação de Exclusão (Design Bloco Premium) */}
+
+      {/* Delete Modal Overlay */}
       {projectToDelete !== null && (
-        <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-in fade-in duration-300">
-          <div className="bg-white dark:bg-zinc-900 rounded-sm overflow-hidden max-w-sm w-full shadow-[0_20px_50px_rgba(0,0,0,0.2)] border border-gray-100 dark:border-white/10 animate-in zoom-in-95 duration-300 relative">
-
-            {/* Top Border Accent */}
-            <div className="h-1.5 w-full bg-gradient-to-r from-red-500 to-orange-400"></div>
-
-            <button
-              onClick={() => setProjectToDelete(null)}
-              className="absolute top-4 right-6 text-gray-400 hover:text-gray-600 transition-colors"
-            >
-              <X className="w-5 h-5" />
-            </button>
-
-            <div className="p-8">
-              {/* Header Label style "Bloco" */}
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)]"></div>
-                <span className="text-[10px] font-black uppercase tracking-widest text-red-500">Pilar Social - Alerta</span>
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white dark:bg-[#1C1C1C] w-full max-w-md rounded-3xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
+            <div className="h-1.5 w-full bg-red-500"></div>
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-6">
+                <div className="flex items-center gap-2">
+                  <div className="w-2.5 h-2.5 rounded-full bg-red-500"></div>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-red-500">
+                    Alerta de Exclusão
+                  </span>
+                </div>
+                <button
+                  onClick={() => setProjectToDelete(null)}
+                  className="text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                >
+                  <CloseIcon fontSize="small" />
+                </button>
               </div>
 
-              <h3 className="text-2xl font-black text-gray-900 dark:text-white mb-6 tracking-tight leading-tight">
+              <h3 className="text-xl font-black text-gray-900 dark:text-white mb-4">
                 Excluir dados deste projeto?
               </h3>
 
-              {/* Bloco de Mensagem */}
-              <div className="bg-red-50/50 dark:bg-red-900/10 p-5 rounded-sm border border-red-100/50 dark:border-red-900/20 mb-8">
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 shrink-0 bg-white dark:bg-zinc-800 rounded-sm flex items-center justify-center shadow-sm">
-                    <Trash2 className="w-5 h-5 text-red-500" />
-                  </div>
-                  <p className="text-sm font-bold text-gray-600 dark:text-gray-400 leading-relaxed">
-                    Esta ação é irreversível e removerá permanentemente todos os KPIs e métricas sociais deste registro.
-                  </p>
+              <div className="p-4 bg-red-50 dark:bg-red-900/10 border border-red-100 dark:border-red-500/20 rounded-2xl flex gap-4 mb-6">
+                <div className="w-10 h-10 rounded-xl bg-white dark:bg-white/10 flex items-center justify-center text-red-500 shrink-0">
+                  <DeleteIcon />
                 </div>
+                <p className="text-sm font-medium text-red-800 dark:text-red-200">
+                  Esta ação é irreversível e removerá permanentemente todos os KPIs e métricas sociais deste registro.
+                </p>
               </div>
 
-              <div className="space-y-3">
+              <div className="flex flex-col gap-3">
                 <button
-                  onClick={() => handleDelete(projectToDelete)}
+                  onClick={() => projectToDelete && handleDelete(projectToDelete)}
                   disabled={isDeleting}
-                  className="w-full py-4 px-6 bg-red-500 hover:bg-red-600 text-white rounded-sm font-black text-sm shadow-xl shadow-red-500/20 transition-all flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50"
+                  className="w-full py-3 bg-red-500 hover:bg-red-600 text-white rounded-full font-black text-sm transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center"
                 >
-                  {isDeleting ? <Loader2 className="w-5 h-5 animate-spin" /> : 'CONFIRMAR EXCLUSÃO'}
+                  {isDeleting ? (
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  ) : (
+                    'CONFIRMAR EXCLUSÃO'
+                  )}
                 </button>
                 <button
                   onClick={() => setProjectToDelete(null)}
-                  className="w-full py-4 px-6 bg-gray-50 dark:bg-white/5 hover:bg-gray-100 dark:hover:bg-white/10 text-gray-400 dark:text-gray-500 rounded-sm font-black text-xs transition-all uppercase tracking-widest"
+                  className="w-full py-3 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-bold text-sm transition-colors"
                 >
                   Manter Projeto
                 </button>
@@ -253,21 +282,3 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onAddNew, onEdit }) =>
     </div>
   );
 };
-
-// Precisamos importar o SearchIcon do Material UI para compatibilidade com o código original
-const SearchIcon = (props: any) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="18" height="18"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    {...props}
-  >
-    <circle cx="11" cy="11" r="8"></circle>
-    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-  </svg>
-);

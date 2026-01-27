@@ -9,7 +9,6 @@ import {
     RefreshCw,
     Sliders
 } from 'lucide-react';
-import { Button, Slider } from '@mui/material';
 
 export const PredictiveAnalysis: React.FC = () => {
     // Simulation Parameters State
@@ -59,7 +58,7 @@ export const PredictiveAnalysis: React.FC = () => {
                         Utilize IA para projetar impactos ESG baseados em variáveis operacionais.
                     </p>
                 </div>
-                <div className="bg-purple-50 dark:bg-purple-900/10 px-3 py-1.5 rounded-sm border border-purple-200 dark:border-purple-900/30 flex items-center gap-2 text-purple-700 dark:text-purple-400">
+                <div className="bg-purple-50 dark:bg-purple-900/10 px-3 py-1.5 rounded-3xl border border-purple-200 dark:border-purple-900/30 flex items-center gap-2 text-purple-700 dark:text-purple-400">
                     <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></div>
                     <span className="text-[10px] font-black uppercase tracking-widest">IA Engine v4.2 Online</span>
                 </div>
@@ -67,7 +66,7 @@ export const PredictiveAnalysis: React.FC = () => {
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Controls Panel */}
-                <div className="bg-white dark:bg-[#1C1C1C] p-6 rounded-sm border border-gray-200 dark:border-white/5 shadow-sm h-full">
+                <div className="bg-white dark:bg-[#1C1C1C] p-6 rounded-3xl border border-gray-200 dark:border-white/5 shadow-sm h-full">
                     <div className="flex items-center gap-2 mb-6 text-gray-900 dark:text-white font-bold border-b border-gray-100 dark:border-white/5 pb-4">
                         <Sliders className="w-5 h-5" />
                         Parâmetros de Simulação
@@ -79,11 +78,13 @@ export const PredictiveAnalysis: React.FC = () => {
                                 <label className="text-xs font-bold text-gray-600 dark:text-gray-300">Crescimento de Carga (%)</label>
                                 <span className="text-xs font-black text-blue-600 bg-blue-50 px-2 py-0.5 rounded">{cargoGrowth}%</span>
                             </div>
-                            <Slider
+                            <input
+                                type="range"
+                                min="-10"
+                                max="30"
                                 value={cargoGrowth}
-                                onChange={(_, v) => setCargoGrowth(v as number)}
-                                min={-10} max={30}
-                                sx={{ color: '#2563EB', height: 6 }}
+                                onChange={(e) => setCargoGrowth(Number(e.target.value))}
+                                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
                             />
                             <p className="text-[10px] text-gray-400 mt-1">Impacta emissões e risco social (tráfego).</p>
                         </div>
@@ -93,11 +94,13 @@ export const PredictiveAnalysis: React.FC = () => {
                                 <label className="text-xs font-bold text-gray-600 dark:text-gray-300">Adoção Renovável (%)</label>
                                 <span className="text-xs font-black text-green-600 bg-green-50 px-2 py-0.5 rounded">{renewableAdoption}%</span>
                             </div>
-                            <Slider
+                            <input
+                                type="range"
+                                min="0"
+                                max="100"
                                 value={renewableAdoption}
-                                onChange={(_, v) => setRenewableAdoption(v as number)}
-                                min={0} max={100}
-                                sx={{ color: '#10B981', height: 6 }}
+                                onChange={(e) => setRenewableAdoption(Number(e.target.value))}
+                                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-green-500"
                             />
                             <p className="text-[10px] text-gray-400 mt-1">Fator de redução direta de Escopo 2.</p>
                         </div>
@@ -107,33 +110,33 @@ export const PredictiveAnalysis: React.FC = () => {
                                 <label className="text-xs font-bold text-gray-600 dark:text-gray-300">Investimento Social (% Budget)</label>
                                 <span className="text-xs font-black text-orange-600 bg-orange-50 px-2 py-0.5 rounded">{socialInvestment}%</span>
                             </div>
-                            <Slider
+                            <input
+                                type="range"
+                                min="50"
+                                max="200"
                                 value={socialInvestment}
-                                onChange={(_, v) => setSocialInvestment(v as number)}
-                                min={50} max={200}
-                                sx={{ color: '#F59E0B', height: 6 }}
+                                onChange={(e) => setSocialInvestment(Number(e.target.value))}
+                                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-orange-500"
                             />
                             <p className="text-[10px] text-gray-400 mt-1">Mitiga riscos de conflito comunitário.</p>
                         </div>
                     </div>
 
                     <div className="mt-8 pt-6 border-t border-gray-100 dark:border-white/5">
-                        <Button
-                            fullWidth
-                            variant="outlined"
-                            startIcon={<RefreshCw className="w-4 h-4" />}
-                            sx={{ textTransform: 'none', borderColor: '#E5E7EB', color: 'gray' }}
+                        <button
                             onClick={() => { setCargoGrowth(5); setRenewableAdoption(20); setSocialInvestment(100); }}
+                            className="w-full py-2.5 border border-gray-200 dark:border-white/10 rounded-lg text-gray-500 dark:text-gray-400 font-medium text-sm hover:bg-gray-50 dark:hover:bg-white/5 transition-colors flex items-center justify-center gap-2"
                         >
+                            <RefreshCw className="w-4 h-4" />
                             Resetar Parâmetros
-                        </Button>
+                        </button>
                     </div>
                 </div>
 
                 {/* Visualization Panel */}
                 <div className="lg:col-span-2 space-y-6">
                     {/* Main Chart */}
-                    <div className="bg-white dark:bg-[#1C1C1C] p-6 rounded-sm border border-gray-200 dark:border-white/5 shadow-sm">
+                    <div className="bg-white dark:bg-[#1C1C1C] p-6 rounded-3xl border border-gray-200 dark:border-white/5 shadow-sm">
                         <div className="flex justify-between items-start mb-6">
                             <div>
                                 <h3 className="font-bold text-gray-900 dark:text-white text-lg">Projeção de Emissões (tCO2e)</h3>
@@ -201,7 +204,7 @@ export const PredictiveAnalysis: React.FC = () => {
 
                     {/* Impact Cards */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className={`p-5 rounded-sm border ${simulationData.projectedRisk > 50 ? 'bg-red-50 border-red-200 dark:bg-red-900/10' : 'bg-green-50 border-green-200 dark:bg-green-900/10'}`}>
+                        <div className={`p-5 rounded-3xl border ${simulationData.projectedRisk > 50 ? 'bg-red-50 border-red-200 dark:bg-red-900/10' : 'bg-green-50 border-green-200 dark:bg-green-900/10'}`}>
                             <div className="flex justify-between items-start mb-2">
                                 <h4 className={`font-bold text-sm ${simulationData.projectedRisk > 50 ? 'text-red-800' : 'text-green-800'}`}>Risco Social Projetado</h4>
                                 <AlertTriangle className={`w-4 h-4 ${simulationData.projectedRisk > 50 ? 'text-red-500' : 'text-green-500'}`} />
@@ -221,7 +224,7 @@ export const PredictiveAnalysis: React.FC = () => {
                             </p>
                         </div>
 
-                        <div className="bg-white dark:bg-[#1C1C1C] p-5 rounded-sm border border-gray-200 dark:border-white/5">
+                        <div className="bg-white dark:bg-[#1C1C1C] p-5 rounded-3xl border border-gray-200 dark:border-white/5">
                             <h4 className="font-bold text-gray-700 dark:text-gray-200 text-sm mb-3 flex items-center gap-2">
                                 <Zap className="w-4 h-4 text-yellow-500" />
                                 Insights Automáticos
