@@ -76,7 +76,7 @@ export const materialTheme = (mode: 'light' | 'dark', primaryColor: string = '#1
             borderRadius: 12,
         },
         typography: {
-            fontFamily: '"Crimson Text", "serif", "Roboto", "Inter", "Arial", sans-serif',
+            fontFamily: '"Ubuntu", "Roboto", "Inter", "Arial", sans-serif',
             h1: { fontSize: '2.5rem', fontWeight: 400 },
             button: { textTransform: 'none', fontWeight: 500 },
         },

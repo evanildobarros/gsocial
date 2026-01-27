@@ -134,7 +134,7 @@ html {
 }
 
 body {
-  font-family: 'Crimson Text', serif;
+  font-family: 'Ubuntu', sans-serif;
   overflow-y: auto;
   overflow-x: hidden;
   min-height: 100%;

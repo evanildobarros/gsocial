@@ -34,7 +34,7 @@ export default {
                 'on-surface': 'rgb(var(--color-on-surface) / <alpha-value>)',
             },
             fontFamily: {
-                sans: ['Crimson Text', 'serif', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                sans: ['Ubuntu', 'ui-sans-serif', 'system-ui', 'sans-serif'],
             }
         },
     },
