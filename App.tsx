@@ -489,7 +489,7 @@ export default function App() {
 
     return (
         <div className="flex h-screen overflow-hidden bg-gray-50 dark:bg-zinc-950 font-sans transition-colors duration-300 relative">
-            <div className="absolute inset-0 bg-happiness-bg-tint pointer-events-none" />
+            <div className="absolute inset-0 bg-happiness-bg-tint/30 pointer-events-none" />
             <ToastContainer />
             {/* Sidebar */}
             <aside
