@@ -59,7 +59,7 @@ const StarRating = ({ value, onChange, readOnly = false }: { value: number; onCh
 };
 
 // Helper for Multi-Select Chips
-const MultiSelectChips = ({ options, selected, onChange, colorClass = "bg-blue-50 text-blue-600 border-blue-200" }: { options: string[], selected: string[], onChange: (val: string[]) => void, colorClass?: string }) => {
+const MultiSelectChips = ({ options, selected, onChange, colorClass = "bg-happiness-1/10 text-happiness-1 border-happiness-1/20" }: { options: string[], selected: string[], onChange: (val: string[]) => void, colorClass?: string }) => {
     const toggleOption = (option: string) => {
         if (selected.includes(option)) {
             onChange(selected.filter(item => item !== option));
@@ -370,7 +370,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {filteredAssessments.map((assessment) => (
                             <div key={assessment.id} className="bg-white dark:bg-[#1C1C1C] rounded-3xl border border-gray-200 dark:border-white/5 shadow-sm hover:border-happiness-1 transition-all group overflow-hidden">
-                                <div className="h-1.5 bg-gradient-to-r from-blue-500 to-emerald-500 w-full" />
+                                <div className="h-1.5 bg-gradient-to-r from-happiness-1 to-happiness-3 w-full" />
                                 <div className="p-6">
                                     <div className="flex justify-between items-start mb-4">
                                         <div>
@@ -381,8 +381,8 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                                                 {assessment.settlement_type}
                                             </span>
                                         </div>
-                                        <div className="p-2 bg-blue-50 dark:bg-blue-900/10 rounded-2xl">
-                                            <MapPin className="text-blue-500 w-4 h-4" />
+                                        <div className="p-2 bg-happiness-1/10 rounded-2xl">
+                                            <MapPin className="text-happiness-1 w-4 h-4" />
                                         </div>
                                     </div>
 
@@ -411,7 +411,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                                                     e.stopPropagation();
                                                     handleEdit(assessment);
                                                 }}
-                                                className="p-2 text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-full transition-colors"
+                                                className="p-2 text-happiness-1 hover:bg-happiness-1/10 dark:hover:bg-happiness-1/10 rounded-full transition-colors"
                                                 title="Editar"
                                             >
                                                 <Edit size={16} />
@@ -451,7 +451,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                         <div className="bg-white dark:bg-[#1C1C1C] rounded-3xl border border-gray-200 dark:border-white/5 overflow-hidden">
                             <div className="p-8">
                                 <div className="flex items-center gap-2 mb-6 border-b border-gray-100 dark:border-white/5 pb-4">
-                                    <MapPin className="text-blue-500 w-5 h-5" />
+                                    <MapPin className="text-happiness-1 w-5 h-5" />
                                     <h3 className="font-bold text-gray-900 dark:text-white uppercase tracking-wider text-sm">📍 Identidade Territorial</h3>
                                 </div>
 
@@ -464,7 +464,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                                                 placeholder="Digite o nome da comunidade..."
                                                 value={communityName}
                                                 onChange={(e) => setCommunityName(e.target.value)}
-                                                className="w-full px-4 py-3 bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-white/10 rounded-2xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                                                className="w-full px-4 py-3 bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-white/10 rounded-2xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-happiness-1/20 focus:border-happiness-1"
                                             />
                                         </div>
                                         <div className="space-y-1">
@@ -473,7 +473,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                                                 type="number"
                                                 value={estimatedFamilies}
                                                 onChange={(e) => setEstimatedFamilies(e.target.value === '' ? '' : Number(e.target.value))}
-                                                className="w-full px-4 py-3 bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-white/10 rounded-2xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                                                className="w-full px-4 py-3 bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-white/10 rounded-2xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-happiness-1/20 focus:border-happiness-1"
                                             />
                                         </div>
                                         <div>
@@ -485,8 +485,8 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                                                         type="button"
                                                         onClick={() => setSettlementType(type)}
                                                         className={`px-4 py-2 rounded-full text-xs font-bold transition-all ${settlementType === type
-                                                                ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/20'
-                                                                : 'bg-transparent border border-gray-200 dark:border-white/10 text-gray-500 hover:bg-gray-50 dark:hover:bg-white/5'
+                                                            ? 'bg-happiness-1 text-white shadow-lg shadow-happiness-1/20'
+                                                            : 'bg-transparent border border-gray-200 dark:border-white/10 text-gray-500 hover:bg-gray-50 dark:hover:bg-white/5'
                                                             }`}
                                                     >
                                                         {type}
@@ -503,7 +503,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                         <div className="bg-white dark:bg-[#1C1C1C] rounded-3xl border border-gray-200 dark:border-white/5 overflow-hidden">
                             <div className="p-8">
                                 <div className="flex items-center gap-2 mb-6 border-b border-gray-100 dark:border-white/5 pb-4">
-                                    <Hammer className="text-emerald-500 w-5 h-5" />
+                                    <Hammer className="text-happiness-1 w-5 h-5" />
                                     <h3 className="font-bold text-gray-900 dark:text-white uppercase tracking-wider text-sm">🏗️ Infraestrutura Crítica (Vol. I)</h3>
                                 </div>
 
@@ -513,8 +513,8 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                                         <div className="space-y-2">
                                             {WATER_ACCESS_OPTIONS.map(opt => (
                                                 <label key={opt} className="flex items-center gap-3 p-3 rounded-2xl border border-gray-100 dark:border-white/5 hover:bg-gray-50 dark:hover:bg-white/5 cursor-pointer transition-colors">
-                                                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${waterAccess === opt ? 'border-emerald-500' : 'border-gray-300 dark:border-white/20'}`}>
-                                                        {waterAccess === opt && <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full" />}
+                                                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${waterAccess === opt ? 'border-happiness-1' : 'border-gray-300 dark:border-white/20'}`}>
+                                                        {waterAccess === opt && <div className="w-2.5 h-2.5 bg-happiness-1 rounded-full" />}
                                                     </div>
                                                     <input
                                                         type="radio"
@@ -535,8 +535,8 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                                         <div className="space-y-2">
                                             {SANITATION_OPTIONS.map(opt => (
                                                 <label key={opt} className="flex items-center gap-3 p-3 rounded-2xl border border-gray-100 dark:border-white/5 hover:bg-gray-50 dark:hover:bg-white/5 cursor-pointer transition-colors">
-                                                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${sanitationStatus === opt ? 'border-emerald-500' : 'border-gray-300 dark:border-white/20'}`}>
-                                                        {sanitationStatus === opt && <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full" />}
+                                                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${sanitationStatus === opt ? 'border-happiness-1' : 'border-gray-300 dark:border-white/20'}`}>
+                                                        {sanitationStatus === opt && <div className="w-2.5 h-2.5 bg-happiness-1 rounded-full" />}
                                                     </div>
                                                     <input
                                                         type="radio"
@@ -580,7 +580,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                                             options={PRIORITY_NEEDS_OPTIONS}
                                             selected={priorityNeeds}
                                             onChange={setPriorityNeeds}
-                                            colorClass="bg-green-50 text-green-600 border-green-200"
+                                            colorClass="bg-happiness-1/10 text-happiness-1 border-happiness-1/20"
                                         />
                                     </div>
 
@@ -632,7 +632,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                                 </div>
                                 <div className="flex justify-between items-center text-xs">
                                     <span className="font-bold text-gray-500">Famílias</span>
-                                    <span className="font-black text-orange-500">{estimatedFamilies || 0}</span>
+                                    <span className="font-black text-happiness-1">{estimatedFamilies || 0}</span>
                                 </div>
                                 <div className="flex justify-between items-center text-xs">
                                     <span className="font-bold text-gray-500">Perfil</span>

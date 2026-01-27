@@ -21,9 +21,9 @@ export const ToastContainer: React.FC = () => {
 
     const getStyles = (type: string) => {
         switch (type) {
-            case 'success': return 'bg-green-50 border-green-100';
-            case 'error': return 'bg-red-50 border-red-100';
-            default: return 'bg-blue-50 border-blue-100';
+            case 'success': return 'bg-green-50 border-green-100 dark:bg-green-900/20 dark:border-green-800/30';
+            case 'error': return 'bg-red-50 border-red-100 dark:bg-red-900/20 dark:border-red-800/30';
+            default: return 'bg-blue-50 border-blue-100 dark:bg-blue-900/20 dark:border-blue-800/30';
         }
     };
 
@@ -34,7 +34,7 @@ export const ToastContainer: React.FC = () => {
                     key={n.id}
                     className={`
                         pointer-events-auto
-                        flex items-start gap-4 p-4 rounded-3xl shadow-xl shadow-gray-200/50 border
+                        flex items-start gap-4 p-4 rounded-3xl shadow-xl shadow-gray-200/50 dark:shadow-none border
                         animate-in slide-in-from-right duration-500
                         ${getStyles(n.type)}
                     `}
@@ -44,7 +44,7 @@ export const ToastContainer: React.FC = () => {
                     </div>
 
                     <div className="flex-1 min-w-0">
-                        <p className={`text-sm font-black text-gray-900 leading-tight`}>
+                        <p className={`text-sm font-black text-gray-900 dark:text-white leading-tight`}>
                             {n.message}
                         </p>
                         <p className="text-[10px] font-bold text-gray-400 mt-1 uppercase tracking-widest">

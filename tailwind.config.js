@@ -32,9 +32,17 @@ export default {
                 surface: 'rgb(var(--color-surface) / <alpha-value>)',
                 outline: 'rgb(var(--color-outline) / <alpha-value>)',
                 'on-surface': 'rgb(var(--color-on-surface) / <alpha-value>)',
+                happiness: {
+                    1: 'rgb(var(--happiness-1) / <alpha-value>)',
+                    2: 'rgb(var(--happiness-2) / <alpha-value>)',
+                    3: 'rgb(var(--happiness-3) / <alpha-value>)',
+                    4: 'rgb(var(--happiness-4) / <alpha-value>)',
+                    5: 'rgb(var(--happiness-5) / <alpha-value>)',
+                    'bg-tint': 'rgb(var(--happiness-bg-tint) / <alpha-value>)',
+                },
             },
             fontFamily: {
-                sans: ['Ubuntu', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                sans: ['Noto Sans', 'ui-sans-serif', 'system-ui', 'sans-serif'],
             }
         },
     },

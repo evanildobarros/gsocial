@@ -74,9 +74,9 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onAddNew, onEdit }) =>
 
   const getPilarInfo = (pilar: string) => {
     switch (pilar) {
-      case 'Ambiental': return { icon: <LeafIcon fontSize="small" />, color: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400' };
-      case 'Social': return { icon: <UsersIcon fontSize="small" />, color: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' };
-      case 'Governança': return { icon: <ShieldIcon fontSize="small" />, color: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400' };
+      case 'Ambiental': return { icon: <LeafIcon fontSize="small" />, color: 'bg-happiness-5/10 text-happiness-5 border border-happiness-5/20' };
+      case 'Social': return { icon: <UsersIcon fontSize="small" />, color: 'bg-happiness-1/10 text-happiness-1 border border-happiness-1/20' };
+      case 'Governança': return { icon: <ShieldIcon fontSize="small" />, color: 'bg-happiness-2/10 text-happiness-2 border border-happiness-2/20' };
       default: return { icon: null, color: 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-400' };
     }
   };
@@ -110,12 +110,12 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onAddNew, onEdit }) =>
               placeholder="Filtrar projetos..."
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-full text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+              className="w-full pl-10 pr-4 py-2 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-full text-sm font-medium focus:outline-none focus:ring-2 focus:ring-happiness-1/50 transition-all"
             />
           </div>
           <button
             onClick={onAddNew}
-            className="flex items-center gap-2 px-6 py-2 rounded-full bg-primary hover:bg-primary-hover text-white font-bold text-sm transition-colors shadow-lg shadow-primary/20 whitespace-nowrap"
+            className="flex items-center gap-2 px-6 py-2 rounded-full bg-happiness-1 hover:bg-happiness-1/90 text-white font-bold text-sm transition-colors shadow-lg shadow-happiness-1/20 whitespace-nowrap"
           >
             <AddIcon fontSize="small" />
             Novo Projeto
@@ -125,7 +125,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onAddNew, onEdit }) =>
 
       {loading ? (
         <div className="flex flex-col items-center py-20 gap-4">
-          <div className="w-12 h-12 rounded-full border-4 border-gray-200 border-t-primary animate-spin"></div>
+          <div className="w-12 h-12 rounded-full border-4 border-gray-200 border-t-happiness-1 animate-spin"></div>
           <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 animate-pulse">
             Sincronizando Portfólio...
           </span>
@@ -148,7 +148,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onAddNew, onEdit }) =>
                   <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button
                       onClick={() => onEdit?.(p)}
-                      className="p-1.5 rounded-lg border border-gray-200 dark:border-white/10 text-gray-400 hover:text-primary hover:border-primary transition-colors"
+                      className="p-1.5 rounded-lg border border-gray-200 dark:border-white/10 text-gray-400 hover:text-happiness-1 hover:border-happiness-1 transition-colors"
                       title="Editar"
                     >
                       <EditIcon fontSize="small" />
@@ -168,7 +168,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onAddNew, onEdit }) =>
                   {p.name}
                 </h3>
                 <div className="flex items-center gap-2 mb-6">
-                  <span className="w-2 h-2 rounded-full bg-primary/80"></span>
+                  <span className="w-2 h-2 rounded-full bg-happiness-1/80"></span>
                   <span className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide">
                     {p.tema}
                   </span>
@@ -202,7 +202,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onAddNew, onEdit }) =>
                       </span>
                     </div>
                     {p.budget && (
-                      <div className="flex items-center gap-1 bg-blue-50 dark:bg-blue-900/20 px-2 py-0.5 rounded text-blue-700 dark:text-blue-400 w-fit">
+                      <div className="flex items-center gap-1 bg-happiness-1/10 px-2 py-0.5 rounded text-happiness-1 w-fit">
                         <MoneyIcon style={{ fontSize: 14 }} />
                         <span className="text-xs font-bold">
                           {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(parseFloat(p.budget))}
@@ -210,8 +210,8 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onAddNew, onEdit }) =>
                       </div>
                     )}
                   </div>
-                  <span className={`text-[10px] font-black uppercase tracking-widest ${p.status === 'Concluído' ? 'text-emerald-500' :
-                      p.status === 'Planejado' ? 'text-amber-500' : 'text-blue-500'
+                  <span className={`text-[10px] font-black uppercase tracking-widest ${p.status === 'Concluído' ? 'text-happiness-5' :
+                    p.status === 'Planejado' ? 'text-amber-500' : 'text-happiness-1'
                     }`}>
                     {p.status}
                   </span>

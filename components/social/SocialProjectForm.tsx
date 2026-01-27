@@ -112,13 +112,13 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
     return (
         <div className="bg-white dark:bg-[#1C1C1C] rounded-3xl p-8 shadow-2xl relative overflow-hidden border border-gray-200 dark:border-white/5 animate-in fade-in duration-500">
             {/* Background Decorative Pattern */}
-            <div className="absolute top-[-100px] right-[-100px] w-80 h-80 bg-blue-50 dark:bg-blue-900/10 rounded-full opacity-50 z-0 pointer-events-none" />
+            <div className="absolute top-[-100px] right-[-100px] w-80 h-80 bg-happiness-1/5 rounded-full opacity-50 z-0 pointer-events-none" />
 
             <form onSubmit={handleSubmit} className="relative z-10 space-y-8">
                 {/* Header Section */}
                 <div className="flex flex-col md:flex-row justify-between items-center gap-6">
                     <div className="flex items-center gap-4">
-                        <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-600/20">
+                        <div className="w-16 h-16 bg-happiness-1 rounded-2xl flex items-center justify-center shadow-lg shadow-happiness-1/20">
                             <Target className="w-8 h-8 text-white" />
                         </div>
                         <div>
@@ -141,7 +141,7 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                         </button>
                         <button
                             type="submit"
-                            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2.5 rounded-full font-black text-sm uppercase tracking-widest shadow-lg shadow-blue-600/20 transition-all hover:scale-105 flex items-center gap-2"
+                            className="bg-happiness-1 hover:bg-happiness-1/90 text-white px-8 py-2.5 rounded-full font-black text-sm uppercase tracking-widest shadow-lg shadow-happiness-1/20 transition-all hover:scale-105 flex items-center gap-2"
                         >
                             <Save className="w-4 h-4" />
                             {initialData ? 'Salvar Alterações' : 'Registrar Projeto'}
@@ -153,7 +153,7 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                     {/* Left Column: Data Input */}
                     <div className="lg:col-span-4 space-y-8">
                         <div>
-                            <span className="block text-xs font-black text-blue-600 uppercase tracking-[0.2em] mb-4">
+                            <span className="block text-xs font-black text-happiness-1 uppercase tracking-[0.2em] mb-4">
                                 📋 DADOS OPERACIONAIS
                             </span>
                             <div className="space-y-6">
@@ -166,7 +166,7 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                                         value={formData.title}
                                         onChange={handleChange}
                                         placeholder="Ex: Capacita Itaqui — Solda Industrial"
-                                        className="w-full px-4 py-3 bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-white/10 rounded-2xl text-lg font-black focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all placeholder:font-medium placeholder:text-gray-400"
+                                        className="w-full px-4 py-3 bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-white/10 rounded-2xl text-lg font-black focus:outline-none focus:ring-2 focus:ring-happiness-1/20 focus:border-happiness-1 transition-all placeholder:font-medium placeholder:text-gray-400"
                                     />
                                 </div>
 
@@ -178,7 +178,7 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                                         rows={4}
                                         value={formData.description}
                                         onChange={handleChange}
-                                        className="w-full px-4 py-3 bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-white/10 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+                                        className="w-full px-4 py-3 bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-white/10 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-happiness-1/20 focus:border-happiness-1 transition-all"
                                     />
                                 </div>
 
@@ -193,7 +193,7 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                                                 required
                                                 value={formData.budget.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                                                 onChange={handleBudgetChange}
-                                                className="w-full pl-10 pr-4 py-3 bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-white/10 rounded-2xl text-lg font-mono font-bold text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+                                                className="w-full pl-10 pr-4 py-3 bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-white/10 rounded-2xl text-lg font-mono font-bold text-happiness-1 focus:outline-none focus:ring-2 focus:ring-happiness-1/20 focus:border-happiness-1 transition-all"
                                             />
                                         </div>
                                     </div>
@@ -203,7 +203,7 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                                             name="status"
                                             value={formData.status}
                                             onChange={handleChange}
-                                            className="w-full px-4 py-3 bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-white/10 rounded-2xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+                                            className="w-full px-4 py-3 bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-white/10 rounded-2xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-happiness-1/20 focus:border-happiness-1 transition-all"
                                         >
                                             <option value="planning">Planejamento</option>
                                             <option value="active">Em Execução</option>
@@ -223,7 +223,7 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                                                 required
                                                 value={formData.startDate}
                                                 onChange={handleChange}
-                                                className="w-full px-4 py-3 bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-white/10 rounded-2xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+                                                className="w-full px-4 py-3 bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-white/10 rounded-2xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-happiness-1/20 focus:border-happiness-1 transition-all"
                                             />
                                             <Calendar className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
                                         </div>
@@ -237,7 +237,7 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                                                 required
                                                 value={formData.endDate}
                                                 onChange={handleChange}
-                                                className="w-full px-4 py-3 bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-white/10 rounded-2xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+                                                className="w-full px-4 py-3 bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-white/10 rounded-2xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-happiness-1/20 focus:border-happiness-1 transition-all"
                                             />
                                             <Calendar className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
                                         </div>
@@ -250,14 +250,14 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                     {/* Right Column: ESG Intelligence */}
                     <div className="lg:col-span-3 space-y-8">
                         <div>
-                            <span className="block text-xs font-black text-green-600 uppercase tracking-[0.2em] mb-4">
+                            <span className="block text-xs font-black text-happiness-1 uppercase tracking-[0.2em] mb-4">
                                 🎯 IMPACTO & MATERIALIDADE
                             </span>
 
                             {/* SROI Card */}
                             <div className={`p-6 rounded-3xl border flex items-center justify-between mb-2 ${sroi >= 2
-                                    ? 'bg-green-50/50 border-green-200 dark:bg-green-900/20 dark:border-green-900/30'
-                                    : 'bg-blue-50/50 border-blue-200 dark:bg-blue-900/20 dark:border-blue-900/30'
+                                ? 'bg-happiness-5/10 border-happiness-5/30'
+                                : 'bg-happiness-1/10 border-happiness-1/30'
                                 }`}>
                                 <div>
                                     <div className="flex items-center gap-2 mb-1">
@@ -266,7 +266,7 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                                             Previsão SROI
                                         </span>
                                     </div>
-                                    <span className={`text-4xl font-black ${sroi >= 2 ? 'text-green-600' : 'text-blue-600'}`}>
+                                    <span className={`text-4xl font-black ${sroi >= 2 ? 'text-happiness-5' : 'text-happiness-1'}`}>
                                         {sroi}x
                                     </span>
                                 </div>
@@ -308,7 +308,7 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                             <div className="p-2 border border-gray-200 dark:border-white/10 rounded-2xl bg-gray-50 dark:bg-zinc-900/30">
                                 <div className="flex flex-wrap gap-2 mb-2 p-2">
                                     {formData.neighborhoods.map(neighborhood => (
-                                        <span key={neighborhood} className="inline-flex items-center gap-1 bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 text-xs font-bold px-2.5 py-1 rounded-lg">
+                                        <span key={neighborhood} className="inline-flex items-center gap-1 bg-happiness-1/10 text-happiness-1 text-xs font-bold px-2.5 py-1 rounded-lg">
                                             {neighborhood}
                                             <button
                                                 type="button"
@@ -342,8 +342,8 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                                             type="button"
                                             onClick={() => toggleMateriality(topic)}
                                             className={`px-3 py-1.5 rounded-full text-[10px] font-bold border transition-all flex items-center gap-1 ${isSelected
-                                                    ? 'bg-blue-500 text-white border-blue-500 shadow-md shadow-blue-500/20'
-                                                    : 'bg-transparent border-gray-200 text-gray-500 hover:border-blue-300'
+                                                ? 'bg-happiness-1 text-white border-happiness-1 shadow-md shadow-happiness-1/20'
+                                                : 'bg-transparent border-gray-200 text-gray-500 hover:border-happiness-1'
                                                 }`}
                                         >
                                             {isSelected && <Check size={10} strokeWidth={4} />}
@@ -359,7 +359,7 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                 {/* SDG Selector Bottom Area */}
                 <div className="mt-12 pt-10 border-t border-gray-100 dark:border-white/5">
                     <div className="flex items-center gap-3 mb-6">
-                        <div className="w-1.5 h-6 bg-blue-600 rounded-full" />
+                        <div className="w-1.5 h-6 bg-happiness-1 rounded-full" />
                         <h3 className="text-xl font-black text-gray-900 dark:text-white">ODS Relacionados (ONU)</h3>
                     </div>
 
@@ -372,8 +372,8 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                                     type="button"
                                     onClick={() => toggleSdg(ods)}
                                     className={`aspect-square rounded-xl overflow-hidden transition-all duration-300 ${isActive
-                                            ? 'ring-4 ring-offset-2 ring-blue-500 scale-110 opacity-100 z-10'
-                                            : 'opacity-40 grayscale hover:opacity-100 hover:grayscale-0 hover:scale-105'
+                                        ? 'ring-4 ring-offset-2 ring-happiness-1 scale-110 opacity-100 z-10'
+                                        : 'opacity-40 grayscale hover:opacity-100 hover:grayscale-0 hover:scale-105'
                                         }`}
                                 >
                                     <img
@@ -390,7 +390,7 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                     </div>
 
                     <div className="mt-8 p-4 bg-gray-50 dark:bg-zinc-900/30 rounded-2xl flex items-center gap-3 text-gray-500 border border-gray-100 dark:border-white/5">
-                        <Target className="text-blue-500 w-5 h-5 flex-shrink-0" />
+                        <Target className="text-happiness-1 w-5 h-5 flex-shrink-0" />
                         <p className="text-xs font-medium italic">
                             Selecione os Objetivos de Desenvolvimento Sustentável em que este projeto gera impacto direto, conforme as diretrizes da Equipe ESG EMAP.
                         </p>

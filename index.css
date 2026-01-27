@@ -5,10 +5,9 @@
 @layer base {
   :root {
     /* M3 Light Theme Colors (Porto do Itaqui / ESGporto Base) */
-    --color-primary: 21 77 191;
-    /* #154DBF */
-    --color-primary-container: 217 226 255;
-    /* #D9E2FF */
+    --color-primary: var(--happiness-1);
+    /* Dynamic Based on Theme (Azure initially) */
+    --color-primary-container: var(--happiness-1) / 0.1;
     --color-on-primary: 255 255 255;
     /* #FFFFFF */
 
@@ -35,16 +34,49 @@
     /* #1B1B1F */
     --color-outline: 117 119 128;
     /* #757780 */
+
+    /* Default Happiness Colors (Azure) */
+    --happiness-1: 73 115 242;
+    --happiness-2: 27 43 64;
+    --happiness-3: 153 179 255;
+    --happiness-4: 52 82 171;
+    --happiness-5: 41 166 131;
+    --happiness-bg-tint: 247 249 255;
+    --brand-primary: var(--happiness-1);
+  }
+
+  [data-theme='emerald'] {
+    --happiness-1: 41 166 131;
+    --happiness-2: 27 43 64;
+    --happiness-3: 164 220 206;
+    --happiness-4: 28 114 90;
+    --happiness-5: 73 115 242;
+    --happiness-bg-tint: 245 250 248;
+    --brand-primary: var(--happiness-1);
+  }
+
+  [data-theme='burgundy'] {
+    --happiness-1: 191 38 51;
+    --happiness-2: 89 10 24;
+    --happiness-3: 230 153 160;
+    --happiness-4: 130 26 35;
+    --happiness-5: 73 115 242;
+    --happiness-bg-tint: 255 245 246;
+    --brand-primary: var(--happiness-1);
+  }
+
+  [data-theme='azure'] {
+    --happiness-1: 73 115 242;
+    --happiness-2: 27 43 64;
+    --happiness-bg-tint: 247 249 255;
+    --brand-primary: var(--happiness-1);
   }
 
   .dark {
     /* M3 Dark Theme Colors */
-    --color-primary: 176 198 255;
-    /* #B0C6FF */
-    --color-primary-container: 0 66 154;
-    /* #00429A */
-    --color-on-primary: 0 45 111;
-    /* #002D6F */
+    --color-primary: var(--happiness-1);
+    --color-primary-container: var(--happiness-2);
+    --color-on-primary: var(--color-on-surface);
 
     --color-secondary: 193 198 221;
     /* #C1C6DD */
@@ -134,7 +166,7 @@ html {
 }
 
 body {
-  font-family: 'Ubuntu', sans-serif;
+  font-family: 'Noto Sans', sans-serif;
   overflow-y: auto;
   overflow-x: hidden;
   min-height: 100%;
@@ -190,6 +222,9 @@ textarea {
 
 /* Specific fix for inputs with dark:bg-black/20 or similar in light mode */
 input.bg-white,
+textarea.bg-white {
+  background-color: white !important;
+}
 
 /* Global override for rounded corners as per user request */
 .rounded-3xl {
