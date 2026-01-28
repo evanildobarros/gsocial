@@ -4,7 +4,7 @@ import {
     Layers, Eye, EyeOff, Trash2, MapPin, Hexagon, Loader2, Navigation,
     Route, Shield, Users, ChevronDown, ChevronUp, AlertTriangle,
     ChevronRight, Database, Wrench, BarChart2, Star, Upload,
-    Droplets, Map as MapIcon, X, Info, Clock, CheckCircle2
+    Droplets, Map as MapIcon, X, Info, Clock, CheckCircle2, ChevronLeft
 } from 'lucide-react';
 import { LayerUploadModal } from '../LayerUploadModal';
 import { supabase } from '../../utils/supabase';
@@ -101,6 +101,7 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
         Environmental: true, Social: true, Governance: true, Operational: true
     });
     const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>({});
+    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
     // Estado dos Alertas
     const [isAlertModalOpen, setIsAlertModalOpen] = useState(false);
@@ -191,6 +192,37 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
         }
     }, []);
 
+    const removeGroup = useCallback(async (groupName: string, layersInGroup: Layer[]) => {
+        if (!confirm(`Tem certeza que deseja remover o grupo "${groupName}" e todas as suas ${layersInGroup.length} camadas?`)) return;
+
+        const idsToRemove = layersInGroup.map(l => l.id);
+
+        // Update UI immediately
+        setLayers(prev => prev.filter(l => !idsToRemove.includes(l.id)));
+        setDeletedLayers(prev => {
+            const newSet = new Set(prev);
+            idsToRemove.forEach(id => newSet.add(id));
+            return newSet;
+        });
+
+        let successCount = 0;
+        try {
+            for (const id of idsToRemove) {
+                if (id.startsWith('community-')) {
+                    const communityId = id.replace('community-', '');
+                    await supabase.from('community_assessments').update({ geometry: null }).eq('id', communityId);
+                } else {
+                    await supabase.from('map_layers').delete().eq('id', id);
+                }
+                successCount++;
+            }
+            showSuccess(`Grupo removido com sucesso.`);
+        } catch (err: any) {
+            console.error('Error removing group:', err);
+            showError(`Erro ao remover grupo.`);
+        }
+    }, []);
+
     const focusLayer = useCallback((layer: Layer) => {
         if (!mapRef || !layer.data) return;
 
@@ -227,101 +259,121 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
     );
 
     return (
-        <div className="flex h-[calc(100vh-140px)] gap-6 animate-in fade-in duration-500">
+        <div className={`flex h-[calc(100vh-140px)] animate-in fade-in duration-500 ${isSidebarOpen ? 'gap-6' : 'gap-0'}`}>
             <style>{infoWindowStyle}</style>
 
-            {/* Sidebar / Layer Manager */}
-            <div className="w-80 flex flex-col bg-white dark:bg-[#1C1C1C] rounded-3xl border border-gray-200 dark:border-white/5 shadow-sm overflow-hidden shrink-0">
-                <div className="p-4 border-b border-gray-100 dark:border-white/5 flex justify-between items-center bg-gray-50 dark:bg-zinc-900">
-                    <div className="flex items-center gap-2 text-gray-700 dark:text-gray-200">
-                        <Layers size={18} />
-                        <h2 className="font-bold text-sm">Gestão de Camadas</h2>
-                        <span className="text-[10px] bg-happiness-1/10 text-happiness-1 px-1.5 py-0.5 rounded-3xl font-bold">{layers.length}</span>
+            {/* Sidebar / Layer Manager Container */}
+            <div className={`relative transition-all duration-300 ease-in-out ${isSidebarOpen ? 'w-80' : 'w-0'}`}>
+                <div className={`w-80 h-full flex flex-col bg-white dark:bg-[#1C1C1C] rounded-3xl border border-gray-200 dark:border-white/5 shadow-sm overflow-hidden shrink-0 transition-opacity duration-300 ${isSidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+                    <div className="p-4 border-b border-gray-100 dark:border-white/5 flex justify-between items-center bg-gray-50 dark:bg-zinc-900">
+                        <div className="flex items-center gap-2 text-gray-700 dark:text-gray-200">
+                            <Layers size={18} />
+                            <h2 className="font-bold text-sm">Gestão de Camadas</h2>
+                            <span className="text-[10px] bg-happiness-1/10 text-happiness-1 px-1.5 py-0.5 rounded-3xl font-bold">{layers.length}</span>
+                        </div>
+                        <button onClick={() => setIsUploadModalOpen(true)} className="p-2 hover:bg-gray-100 dark:hover:bg-white/10 rounded-3xl transition-colors text-happiness-1" title="Adicionar Camada">
+                            <Upload size={18} />
+                        </button>
                     </div>
-                    <button onClick={() => setIsUploadModalOpen(true)} className="p-2 hover:bg-gray-100 dark:hover:bg-white/10 rounded-3xl transition-colors text-happiness-1" title="Adicionar Camada">
-                        <Upload size={18} />
-                    </button>
-                </div>
 
-                <div className="flex-1 overflow-y-auto p-2 space-y-4">
-                    {layers.length === 0 && <div className="text-center p-4 text-gray-400 text-xs">Nenhuma camada encontrada.</div>}
+                    <div className="flex-1 overflow-y-auto p-2 space-y-4">
+                        {layers.length === 0 && <div className="text-center p-4 text-gray-400 text-xs">Nenhuma camada encontrada.</div>}
 
-                    {(['Environmental', 'Social', 'Governance', 'Operational'] as ESGPillar[]).map(pillar => {
-                        const pillarLayers = layers.filter(l => l.pillar === pillar);
-                        if (pillarLayers.length === 0) return null;
+                        {(['Environmental', 'Social', 'Governance', 'Operational'] as ESGPillar[]).map(pillar => {
+                            const pillarLayers = layers.filter(l => l.pillar === pillar);
+                            if (pillarLayers.length === 0) return null;
 
-                        const pillarConfig = {
-                            Environmental: { label: 'Ambiental', color: 'text-green-700 dark:text-green-400', icon: <Hexagon className="w-4 h-4 text-green-600" /> },
-                            Social: { label: 'Social', color: 'text-orange-700 dark:text-orange-400', icon: <Users className="w-4 h-4 text-orange-600" /> },
-                            Governance: { label: 'Governança', color: 'text-blue-700 dark:text-blue-400', icon: <Shield className="w-4 h-4 text-blue-600" /> },
-                            Operational: { label: 'Operacional', color: 'text-gray-700 dark:text-gray-400', icon: <Navigation className="w-4 h-4 text-gray-600" /> }
-                        }[pillar];
+                            const pillarConfig = {
+                                Environmental: { label: 'Ambiental', color: 'text-green-700 dark:text-green-400', icon: <Hexagon className="w-4 h-4 text-green-600" /> },
+                                Social: { label: 'Social', color: 'text-orange-700 dark:text-orange-400', icon: <Users className="w-4 h-4 text-orange-600" /> },
+                                Governance: { label: 'Governança', color: 'text-blue-700 dark:text-blue-400', icon: <Shield className="w-4 h-4 text-blue-600" /> },
+                                Operational: { label: 'Operacional', color: 'text-gray-700 dark:text-gray-400', icon: <Navigation className="w-4 h-4 text-gray-600" /> }
+                            }[pillar];
 
-                        return (
-                            <div key={pillar} className="space-y-1">
-                                <div className="flex items-center gap-1">
-                                    <button onClick={() => togglePillar(pillar)} className="flex-1 flex items-center justify-between px-2 py-1.5 bg-gray-50 dark:bg-zinc-900 rounded-3xl hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors">
-                                        <div className="flex items-center gap-2">
-                                            {expandedPillars[pillar] ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
-                                            {pillarConfig.icon}
-                                            <span className={`text-[10px] font-black uppercase ${pillarConfig.color}`}>{pillarConfig.label}</span>
-                                        </div>
-                                        <span className="text-[9px] font-bold bg-white dark:bg-zinc-800 px-1.5 py-0.5 rounded-full border">{pillarLayers.length}</span>
-                                    </button>
-                                </div>
-
-                                {expandedPillars[pillar] && (
-                                    <div className="pl-1 space-y-2 mt-2">
-                                        {Object.entries(pillarLayers.reduce((acc, l) => {
-                                            const group = l.group || 'Geral';
-                                            if (!acc[group]) acc[group] = [];
-                                            acc[group].push(l);
-                                            return acc;
-                                        }, {} as Record<string, Layer[]>)).map(([groupName, groupLayers]) => (
-                                            <div key={groupName} className="space-y-1">
-                                                <button onClick={() => toggleGroup(groupName)} className="w-full flex items-center gap-2 p-1.5 hover:bg-gray-100 dark:hover:bg-white/10 rounded-3xl transition-all text-left">
-                                                    {expandedGroups[groupName] ? <ChevronDown size={12} className="text-gray-900 dark:text-white" /> : <ChevronRight size={12} className="text-gray-900 dark:text-white" />}
-                                                    <Database size={12} className="text-happiness-1" />
-                                                    <span className="text-[11px] font-black text-gray-900 dark:text-white truncate tracking-tight uppercase">{groupName}</span>
-                                                </button>
-
-                                                {expandedGroups[groupName] && (
-                                                    <div className="pl-4 space-y-0.5 border-l-2 border-gray-100 dark:border-white/5 ml-3">
-                                                        {groupLayers.map(layer => (
-                                                            <div key={layer.id} onClick={() => focusLayer(layer)} className={`group flex items-center justify-between p-1.5 rounded-3xl transition-all cursor-pointer ${layer.visible ? 'bg-white dark:bg-white/5 shadow-sm border border-gray-100 dark:border-white/5' : 'bg-gray-50/50 dark:bg-transparent opacity-60'} hover:bg-happiness-1/5 mb-0.5`}>
-                                                                <div className="flex items-center gap-2 flex-1 min-w-0">
-                                                                    <div className="w-2 h-2 rounded-full shadow-sm" style={{ backgroundColor: layer.color }} />
-                                                                    <span className={`text-[11px] font-black truncate tracking-tight ${layer.visible ? 'text-gray-900 dark:text-gray-100' : 'text-gray-400 dark:text-gray-500 italic'}`}>
-                                                                        {layer.name}
-                                                                    </span>
-                                                                </div>
-                                                                <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100">
-                                                                    <button onClick={(e) => { e.stopPropagation(); toggleLayer(layer.id); }}>
-                                                                        {layer.visible ? <Eye size={12} /> : <EyeOff size={12} />}
-                                                                    </button>
-                                                                    <button onClick={(e) => { e.stopPropagation(); removeLayer(layer.id); }} className="hover:text-red-500">
-                                                                        <Trash2 size={12} />
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        ))}
-                                                    </div>
-                                                )}
+                            return (
+                                <div key={pillar} className="space-y-1">
+                                    <div className="flex items-center gap-1">
+                                        <button onClick={() => togglePillar(pillar)} className="flex-1 flex items-center justify-between px-2 py-1.5 bg-gray-50 dark:bg-zinc-900 rounded-3xl hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors">
+                                            <div className="flex items-center gap-2">
+                                                {expandedPillars[pillar] ? <ChevronDown size={14} className="text-gray-600 dark:text-gray-400" /> : <ChevronRight size={14} className="text-gray-600 dark:text-gray-400" />}
+                                                {pillarConfig.icon}
+                                                <span className={`text-[10px] font-black uppercase ${pillarConfig.color}`}>{pillarConfig.label}</span>
                                             </div>
-                                        ))}
+                                            <span className="text-[9px] font-bold bg-white dark:bg-zinc-800 text-gray-900 dark:text-gray-100 px-1.5 py-0.5 rounded-full border">{pillarLayers.length}</span>
+                                        </button>
                                     </div>
-                                )}
-                            </div>
-                        );
-                    })}
-                </div>
 
-                <div className="p-4 border-t bg-gray-50 dark:bg-zinc-900">
-                    <div className="text-[10px] text-gray-400 font-bold uppercase tracking-widest flex items-center gap-2">
-                        <Navigation size={12} />
-                        Poligonal Ativa 2026
+                                    {expandedPillars[pillar] && (
+                                        <div className="pl-1 space-y-2 mt-2">
+                                            {Object.entries(pillarLayers.reduce((acc, l) => {
+                                                const group = l.group || 'Geral';
+                                                if (!acc[group]) acc[group] = [];
+                                                acc[group].push(l);
+                                                return acc;
+                                            }, {} as Record<string, Layer[]>)).map(([groupName, groupLayers]) => (
+                                                <div key={groupName} className="space-y-1">
+                                                    <div className="flex items-center gap-1 group/header">
+                                                        <button onClick={() => toggleGroup(groupName)} className="flex-1 flex items-center gap-2 p-1.5 hover:bg-gray-100 dark:hover:bg-white/10 rounded-3xl transition-all text-left">
+                                                            {expandedGroups[groupName] ? <ChevronDown size={12} className="text-gray-900 dark:text-white" /> : <ChevronRight size={12} className="text-gray-900 dark:text-white" />}
+                                                            <Database size={12} className="text-happiness-1" />
+                                                            <span className="text-[11px] font-black text-gray-900 dark:text-white truncate tracking-tight uppercase">{groupName}</span>
+                                                        </button>
+                                                        <button
+                                                            onClick={(e) => { e.stopPropagation(); removeGroup(groupName, groupLayers); }}
+                                                            className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full transition-colors opacity-0 group-hover/header:opacity-100"
+                                                            title="Remover grupo de camadas"
+                                                        >
+                                                            <Trash2 size={12} />
+                                                        </button>
+                                                    </div>
+
+                                                    {expandedGroups[groupName] && (
+                                                        <div className="pl-4 space-y-0.5 border-l-2 border-gray-100 dark:border-white/5 ml-3">
+                                                            {groupLayers.map(layer => (
+                                                                <div key={layer.id} onClick={() => focusLayer(layer)} className={`group flex items-center justify-between p-1.5 rounded-3xl transition-all cursor-pointer ${layer.visible ? 'bg-white dark:bg-white/5 shadow-sm border border-gray-100 dark:border-white/5' : 'bg-gray-50/50 dark:bg-transparent opacity-60'} hover:bg-happiness-1/5 mb-0.5`}>
+                                                                    <div className="flex items-center gap-2 flex-1 min-w-0">
+                                                                        <div className="w-2 h-2 rounded-full shadow-sm" style={{ backgroundColor: layer.color }} />
+                                                                        <span className={`text-[11px] font-black truncate tracking-tight ${layer.visible ? 'text-gray-900 dark:text-gray-100' : 'text-gray-400 dark:text-gray-500 italic'}`}>
+                                                                            {layer.name}
+                                                                        </span>
+                                                                    </div>
+                                                                    <div className="flex items-center gap-1">
+                                                                        <button onClick={(e) => { e.stopPropagation(); toggleLayer(layer.id); }} className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                                                                            {layer.visible ? <Eye size={12} /> : <EyeOff size={12} />}
+                                                                        </button>
+                                                                        <button onClick={(e) => { e.stopPropagation(); removeLayer(layer.id); }} className="text-gray-400 hover:text-red-500 transition-colors">
+                                                                            <Trash2 size={12} />
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </div>
+
+                    <div className="p-4 border-t bg-gray-50 dark:bg-zinc-900">
+                        <div className="text-[10px] text-gray-400 font-bold uppercase tracking-widest flex items-center gap-2">
+                            <Navigation size={12} />
+                            Poligonal Ativa 2026
+                        </div>
                     </div>
                 </div>
+
+                {/* Sidebar Toggle Button */}
+                <button
+                    onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                    className="absolute top-6 -right-5 z-20 w-5 h-8 bg-white dark:bg-[#1C1C1C] rounded-r-lg border border-l-0 border-gray-200 dark:border-white/5 shadow-sm flex items-center justify-center cursor-pointer hover:bg-gray-50 dark:hover:bg-zinc-800 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
+                    title={isSidebarOpen ? "Recolher Menu" : "Expandir Menu"}
+                >
+                    {isSidebarOpen ? <ChevronLeft size={12} /> : <ChevronRight size={12} />}
+                </button>
             </div>
 
             {/* Main Map Content */}
