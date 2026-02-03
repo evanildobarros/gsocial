@@ -14,9 +14,10 @@ import { supabase } from '../utils/supabase';
 
 interface LoginProps {
   onLogin: () => void;
+  onBack?: () => void;
 }
 
-export const Login: React.FC<LoginProps> = ({ onLogin }) => {
+export const Login: React.FC<LoginProps> = ({ onLogin, onBack }) => {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -116,7 +117,16 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
       </div>
 
       {/* Right Side: Login Form */}
-      <div className="flex-1 flex items-center justify-center p-6 md:p-20 lg:p-32">
+      <div className="flex-1 flex items-center justify-center p-6 md:p-20 lg:p-32 relative">
+        {onBack && (
+          <button
+            onClick={onBack}
+            className="absolute top-8 left-8 flex items-center gap-2 text-gray-500 hover:text-primary transition-colors font-bold text-sm"
+          >
+            <ArrowBack fontSize="small" />
+            Voltar
+          </button>
+        )}
         <div className="w-full max-w-sm">
           {/* Mobile Logo */}
           <div className="lg:hidden text-center mb-10">

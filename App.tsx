@@ -38,6 +38,9 @@ import { UserManagement } from './components/UserManagement';
 import { UserProfilePage } from './components/UserProfile';
 import { Login } from './components/Login';
 import { CreateUser } from './components/CreateUser';
+import { LandingPage } from './components/LandingPage';
+import { KimiLandingPage } from './components/KimiLandingPage';
+import { ItaquiESGLandingPage } from './components/ItaquiESGLandingPage';
 import { Decarbonization } from './components/environmental/Decarbonization';
 import { Efficiency } from './components/environmental/Efficiency';
 import { PollutionControl } from './components/environmental/PollutionControl';
@@ -123,6 +126,7 @@ const SectionHeader: React.FC<{
 
 export default function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [showLogin, setShowLogin] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [mode, setMode] = useState<AppMode>(AppMode.DASHBOARD);
     const [searchTerm, setSearchTerm] = useState('');
@@ -233,7 +237,10 @@ export default function App() {
     }
 
     if (!isAuthenticated) {
-        return <Login onLogin={() => setIsAuthenticated(true)} />;
+        if (showLogin) {
+            return <Login onLogin={() => setIsAuthenticated(true)} onBack={() => setShowLogin(false)} />;
+        }
+        return <ItaquiESGLandingPage onLoginClick={() => setShowLogin(true)} />;
     }
 
     const renderContent = () => {
