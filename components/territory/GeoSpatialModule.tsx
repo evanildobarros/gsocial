@@ -223,6 +223,32 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
         }
     }, []);
 
+    const toggleGroupVisibility = useCallback(async (groupName: string, layersInGroup: Layer[]) => {
+        const anyVisible = layersInGroup.some(l => l.visible);
+        const targetVisibility = !anyVisible;
+
+        setLayers(prev => prev.map(l => {
+            if (layersInGroup.some(g => g.id === l.id)) {
+                return { ...l, visible: targetVisibility };
+            }
+            return l;
+        }));
+
+        const idsToUpdate = layersInGroup
+            .filter(l => !l.id.startsWith('community-'))
+            .map(l => l.id);
+
+        if (idsToUpdate.length > 0) {
+            try {
+                await supabase.from('map_layers')
+                    .update({ visible: targetVisibility })
+                    .in('id', idsToUpdate);
+            } catch (err) {
+                console.error('Error updating group visibility:', err);
+            }
+        }
+    }, []);
+
     const focusLayer = useCallback((layer: Layer) => {
         if (!mapRef || !layer.data) return;
 
@@ -317,6 +343,13 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
                                                             {expandedGroups[groupName] ? <ChevronDown size={12} className="text-gray-900 dark:text-white" /> : <ChevronRight size={12} className="text-gray-900 dark:text-white" />}
                                                             <Database size={12} className="text-happiness-1" />
                                                             <span className="text-[11px] font-black text-gray-900 dark:text-white truncate tracking-tight uppercase">{groupName}</span>
+                                                        </button>
+                                                        <button
+                                                            onClick={(e) => { e.stopPropagation(); toggleGroupVisibility(groupName, groupLayers); }}
+                                                            className="p-1.5 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/10 rounded-full transition-colors opacity-0 group-hover/header:opacity-100"
+                                                            title={groupLayers.some(l => l.visible) ? "Ocultar grupo" : "Mostrar grupo"}
+                                                        >
+                                                            {groupLayers.some(l => l.visible) ? <Eye size={12} /> : <EyeOff size={12} />}
                                                         </button>
                                                         <button
                                                             onClick={(e) => { e.stopPropagation(); removeGroup(groupName, groupLayers); }}

@@ -6,7 +6,6 @@ import {
   VisibilityOff,
   ArrowForward,
   ArrowBack,
-  AutoAwesome,
   CheckCircle,
   Send,
 } from '@mui/icons-material';
@@ -97,12 +96,6 @@ export const Login: React.FC<LoginProps> = ({ onLogin, onBack }) => {
           </div>
 
           <div className="pt-8">
-            <div className="flex items-center gap-2 px-6 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 shadow-lg">
-              <AutoAwesome style={{ color: '#00e5ff', fontSize: 18 }} />
-              <span className="text-[10px] font-black text-white uppercase tracking-[0.2em]">
-                Powered by AI Studio
-              </span>
-            </div>
           </div>
         </div>
 
