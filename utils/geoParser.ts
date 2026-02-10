@@ -193,14 +193,22 @@ const convertGeometryToLayer = (
             };
 
         case 'MultiPolygon':
-            const multiPaths = geometry.coordinates[0][0].map((coord: number[]) => ({
-                lat: coord[1],
-                lng: coord[0]
-            }));
+            // Flatten MultiPolygon into a single array of paths for the Google Maps Polygon component
+            // Note: This simplified version takes the exterior ring of all polygons
+            const allMultiPaths: any[] = [];
+            geometry.coordinates.forEach((polygon: any) => {
+                if (polygon && polygon.length > 0) {
+                    const path = polygon[0].map((coord: number[]) => ({
+                        lat: coord[1],
+                        lng: coord[0]
+                    }));
+                    allMultiPaths.push(path);
+                }
+            });
             return {
                 ...baseLayer,
                 type: 'POLYGON',
-                data: multiPaths,
+                data: allMultiPaths.length === 1 ? allMultiPaths[0] : allMultiPaths,
                 details: { ...details, multiPolygonCount: geometry.coordinates.length }
             };
 
@@ -216,14 +224,18 @@ const convertGeometryToLayer = (
             };
 
         case 'MultiLineString':
-            const multiLinePath = geometry.coordinates[0].map((coord: number[]) => ({
-                lat: coord[1],
-                lng: coord[0]
-            }));
+            const allMultiLines: any[] = [];
+            geometry.coordinates.forEach((line: any) => {
+                const path = line.map((coord: number[]) => ({
+                    lat: coord[1],
+                    lng: coord[0]
+                }));
+                allMultiLines.push(path);
+            });
             return {
                 ...baseLayer,
                 type: 'POLYLINE',
-                data: multiLinePath,
+                data: allMultiLines.length === 1 ? allMultiLines[0] : allMultiLines,
                 details: { ...details, multiLineCount: geometry.coordinates.length }
             };
 
