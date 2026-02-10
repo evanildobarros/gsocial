@@ -86,17 +86,11 @@ export const ItaquiESGLandingPage: React.FC<ItaquiESGLandingPageProps> = ({ onLo
             >
                 <div className="container mx-auto px-6 h-full flex items-center justify-between">
                     <div className="flex items-center gap-3 cursor-pointer" onClick={() => scrollToSection('home')}>
-                        <div className={`p-2 rounded-lg transition-colors ${scrolled ? 'bg-sky-900' : 'bg-white/10 backdrop-blur-sm'}`}>
-                            <Anchor className={`w-6 h-6 ${scrolled ? 'text-white' : 'text-white'}`} />
-                        </div>
-                        <div>
-                            <h1 className={`font-bold text-lg leading-tight tracking-tight ${scrolled ? 'text-slate-900' : 'text-white'}`}>
-                                Porto do Itaqui
-                            </h1>
-                            <p className={`text-[10px] font-bold uppercase tracking-widest ${scrolled ? 'text-slate-500' : 'text-emerald-400'}`}>
-                                ESG Platform
-                            </p>
-                        </div>
+                        <img 
+                            src="/logo_itaqui.png" 
+                            alt="Porto do Itaqui" 
+                            className={`h-12 w-auto object-contain transition-all ${!scrolled ? 'brightness-0 invert' : ''}`} 
+                        />
                     </div>
 
                     <nav className="hidden md:flex items-center gap-8">
