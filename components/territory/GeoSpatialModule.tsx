@@ -426,15 +426,42 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
                     }}
                 >
                     {layers.filter(l => l.visible).map(layer => {
-                        if (layer.type === 'MARKER') return (
-                            <MarkerF key={layer.id} position={layer.data} onClick={() => setSelectedElement({ layer, position: layer.data })} />
-                        );
-                        if (layer.type === 'POLYGON') return (
-                            <Polygon key={layer.id} paths={layer.data} options={{ fillColor: layer.color, fillOpacity: 0.3, strokeColor: layer.color, strokeWeight: 2 }} onClick={(e) => setSelectedElement({ layer, position: e.latLng?.toJSON() })} />
-                        );
-                        if (layer.type === 'POLYLINE') return (
-                            <Polyline key={layer.id} path={layer.data} options={{ strokeColor: layer.color, strokeWeight: 3 }} onClick={(e) => setSelectedElement({ layer, position: e.latLng?.toJSON() })} />
-                        );
+                        try {
+                            if (!layer.data) return null;
+
+                            if (layer.type === 'MARKER') return (
+                                <MarkerF key={layer.id} position={layer.data} onClick={() => setSelectedElement({ layer, position: layer.data })} />
+                            );
+                            
+                            if (layer.type === 'POLYGON') {
+                                // Ensure data is in the correct format for Polygon
+                                const paths = Array.isArray(layer.data[0]) ? layer.data : [layer.data];
+                                return (
+                                    <Polygon 
+                                        key={layer.id} 
+                                        paths={paths} 
+                                        options={{ fillColor: layer.color, fillOpacity: 0.3, strokeColor: layer.color, strokeWeight: 2 }} 
+                                        onClick={(e) => setSelectedElement({ layer, position: e.latLng?.toJSON() })} 
+                                    />
+                                );
+                            }
+                            
+                            if (layer.type === 'POLYLINE') {
+                                // Ensure data is in the correct format for Polyline
+                                const path = Array.isArray(layer.data[0]) ? layer.data[0] : layer.data;
+                                return (
+                                    <Polyline 
+                                        key={layer.id} 
+                                        path={path} 
+                                        options={{ strokeColor: layer.color, strokeWeight: 3 }} 
+                                        onClick={(e) => setSelectedElement({ layer, position: e.latLng?.toJSON() })} 
+                                    />
+                                );
+                            }
+                        } catch (err) {
+                            console.error(`Erro ao renderizar camada ${layer.name}:`, err);
+                            return null;
+                        }
                         return null;
                     })}
 
