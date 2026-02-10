@@ -718,16 +718,6 @@ export default function App() {
                     </div>
 
                     <div className="flex items-center gap-8">
-                        {/* Search Bar - Hidden on mobile */}
-                        <div className="hidden lg:flex items-center bg-gray-50 dark:bg-white/5 rounded-sm px-6 py-3 w-96 border border-gray-100 dark:border-white/10 focus-within:border-happiness-1/30 focus-within:ring-4 focus-within:ring-happiness-1/5 transition-all">
-                            <SearchIcon className="text-gray-400 w-5 h-5 mr-3" />
-                            <input
-                                type="text"
-                                placeholder="Busca Inteligente..."
-                                className="bg-transparent border-none outline-none text-sm font-medium text-gray-700 dark:text-gray-200 w-full placeholder-gray-400 dark:placeholder-gray-500"
-                            />
-                        </div>
-
                         <div className="hidden sm:block">
                             <ThemeSwitcher />
                         </div>
