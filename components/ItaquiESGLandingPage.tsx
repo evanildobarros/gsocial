@@ -450,7 +450,7 @@ export const ItaquiESGLandingPage: React.FC<ItaquiESGLandingPageProps> = ({ onLo
                     </div>
 
                     <div className="pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4">
-                        <div>&copy; 2024 EMAP - Todos os direitos reservados.</div>
+                        <div>&copy; 2026 EMAP - Todos os direitos reservados.</div>
                         <div className="flex gap-6">
                             <a href="#" className="hover:text-white transition-colors">Política de Privacidade</a>
                             <a href="#" className="hover:text-white transition-colors">Termos de Uso</a>
