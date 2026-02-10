@@ -82,9 +82,16 @@ export const LayerUploadModal: React.FC<LayerUploadModalProps> = ({ open, onClos
                 group: layerName
             });
 
+            // SALVAR NO SUPABASE
+            const { error: dbError } = await supabase
+                .from('map_layers')
+                .insert(layers);
+
+            if (dbError) throw dbError;
+
             setUploadState({
                 status: 'success',
-                message: `${layers.length} camada(s) categorizada(s) e importada(s)!`,
+                message: `${layers.length} camada(s) categorizada(s), importada(s) e SALVAS!`,
                 fileName: selectedFile.name,
                 layersCount: layers.length
             });
