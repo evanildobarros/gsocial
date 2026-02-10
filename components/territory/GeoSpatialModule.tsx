@@ -297,9 +297,6 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
                             <h2 className="font-bold text-sm">Gestão de Camadas</h2>
                             <span className="text-[10px] bg-happiness-1/10 text-happiness-1 px-1.5 py-0.5 rounded-3xl font-bold">{layers.length}</span>
                         </div>
-                        <button onClick={() => setIsUploadModalOpen(true)} className="p-2 hover:bg-gray-100 dark:hover:bg-white/10 rounded-3xl transition-colors text-happiness-1" title="Adicionar Camada">
-                            <Upload size={18} />
-                        </button>
                     </div>
 
                     <div className="flex-1 overflow-y-auto p-2 space-y-4">
