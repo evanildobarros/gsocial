@@ -144,9 +144,9 @@ export const ItaquiESGLandingPage: React.FC<ItaquiESGLandingPageProps> = ({ onLo
                 {/* Background Video/Image Placeholder */}
                 <div className="absolute inset-0 z-0">
                     <img
-                        src="/hero-bg.png"
+                        src="/hero-bg-new.jpg"
                         alt="Background"
-                        className="w-full h-full object-cover opacity-40 mix-blend-overlay"
+                        className="w-full h-full object-cover opacity-60 mix-blend-overlay"
                     />
                     <div className="absolute inset-0 bg-gradient-to-br from-sky-950 via-sky-900/90 to-sky-950"></div>
                     <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
