@@ -317,7 +317,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                                 className="flex items-center gap-2 bg-happiness-1 text-white px-6 py-2 rounded-3xl font-black text-xs uppercase tracking-widest shadow-lg shadow-happiness-1/20 transition-all transform hover:scale-[1.02] hover:bg-happiness-1/90"
                             >
                                 <Plus size={16} />
-                                NOVO DIAGNÓSTICO
+                                NOVA COMUNIDADE
                             </button>
                         </>
                     ) : (
