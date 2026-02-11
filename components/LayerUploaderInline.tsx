@@ -31,6 +31,7 @@ export const LayerUploaderInline: React.FC<LayerUploaderInlineProps> = ({ onLaye
     // Form fields
     const [layerName, setLayerName] = useState('');
     const [selectedPillar, setSelectedPillar] = useState<ESGPillar | ''>('');
+    const [selectedColor, setSelectedColor] = useState('#3B82F6');
 
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -38,6 +39,7 @@ export const LayerUploaderInline: React.FC<LayerUploaderInlineProps> = ({ onLaye
         setSelectedFile(null);
         setLayerName('');
         setSelectedPillar('');
+        setSelectedColor('#3B82F6');
         setUploadState({ status: 'idle', message: '' });
     };
 
@@ -71,12 +73,20 @@ export const LayerUploaderInline: React.FC<LayerUploaderInlineProps> = ({ onLaye
             const layers = await processFile(selectedFile, {
                 name: layerName,
                 pillar: selectedPillar as ESGPillar,
-                group: layerName
+                group: layerName,
+                color: selectedColor
             });
+
+            // SALVAR NO SUPABASE
+            const { error: dbError } = await supabase
+                .from('map_layers')
+                .insert(layers);
+
+            if (dbError) throw dbError;
 
             setUploadState({
                 status: 'success',
-                message: `${layers.length} camada(s) categorizada(s) e importada(s)!`,
+                message: `${layers.length} camada(s) categorizada(s), importada(s) e SALVAS!`,
                 fileName: selectedFile.name,
                 layersCount: layers.length
             });
@@ -178,6 +188,20 @@ export const LayerUploaderInline: React.FC<LayerUploaderInlineProps> = ({ onLaye
                                 placeholder="Ex: Mapeamento da Poligonal do Porto"
                                 className="w-full bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-3xl px-4 py-2.5 text-sm text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:border-happiness-1 focus:ring-1 focus:ring-happiness-1 transition-all outline-none"
                             />
+                        </div>
+
+                        {/* Color Picker */}
+                        <div className="space-y-1.5">
+                            <label className="text-xs font-semibold text-gray-600 dark:text-gray-400">Cor da Camada no Mapa</label>
+                            <div className="flex items-center gap-3 bg-gray-50 dark:bg-white/5 p-2 rounded-2xl border border-gray-100 dark:border-white/5">
+                                <input
+                                    type="color"
+                                    value={selectedColor}
+                                    onChange={(e) => setSelectedColor(e.target.value)}
+                                    className="w-8 h-8 rounded-lg border-none cursor-pointer bg-transparent"
+                                />
+                                <span className="text-[10px] font-mono font-black text-gray-900 dark:text-white uppercase">{selectedColor}</span>
+                            </div>
                         </div>
 
                         {/* ESG Pillar Selection */}
