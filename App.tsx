@@ -113,7 +113,7 @@ const SectionHeader: React.FC<{
         onClick={!collapsed ? onToggle : undefined}
         className={`px-6 py-3 mt-6 flex items-center justify-between group transition-colors ${!collapsed && onToggle ? 'cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5' : ''} ${collapsed ? 'text-center' : 'text-left'}`}
     >
-        <div className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 dark:text-gray-600 group-hover:text-happiness-1 transition-colors">
+        <div className="text-[10px] font-black uppercase tracking-[0.25em] text-gray-400 dark:text-gray-600 group-hover:text-happiness-1 transition-colors antialiased">
             {collapsed ? '•••' : label}
         </div>
         {!collapsed && onToggle && (
@@ -712,7 +712,7 @@ export default function App() {
                     <div className="flex items-center gap-6">
                         {/* Toggle Removed from Header */}
                         <div className="h-6 w-px bg-gray-200 dark:bg-white/10 hidden sm:block"></div>
-                        <h2 className="hidden sm:block text-sm font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.15em]">
+                        <h2 className="hidden sm:block text-sm font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] antialiased">
                             {getPageTitle()}
                         </h2>
                     </div>

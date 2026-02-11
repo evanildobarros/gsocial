@@ -170,6 +170,23 @@ body {
   overflow-y: auto;
   overflow-x: hidden;
   min-height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* UX Typography Optimization */
+h1, h2, h3, h4 {
+  letter-spacing: -0.02em; /* Tracking Tight for better professional look */
+  line-height: 1.1;
+}
+
+h1 { @apply font-black; }
+h2 { @apply font-extrabold; }
+h3 { @apply font-bold; }
+
+p {
+  line-height: 1.6; /* Comfortable reading height */
+  @apply text-gray-600 dark:text-gray-400;
 }
 
 /* Animações (migrado do index.html) */
