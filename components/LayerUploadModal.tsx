@@ -201,21 +201,28 @@ export const LayerUploadModal: React.FC<LayerUploadModalProps> = ({ open, onClos
                                 />
                             </div>
 
-                            <div className="space-y-2">
-                                <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Cor da Camada no Mapa</label>
-                                <div className="flex items-center gap-4 bg-gray-50 dark:bg-black/20 p-3 rounded-3xl border border-gray-100 dark:border-white/5">
+                            <div className="p-4 bg-blue-500/5 dark:bg-white/5 rounded-3xl border border-blue-500/20 space-y-3">
+                                <label className="text-[10px] font-black text-blue-600 dark:text-blue-400 uppercase tracking-widest ml-1 flex items-center gap-2">
+                                    <div className="w-2 h-2 rounded-full" style={{ backgroundColor: selectedColor }} />
+                                    3. Definição Visual (Cor no Mapa)
+                                </label>
+                                <div className="flex items-center gap-4 bg-white dark:bg-black/40 p-3 rounded-2xl border border-gray-100 dark:border-white/5 shadow-sm">
                                     <input
                                         type="color"
                                         value={selectedColor}
                                         onChange={(e) => setSelectedColor(e.target.value)}
-                                        className="w-10 h-10 rounded-full border-none cursor-pointer bg-transparent"
+                                        className="w-12 h-10 rounded-xl border-none cursor-pointer bg-transparent"
+                                        style={{ minWidth: '48px' }}
                                     />
-                                    <span className="text-xs font-mono font-bold text-gray-600 dark:text-gray-400 uppercase">{selectedColor}</span>
-                                    <div className="flex-1 text-right italic text-[9px] text-gray-400">Escolha a cor que será exibida no mapa</div>
+                                    <div className="flex flex-col">
+                                        <span className="text-xs font-mono font-black text-gray-900 dark:text-white uppercase">{selectedColor}</span>
+                                        <span className="text-[9px] text-gray-400 font-medium italic">Clique no quadro para escolher a cor</span>
+                                    </div>
                                 </div>
                             </div>
 
                             <div className="space-y-3">
+                                <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">4. Pilar ESG (Categoria)</label>
                                 <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Pilar ESG (Categoria)</label>
                                 <div className="grid grid-cols-2 gap-3">
                                     {PILLAR_OPTIONS.map((opt) => (
