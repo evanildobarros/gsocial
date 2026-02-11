@@ -486,7 +486,6 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
                                             <StarRating value={selectedElement.layer.details?.relacionamento || 0} />
                                         </div>
                                     </div>
-                                    <button onClick={() => removeLayer(selectedElement.layer.id)} className="w-full py-2 bg-red-50 text-red-600 text-[10px] font-black uppercase rounded-3xl border border-red-100">Remover Camada</button>
                                 </div>
                             </div>
                         </InfoWindowF>
