@@ -34,6 +34,7 @@ export const LayerUploadModal: React.FC<LayerUploadModalProps> = ({ open, onClos
     const [isDragging, setIsDragging] = useState(false);
     const [layerName, setLayerName] = useState('');
     const [selectedPillar, setSelectedPillar] = useState<ESGPillar | ''>('');
+    const [selectedColor, setSelectedColor] = useState('#3B82F6');
 
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -41,6 +42,7 @@ export const LayerUploadModal: React.FC<LayerUploadModalProps> = ({ open, onClos
         setSelectedFile(null);
         setLayerName('');
         setSelectedPillar('');
+        setSelectedColor('#3B82F6');
         setUploadState({ status: 'idle', message: '' });
     };
 
@@ -79,7 +81,8 @@ export const LayerUploadModal: React.FC<LayerUploadModalProps> = ({ open, onClos
             const layers = await processFile(selectedFile, {
                 name: layerName,
                 pillar: selectedPillar as ESGPillar,
-                group: layerName
+                group: layerName,
+                color: selectedColor
             });
 
             // SALVAR NO SUPABASE
@@ -196,6 +199,20 @@ export const LayerUploadModal: React.FC<LayerUploadModalProps> = ({ open, onClos
                                     placeholder="Ex: Mapeamento da Poligonal do Porto"
                                     className="w-full bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-3xl px-4 py-3 text-sm text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:border-happiness-1 focus:ring-1 focus:ring-happiness-1 transition-all outline-none font-bold"
                                 />
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Cor da Camada no Mapa</label>
+                                <div className="flex items-center gap-4 bg-gray-50 dark:bg-black/20 p-3 rounded-3xl border border-gray-100 dark:border-white/5">
+                                    <input
+                                        type="color"
+                                        value={selectedColor}
+                                        onChange={(e) => setSelectedColor(e.target.value)}
+                                        className="w-10 h-10 rounded-full border-none cursor-pointer bg-transparent"
+                                    />
+                                    <span className="text-xs font-mono font-bold text-gray-600 dark:text-gray-400 uppercase">{selectedColor}</span>
+                                    <div className="flex-1 text-right italic text-[9px] text-gray-400">Escolha a cor que será exibida no mapa</div>
+                                </div>
                             </div>
 
                             <div className="space-y-3">

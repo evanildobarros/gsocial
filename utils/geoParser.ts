@@ -28,6 +28,7 @@ export interface LayerMetadata {
     name?: string;
     pillar: ESGPillar;
     group?: string;
+    color?: string;
 }
 
 /**
@@ -101,7 +102,7 @@ export const parseGeoJsonToLayers = (geoJson: any, fileName: string, metadata: L
         let layerName = (index === 0 && metadata.name) ? metadata.name :
             (props.Bairro || props.name || props.Name || props.NAME || props.title || props.Title || `${fileName} - ${index + 1}`);
 
-        const color = getNextColor();
+        const color = metadata.color || getNextColor();
         const layerId = `import-${Date.now()}-${index}-${layerName.toLowerCase().replace(/\s+/g, '-').substring(0, 20)}`;
 
         try {
