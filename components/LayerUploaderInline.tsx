@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { Upload, CheckCircle2, AlertCircle, Trash2, Tag, Globe, Hexagon, Users, Shield, Navigation, Database, Loader2 } from 'lucide-react';
 import { Layer, ESGPillar } from '../types';
 import { processFile, getSupportedFormats, isFormatSupported } from '../utils/geoParser';
-import { supabase } from '../utils/supabase';
+import { supabase as supabaseClient } from '@/utils/supabase';
 
 interface LayerUploaderInlineProps {
     onLayersLoaded: (layers: Layer[]) => void;
@@ -78,8 +78,19 @@ export const LayerUploaderInline: React.FC<LayerUploaderInlineProps> = ({ onLaye
                 color: selectedColor
             });
 
+            // Importação dinâmica para evitar dependências circulares ou problemas de inicialização
+            let client = supabaseClient;
+
+            // Fallback para garantir que o cliente exista
+            if (!client) {
+                const module = await import('@/utils/supabase');
+                client = module.supabase;
+            }
+
+            if (!client) throw new Error('Supabase client não inicializado');
+
             // SALVAR NO SUPABASE
-            const { error: dbError } = await supabase
+            const { error: dbError } = await client
                 .from('map_layers')
                 .insert(layers);
 
