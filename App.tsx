@@ -117,16 +117,16 @@ const SectionHeader: React.FC<{
 }> = ({ label, icon, collapsed, open, onToggle }) => (
     <div
         onClick={!collapsed ? onToggle : undefined}
-        className={`px-6 py-3 mt-6 flex items-center justify-between group transition-colors ${!collapsed && onToggle ? 'cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5' : ''} ${collapsed ? 'text-center' : 'text-left'}`}
+        className={`px-4 py-3.5 mt-2 flex items-center justify-between group transition-colors ${!collapsed && onToggle ? 'cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5 rounded-sm mx-2' : ''} ${collapsed ? 'text-center' : 'text-left'}`}
     >
-        <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.25em] text-gray-400 dark:text-gray-600 group-hover:text-happiness-1 transition-colors antialiased">
+        <div className="flex items-center gap-3 text-sm font-bold text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white transition-colors antialiased">
              {/* Renderiza o ícone se existir e não estiver colapsado */}
-             {!collapsed && icon && React.cloneElement(icon as React.ReactElement<any>, { sx: { fontSize: 16 } })}
+             {!collapsed && icon && React.cloneElement(icon as React.ReactElement<any>, { sx: { fontSize: 20 } })}
             <span>{collapsed ? '•••' : label}</span>
         </div>
         {!collapsed && onToggle && (
-            <div className="text-gray-400 group-hover:text-happiness-1 transition-colors">
-                {open ? <ExpandLess sx={{ fontSize: 16 }} /> : <ExpandMore sx={{ fontSize: 16 }} />}
+            <div className="text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
+                {open ? <ExpandLess sx={{ fontSize: 18 }} /> : <ExpandMore sx={{ fontSize: 18 }} />}
             </div>
         )}
     </div>
