@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { Upload, CheckCircle2, AlertCircle, Trash2, Tag, Globe, Hexagon, Users, Shield, Navigation, Database, Loader2 } from 'lucide-react';
 import { Layer, ESGPillar } from '../types';
 import { processFile, getSupportedFormats, isFormatSupported } from '../utils/geoParser';
+import { supabase } from '../utils/supabase';
 
 interface LayerUploaderInlineProps {
     onLayersLoaded: (layers: Layer[]) => void;

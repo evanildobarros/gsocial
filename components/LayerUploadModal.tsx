@@ -86,8 +86,20 @@ export const LayerUploadModal: React.FC<LayerUploadModalProps> = ({ open, onClos
                 color: selectedColor
             });
 
+            // Importação dinâmica para evitar dependências circulares ou problemas de inicialização
+            let client = supabaseClient;
+            
+            // Fallback para garantir que o cliente exista
+            if (!client) {
+                // Tenta carregar dinamicamente se o estático falhar
+                const module = await import('@/utils/supabase');
+                client = module.supabase;
+            }
+
+            if (!client) throw new Error('Supabase client não inicializado');
+
             // SALVAR NO SUPABASE
-            const { error: dbError } = await supabaseClient
+            const { error: dbError } = await client
                 .from('map_layers')
                 .insert(layers);
 
@@ -103,6 +115,7 @@ export const LayerUploadModal: React.FC<LayerUploadModalProps> = ({ open, onClos
             onLayersLoaded(layers);
             setTimeout(() => handleClose(), 1500);
         } catch (error) {
+            console.error('Erro detalhado:', error);
             setUploadState({
                 status: 'error',
                 message: error instanceof Error ? error.message : 'Erro ao processar arquivo',

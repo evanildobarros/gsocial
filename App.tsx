@@ -68,7 +68,7 @@ import { GovernanceDiagnosticForm } from './components/governance/GovernanceDiag
 import { Breadcrumb } from './components/Breadcrumb';
 import SocialProjectForm from './components/social/SocialProjectForm';
 
-// Componente NavItem refatorado com Tailwind - Force Update 2
+// Componente NavItem refatorado com Tailwind - Force Update 3
 interface NavItemProps {
     icon: React.ReactNode;
     label: string;
