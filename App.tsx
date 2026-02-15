@@ -28,7 +28,7 @@ import {
     Lightbulb as LightbulbIcon,
 } from '@mui/icons-material';
 import { AppMode, UserProfile, Layer } from './types';
-import { supabase } from '../utils/supabase';
+import { supabase } from './utils/supabase';
 import { parseKmlToLayers } from './utils/geoUtils';
 import { showSuccess, showError } from './utils/notifications';
 import { Dashboard } from './components/Dashboard';
