@@ -28,7 +28,7 @@ import {
     Lightbulb as LightbulbIcon,
 } from '@mui/icons-material';
 import { AppMode, UserProfile, Layer } from './types';
-import { supabase } from './utils/supabase';
+import { supabase } from '@/utils/supabase';
 import { parseKmlToLayers } from './utils/geoUtils';
 import { showSuccess, showError } from './utils/notifications';
 import { Dashboard } from './components/Dashboard';
@@ -68,7 +68,7 @@ import { GovernanceDiagnosticForm } from './components/governance/GovernanceDiag
 import { Breadcrumb } from './components/Breadcrumb';
 import SocialProjectForm from './components/social/SocialProjectForm';
 
-// Componente NavItem refatorado com Tailwind
+// Componente NavItem refatorado com Tailwind - Force Update 2
 interface NavItemProps {
     icon: React.ReactNode;
     label: string;
