@@ -8,4 +8,11 @@ if (!supabaseUrl || !supabaseAnonKey) {
     throw new Error('As variáveis de ambiente do Supabase estão faltando. Verifique o arquivo .env.local');
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+    auth: {
+        autoRefreshToken: true,
+        persistSession: true,
+        detectSessionInUrl: true,
+        storageKey: 'gsocial-auth',
+    },
+});

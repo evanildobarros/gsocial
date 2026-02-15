@@ -1,3 +1,9 @@
+declare global {
+  interface Window {
+    supabase: any;
+  }
+}
+
 export enum AppMode {
   DASHBOARD = 'DASHBOARD',
   PROJECTS = 'PROJECTS',

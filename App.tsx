@@ -169,9 +169,11 @@ export default function App() {
     };
 
     useEffect(() => {
-        supabase.auth.getSession().then(({ data: { session }, error }) => {
+        supabase.auth.getSession().then(async ({ data: { session }, error }) => {
             if (error) {
                 console.warn('Sessão inválida ou expirada:', error.message);
+                // Limpa tokens corrompidos/expirados do localStorage
+                await supabase.auth.signOut({ scope: 'local' });
                 setIsAuthenticated(false);
                 setUserProfile(null);
             } else if (session) {
@@ -181,8 +183,17 @@ export default function App() {
             setIsLoading(false);
         });
 
-        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-            if (session) {
+        const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+            if (event === 'TOKEN_REFRESHED' && !session) {
+                // Refresh token falhou - limpa sessão local
+                console.warn('Falha ao renovar token. Fazendo logout local.');
+                await supabase.auth.signOut({ scope: 'local' });
+                setIsAuthenticated(false);
+                setUserProfile(null);
+            } else if (event === 'SIGNED_OUT') {
+                setIsAuthenticated(false);
+                setUserProfile(null);
+            } else if (session) {
                 setIsAuthenticated(true);
                 if (!userProfile || userProfile.id !== session.user.id) {
                     fetchUserProfile(session.user.id);
