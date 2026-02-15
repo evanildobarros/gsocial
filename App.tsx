@@ -95,6 +95,7 @@ const NavItem: React.FC<NavItemProps> = ({ icon, label, active, onClick, collaps
                 }
             `}
         >
+            {/* Ícone fixo com largura de 40px para alinhamento */}
             <div className={`flex items-center justify-center ${collapsed ? '' : 'min-w-[40px]'}`}>
                 {React.cloneElement(icon as React.ReactElement<any>, { sx: { fontSize: 20 } })}
             </div>
@@ -117,15 +118,29 @@ const SectionHeader: React.FC<{
 }> = ({ label, icon, collapsed, open, onToggle }) => (
     <div
         onClick={!collapsed ? onToggle : undefined}
-        className={`px-4 py-3.5 mt-2 flex items-center justify-between group transition-colors ${!collapsed && onToggle ? 'cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5 rounded-sm mx-2' : ''} ${collapsed ? 'text-center' : 'text-left'}`}
+        // Removido 'px-4' do pai e usado estrutura interna similar ao NavItem para alinhamento
+        className={`w-full flex items-center py-3.5 px-6 mt-2 justify-between group transition-colors ${!collapsed && onToggle ? 'cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5 rounded-sm' : ''} ${collapsed ? 'justify-center' : 'justify-between'}`}
     >
-        <div className="flex items-center gap-3 text-sm font-bold text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white transition-colors antialiased">
-             {/* Renderiza o ícone se existir e não estiver colapsado */}
-             {!collapsed && icon && React.cloneElement(icon as React.ReactElement<any>, { sx: { fontSize: 20 } })}
-            <span>{collapsed ? '•••' : label}</span>
+        <div className="flex items-center w-full">
+             {/* Container do ícone com mesma largura mínima do NavItem (40px) */}
+             {icon && !collapsed && (
+                <div className="flex items-center justify-center min-w-[40px] text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
+                    {React.cloneElement(icon as React.ReactElement<any>, { sx: { fontSize: 20 } })}
+                </div>
+             )}
+            
+            {/* Texto do Label */}
+            {!collapsed && (
+                <span className="text-sm font-bold text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white transition-colors antialiased whitespace-nowrap ml-0">
+                    {label}
+                </span>
+            )}
+
+            {collapsed && <span className="text-[10px] font-black uppercase tracking-[0.25em] text-gray-400">•••</span>}
         </div>
+
         {!collapsed && onToggle && (
-            <div className="text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
+            <div className="text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white transition-colors ml-2">
                 {open ? <ExpandLess sx={{ fontSize: 18 }} /> : <ExpandMore sx={{ fontSize: 18 }} />}
             </div>
         )}
@@ -356,7 +371,7 @@ export default function App() {
                             setMode(AppMode.PROJECTS);
                         } catch (error: any) {
                             console.error('Erro detalhado ao salvar:', error);
-                            showError('Falha ao salvar: ' + (error.message || 'Erro desconhecido'));
+                            showError(`Falha ao salvar: ${error.message || 'Erro desconhecido'}`);
                         }
                     }}
                     onCancel={() => setMode(AppMode.PROJECTS)}
