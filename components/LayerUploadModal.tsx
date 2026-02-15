@@ -3,8 +3,9 @@ import {
     X, Upload, CheckCircle2, AlertCircle, Trash2, Tag, Globe, Hexagon,
     Users, Shield, Navigation, Database, Loader2
 } from 'lucide-react';
-import { supabase } from '../utils/supabase';
+import { supabase as supabaseClient } from '@/utils/supabase';
 import { processFile, getSupportedFormats, isFormatSupported } from '../utils/geoParser';
+import { Layer, ESGPillar } from '../types';
 
 interface LayerUploadModalProps {
     open: boolean;
@@ -86,7 +87,7 @@ export const LayerUploadModal: React.FC<LayerUploadModalProps> = ({ open, onClos
             });
 
             // SALVAR NO SUPABASE
-            const { error: dbError } = await supabase
+            const { error: dbError } = await supabaseClient
                 .from('map_layers')
                 .insert(layers);
 
