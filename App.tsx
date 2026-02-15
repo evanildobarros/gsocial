@@ -68,7 +68,7 @@ import { GovernanceDiagnosticForm } from './components/governance/GovernanceDiag
 import { Breadcrumb } from './components/Breadcrumb';
 import SocialProjectForm from './components/social/SocialProjectForm';
 
-// Componente NavItem refatorado com Tailwind - Force Update 3
+// Componente NavItem refatorado com Tailwind
 interface NavItemProps {
     icon: React.ReactNode;
     label: string;
@@ -746,7 +746,7 @@ export default function App() {
                         <div className="relative" ref={profileMenuRef}>
                             <button
                                 onClick={() => setIsProfileOpen(!isProfileOpen)}
-                                className="p-0 border-2 border-white dark:border-zinc-900 shadow-lg rounded-lg hover:scale-105 transition-transform overflow-hidden"
+                                className="p-0 border-2 border-white dark:border-zinc-900 shadow-lg rounded-full hover:scale-105 transition-transform overflow-hidden"
                             >
                                 <div className="w-10 h-10 bg-happiness-1 flex items-center justify-center text-white font-black text-xs">
                                     {userProfile?.avatar_url ? (
