@@ -3,7 +3,6 @@ import {
     X, Upload, CheckCircle2, AlertCircle, Trash2, Tag, Globe, Hexagon,
     Users, Shield, Navigation, Database, Loader2
 } from 'lucide-react';
-import { Layer, ESGPillar } from '../types';
 import { supabase } from '../utils/supabase';
 import { processFile, getSupportedFormats, isFormatSupported } from '../utils/geoParser';
 
