@@ -120,8 +120,10 @@ const SectionHeader: React.FC<{
         className={`px-4 py-3.5 mt-2 flex items-center justify-between group transition-colors ${!collapsed && onToggle ? 'cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5 rounded-sm mx-2' : ''} ${collapsed ? 'text-center' : 'text-left'}`}
     >
         <div className="flex items-center gap-3 text-sm font-bold text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white transition-colors antialiased">
-             {/* Renderiza o ícone se existir e não estiver colapsado */}
-             {!collapsed && icon && React.cloneElement(icon as React.ReactElement<any>, { sx: { fontSize: 20 } })}
+             {/* ALINHAMENTO: Adicionado min-w-[40px] e justify-center para alinhar com os NavItems */}
+             <div className="flex items-center justify-center min-w-[40px]">
+                {!collapsed && icon && React.cloneElement(icon as React.ReactElement<any>, { sx: { fontSize: 20 } })}
+             </div>
             <span>{collapsed ? '•••' : label}</span>
         </div>
         {!collapsed && onToggle && (
@@ -356,7 +358,7 @@ export default function App() {
                             setMode(AppMode.PROJECTS);
                         } catch (error: any) {
                             console.error('Erro detalhado ao salvar:', error);
-                            showError(`Falha ao salvar: ${error.message || 'Erro desconhecido'}`);
+                            showError(\`Falha ao salvar: \${error.message || 'Erro desconhecido'}\`);
                         }
                     }}
                     onCancel={() => setMode(AppMode.PROJECTS)}
