@@ -180,12 +180,12 @@ export const ItaquiESGLandingPage: React.FC<ItaquiESGLandingPageProps> = ({ onLo
                     </div>
 
                     {/* Stats/Image Showcase */}
-                    <div className="hidden lg:grid grid-cols-2 gap-4 animate-fade-in-right delay-[400ms]">
-                        <div className="space-y-4 mt-8">
+                    <div className="hidden lg:grid grid-cols-2 gap-6 items-center">
+                        <div className="space-y-6">
                             <StatBox icon={<BarChart3 />} value="R$ 54 mi" label="Investimento Ambiental" color="bg-emerald-500" delay="0" />
                             <StatBox icon={<Users />} value="+500 mil" label="Pessoas Impactadas" color="bg-sky-500" delay="100" />
                         </div>
-                        <div className="space-y-4">
+                        <div className="space-y-6">
                             <StatBox icon={<ShieldCheck />} value="100%" label="Compliance Ético" color="bg-indigo-500" delay="200" />
                             <StatBox icon={<Ship />} value="ISO 14001" label="Certificação Global" color="bg-orange-500" delay="300" />
                         </div>
