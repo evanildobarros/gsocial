@@ -4,6 +4,49 @@
 
 @layer base {
   :root {
+    /* Toastify & Global Variables requested */
+    --toastify-color-light: #fff;
+    --toastify-color-dark: #121212;
+    --toastify-color-info: #3498db;
+    --toastify-color-success: #07bc0c;
+    --toastify-color-warning: #f1c40f;
+    --toastify-color-error: hsl(6, 78%, 57%);
+    --toastify-color-transparent: rgba(255, 255, 255, .7);
+    --toastify-icon-color-info: var(--toastify-color-info);
+    --toastify-icon-color-success: var(--toastify-color-success);
+    --toastify-icon-color-warning: var(--toastify-color-warning);
+    --toastify-icon-color-error: var(--toastify-color-error);
+    --toastify-container-width: fit-content;
+    --toastify-toast-width: 320px;
+    --toastify-toast-offset: 16px;
+    --toastify-toast-top: max(var(--toastify-toast-offset), env(safe-area-inset-top));
+    --toastify-toast-right: max(var(--toastify-toast-offset), env(safe-area-inset-right));
+    --toastify-toast-left: max(var(--toastify-toast-offset), env(safe-area-inset-left));
+    --toastify-toast-bottom: max(var(--toastify-toast-offset), env(safe-area-inset-bottom));
+    --toastify-toast-background: #fff;
+    --toastify-toast-padding: 14px;
+    --toastify-toast-min-height: 64px;
+    --toastify-toast-max-height: 800px;
+    --toastify-toast-bd-radius: 6px;
+    --toastify-toast-shadow: 0px 4px 12px rgba(0, 0, 0, .1);
+    --toastify-font-family: sans-serif;
+    --toastify-z-index: 9999;
+    --toastify-text-color-light: #757575;
+    --toastify-text-color-dark: #fff;
+    --toastify-text-color-info: #fff;
+    --toastify-text-color-success: #fff;
+    --toastify-text-color-warning: #fff;
+    --toastify-text-color-error: #fff;
+    --toastify-spinner-color: #616161;
+    --toastify-spinner-color-empty-area: #e0e0e0;
+    --toastify-color-progress-light: linear-gradient(to right, #4cd964, #5ac8fa, #007aff, #34aadc, #5856d6, #ff2d55);
+    --toastify-color-progress-dark: #bb86fc;
+    --toastify-color-progress-info: var(--toastify-color-info);
+    --toastify-color-progress-success: var(--toastify-color-success);
+    --toastify-color-progress-warning: var(--toastify-color-warning);
+    --toastify-color-progress-error: var(--toastify-color-error);
+    --toastify-color-progress-bgo: .2;
+
     /* M3 Light Theme Colors (Porto do Itaqui / ESGporto Base) */
     --color-primary: var(--happiness-1);
     /* Dynamic Based on Theme (Azure initially) */
@@ -30,10 +73,10 @@
     /* #FEFBFF */
     --color-surface: 254 251 255;
     /* #FEFBFF */
-    --color-on-surface: 27 27 31;
-    /* #1B1B1F */
-    --color-outline: 117 119 128;
-    /* #757780 */
+    --color-on-surface: 0 0 0;
+    /* #000000 - Pure Black for readability */
+    --color-outline: 0 0 0;
+    /* #000000 */
 
     /* Default Happiness Colors (Azure) */
     --happiness-1: 73 115 242;
@@ -97,10 +140,10 @@
     /* #1B1B1F */
     --color-surface: 27 27 31;
     /* #1B1B1F */
-    --color-on-surface: 227 226 230;
-    /* #E3E2E6 */
-    --color-outline: 143 144 153;
-    /* #8F9099 */
+    --color-on-surface: 255 255 255;
+    /* #FFFFFF */
+    --color-outline: 255 255 255;
+    /* #FFFFFF */
   }
 }
 
@@ -159,10 +202,12 @@ body {
   scrollbar-color: rgb(var(--brand-primary) / 0.3) transparent;
 }
 
-/* Ensure scrolling is smooth */
 html {
   scroll-behavior: smooth;
   height: 100%;
+  tab-size: 4;
+  -webkit-tap-highlight-color: transparent;
+  text-size-adjust: 100%;
 }
 
 body {
@@ -179,7 +224,6 @@ body {
   color: white;
 }
 
-
 /* UX Typography Optimization */
 h1, h2, h3, h4 {
   letter-spacing: -0.02em; /* Tracking Tight for better professional look */
@@ -192,7 +236,7 @@ h3 { @apply font-bold; }
 
 p {
   line-height: 1.6; /* Comfortable reading height */
-  @apply text-gray-600 dark:text-gray-400;
+  @apply text-black dark:text-white;
 }
 
 /* Animações (migrado do index.html) */
@@ -221,26 +265,26 @@ p {
 input,
 select,
 textarea {
-  color: #111827;
-  /* text-gray-900 */
+  color: #000000;
+  /* text-black */
 }
 
 .dark input,
 .dark select,
 .dark textarea {
-  color: #f9fafb;
-  /* text-gray-50 */
+  color: #ffffff;
+  /* text-white */
 }
 
 ::placeholder {
-  color: #9ca3af !important;
-  /* text-gray-400 */
-  opacity: 1;
+  color: #000000 !important;
+  /* text-black */
+  opacity: 0.5;
 }
 
 .dark ::placeholder {
-  color: #6b7280 !important;
-  /* text-gray-500 */
+  color: #ffffff !important;
+  /* text-white */
 }
 
 /* Specific fix for inputs with dark:bg-black/20 or similar in light mode */

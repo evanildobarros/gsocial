@@ -87,7 +87,7 @@ const NavItem: React.FC<NavItemProps> = ({ icon, label, active, onClick, collaps
             onClick={onClick}
             title={collapsed ? label : ''}
             className={`
-                w-full flex items-center py-3.5 px-4 rounded-lg transition-all duration-200 ease-in-out
+                w-full flex items-center py-[0.875rem] px-4 rounded-[0.125rem] transition-all duration-200 ease-in-out
                 ${collapsed ? 'justify-center' : 'justify-start'}
                 ${active
                     ? 'bg-happiness-1/10 text-happiness-1 dark:text-white dark:bg-happiness-1 shadow-sm'
@@ -117,15 +117,28 @@ const SectionHeader: React.FC<{
 }> = ({ label, icon, collapsed, open, onToggle }) => (
     <div
         onClick={!collapsed ? onToggle : undefined}
-        className={`px-4 py-3 mt-6 flex items-center justify-between group transition-colors ${!collapsed && onToggle ? 'cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg mx-2' : ''} ${collapsed ? 'text-center' : 'text-left'}`}
+        className={`px-4 py-[0.875rem] mt-6 flex items-center justify-between group transition-colors ${!collapsed && onToggle ? 'cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5 rounded-[0.125rem] mx-2' : ''} ${collapsed ? 'text-center' : 'text-left'}`}
     >
-        <div className="flex items-center gap-3 text-sm font-black text-black dark:text-white group-hover:text-happiness-1 transition-colors antialiased">
-             {/* Renderiza o ícone se existir e não estiver colapsado */}
-             {!collapsed && icon && React.cloneElement(icon as React.ReactElement<any>, { sx: { fontSize: 22 } })}
-            <span>{collapsed ? '•••' : label}</span>
+        <div className="flex items-center w-full">
+             {/* Container do ícone com mesma largura mínima do NavItem (40px) */}
+             {icon && !collapsed && (
+                <div className="flex items-center justify-center min-w-[40px] text-black dark:text-white group-hover:text-happiness-1 transition-colors">
+                    {React.cloneElement(icon as React.ReactElement<any>, { sx: { fontSize: 22 } })}
+                </div>
+             )}
+            
+            {/* Texto do Label - Padronizado para text-sm font-bold */}
+            {!collapsed && (
+                <span className="text-sm font-bold text-black dark:text-white group-hover:text-happiness-1 transition-colors antialiased whitespace-nowrap ml-0 uppercase tracking-tight">
+                    {label}
+                </span>
+            )}
+
+            {collapsed && <span className="text-[11px] font-black uppercase tracking-[0.25em] text-black dark:text-white">•••</span>}
         </div>
+
         {!collapsed && onToggle && (
-            <div className="text-black dark:text-white group-hover:text-happiness-1 transition-colors">
+            <div className="text-black dark:text-white group-hover:text-happiness-1 transition-colors ml-2">
                 {open ? <ExpandLess sx={{ fontSize: 20 }} /> : <ExpandMore sx={{ fontSize: 20 }} />}
             </div>
         )}
@@ -250,7 +263,7 @@ export default function App() {
     if (isLoading) {
         return (
             <div className="flex justify-center items-center h-screen bg-gray-50 dark:bg-zinc-950">
-                <span className="text-black dark:text-black font-bold animate-pulse">Carregando ESGporto...</span>
+                <span className="text-black dark:text-gray-50 font-bold animate-pulse">Carregando ESGporto...</span>
             </div>
         );
     }
@@ -390,7 +403,7 @@ export default function App() {
             case AppMode.GOV_INNOVATION_FUNNEL: return 'Funil de Inovação (CRIARE)';
             case AppMode.STRATEGIC_PREDICTIVE: return 'Inteligência Preditiva';
             case AppMode.SOCIAL_GIS: return 'Mapeamento Territorial Geoespacial';
-            case AppMode.SOCIAL_ASSESSMENT: return 'Diagnóstico Socioeconômico';
+            case AppMode.SOCIAL_ASSESSMENT: return 'Cadastro de Comunidade Local';
             case AppMode.GOV_DIAGNOSTIC: return 'Autoavaliação de Maturidade ESG porto (ABNT PR 2030)';
             case AppMode.ESG_CENTER: return 'Central de Diagnósticos ESG';
             case AppMode.ENV_DIAGNOSTIC: return 'Diagnóstico Ambiental (ABNT PR 2030)';
@@ -535,7 +548,7 @@ export default function App() {
                                 <img src="/logo_itaqui.png" alt="Porto do Itaqui" className="h-10 w-auto object-contain" />
                                 <div className="animate-in fade-in duration-300">
                                     <h1 className="text-lg font-black tracking-tighter leading-none text-black dark:text-white">ESGporto</h1>
-                                    <p className="text-[9px] font-black text-black dark:text-happiness-3 uppercase tracking-widest mt-1">Dash Intelligence</p>
+                                    <p className="text-[11px] font-black text-black dark:text-happiness-3 uppercase tracking-widest mt-1">Dash Intelligence</p>
                                 </div>
                             </div>
                             <button
@@ -680,7 +693,7 @@ export default function App() {
                         <button
                             onClick={() => setSettingsOpen(!settingsOpen)}
                             className={`
-                                    w-full flex items-center py-3.5 px-4 rounded-lg transition-all duration-200 ease-in-out
+                                    w-full flex items-center py-[0.875rem] px-4 rounded-[0.125rem] transition-all duration-200 ease-in-out
                                     ${!sidebarOpen ? 'justify-center' : 'justify-start'}
                                     ${mode === AppMode.USERS
                                     ? 'bg-happiness-1/10 text-happiness-1 dark:bg-happiness-1 dark:text-white'
@@ -735,7 +748,7 @@ export default function App() {
                     <div className="flex items-center gap-6">
                         {/* Toggle Removed from Header */}
                         <div className="h-6 w-px bg-gray-200 dark:bg-white/10 hidden sm:block"></div>
-                        <h2 className="hidden sm:block text-sm font-black text-black dark:text-black uppercase tracking-[0.2em] antialiased">
+                        <h2 className="hidden sm:block text-sm font-black text-black dark:text-gray-100 uppercase tracking-[0.2em] antialiased">
                             {getPageTitle()}
                         </h2>
                     </div>
@@ -775,9 +788,9 @@ export default function App() {
                                     <div className="absolute -top-1.5 right-5 w-3 h-3 bg-white dark:bg-[#1E1E1E] transform rotate-45 border-l border-t border-gray-100 dark:border-white/5"></div>
 
                                     <div className="px-6 py-5 border-b border-gray-100 dark:border-white/5 bg-gray-50/50 dark:bg-white/5">
-                                        <p className="text-[10px] font-black text-black uppercase tracking-widest mb-1">{userProfile?.role || 'Usuário'}</p>
+                                        <p className="text-[11px] font-black text-black dark:text-white uppercase tracking-widest mb-1">{userProfile?.role || 'Usuário'}</p>
                                         <p className="text-base font-bold text-black dark:text-white leading-tight truncate">{userProfile?.full_name}</p>
-                                        <p className="text-xs text-black truncate mt-0.5">{userProfile?.email}</p>
+                                        <p className="text-xs text-black dark:text-white truncate mt-0.5">{userProfile?.email}</p>
                                     </div>
 
                                     <div className="p-2">
@@ -793,7 +806,7 @@ export default function App() {
 
                                     {/* Gestor de Temas */}
                                     <div className="px-4 py-4 border-t border-gray-100 dark:border-white/5 bg-gray-50/30 dark:bg-white/[0.02]">
-                                        <p className="text-[10px] font-black text-black dark:text-black uppercase tracking-widest mb-3 flex items-center gap-2">
+                                        <p className="text-[11px] font-black text-black dark:text-gray-500 uppercase tracking-widest mb-3 flex items-center gap-2">
                                             <ZapIcon sx={{ fontSize: 14 }} />
                                             Ambiente de Cores
                                         </p>
