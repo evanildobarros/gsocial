@@ -4,7 +4,8 @@ import {
     Layers, Eye, EyeOff, Trash2, MapPin, Hexagon, Loader2, Navigation,
     Route, Shield, Users, ChevronDown, ChevronUp, AlertTriangle,
     ChevronRight, Database, Wrench, BarChart2, Star, Upload,
-    Droplets, Map as MapIcon, X, Info, Clock, CheckCircle2, ChevronLeft
+    Droplets, Map as MapIcon, X, Info, Clock, CheckCircle2, ChevronLeft,
+    BarChart3, Lightbulb
 } from 'lucide-react';
 import { LayerUploadModal } from '../LayerUploadModal';
 import { supabase } from '../../utils/supabase';
@@ -14,12 +15,16 @@ import { showSuccess, showError } from '../../utils/notifications';
 const infoWindowStyle = `
   .gm-style-iw {
     max-width: 350px !important;
-    max-height: 400px !important;
+    max-height: 500px !important;
     padding: 0 !important;
+    border-radius: 24px !important;
   }
   .gm-style-iw-d {
     overflow: hidden !important;
     max-height: none !important;
+  }
+  .gm-style-iw-tc::after {
+    display: none !important;
   }
   .gm-ui-hover-text {
     display: none;
@@ -67,11 +72,19 @@ const StarRating = ({ value }: { value: number }) => (
         {[1, 2, 3, 4, 5].map(i => (
             <Star
                 key={i}
-                className={`w-3 h-3 ${i <= value ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`}
+                className={`w-3.5 h-3.5 ${i <= value ? 'text-amber-400 fill-amber-400' : 'text-gray-200 dark:text-zinc-800'}`}
             />
         ))}
     </div>
 );
+
+// Helper for Risk Style
+const getRiskStyle = (riskBadge?: string) => {
+    if (!riskBadge) return { color: 'text-gray-500', bg: 'bg-gray-100', border: 'border-gray-200' };
+    if (riskBadge.includes('Crítico')) return { color: 'text-red-600', bg: 'bg-red-50 dark:bg-red-900/20', border: 'border-red-200 dark:border-red-900/30' };
+    if (riskBadge.includes('Moderado')) return { color: 'text-amber-600', bg: 'bg-amber-50 dark:bg-amber-900/20', border: 'border-amber-200 dark:border-amber-900/30' };
+    return { color: 'text-green-600', bg: 'bg-green-50 dark:bg-green-900/20', border: 'border-green-200 dark:border-green-900/30' };
+};
 
 // Simple Badge Component
 const NotificationBadge = ({ count, color, children }: { count: number; color: string; children: React.ReactNode }) => (
@@ -464,27 +477,102 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
 
                     {selectedElement && (
                         <InfoWindowF position={selectedElement.position} onCloseClick={() => setSelectedElement(null)}>
-                            <div className="custom-pop-content min-w-[300px] bg-white dark:bg-[#121212] overflow-hidden -m-3">
-                                <div className="h-1.5 bg-gradient-to-r from-happiness-1 to-blue-600 w-full" />
-                                <div className="p-5 space-y-4">
+                            <div className="custom-pop-content min-w-[320px] bg-white dark:bg-[#121212] overflow-hidden -m-3 shadow-2xl rounded-3xl border border-gray-100 dark:border-white/10">
+                                {/* Header com Risco */}
+                                <div className={`h-1.5 w-full ${
+                                    selectedElement.layer.details?.risk_level?.includes('Crítico') ? 'bg-red-500' :
+                                    selectedElement.layer.details?.risk_level?.includes('Moderado') ? 'bg-amber-500' : 'bg-green-500'
+                                }`} />
+                                
+                                <div className="p-6 space-y-5">
+                                    {/* Identidade */}
                                     <div className="flex justify-between items-start">
-                                        <div>
-                                            <h4 className="font-black text-gray-900 dark:text-white text-lg">{selectedElement.layer.name}</h4>
-                                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{selectedElement.layer.pilllar || 'Território'}</span>
+                                        <div className="space-y-1 flex-1 min-w-0 pr-2">
+                                            <div className="flex items-center gap-2">
+                                                <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Diagnóstico Social</span>
+                                                {selectedElement.layer.details?.risk_level && (
+                                                    <span className={`text-[8px] font-black uppercase px-2 py-0.5 rounded-full ${getRiskStyle(selectedElement.layer.details.risk_level).bg} ${getRiskStyle(selectedElement.layer.details.risk_level).color}`}>
+                                                        {selectedElement.layer.details.risk_level.split(' ').pop()}
+                                                    </span>
+                                                )}
+                                            </div>
+                                            <h4 className="font-black text-gray-900 dark:text-white text-xl tracking-tight truncate leading-none">
+                                                {selectedElement.layer.name}
+                                            </h4>
                                         </div>
-                                        <div className="w-10 h-10 bg-blue-50 dark:bg-blue-900/20 rounded-3xl flex items-center justify-center border border-blue-100">
-                                            <MapPin className="text-blue-500 w-5 h-5" />
+                                        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center border shadow-sm ${getRiskStyle(selectedElement.layer.details?.risk_level).bg} ${getRiskStyle(selectedElement.layer.details?.risk_level).border}`}>
+                                            <MapPin className={`w-6 h-6 ${getRiskStyle(selectedElement.layer.details?.risk_level).color}`} />
                                         </div>
                                     </div>
-                                    <div className="space-y-3 py-2 border-y border-gray-100 dark:border-white/5">
-                                        <div className="flex justify-between text-xs">
-                                            <span className="font-bold text-gray-400 tracking-widest uppercase text-[9px]">Famílias</span>
-                                            <span className="font-black text-gray-700 dark:text-gray-200">{selectedElement.layer.details?.familias || 0}</span>
+
+                                    {/* Métricas Principais (Estilo CommunityAssessment) */}
+                                    <div className="grid grid-cols-2 gap-3 bg-gray-50 dark:bg-white/5 p-4 rounded-2xl border border-gray-100 dark:border-white/5">
+                                        <div className="space-y-0.5">
+                                            <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest block">Famílias</span>
+                                            <div className="flex items-center gap-1.5">
+                                                <Users size={12} className="text-happiness-1" />
+                                                <span className="text-sm font-black text-gray-900 dark:text-gray-100">
+                                                    {selectedElement.layer.details?.familias || 0}
+                                                </span>
+                                            </div>
                                         </div>
-                                        <div className="flex justify-between text-xs items-center">
-                                            <span className="font-bold text-gray-400 tracking-widest uppercase text-[9px]">Relacionamento</span>
+                                        <div className="space-y-0.5">
+                                            <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest block">Perfil</span>
+                                            <div className="flex items-center gap-1.5">
+                                                <Database size={12} className="text-orange-500" />
+                                                <span className="text-sm font-black text-gray-900 dark:text-gray-100">
+                                                    {selectedElement.layer.details?.tipo || '-'}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div className="space-y-0.5 mt-2">
+                                            <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest block">Relacionamento</span>
                                             <StarRating value={selectedElement.layer.details?.relacionamento || 0} />
                                         </div>
+                                        <div className="space-y-0.5 mt-2">
+                                            <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest block">Demandas</span>
+                                            <div className="flex items-center gap-1.5">
+                                                <BarChart3 size={12} className="text-amber-500" />
+                                                <span className="text-sm font-black text-gray-900 dark:text-gray-100">
+                                                    {selectedElement.layer.details?.demandas || 0}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Recomendação Consultiva Automática se for Crítico */}
+                                    {selectedElement.layer.details?.risk_level?.includes('Crítico') && (
+                                        <div className="bg-zinc-900 dark:bg-white p-4 rounded-2xl border border-happiness-1 shadow-lg relative overflow-hidden group">
+                                            <div className="absolute top-0 right-0 p-2 opacity-10">
+                                                <Lightbulb size={16} className="text-happiness-1" />
+                                            </div>
+                                            <div className="flex items-start gap-2">
+                                                <AlertTriangle size={14} className="text-happiness-3 shrink-0 mt-0.5" />
+                                                <div>
+                                                    <span className="text-[8px] font-black uppercase text-happiness-3 block mb-1">Ação Recomendada</span>
+                                                    <p className="text-[10px] font-bold text-gray-100 dark:text-gray-800 leading-relaxed italic">
+                                                        "Criação de Fundação Portuária compartilhada para mitigação de impactos locais."
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Rodapé do Popup */}
+                                    <div className="flex justify-between items-center pt-2">
+                                        <div className="flex items-center gap-1.5">
+                                            <Clock size={10} className="text-gray-400" />
+                                            <span className="text-[9px] font-bold text-gray-400 italic">Atualizado em 2026</span>
+                                        </div>
+                                        <button 
+                                            className="px-4 py-1.5 bg-gray-900 dark:bg-white text-white dark:text-black text-[9px] font-black uppercase tracking-widest rounded-full hover:opacity-90 transition-opacity"
+                                            onClick={() => {
+                                                // Futura funcionalidade: Abrir detalhes completos
+                                                showSuccess("Abrindo dossiê completo...");
+                                            }}
+                                        >
+                                            Ver Dossie
+                                        </button>
                                     </div>
                                 </div>
                             </div>
