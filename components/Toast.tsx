@@ -47,14 +47,14 @@ export const ToastContainer: React.FC = () => {
                         <p className={`text-sm font-black text-gray-900 dark:text-white leading-tight`}>
                             {n.message}
                         </p>
-                        <p className="text-[10px] font-bold text-gray-400 mt-1 uppercase tracking-widest">
+                        <p className="text-[10px] font-bold text-black mt-1 uppercase tracking-widest">
                             Notificação do Sistema
                         </p>
                     </div>
 
                     <button
                         onClick={() => notificationService.remove(n.id)}
-                        className="shrink-0 text-gray-400 hover:text-gray-600 transition-colors p-1"
+                        className="shrink-0 text-black hover:text-black transition-colors p-1"
                     >
                         <X className="w-4 h-4" />
                     </button>

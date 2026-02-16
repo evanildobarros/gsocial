@@ -27,7 +27,7 @@ const mockRisks: Risk[] = [
 
 const DetailRow = ({ label, value, highlight }: { label: string, value: string, highlight?: boolean }) => (
     <div className="flex justify-between items-center">
-        <span className="text-xs font-bold text-gray-500">{label}</span>
+        <span className="text-xs font-bold text-black">{label}</span>
         <span className={`text-sm font-black ${highlight ? 'text-red-600' : 'text-gray-900 dark:text-gray-100'}`}>{value}</span>
     </div>
 );
@@ -88,7 +88,7 @@ export const RiskHeatmap: React.FC = () => {
                 </div>
                 <div>
                     <h1 className="text-3xl font-black tracking-tight">Matriz de Riscos ESG</h1>
-                    <p className="text-sm font-medium text-gray-500 dark:text-gray-400 italic">
+                    <p className="text-sm font-medium text-black dark:text-black italic">
                         Integração Impacto x Probabilidade com Multiplicadores de Sustentabilidade.
                     </p>
                 </div>
@@ -103,7 +103,7 @@ export const RiskHeatmap: React.FC = () => {
                                 <TrendingUp className="text-blue-500 w-5 h-5" />
                                 Heatmap Corporativo
                             </h2>
-                            <button className="flex items-center gap-1 px-3 py-1 rounded-lg border border-gray-200 dark:border-white/10 text-xs font-bold text-gray-500 uppercase tracking-wide hover:bg-gray-50 dark:hover:bg-white/5 disabled:opacity-50">
+                            <button className="flex items-center gap-1 px-3 py-1 rounded-lg border border-gray-200 dark:border-white/10 text-xs font-bold text-black uppercase tracking-wide hover:bg-gray-50 dark:hover:bg-white/5 disabled:opacity-50">
                                 <Filter size={12} />
                                 Visão Filtro Ativa
                             </button>
@@ -111,7 +111,7 @@ export const RiskHeatmap: React.FC = () => {
 
                         <div className="w-full max-w-[500px] mx-auto relative p-6">
                             {/* Y-Axis Label */}
-                            <span className="absolute left-0 top-1/2 -translate-y-1/2 -rotate-90 origin-left text-[10px] font-black tracking-[0.2em] text-gray-400 uppercase whitespace-nowrap">
+                            <span className="absolute left-0 top-1/2 -translate-y-1/2 -rotate-90 origin-left text-[10px] font-black tracking-[0.2em] text-black uppercase whitespace-nowrap">
                                 Probabilidade
                             </span>
 
@@ -140,7 +140,7 @@ export const RiskHeatmap: React.FC = () => {
 
                             {/* X-Axis Label */}
                             <div className="text-center mt-4">
-                                <span className="text-[10px] font-black tracking-[0.2em] text-gray-400 uppercase">
+                                <span className="text-[10px] font-black tracking-[0.2em] text-black uppercase">
                                     Impacto Operacional
                                 </span>
                             </div>
@@ -161,12 +161,12 @@ export const RiskHeatmap: React.FC = () => {
                                         <div className="text-4xl font-black text-blue-600 leading-none">
                                             {calculateRiskScore(selectedRisk)}
                                         </div>
-                                        <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Fator ESG</span>
+                                        <span className="text-[10px] font-black text-black uppercase tracking-widest">Fator ESG</span>
                                     </div>
                                 </div>
 
                                 <h3 className="text-xl font-black mb-6 leading-tight">
-                                    <span className="text-gray-400 mr-2">#{selectedRisk.id}</span>
+                                    <span className="text-black mr-2">#{selectedRisk.id}</span>
                                     {selectedRisk.name}
                                 </h3>
 
@@ -187,8 +187,8 @@ export const RiskHeatmap: React.FC = () => {
                             </div>
                         ) : (
                             <div className="flex-1 flex flex-col items-center justify-center text-center opacity-40">
-                                <Info className="w-12 h-12 mb-2 text-gray-400" />
-                                <p className="text-sm font-bold text-gray-500">Selecione um ponto na matriz para detalhamento.</p>
+                                <Info className="w-12 h-12 mb-2 text-black" />
+                                <p className="text-sm font-bold text-black">Selecione um ponto na matriz para detalhamento.</p>
                             </div>
                         )}
                     </div>
@@ -213,7 +213,7 @@ export const RiskHeatmap: React.FC = () => {
                                         </div>
                                         <div className="flex-1 min-w-0">
                                             <span className="block text-xs font-black text-gray-800 dark:text-gray-200 truncate">{r.name}</span>
-                                            <span className="block text-[10px] font-medium text-gray-500">{r.category}</span>
+                                            <span className="block text-[10px] font-medium text-black">{r.category}</span>
                                         </div>
                                         <span className="text-sm font-black text-gray-900 dark:text-white">{calculateRiskScore(r)}</span>
                                     </button>

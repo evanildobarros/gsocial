@@ -84,7 +84,7 @@ export const CreateUser: React.FC<CreateUserProps> = ({ onBack }) => {
                     </div>
                     <div>
                         <h2 className="text-3xl font-black text-gray-900 tracking-tight">Sucesso!</h2>
-                        <p className="text-gray-500 font-medium mt-2 italic">O novo membro foi registrado e já pode acessar o ecossistema.</p>
+                        <p className="text-black font-medium mt-2 italic">O novo membro foi registrado e já pode acessar o ecossistema.</p>
                     </div>
                     <div className="pt-4">
                         <button
@@ -106,12 +106,12 @@ export const CreateUser: React.FC<CreateUserProps> = ({ onBack }) => {
                 <div>
                     <button
                         onClick={onBack}
-                        className="flex items-center gap-2 text-gray-400 hover:text-happiness-1 font-black text-[10px] uppercase tracking-[0.2em] mb-4 transition-colors group"
+                        className="flex items-center gap-2 text-black hover:text-happiness-1 font-black text-[10px] uppercase tracking-[0.2em] mb-4 transition-colors group"
                     >
                         <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" /> Voltar à Gestão
                     </button>
                     <h2 className="text-3xl font-black text-gray-900 tracking-tight">Cadastrar Novo Membro</h2>
-                    <p className="text-gray-500 font-medium italic">Adicione um novo integrante e defina suas responsabilidades estratégicas.</p>
+                    <p className="text-black font-medium italic">Adicione um novo integrante e defina suas responsabilidades estratégicas.</p>
                 </div>
             </div>
 
@@ -130,41 +130,41 @@ export const CreateUser: React.FC<CreateUserProps> = ({ onBack }) => {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 {/* Nome Completo */}
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">Nome Completo</label>
+                                    <label className="text-[10px] font-black text-black uppercase tracking-[0.2em] ml-1">Nome Completo</label>
                                     <div className="relative group">
-                                        <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-300 group-focus-within:text-happiness-1 transition-colors" />
+                                        <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-700 group-focus-within:text-happiness-1 transition-colors" />
                                         <input
                                             required
                                             type="text"
                                             value={formData.fullName}
                                             onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                                             placeholder="Ex: João Silva"
-                                            className="w-full pl-12 pr-6 py-4 bg-gray-50 border-2 border-transparent rounded-3xl text-sm font-semibold text-gray-900 placeholder:text-gray-400 focus:bg-white focus:border-happiness-1 transition-all outline-none"
+                                            className="w-full pl-12 pr-6 py-4 bg-gray-50 border-2 border-transparent rounded-3xl text-sm font-semibold text-gray-900 placeholder:text-black focus:bg-white focus:border-happiness-1 transition-all outline-none"
                                         />
                                     </div>
                                 </div>
 
                                 {/* E-mail */}
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">E-mail Corporativo</label>
+                                    <label className="text-[10px] font-black text-black uppercase tracking-[0.2em] ml-1">E-mail Corporativo</label>
                                     <div className="relative group">
-                                        <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-300 group-focus-within:text-happiness-1 transition-colors" />
+                                        <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-700 group-focus-within:text-happiness-1 transition-colors" />
                                         <input
                                             required
                                             type="email"
                                             value={formData.email}
                                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                             placeholder="joao@empresa.com"
-                                            className="w-full pl-12 pr-6 py-4 bg-gray-50 border-2 border-transparent rounded-3xl text-sm font-semibold text-gray-900 placeholder:text-gray-400 focus:bg-white focus:border-happiness-1 transition-all outline-none"
+                                            className="w-full pl-12 pr-6 py-4 bg-gray-50 border-2 border-transparent rounded-3xl text-sm font-semibold text-gray-900 placeholder:text-black focus:bg-white focus:border-happiness-1 transition-all outline-none"
                                         />
                                     </div>
                                 </div>
 
                                 {/* Nível de Acesso */}
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">Perfil de Acesso</label>
+                                    <label className="text-[10px] font-black text-black uppercase tracking-[0.2em] ml-1">Perfil de Acesso</label>
                                     <div className="relative group">
-                                        <Shield className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-300 group-focus-within:text-happiness-1 transition-colors" />
+                                        <Shield className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-700 group-focus-within:text-happiness-1 transition-colors" />
                                         <select
                                             value={formData.role}
                                             onChange={(e) => setFormData({ ...formData, role: e.target.value as UserRole })}
@@ -179,21 +179,21 @@ export const CreateUser: React.FC<CreateUserProps> = ({ onBack }) => {
 
                                 {/* Senha Inicial */}
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">Senha Provisória</label>
+                                    <label className="text-[10px] font-black text-black uppercase tracking-[0.2em] ml-1">Senha Provisória</label>
                                     <div className="relative group">
-                                        <Key className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-300 group-focus-within:text-happiness-1 transition-colors" />
+                                        <Key className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-700 group-focus-within:text-happiness-1 transition-colors" />
                                         <input
                                             required
                                             type={showPassword ? 'text' : 'password'}
                                             value={formData.password}
                                             onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                                             placeholder="••••••••"
-                                            className="w-full pl-12 pr-12 py-4 bg-gray-50 border-2 border-transparent rounded-3xl text-sm font-semibold text-gray-900 placeholder:text-gray-400 focus:bg-white focus:border-happiness-1 transition-all outline-none"
+                                            className="w-full pl-12 pr-12 py-4 bg-gray-50 border-2 border-transparent rounded-3xl text-sm font-semibold text-gray-900 placeholder:text-black focus:bg-white focus:border-happiness-1 transition-all outline-none"
                                         />
                                         <button
                                             type="button"
                                             onClick={() => setShowPassword(!showPassword)}
-                                            className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-300 hover:text-happiness-1 transition-colors"
+                                            className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-700 hover:text-happiness-1 transition-colors"
                                         >
                                             {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                                         </button>
@@ -217,7 +217,7 @@ export const CreateUser: React.FC<CreateUserProps> = ({ onBack }) => {
                                 <button
                                     type="button"
                                     onClick={onBack}
-                                    className="px-8 py-4 bg-gray-100 text-gray-500 rounded-3xl font-black text-sm uppercase tracking-widest hover:bg-gray-200 transition-all"
+                                    className="px-8 py-4 bg-gray-100 text-black rounded-3xl font-black text-sm uppercase tracking-widest hover:bg-gray-200 transition-all"
                                 >
                                     Cancelar
                                 </button>
@@ -237,15 +237,15 @@ export const CreateUser: React.FC<CreateUserProps> = ({ onBack }) => {
                         <div className="space-y-4">
                             <div className="p-4 bg-white/5 rounded-3xl border border-white/5">
                                 <p className="text-happiness-2 text-[10px] font-black uppercase tracking-widest mb-1">Master Admin</p>
-                                <p className="text-gray-400 text-xs font-medium">Controle total do sistema, gestão de faturamento e níveis de acesso.</p>
+                                <p className="text-black text-xs font-medium">Controle total do sistema, gestão de faturamento e níveis de acesso.</p>
                             </div>
                             <div className="p-4 bg-white/5 rounded-3xl border border-white/5">
                                 <p className="text-happiness-3 text-[10px] font-black uppercase tracking-widest mb-1">Administrador</p>
-                                <p className="text-gray-400 text-xs font-medium">Gere projetos, visualiza relatórios e gerencia usuários comuns.</p>
+                                <p className="text-black text-xs font-medium">Gere projetos, visualiza relatórios e gerencia usuários comuns.</p>
                             </div>
                             <div className="p-4 bg-white/5 rounded-3xl border border-white/5">
-                                <p className="text-gray-400 text-[10px] font-black uppercase tracking-widest mb-1">Usuário Comum</p>
-                                <p className="text-gray-500 text-xs font-medium">Acesso limitado à leitura de projetos e envio de mensagens.</p>
+                                <p className="text-black text-[10px] font-black uppercase tracking-widest mb-1">Usuário Comum</p>
+                                <p className="text-black text-xs font-medium">Acesso limitado à leitura de projetos e envio de mensagens.</p>
                             </div>
                         </div>
                     </div>

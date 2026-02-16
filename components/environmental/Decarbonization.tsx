@@ -136,7 +136,7 @@ export const Decarbonization: React.FC = () => {
         return (
             <div className="flex flex-col items-center py-20 gap-4">
                 <Loader2 className="w-12 h-12 text-emerald-500 animate-spin" />
-                <span className="text-xs font-black uppercase tracking-widest text-gray-400 animate-pulse">
+                <span className="text-xs font-black uppercase tracking-widest text-black animate-pulse">
                     Sincronizando Inventário de Carbono...
                 </span>
             </div>
@@ -156,7 +156,7 @@ export const Decarbonization: React.FC = () => {
                             Clima & Descarbonização
                         </h1>
                     </div>
-                    <p className="text-gray-500 dark:text-gray-400 font-medium italic ml-16 max-w-2xl">
+                    <p className="text-black dark:text-black font-medium italic ml-16 max-w-2xl">
                         Monitoramento de emissões de Escopo 1 e 2 (Protocolo GHG). Acompanhe a intensidade de carbono por tonelada movimentada.
                     </p>
                 </div>
@@ -164,7 +164,7 @@ export const Decarbonization: React.FC = () => {
                 <div className="flex gap-3">
                     <button
                         onClick={generatePDF}
-                        className="px-6 py-2.5 rounded-full border border-gray-200 dark:border-white/10 font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors flex items-center gap-2 text-sm"
+                        className="px-6 py-2.5 rounded-full border border-gray-200 dark:border-white/10 font-bold text-black dark:text-gray-700 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors flex items-center gap-2 text-sm"
                     >
                         <Download className="w-4 h-4" /> Relatório PDF
                     </button>
@@ -185,7 +185,7 @@ export const Decarbonization: React.FC = () => {
                             {intensityTrend <= 0 ? <TrendingDown size={160} strokeWidth={1} /> : <TrendingUp size={160} strokeWidth={1} />}
                         </div>
 
-                        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">
+                        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-black">
                             Intensidade de Carbono
                         </span>
 
@@ -193,7 +193,7 @@ export const Decarbonization: React.FC = () => {
                             <span className="text-6xl font-black text-gray-900 dark:text-white tracking-tighter">
                                 {latestRecord?.carbon_intensity.toFixed(4) || "0.0000"}
                             </span>
-                            <span className="text-xs font-bold text-gray-500">kgCO2e / Ton</span>
+                            <span className="text-xs font-bold text-black">kgCO2e / Ton</span>
                         </div>
 
                         <div className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wide ${intensityTrend <= 0
@@ -264,7 +264,7 @@ export const Decarbonization: React.FC = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <span className="text-[10px] font-bold text-gray-400 uppercase">
+                                        <span className="text-[10px] font-bold text-black uppercase">
                                             {rec.period_month}/{rec.period_year.toString().slice(-2)}
                                         </span>
                                     </div>
@@ -296,19 +296,19 @@ export const Decarbonization: React.FC = () => {
                     <div className="bg-white dark:bg-[#1C1C1C] w-full max-w-md rounded-3xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
                         <div className="px-6 py-5 border-b border-gray-100 dark:border-white/5 flex justify-between items-center">
                             <h3 className="text-lg font-black text-gray-900 dark:text-white">Lançamento de Inventário</h3>
-                            <button onClick={() => !isSaving && setIsModalOpen(false)} className="text-gray-400 hover:text-gray-900 dark:hover:text-white">
+                            <button onClick={() => !isSaving && setIsModalOpen(false)} className="text-black hover:text-gray-900 dark:hover:text-white">
                                 <X className="w-5 h-5" />
                             </button>
                         </div>
 
                         <div className="p-6 space-y-5">
-                            <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">
+                            <p className="text-sm text-black dark:text-black font-medium">
                                 Insira os dados de consumo para o cálculo automático das emissões de CO2 equivalente.
                             </p>
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-1">
-                                    <label className="text-xs font-bold text-gray-500 uppercase ml-1">Mês</label>
+                                    <label className="text-xs font-bold text-black uppercase ml-1">Mês</label>
                                     <input
                                         type="number"
                                         value={formData.month}
@@ -317,7 +317,7 @@ export const Decarbonization: React.FC = () => {
                                     />
                                 </div>
                                 <div className="space-y-1">
-                                    <label className="text-xs font-bold text-gray-500 uppercase ml-1">Ano</label>
+                                    <label className="text-xs font-bold text-black uppercase ml-1">Ano</label>
                                     <input
                                         type="number"
                                         value={formData.year}
@@ -329,7 +329,7 @@ export const Decarbonization: React.FC = () => {
 
                             <div className="space-y-4">
                                 <div className="space-y-1">
-                                    <label className="text-xs font-bold text-gray-500 uppercase ml-1">Diesel (Litros)</label>
+                                    <label className="text-xs font-bold text-black uppercase ml-1">Diesel (Litros)</label>
                                     <input
                                         type="number"
                                         value={formData.fuel}
@@ -338,7 +338,7 @@ export const Decarbonization: React.FC = () => {
                                     />
                                 </div>
                                 <div className="space-y-1">
-                                    <label className="text-xs font-bold text-gray-500 uppercase ml-1">Energia (kWh)</label>
+                                    <label className="text-xs font-bold text-black uppercase ml-1">Energia (kWh)</label>
                                     <input
                                         type="number"
                                         value={formData.energy}
@@ -347,7 +347,7 @@ export const Decarbonization: React.FC = () => {
                                     />
                                 </div>
                                 <div className="space-y-1">
-                                    <label className="text-xs font-bold text-gray-500 uppercase ml-1">Carga (Toneladas)</label>
+                                    <label className="text-xs font-bold text-black uppercase ml-1">Carga (Toneladas)</label>
                                     <input
                                         type="number"
                                         value={formData.cargo}
@@ -360,7 +360,7 @@ export const Decarbonization: React.FC = () => {
                             <div className="pt-2 flex gap-3">
                                 <button
                                     onClick={() => setIsModalOpen(false)}
-                                    className="flex-1 py-3 bg-gray-100 hover:bg-gray-200 dark:bg-white/5 dark:hover:bg-white/10 text-gray-600 dark:text-gray-300 rounded-xl font-bold text-sm transition-colors"
+                                    className="flex-1 py-3 bg-gray-100 hover:bg-gray-200 dark:bg-white/5 dark:hover:bg-white/10 text-black dark:text-gray-700 rounded-xl font-bold text-sm transition-colors"
                                 >
                                     Cancelar
                                 </button>
@@ -388,7 +388,7 @@ const EmissionStat = ({ label, value, color, textColor, icon }: { label: string,
             <div className="flex justify-between items-center mb-2">
                 <div className="flex items-center gap-2">
                     <div className={`${textColor}`}>{icon}</div>
-                    <span className="text-xs font-bold text-gray-500 uppercase tracking-tight">{label}</span>
+                    <span className="text-xs font-bold text-black uppercase tracking-tight">{label}</span>
                 </div>
                 <span className="text-sm font-black text-gray-900 dark:text-white">{value.toLocaleString('pt-BR')} kg</span>
             </div>

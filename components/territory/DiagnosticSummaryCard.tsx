@@ -42,20 +42,20 @@ export const DiagnosticSummaryCard: React.FC<DiagnosticSummaryCardProps> = ({ on
     if (loading) {
         return (
             <div className="flex justify-center p-4">
-                <Loader2 className="w-5 h-5 text-gray-400 animate-spin" />
+                <Loader2 className="w-5 h-5 text-black animate-spin" />
             </div>
         );
     }
 
     return (
         <div className="rounded-3xl border border-gray-200 dark:border-white/5 shadow-sm p-6 bg-white dark:bg-[#1C1C1C]">
-            <div className="text-xs font-black text-gray-400 uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
+            <div className="text-xs font-black text-black uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
                 <Users className="w-4 h-4 text-orange-500" />
                 Resumo do Diagnóstico
             </div>
 
             <div className="mb-4">
-                <label className="text-xs font-bold text-gray-500 block mb-1.5">Selecionar Comunidade</label>
+                <label className="text-xs font-bold text-black block mb-1.5">Selecionar Comunidade</label>
                 <select
                     value={selectedId}
                     onChange={(e) => handleSelectChange(e.target.value)}
@@ -70,19 +70,19 @@ export const DiagnosticSummaryCard: React.FC<DiagnosticSummaryCardProps> = ({ on
 
             <div className="space-y-3">
                 <div className="flex justify-between items-center text-xs">
-                    <span className="font-bold text-gray-500">Comunidade</span>
+                    <span className="font-bold text-black">Comunidade</span>
                     <span className="font-black text-gray-800 dark:text-gray-200 truncate max-w-[150px]">{selectedCommunity?.community_name || '-'}</span>
                 </div>
                 <div className="flex justify-between items-center text-xs">
-                    <span className="font-bold text-gray-500">Famílias</span>
+                    <span className="font-bold text-black">Famílias</span>
                     <span className="font-black text-orange-500">{selectedCommunity?.estimated_families || 0}</span>
                 </div>
                 <div className="flex justify-between items-center text-xs">
-                    <span className="font-bold text-gray-500">Perfil</span>
+                    <span className="font-bold text-black">Perfil</span>
                     <span className="font-black text-gray-800 dark:text-gray-200">{selectedCommunity?.settlement_type || '-'}</span>
                 </div>
                 <div className="flex justify-between items-center text-xs">
-                    <span className="font-bold text-gray-500">Relacionamento</span>
+                    <span className="font-bold text-black">Relacionamento</span>
                     <span className="font-black text-amber-500">{selectedCommunity ? `${selectedCommunity.relationship_level}/5` : '-'}</span>
                 </div>
             </div>

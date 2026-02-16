@@ -64,7 +64,7 @@ export const GovernanceSummaryCard: React.FC<GovernanceSummaryCardProps> = ({ an
                 <div className="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-900/20 flex items-center justify-center">
                     <Shield className="w-4 h-4 text-purple-600" />
                 </div>
-                <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">
+                <span className="text-[10px] font-black text-black uppercase tracking-widest">
                     Resumo de Governança
                 </span>
             </div>
@@ -78,7 +78,7 @@ export const GovernanceSummaryCard: React.FC<GovernanceSummaryCardProps> = ({ an
                             <div className="flex justify-between items-center mb-1.5">
                                 <div className="flex items-center gap-2">
                                     <Icon className={`w-3.5 h-3.5 ${idx.color}`} />
-                                    <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wide">
+                                    <span className="text-[10px] font-bold text-black uppercase tracking-wide">
                                         {idx.label}
                                     </span>
                                 </div>
@@ -95,7 +95,7 @@ export const GovernanceSummaryCard: React.FC<GovernanceSummaryCardProps> = ({ an
                                         style={{ width: `${(idx.value / 5) * 100}%` }}
                                     />
                                 </div>
-                                <span className="text-[10px] font-black text-gray-400 w-6">
+                                <span className="text-[10px] font-black text-black w-6">
                                     L{idx.value}
                                 </span>
                             </div>
@@ -105,7 +105,7 @@ export const GovernanceSummaryCard: React.FC<GovernanceSummaryCardProps> = ({ an
             </div>
 
             <div className={`mt-6 p-4 rounded-2xl border border-dashed ${globalStatus.bg} dark:bg-opacity-10 border-current`}>
-                <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-1">
+                <p className="text-[10px] font-black text-black uppercase tracking-widest mb-1">
                     Maturidade (G)
                 </p>
                 <div className="flex justify-between items-center">
@@ -113,7 +113,7 @@ export const GovernanceSummaryCard: React.FC<GovernanceSummaryCardProps> = ({ an
                         Nível {Math.round(avgScore)} — {globalStatus.label}
                     </span>
                     <span className="text-lg font-black text-gray-900 dark:text-white">
-                        {avgScore.toFixed(1)} <span className="text-xs text-gray-400">/ 5.0</span>
+                        {avgScore.toFixed(1)} <span className="text-xs text-black">/ 5.0</span>
                     </span>
                 </div>
             </div>

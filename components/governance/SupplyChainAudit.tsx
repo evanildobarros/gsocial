@@ -31,7 +31,7 @@ export const SupplyChainAudit: React.FC = () => {
                     <h1 className="text-2xl font-black text-gray-900 dark:text-white tracking-tight flex items-center gap-2">
                         Auditoria da Cadeia de Valor
                     </h1>
-                    <p className="text-sm text-gray-500 mt-1">
+                    <p className="text-sm text-black mt-1">
                         Monitoramento de fornecedores e Due Diligence ESG automatizada.
                     </p>
                 </div>
@@ -44,18 +44,18 @@ export const SupplyChainAudit: React.FC = () => {
             {/* Search & Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="md:col-span-2 bg-white dark:bg-[#1C1C1C] p-4 rounded-3xl border border-gray-200 dark:border-white/5 shadow-sm flex items-center gap-4">
-                    <Search className="w-5 h-5 text-gray-400" />
+                    <Search className="w-5 h-5 text-black" />
                     <input
                         type="text"
                         placeholder="Buscar por nome, CNPJ ou ID..."
-                        className="flex-1 bg-transparent outline-none text-gray-700 dark:text-white placeholder-gray-400"
+                        className="flex-1 bg-transparent outline-none text-black dark:text-white placeholder-gray-400"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
                 <div className="bg-white dark:bg-[#1C1C1C] p-4 rounded-3xl border border-gray-200 dark:border-white/5 shadow-sm flex items-center justify-between">
                     <div>
-                        <span className="text-xs text-gray-400 font-bold uppercase">Total Monitorado</span>
+                        <span className="text-xs text-black font-bold uppercase">Total Monitorado</span>
                         <p className="text-2xl font-black text-gray-900 dark:text-white">1,248</p>
                     </div>
                     <Truck className="w-8 h-8 text-gray-200 dark:text-white/10" />
@@ -65,7 +65,7 @@ export const SupplyChainAudit: React.FC = () => {
             {/* List */}
             <div className="bg-white dark:bg-[#1C1C1C] rounded-3xl border border-gray-200 dark:border-white/5 shadow-sm overflow-hidden">
                 <table className="w-full text-sm text-left">
-                    <thead className="bg-gray-50 dark:bg-zinc-900 text-gray-500 dark:text-gray-400 font-bold uppercase text-xs">
+                    <thead className="bg-gray-50 dark:bg-zinc-900 text-black dark:text-black font-bold uppercase text-xs">
                         <tr>
                             <th className="px-6 py-4">Fornecedor</th>
                             <th className="px-6 py-4">Categoria</th>
@@ -81,16 +81,16 @@ export const SupplyChainAudit: React.FC = () => {
                                 <tr key={supplier.id} className="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
                                     <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">
                                         <div className="flex items-center gap-3">
-                                            <div className="w-8 h-8 rounded bg-gray-100 dark:bg-white/10 flex items-center justify-center text-xs font-bold text-gray-500">
+                                            <div className="w-8 h-8 rounded bg-gray-100 dark:bg-white/10 flex items-center justify-center text-xs font-bold text-black">
                                                 {supplier.name.substring(0, 2).toUpperCase()}
                                             </div>
                                             <div>
                                                 <p className="line-clamp-1">{supplier.name}</p>
-                                                <span className="text-[10px] text-gray-400">{supplier.id}</span>
+                                                <span className="text-[10px] text-black">{supplier.id}</span>
                                             </div>
                                         </div>
                                     </td>
-                                    <td className="px-6 py-4 text-gray-600 dark:text-gray-300">{supplier.category}</td>
+                                    <td className="px-6 py-4 text-black dark:text-gray-700">{supplier.category}</td>
                                     <td className="px-6 py-4">
                                         <div className="flex items-center gap-2">
                                             <div className="w-16 h-1.5 bg-gray-200 dark:bg-white/10 rounded-full overflow-hidden">
@@ -118,7 +118,7 @@ export const SupplyChainAudit: React.FC = () => {
                                         )}
                                     </td>
                                     <td className="px-6 py-4 text-right">
-                                        <button className="text-xs font-bold text-gray-400 hover:text-happiness-1 transition-colors">
+                                        <button className="text-xs font-bold text-black hover:text-happiness-1 transition-colors">
                                             Detalhes
                                         </button>
                                     </td>
@@ -128,15 +128,15 @@ export const SupplyChainAudit: React.FC = () => {
                     </tbody>
                 </table>
                 {filteredSuppliers.length === 0 && (
-                    <div className="p-8 text-center text-gray-400 text-sm">
+                    <div className="p-8 text-center text-black text-sm">
                         Nenhum fornecedor encontrado par a busca.
                     </div>
                 )}
             </div>
 
             <div className="bg-gray-50 dark:bg-white/5 p-4 rounded-3xl border border-gray-200 dark:border-white/10">
-                <h4 className="font-bold text-gray-700 dark:text-gray-200 text-xs uppercase mb-2">Lógica de Bloqueio Automático</h4>
-                <p className="text-xs text-gray-500">
+                <h4 className="font-bold text-black dark:text-gray-200 text-xs uppercase mb-2">Lógica de Bloqueio Automático</h4>
+                <p className="text-xs text-black">
                     Fornecedores com <strong>Risk Score &gt; 80</strong> são automaticamente bloqueados de novos contratos no ERP financeiro.
                     A reintegração exige uma auditoria física e aprovação do Compliance Officer.
                 </p>

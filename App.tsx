@@ -91,7 +91,7 @@ const NavItem: React.FC<NavItemProps> = ({ icon, label, active, onClick, collaps
                 ${collapsed ? 'justify-center' : 'justify-start'}
                 ${active
                     ? 'bg-happiness-1/10 text-happiness-1 dark:text-white dark:bg-happiness-1 shadow-sm'
-                    : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white'
+                    : 'text-black dark:text-black hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white'
                 }
             `}
         >
@@ -119,13 +119,13 @@ const SectionHeader: React.FC<{
         onClick={!collapsed ? onToggle : undefined}
         className={`px-6 py-3 mt-6 flex items-center justify-between group transition-colors ${!collapsed && onToggle ? 'cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5' : ''} ${collapsed ? 'text-center' : 'text-left'}`}
     >
-        <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.25em] text-gray-400 dark:text-gray-600 group-hover:text-happiness-1 transition-colors antialiased">
+        <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.25em] text-black dark:text-black group-hover:text-happiness-1 transition-colors antialiased">
              {/* Renderiza o ícone se existir e não estiver colapsado */}
              {!collapsed && icon && React.cloneElement(icon as React.ReactElement<any>, { sx: { fontSize: 16 } })}
             <span>{collapsed ? '•••' : label}</span>
         </div>
         {!collapsed && onToggle && (
-            <div className="text-gray-400 group-hover:text-happiness-1 transition-colors">
+            <div className="text-black group-hover:text-happiness-1 transition-colors">
                 {open ? <ExpandLess sx={{ fontSize: 16 }} /> : <ExpandMore sx={{ fontSize: 16 }} />}
             </div>
         )}
@@ -250,7 +250,7 @@ export default function App() {
     if (isLoading) {
         return (
             <div className="flex justify-center items-center h-screen bg-gray-50 dark:bg-zinc-950">
-                <span className="text-gray-400 dark:text-gray-500 font-bold animate-pulse">Carregando ESGporto...</span>
+                <span className="text-black dark:text-black font-bold animate-pulse">Carregando ESGporto...</span>
             </div>
         );
     }
@@ -535,12 +535,12 @@ export default function App() {
                                 <img src="/logo_itaqui.png" alt="Porto do Itaqui" className="h-10 w-auto object-contain" />
                                 <div className="animate-in fade-in duration-300">
                                     <h1 className="text-lg font-black tracking-tighter leading-none text-gray-900 dark:text-white">ESGporto</h1>
-                                    <p className="text-[9px] font-black text-gray-400 dark:text-happiness-3 uppercase tracking-widest mt-1">Dash Intelligence</p>
+                                    <p className="text-[9px] font-black text-black dark:text-happiness-3 uppercase tracking-widest mt-1">Dash Intelligence</p>
                                 </div>
                             </div>
                             <button
                                 onClick={() => setSidebarOpen(false)}
-                                className="p-1.5 text-gray-400 hover:text-happiness-1 hover:bg-happiness-1/5 rounded-sm transition-all"
+                                className="p-1.5 text-black hover:text-happiness-1 hover:bg-happiness-1/5 rounded-sm transition-all"
                             >
                                 <MenuIcon sx={{ fontSize: 20 }} />
                             </button>
@@ -550,7 +550,7 @@ export default function App() {
                             <img src="/logo_itaqui.png" alt="Logo" className="w-10 h-10 object-contain" />
                             <button
                                 onClick={() => setSidebarOpen(true)}
-                                className="p-2 text-gray-400 hover:text-happiness-1 hover:bg-happiness-1/5 rounded-sm transition-all"
+                                className="p-2 text-black hover:text-happiness-1 hover:bg-happiness-1/5 rounded-sm transition-all"
                             >
                                 <MenuIcon sx={{ fontSize: 24 }} />
                             </button>
@@ -684,7 +684,7 @@ export default function App() {
                                     ${!sidebarOpen ? 'justify-center' : 'justify-start'}
                                     ${mode === AppMode.USERS
                                     ? 'bg-happiness-1/10 text-happiness-1 dark:bg-happiness-1 dark:text-white'
-                                    : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white'
+                                    : 'text-black dark:text-black hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white'
                                 }
                                 `}
                         >
@@ -709,7 +709,7 @@ export default function App() {
                                     w-full flex items-center py-2 px-3 rounded-sm transition-all duration-200 mt-1 ml-4 border-l-2
                                     ${mode === AppMode.USERS
                                         ? 'border-happiness-1 bg-happiness-1/5 text-happiness-1 dark:text-white dark:bg-happiness-1/10'
-                                        : 'border-gray-200 dark:border-white/10 text-gray-400 hover:text-gray-700 dark:hover:text-white hover:border-gray-300 dark:hover:border-white/30'
+                                        : 'border-gray-200 dark:border-white/10 text-black hover:text-black dark:hover:text-white hover:border-gray-300 dark:hover:border-white/30'
                                     }
                                 `}
                             >
@@ -735,7 +735,7 @@ export default function App() {
                     <div className="flex items-center gap-6">
                         {/* Toggle Removed from Header */}
                         <div className="h-6 w-px bg-gray-200 dark:bg-white/10 hidden sm:block"></div>
-                        <h2 className="hidden sm:block text-sm font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] antialiased">
+                        <h2 className="hidden sm:block text-sm font-black text-black dark:text-black uppercase tracking-[0.2em] antialiased">
                             {getPageTitle()}
                         </h2>
                     </div>
@@ -749,7 +749,7 @@ export default function App() {
                         <div className="h-6 w-px bg-gray-200 dark:bg-white/10"></div>
 
                         <div className="relative group">
-                            <button className="relative p-2 text-gray-400 hover:text-happiness-1 transition-colors">
+                            <button className="relative p-2 text-black hover:text-happiness-1 transition-colors">
                                 <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-zinc-900"></span>
                                 <NotificationsIcon />
                             </button>
@@ -775,25 +775,25 @@ export default function App() {
                                     <div className="absolute -top-1.5 right-5 w-3 h-3 bg-white dark:bg-[#1E1E1E] transform rotate-45 border-l border-t border-gray-100 dark:border-white/5"></div>
 
                                     <div className="px-6 py-5 border-b border-gray-100 dark:border-white/5 bg-gray-50/50 dark:bg-white/5">
-                                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">{userProfile?.role || 'Usuário'}</p>
+                                        <p className="text-[10px] font-black text-black uppercase tracking-widest mb-1">{userProfile?.role || 'Usuário'}</p>
                                         <p className="text-base font-bold text-gray-900 dark:text-white leading-tight truncate">{userProfile?.full_name}</p>
-                                        <p className="text-xs text-gray-400 truncate mt-0.5">{userProfile?.email}</p>
+                                        <p className="text-xs text-black truncate mt-0.5">{userProfile?.email}</p>
                                     </div>
 
                                     <div className="p-2">
-                                        <button onClick={() => { setMode(AppMode.PROFILE); setIsProfileOpen(false); }} className="w-full text-left px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg flex items-center gap-3 transition-colors">
-                                            <AccountCircleIcon fontSize="small" className="text-gray-400" />
+                                        <button onClick={() => { setMode(AppMode.PROFILE); setIsProfileOpen(false); }} className="w-full text-left px-4 py-3 text-sm font-medium text-black dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg flex items-center gap-3 transition-colors">
+                                            <AccountCircleIcon fontSize="small" className="text-black" />
                                             Seu Perfil
                                         </button>
-                                        <button onClick={() => { setMode(AppMode.DASHBOARD); setIsProfileOpen(false); }} className="w-full text-left px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg flex items-center gap-3 transition-colors">
-                                            <SettingsIcon fontSize="small" className="text-gray-400" />
+                                        <button onClick={() => { setMode(AppMode.DASHBOARD); setIsProfileOpen(false); }} className="w-full text-left px-4 py-3 text-sm font-medium text-black dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg flex items-center gap-3 transition-colors">
+                                            <SettingsIcon fontSize="small" className="text-black" />
                                             Configurações
                                         </button>
                                     </div>
 
                                     {/* Gestor de Temas */}
                                     <div className="px-4 py-4 border-t border-gray-100 dark:border-white/5 bg-gray-50/30 dark:bg-white/[0.02]">
-                                        <p className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3 flex items-center gap-2">
+                                        <p className="text-[10px] font-black text-black dark:text-black uppercase tracking-widest mb-3 flex items-center gap-2">
                                             <ZapIcon sx={{ fontSize: 14 }} />
                                             Ambiente de Cores
                                         </p>

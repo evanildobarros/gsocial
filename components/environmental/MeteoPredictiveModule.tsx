@@ -141,7 +141,7 @@ export const MeteoPredictiveModule: React.FC = () => {
         return (
             <div className="flex flex-col items-center py-20 gap-4 text-center">
                 <RefreshCw className="w-16 h-16 text-blue-500 animate-spin" />
-                <span className="text-xs font-black uppercase tracking-widest text-gray-500">Sincronizando Berço 100...</span>
+                <span className="text-xs font-black uppercase tracking-widest text-black">Sincronizando Berço 100...</span>
             </div>
         );
     }
@@ -157,7 +157,7 @@ export const MeteoPredictiveModule: React.FC = () => {
                         </div>
                         <div>
                             <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">Inteligência Climática</h1>
-                            <p className="text-sm font-medium text-gray-500 italic">Predição Operacional • Berço 100</p>
+                            <p className="text-sm font-medium text-black italic">Predição Operacional • Berço 100</p>
                         </div>
                     </div>
                 </div>
@@ -166,7 +166,7 @@ export const MeteoPredictiveModule: React.FC = () => {
                     <input type="file" ref={fileInputRef} onChange={handleFileUpload} accept=".csv" className="hidden" />
                     <button
                         onClick={() => fileInputRef.current?.click()}
-                        className="px-4 py-2 border border-gray-200 dark:border-white/10 rounded-full font-bold text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 flex items-center gap-2 transition-colors"
+                        className="px-4 py-2 border border-gray-200 dark:border-white/10 rounded-full font-bold text-sm text-black dark:text-gray-700 hover:bg-gray-50 dark:hover:bg-white/5 flex items-center gap-2 transition-colors"
                     >
                         <Upload size={16} />
                         Importar Histórico
@@ -203,9 +203,9 @@ export const MeteoPredictiveModule: React.FC = () => {
                         <Wind className="text-blue-500" />
                         <TrendingUp className="w-4 h-4 text-green-500" />
                     </div>
-                    <span className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">VENTO ESCALAR</span>
+                    <span className="text-[10px] font-black text-black uppercase tracking-[0.2em]">VENTO ESCALAR</span>
                     <div className="mt-1 text-3xl font-black text-gray-900 dark:text-white">
-                        {data[23]?.windSpeed.toFixed(1)} <span className="text-sm font-normal text-gray-400">m/s</span>
+                        {data[23]?.windSpeed.toFixed(1)} <span className="text-sm font-normal text-black">m/s</span>
                     </div>
                 </div>
 
@@ -214,20 +214,20 @@ export const MeteoPredictiveModule: React.FC = () => {
                         <Cloud className="text-cyan-500" />
                         <span className="text-[10px] font-black text-red-500 uppercase">ALERTA</span>
                     </div>
-                    <span className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">PRECIPITAÇÃO ACUM.</span>
+                    <span className="text-[10px] font-black text-black uppercase tracking-[0.2em]">PRECIPITAÇÃO ACUM.</span>
                     <div className="mt-1 text-3xl font-black text-gray-900 dark:text-white">
-                        {data.reduce((acc, c) => acc + c.rainMm, 0).toFixed(1)} <span className="text-sm font-normal text-gray-400">mm</span>
+                        {data.reduce((acc, c) => acc + c.rainMm, 0).toFixed(1)} <span className="text-sm font-normal text-black">mm</span>
                     </div>
                 </div>
 
                 <div className="bg-white dark:bg-[#1C1C1C] rounded-[24px] p-6 border border-gray-200 dark:border-white/5 shadow-sm hover:-translate-y-1 transition-transform duration-200">
                     <div className="flex justify-between items-start mb-2">
                         <Thermometer className="text-amber-500" />
-                        <span className="text-[10px] font-black text-gray-400 uppercase">ESTÁVEL</span>
+                        <span className="text-[10px] font-black text-black uppercase">ESTÁVEL</span>
                     </div>
-                    <span className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">TEMPERATURA</span>
+                    <span className="text-[10px] font-black text-black uppercase tracking-[0.2em]">TEMPERATURA</span>
                     <div className="mt-1 text-3xl font-black text-gray-900 dark:text-white">
-                        {data[23]?.temp.toFixed(1)} <span className="text-sm font-normal text-gray-400">°C</span>
+                        {data[23]?.temp.toFixed(1)} <span className="text-sm font-normal text-black">°C</span>
                     </div>
                 </div>
 
@@ -236,9 +236,9 @@ export const MeteoPredictiveModule: React.FC = () => {
                         <Droplets className="text-purple-500" />
                         <span className="text-[10px] font-black text-green-500 uppercase">-5%</span>
                     </div>
-                    <span className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">UMIDADE</span>
+                    <span className="text-[10px] font-black text-black uppercase tracking-[0.2em]">UMIDADE</span>
                     <div className="mt-1 text-3xl font-black text-gray-900 dark:text-white">
-                        {data[23]?.humidity.toFixed(0)} <span className="text-sm font-normal text-gray-400">%</span>
+                        {data[23]?.humidity.toFixed(0)} <span className="text-sm font-normal text-black">%</span>
                     </div>
                 </div>
             </div>
@@ -264,13 +264,13 @@ export const MeteoPredictiveModule: React.FC = () => {
                         <div className="space-y-4">
                             <div>
                                 <div className="flex justify-between items-center mb-2">
-                                    <span className="text-xs font-black text-gray-500 uppercase">DISPERSÃO DE PARTICULADOS</span>
+                                    <span className="text-xs font-black text-black uppercase">DISPERSÃO DE PARTICULADOS</span>
                                     <span className="px-2 py-0.5 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 text-[10px] font-black uppercase rounded-lg">ALTO RISCO</span>
                                 </div>
-                                <p className="text-sm text-gray-500 italic mb-4">
+                                <p className="text-sm text-black italic mb-4">
                                     Ventos de Sudeste ({'>'}6m/s) sopram em direção à zona urbana.
                                 </p>
-                                <button disabled className="w-full bg-gray-100 dark:bg-white/10 text-gray-400 py-3 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-2 cursor-not-allowed">
+                                <button disabled className="w-full bg-gray-100 dark:bg-white/10 text-black py-3 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-2 cursor-not-allowed">
                                     <Zap size={16} />
                                     Gatilhos Automáticos Ativados
                                 </button>
@@ -312,9 +312,9 @@ export const MeteoPredictiveModule: React.FC = () => {
                         </div>
 
                         <div className="flex justify-between px-2">
-                            <span className="text-[10px] font-bold text-gray-400">00:00</span>
+                            <span className="text-[10px] font-bold text-black">00:00</span>
                             <span className="text-[10px] font-black text-blue-600">AGORA</span>
-                            <span className="text-[10px] font-bold text-gray-400">23:00</span>
+                            <span className="text-[10px] font-bold text-black">23:00</span>
                         </div>
                     </div>
 

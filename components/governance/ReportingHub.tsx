@@ -38,12 +38,12 @@ export const ReportingHub: React.FC = () => {
                         </div>
                         <div>
                             <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">Hub de Transparência</h1>
-                            <p className="text-sm font-bold text-gray-500">Central de Relatórios ESG & Divulgação Pública</p>
+                            <p className="text-sm font-bold text-black">Central de Relatórios ESG & Divulgação Pública</p>
                         </div>
                     </div>
                 </div>
                 <div className="flex gap-3">
-                    <button className="px-4 py-2 border border-gray-200 dark:border-white/10 rounded-full font-bold text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 flex items-center gap-2 transition-colors">
+                    <button className="px-4 py-2 border border-gray-200 dark:border-white/10 rounded-full font-bold text-sm text-black dark:text-gray-700 hover:bg-gray-50 dark:hover:bg-white/5 flex items-center gap-2 transition-colors">
                         <Settings size={16} />
                         Configurar Mapeamento
                     </button>
@@ -64,7 +64,7 @@ export const ReportingHub: React.FC = () => {
                             </div>
                             <div>
                                 <h2 className="text-xl font-black text-gray-900 dark:text-white">Gerador de Relatórios</h2>
-                                <p className="text-xs font-bold text-gray-500 uppercase tracking-wide">Frameworks Internacionais de Reporte</p>
+                                <p className="text-xs font-bold text-black uppercase tracking-wide">Frameworks Internacionais de Reporte</p>
                             </div>
                         </div>
 
@@ -81,7 +81,7 @@ export const ReportingHub: React.FC = () => {
                                         <div>
                                             <h3 className="text-sm font-black text-gray-800 dark:text-gray-200">{template.name}</h3>
                                             <div className="flex items-center gap-2 mt-0.5">
-                                                <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">{template.type}</span>
+                                                <span className="text-[10px] font-bold text-black uppercase tracking-wider">{template.type}</span>
                                                 <div className="w-px h-3 bg-gray-300 dark:bg-white/20" />
                                                 <span className="text-[10px] font-black text-green-600">{template.mapping}% Mapeado</span>
                                             </div>
@@ -91,7 +91,7 @@ export const ReportingHub: React.FC = () => {
                                     <div className="flex items-center gap-3">
                                         <span className={`px-2 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider ${template.status === 'Ready' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' :
                                                 template.status === 'Partial' ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400' :
-                                                    'bg-gray-100 text-gray-600 dark:bg-white/10 dark:text-gray-400'
+                                                    'bg-gray-100 text-black dark:bg-white/10 dark:text-black'
                                             }`}>
                                             {template.status === 'Ready' ? 'Pronto' : template.status === 'Partial' ? 'Parcial' : 'Rascunho'}
                                         </span>
@@ -135,16 +135,16 @@ export const ReportingHub: React.FC = () => {
                                 <div className="absolute bottom-0 right-0 w-5 h-5 bg-green-500 rounded-full border-[3px] border-white dark:border-[#1C1C1C]" />
                             </div>
                             <h3 className="text-xl font-black text-gray-900 dark:text-white">Canal Operante</h3>
-                            <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest mt-1">SISTEMA DE DIVULGAÇÃO EM TEMPO REAL</p>
+                            <p className="text-[10px] font-black text-black uppercase tracking-widest mt-1">SISTEMA DE DIVULGAÇÃO EM TEMPO REAL</p>
                         </div>
 
                         <div className="space-y-6 relative z-10 mb-8">
                             {transparencyItems.map((item) => (
                                 <div key={item.id}>
                                     <div className="flex justify-between items-center mb-2">
-                                        <span className="text-sm font-black text-gray-700 dark:text-gray-300">{item.name}</span>
+                                        <span className="text-sm font-black text-black dark:text-gray-700">{item.name}</span>
                                         <div className="flex items-center gap-2">
-                                            <span className="text-[10px] font-bold text-gray-400">{item.update}</span>
+                                            <span className="text-[10px] font-bold text-black">{item.update}</span>
                                             <div className={`w-2 h-2 rounded-full ${item.status === 'Live' ? 'bg-green-500' : 'bg-amber-500'}`} />
                                         </div>
                                     </div>

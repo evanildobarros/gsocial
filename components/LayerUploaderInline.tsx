@@ -21,7 +21,7 @@ const PILLAR_OPTIONS: { label: string; value: ESGPillar; color: string; icon: Re
     { label: 'Ambiental', value: 'Environmental', color: 'text-green-600', icon: <Hexagon className="w-5 h-5" />, bg: 'bg-green-500/10', border: 'border-green-500/30' },
     { label: 'Social', value: 'Social', color: 'text-orange-600', icon: <Users className="w-5 h-5" />, bg: 'bg-orange-500/10', border: 'border-orange-500/30' },
     { label: 'Governança', value: 'Governance', color: 'text-blue-600', icon: <Shield className="w-5 h-5" />, bg: 'bg-blue-500/10', border: 'border-blue-500/30' },
-    { label: 'Operacional', value: 'Operational', color: 'text-gray-600', icon: <Navigation className="w-5 h-5" />, bg: 'bg-gray-500/10', border: 'border-gray-500/30' },
+    { label: 'Operacional', value: 'Operational', color: 'text-black', icon: <Navigation className="w-5 h-5" />, bg: 'bg-gray-500/10', border: 'border-gray-500/30' },
 ];
 
 export const LayerUploaderInline: React.FC<LayerUploaderInlineProps> = ({ onLayersLoaded }) => {
@@ -136,14 +136,14 @@ export const LayerUploaderInline: React.FC<LayerUploaderInlineProps> = ({ onLaye
                 </div>
                 <div>
                     <h3 className="font-bold text-gray-900 dark:text-white">Importar Mapeamento ESG</h3>
-                    <p className="text-xs text-gray-500">Categorização obrigatória para inteligência de dados</p>
+                    <p className="text-xs text-black">Categorização obrigatória para inteligência de dados</p>
                 </div>
             </div>
 
             <div className="p-6 space-y-6">
                 {/* Section 1: File Setup */}
                 <div className="space-y-4">
-                    <label className="text-xs font-bold text-gray-500 uppercase tracking-wider flex items-center gap-2">
+                    <label className="text-xs font-bold text-black uppercase tracking-wider flex items-center gap-2">
                         <Globe className="w-3.5 h-3.5" /> 1. Arquivo Geoespacial
                     </label>
 
@@ -160,10 +160,10 @@ export const LayerUploaderInline: React.FC<LayerUploaderInlineProps> = ({ onLaye
                         >
                             <input ref={fileInputRef} type="file" onChange={onFileChange} accept=".kml,.geojson,.json,.zip,.csv" className="hidden" />
                             <div className="w-12 h-12 bg-gray-100 dark:bg-white/5 rounded-full flex items-center justify-center mb-3">
-                                <Upload className={`w-6 h-6 ${isDragging ? 'text-happiness-1' : 'text-gray-400'}`} />
+                                <Upload className={`w-6 h-6 ${isDragging ? 'text-happiness-1' : 'text-black'}`} />
                             </div>
-                            <p className="text-sm font-bold text-gray-700 dark:text-gray-200 mb-1">Arraste e solte ou clique para selecionar</p>
-                            <p className="text-[10px] text-gray-400">KML, GeoJSON, Shapefile (ZIP) ou CSV</p>
+                            <p className="text-sm font-bold text-black dark:text-gray-200 mb-1">Arraste e solte ou clique para selecionar</p>
+                            <p className="text-[10px] text-black">KML, GeoJSON, Shapefile (ZIP) ou CSV</p>
                         </div>
                     ) : (
                         <div className="bg-green-500/5 dark:bg-green-500/10 rounded-3xl border border-green-500/20 p-4 flex items-center justify-between animate-in zoom-in-95 duration-200">
@@ -173,10 +173,10 @@ export const LayerUploaderInline: React.FC<LayerUploaderInlineProps> = ({ onLaye
                                 </div>
                                 <div className="truncate">
                                     <p className="text-sm font-bold text-gray-800 dark:text-gray-200 truncate">{selectedFile.name}</p>
-                                    <p className="text-[10px] text-gray-500 uppercase">{(selectedFile.size / 1024).toFixed(1)} KB</p>
+                                    <p className="text-[10px] text-black uppercase">{(selectedFile.size / 1024).toFixed(1)} KB</p>
                                 </div>
                             </div>
-                            <button onClick={() => setSelectedFile(null)} className="p-1.5 hover:bg-red-500/10 rounded-3xl text-gray-400 hover:text-red-500 transition-colors">
+                            <button onClick={() => setSelectedFile(null)} className="p-1.5 hover:bg-red-500/10 rounded-3xl text-black hover:text-red-500 transition-colors">
                                 <Trash2 className="w-4 h-4" />
                             </button>
                         </div>
@@ -185,26 +185,26 @@ export const LayerUploaderInline: React.FC<LayerUploaderInlineProps> = ({ onLaye
 
                 {/* Section 2: Metadata */}
                 <div className="space-y-5">
-                    <label className="text-xs font-bold text-gray-500 uppercase tracking-wider flex items-center gap-2">
+                    <label className="text-xs font-bold text-black uppercase tracking-wider flex items-center gap-2">
                         <Tag className="w-3.5 h-3.5" /> 2. Metadados e Categorização
                     </label>
 
                     <div className="grid grid-cols-1 gap-5">
                         {/* Layer Name (Principal) */}
                         <div className="space-y-1.5">
-                            <label className="text-xs font-semibold text-gray-600 dark:text-gray-400">Nome da Camada Principal</label>
+                            <label className="text-xs font-semibold text-black dark:text-black">Nome da Camada Principal</label>
                             <input
                                 type="text"
                                 value={layerName}
                                 onChange={(e) => setLayerName(e.target.value)}
                                 placeholder="Ex: Mapeamento da Poligonal do Porto"
-                                className="w-full bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-3xl px-4 py-2.5 text-sm text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:border-happiness-1 focus:ring-1 focus:ring-happiness-1 transition-all outline-none"
+                                className="w-full bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-3xl px-4 py-2.5 text-sm text-gray-900 dark:text-white placeholder:text-black dark:placeholder:text-black focus:border-happiness-1 focus:ring-1 focus:ring-happiness-1 transition-all outline-none"
                             />
                         </div>
 
                         {/* Color Picker */}
                         <div className="space-y-1.5">
-                            <label className="text-xs font-semibold text-gray-600 dark:text-gray-400">Cor da Camada no Mapa</label>
+                            <label className="text-xs font-semibold text-black dark:text-black">Cor da Camada no Mapa</label>
                             <div className="flex items-center gap-3 bg-gray-50 dark:bg-white/5 p-2 rounded-2xl border border-gray-100 dark:border-white/5">
                                 <div className="relative w-8 h-8 rounded-full border border-gray-200 dark:border-white/10 overflow-hidden shadow-sm" style={{ backgroundColor: selectedColor }}>
                                     <input
@@ -220,7 +220,7 @@ export const LayerUploaderInline: React.FC<LayerUploaderInlineProps> = ({ onLaye
 
                         {/* ESG Pillar Selection */}
                         <div className="space-y-2">
-                            <label className="text-xs font-semibold text-gray-600 dark:text-gray-400">Pilar ESG (Categoria)</label>
+                            <label className="text-xs font-semibold text-black dark:text-black">Pilar ESG (Categoria)</label>
                             <div className="grid grid-cols-2 gap-2">
                                 {PILLAR_OPTIONS.map((opt) => (
                                     <button
@@ -255,7 +255,7 @@ export const LayerUploaderInline: React.FC<LayerUploaderInlineProps> = ({ onLaye
                                     <AlertCircle className="w-5 h-5 text-red-500" />}
                             <div className="flex-1">
                                 <p className="text-sm font-bold text-gray-900 dark:text-gray-100">{uploadState.status === 'success' ? 'Importação Concluída' : uploadState.status === 'error' ? 'Falha na Importação' : 'Processando...'}</p>
-                                <p className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">{uploadState.message}</p>
+                                <p className="text-xs text-black dark:text-black mt-0.5">{uploadState.message}</p>
                             </div>
                         </div>
                     </div>
@@ -266,7 +266,7 @@ export const LayerUploaderInline: React.FC<LayerUploaderInlineProps> = ({ onLaye
             <div className="p-5 border-t border-gray-100 dark:border-white/10 bg-gray-50 dark:bg-zinc-900/50 flex justify-end gap-3">
                 <button
                     onClick={resetForm}
-                    className="px-5 py-2.5 text-sm font-bold text-gray-500 hover:text-gray-800 dark:hover:text-white transition-all outline-none"
+                    className="px-5 py-2.5 text-sm font-bold text-black hover:text-gray-800 dark:hover:text-white transition-all outline-none"
                 >
                     Cancelar
                 </button>
@@ -276,7 +276,7 @@ export const LayerUploaderInline: React.FC<LayerUploaderInlineProps> = ({ onLaye
                     className={`
                         flex items-center gap-2 px-8 py-2.5 rounded-3xl text-sm font-bold transition-all shadow-lg
                         ${!selectedFile || !selectedPillar || !layerName || uploadState.status === 'processing'
-                            ? 'bg-gray-200 dark:bg-white/5 text-gray-400 cursor-not-allowed shadow-none'
+                            ? 'bg-gray-200 dark:bg-white/5 text-black cursor-not-allowed shadow-none'
                             : 'bg-happiness-1 hover:bg-happiness-1/90 text-white hover:scale-[1.02] active:scale-[0.98]'
                         }
                     `}

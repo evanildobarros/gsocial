@@ -134,7 +134,7 @@ export const Efficiency: React.FC = () => {
         return (
             <div className="flex flex-col items-center justify-center py-40 space-y-4">
                 <Loader2 className="w-12 h-12 text-blue-500 animate-spin" />
-                <p className="text-gray-400 font-black uppercase tracking-widest text-xs">Sincronizando Medição de Recursos...</p>
+                <p className="text-black font-black uppercase tracking-widest text-xs">Sincronizando Medição de Recursos...</p>
             </div>
         );
     }
@@ -145,12 +145,12 @@ export const Efficiency: React.FC = () => {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
                 <div>
                     <h2 className="text-3xl font-black text-gray-900 dark:text-white tracking-tighter italic">Eficiência de Recursos</h2>
-                    <p className="text-gray-500 font-medium italic">Gestão hídrica e energética para operações portuárias sustentáveis.</p>
+                    <p className="text-black font-medium italic">Gestão hídrica e energética para operações portuárias sustentáveis.</p>
                 </div>
                 <div className="flex gap-3">
                     <button
                         onClick={generatePDF}
-                        className="px-4 py-2 rounded-lg border border-gray-300 dark:border-white/10 text-gray-600 dark:text-gray-300 font-black text-[11px] hover:bg-gray-50 dark:hover:bg-white/5 transition-colors flex items-center gap-2"
+                        className="px-4 py-2 rounded-lg border border-gray-300 dark:border-white/10 text-black dark:text-gray-700 font-black text-[11px] hover:bg-gray-50 dark:hover:bg-white/5 transition-colors flex items-center gap-2"
                     >
                         <Download className="w-4 h-4" /> EXPORTAR
                     </button>
@@ -192,15 +192,15 @@ export const Efficiency: React.FC = () => {
 
                 <div className="bg-[#1C1C1C] p-8 rounded-lg text-white relative overflow-hidden group">
                     <Target className="absolute -right-4 -top-4 w-24 h-24 opacity-10 group-hover:rotate-12 transition-transform" />
-                    <h4 className="font-black text-xs uppercase tracking-[0.2em] text-gray-500 mb-4">Meta de Redução</h4>
+                    <h4 className="font-black text-xs uppercase tracking-[0.2em] text-black mb-4">Meta de Redução</h4>
                     <div className="flex items-baseline gap-2 mb-4">
                         <span className="text-4xl font-black tracking-tighter">15%</span>
-                        <span className="text-[10px] uppercase font-bold text-gray-400">vs 2025</span>
+                        <span className="text-[10px] uppercase font-bold text-black">vs 2025</span>
                     </div>
                     <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
                         <div className="h-full bg-happiness-1 w-[68%]" />
                     </div>
-                    <p className="text-[10px] mt-2 font-bold text-gray-400">68% do objetivo atingido</p>
+                    <p className="text-[10px] mt-2 font-bold text-black">68% do objetivo atingido</p>
                 </div>
             </div>
 
@@ -209,14 +209,14 @@ export const Efficiency: React.FC = () => {
                 <div className="lg:col-span-3 bg-white dark:bg-[#1C1C1C] rounded-lg border border-gray-200 dark:border-white/5 shadow-sm overflow-hidden">
                     <div className="p-6 border-b border-gray-100 dark:border-white/5 flex justify-between items-center">
                         <div className="flex items-center gap-3">
-                            <History className="w-5 h-5 text-gray-400" />
-                            <h3 className="text-sm font-black uppercase tracking-tighter dark:text-gray-300">Histórico de Consumo</h3>
+                            <History className="w-5 h-5 text-black" />
+                            <h3 className="text-sm font-black uppercase tracking-tighter dark:text-gray-700">Histórico de Consumo</h3>
                         </div>
                     </div>
                     <div className="overflow-x-auto">
                         <table className="w-full text-left">
                             <thead>
-                                <tr className="text-[10px] font-black text-gray-400 uppercase tracking-widest bg-gray-50 dark:bg-white/5">
+                                <tr className="text-[10px] font-black text-black uppercase tracking-widest bg-gray-50 dark:bg-white/5">
                                     <th className="px-8 py-4">Período</th>
                                     <th className="px-8 py-4">Água (m³)</th>
                                     <th className="px-8 py-4">Energia (kWh)</th>
@@ -230,13 +230,13 @@ export const Efficiency: React.FC = () => {
                                         <td className="px-8 py-4 font-black italic text-sm text-gray-900 dark:text-white">
                                             {rec.period_month}/{rec.period_year}
                                         </td>
-                                        <td className="px-8 py-4 text-xs font-bold text-gray-600 dark:text-gray-400">
+                                        <td className="px-8 py-4 text-xs font-bold text-black dark:text-black">
                                             {rec.water_consumption_m3.toLocaleString('pt-BR')}
                                         </td>
-                                        <td className="px-8 py-4 text-xs font-bold text-gray-600 dark:text-gray-400">
+                                        <td className="px-8 py-4 text-xs font-bold text-black dark:text-black">
                                             {rec.energy_consumption_kwh.toLocaleString('pt-BR')}
                                         </td>
-                                        <td className="px-8 py-4 text-xs font-bold text-gray-600 dark:text-gray-400">
+                                        <td className="px-8 py-4 text-xs font-bold text-black dark:text-black">
                                             {rec.operation_hours}h
                                         </td>
                                         <td className="px-8 py-4">
@@ -259,7 +259,7 @@ export const Efficiency: React.FC = () => {
                     <div className="bg-white dark:bg-[#1C1C1C] w-full max-w-sm rounded-[32px] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
                         <div className="px-6 py-5 border-b border-gray-100 dark:border-white/5 flex justify-between items-center">
                             <h3 className="text-lg font-black text-gray-900 dark:text-white uppercase tracking-tight">Lançar Medição</h3>
-                            <button onClick={() => !isSaving && setIsModalOpen(false)} className="text-gray-400 hover:text-gray-900 dark:hover:text-white">
+                            <button onClick={() => !isSaving && setIsModalOpen(false)} className="text-black hover:text-gray-900 dark:hover:text-white">
                                 <X className="w-5 h-5" />
                             </button>
                         </div>
@@ -267,7 +267,7 @@ export const Efficiency: React.FC = () => {
                         <div className="p-6 space-y-4">
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-1">
-                                    <label className="text-xs font-bold text-gray-500 uppercase ml-1">Mês</label>
+                                    <label className="text-xs font-bold text-black uppercase ml-1">Mês</label>
                                     <input
                                         type="number"
                                         value={formData.month}
@@ -276,7 +276,7 @@ export const Efficiency: React.FC = () => {
                                     />
                                 </div>
                                 <div className="space-y-1">
-                                    <label className="text-xs font-bold text-gray-500 uppercase ml-1">Ano</label>
+                                    <label className="text-xs font-bold text-black uppercase ml-1">Ano</label>
                                     <input
                                         type="number"
                                         value={formData.year}
@@ -287,7 +287,7 @@ export const Efficiency: React.FC = () => {
                             </div>
 
                             <div className="space-y-1">
-                                <label className="text-xs font-bold text-gray-500 uppercase ml-1">Água (m³)</label>
+                                <label className="text-xs font-bold text-black uppercase ml-1">Água (m³)</label>
                                 <input
                                     type="number"
                                     value={formData.water}
@@ -297,7 +297,7 @@ export const Efficiency: React.FC = () => {
                             </div>
 
                             <div className="space-y-1">
-                                <label className="text-xs font-bold text-gray-500 uppercase ml-1">Energia (kWh)</label>
+                                <label className="text-xs font-bold text-black uppercase ml-1">Energia (kWh)</label>
                                 <input
                                     type="number"
                                     value={formData.energy}
@@ -307,7 +307,7 @@ export const Efficiency: React.FC = () => {
                             </div>
 
                             <div className="space-y-1">
-                                <label className="text-xs font-bold text-gray-500 uppercase ml-1">Horas Oper.</label>
+                                <label className="text-xs font-bold text-black uppercase ml-1">Horas Oper.</label>
                                 <input
                                     type="number"
                                     value={formData.hours}
@@ -317,7 +317,7 @@ export const Efficiency: React.FC = () => {
                             </div>
 
                             <div className="space-y-2 pt-2">
-                                <div className="flex justify-between items-center text-xs font-bold text-gray-500 uppercase">
+                                <div className="flex justify-between items-center text-xs font-bold text-black uppercase">
                                     <span>Energia Renovável</span>
                                     <span className="text-green-600">{formData.renewable}%</span>
                                 </div>
@@ -352,10 +352,10 @@ const EfficiencyCard = ({ label, value, unit, icon: Icon, color, bg }: any) => (
         <div className={`w-10 h-10 rounded-lg ${bg} border border-white/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
             <Icon className={`w-5 h-5 ${color}`} />
         </div>
-        <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-1">{label}</p>
+        <p className="text-[10px] font-black text-black uppercase tracking-widest mb-1">{label}</p>
         <div className="flex items-baseline gap-1">
             <h4 className="text-3xl font-black text-gray-900 dark:text-white tracking-tighter">{value}</h4>
-            <span className="text-[10px] font-bold text-gray-400">{unit}</span>
+            <span className="text-[10px] font-bold text-black">{unit}</span>
         </div>
     </div>
 );
