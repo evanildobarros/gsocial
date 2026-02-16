@@ -104,7 +104,7 @@ export const HumanRights: React.FC = () => {
         <div className="space-y-6 animate-in fade-in duration-500">
             <div className="flex justify-between items-center mb-6">
                 <div>
-                    <h1 className="text-2xl font-black text-gray-900 dark:text-white tracking-tight italic">Compliance & Direitos Humanos</h1>
+                    <h1 className="text-2xl font-black text-black dark:text-white tracking-tight italic">Compliance & Direitos Humanos</h1>
                     <p className="text-sm text-black mt-1">Due Diligence em Supply Chain e Verificação de Trabalho Escravo.</p>
                 </div>
                 <button
@@ -119,7 +119,7 @@ export const HumanRights: React.FC = () => {
                 {/* Search Panel */}
                 <div className="lg:col-span-2 bg-white dark:bg-[#1C1C1C] p-8 rounded-3xl border border-gray-200 dark:border-white/5 shadow-sm text-center">
                     <ShieldCheck className="w-12 h-12 text-happiness-1 mx-auto mb-4" />
-                    <h2 className="text-xl font-black text-gray-900 dark:text-white mb-2 uppercase tracking-tighter">Portal de Verificação</h2>
+                    <h2 className="text-xl font-black text-black dark:text-white mb-2 uppercase tracking-tighter">Portal de Verificação</h2>
                     <p className="text-xs text-black mb-8 max-w-sm mx-auto font-medium">
                         Consulte o CNPJ contra a base unificada de Direitos Humanos, Lista Suja (MTE) e sanções internacionais.
                     </p>
@@ -148,7 +148,7 @@ export const HumanRights: React.FC = () => {
                         <div className="mt-8 p-4 border dark:border-white/10 rounded-3xl bg-gray-50 dark:bg-white/5 animate-in zoom-in-95 duration-200">
                             <div className="flex justify-between items-start">
                                 <div className="text-left">
-                                    <h4 className="font-black text-sm text-gray-900 dark:text-white uppercase tracking-tight">{searchResult.company_name}</h4>
+                                    <h4 className="font-black text-sm text-black dark:text-white uppercase tracking-tight">{searchResult.company_name}</h4>
                                     <p className="text-[10px] text-black font-bold tracking-widest">{searchResult.cnpj}</p>
                                 </div>
                                 <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase ${searchResult.status === 'Active' ? 'bg-green-100 text-green-700' :
@@ -188,8 +188,8 @@ export const HumanRights: React.FC = () => {
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
                     <div className="bg-white dark:bg-[#1C1C1C] w-full max-w-md rounded-3xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
                         <div className="px-6 py-5 border-b border-gray-100 dark:border-white/5 flex justify-between items-center">
-                            <h3 className="text-lg font-black text-gray-900 dark:text-white uppercase tracking-tight">Cadastrar em Supply Chain</h3>
-                            <button onClick={() => !isSubmitting && setIsAddModalOpen(false)} className="text-black hover:text-gray-900 dark:hover:text-white">
+                            <h3 className="text-lg font-black text-black dark:text-white uppercase tracking-tight">Cadastrar em Supply Chain</h3>
+                            <button onClick={() => !isSubmitting && setIsAddModalOpen(false)} className="text-black hover:text-black dark:hover:text-white">
                                 <X className="w-5 h-5" />
                             </button>
                         </div>
@@ -257,7 +257,7 @@ export const HumanRights: React.FC = () => {
                             <div className="pt-2 flex gap-3">
                                 <button
                                     onClick={() => setIsAddModalOpen(false)}
-                                    className="flex-1 py-3 bg-gray-100 hover:bg-gray-200 dark:bg-white/5 dark:hover:bg-white/10 text-black dark:text-gray-700 rounded-lg font-bold text-sm transition-colors"
+                                    className="flex-1 py-3 bg-gray-100 hover:bg-gray-200 dark:bg-white/5 dark:hover:bg-white/10 text-black dark:text-white rounded-lg font-bold text-sm transition-colors"
                                 >
                                     CANCELAR
                                 </button>

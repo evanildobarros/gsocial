@@ -44,7 +44,7 @@ export const ToastContainer: React.FC = () => {
                     </div>
 
                     <div className="flex-1 min-w-0">
-                        <p className={`text-sm font-black text-gray-900 dark:text-white leading-tight`}>
+                        <p className={`text-sm font-black text-black dark:text-white leading-tight`}>
                             {n.message}
                         </p>
                         <p className="text-[10px] font-bold text-black mt-1 uppercase tracking-widest">

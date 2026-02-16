@@ -63,11 +63,11 @@ export const InnovationFunnel: React.FC = () => {
                                 {stage.icon}
                             </div>
                             <h4 className="text-[10px] font-black uppercase text-black tracking-widest">{stage.name}</h4>
-                            <p className="text-3xl font-black text-gray-900">{stage.count}</p>
+                            <p className="text-3xl font-black text-black">{stage.count}</p>
                         </div>
                         {i < 3 && (
                             <div className="hidden md:block absolute -right-3 top-1/2 -translate-y-1/2 z-10 p-1 bg-gray-50 rounded-full border border-gray-100">
-                                <ArrowRight className="w-4 h-4 text-gray-700" />
+                                <ArrowRight className="w-4 h-4 text-gray-300" />
                             </div>
                         )}
                     </div>
@@ -94,10 +94,10 @@ export const InnovationFunnel: React.FC = () => {
                                     </span>
                                     <div className="flex items-center gap-2 bg-gray-50 px-3 py-1 rounded-full border border-gray-100">
                                         <BarChart3 className="w-3.5 h-3.5 text-happiness-1" />
-                                        <span className="text-[10px] font-black text-gray-900">{idea.alignment_score}% Alinhamento</span>
+                                        <span className="text-[10px] font-black text-black">{idea.alignment_score}% Alinhamento</span>
                                     </div>
                                 </div>
-                                <h3 className="text-xl font-black text-gray-900 leading-tight">{idea.title}</h3>
+                                <h3 className="text-xl font-black text-black leading-tight">{idea.title}</h3>
                                 <p className="text-sm text-black font-medium leading-relaxed italic line-clamp-2">
                                     "{idea.description}"
                                 </p>
@@ -109,7 +109,7 @@ export const InnovationFunnel: React.FC = () => {
                                         {idea.author_id.substring(0, 2).toUpperCase()}
                                     </div>
                                     <div>
-                                        <p className="text-[10px] font-black text-gray-900 uppercase">Autor: {idea.author_id.substring(0, 8)}...</p>
+                                        <p className="text-[10px] font-black text-black uppercase">Autor: {idea.author_id.substring(0, 8)}...</p>
                                         <p className="text-[9px] font-bold text-black uppercase tracking-widest">{idea.stage}</p>
                                     </div>
                                 </div>
@@ -133,7 +133,7 @@ export const InnovationFunnel: React.FC = () => {
                     <Heart className="w-8 h-8 text-happiness-1 fill-happiness-1" />
                 </div>
                 <div>
-                    <h4 className="text-gray-900 font-black text-lg">Cultura de Melhoria Contínua</h4>
+                    <h4 className="text-black font-black text-lg">Cultura de Melhoria Contínua</h4>
                     <p className="text-black text-sm font-medium leading-relaxed italic">
                         O Programa CRIARE estimula funcionários a proporem soluções que reduzam custos, melhorem a segurança ou impulsionem as metas ESG do Porto do Itaqui.
                     </p>

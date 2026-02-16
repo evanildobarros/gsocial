@@ -36,7 +36,7 @@ const KPICard = ({ title, value, subtext, icon: Icon, trend, trendValue, color, 
       <div className="flex justify-between mb-4">
         <div>
           <p className="text-[10px] font-black uppercase tracking-widest text-black dark:text-black">{title}</p>
-          <h4 className="text-3xl font-black mt-1 text-gray-900 dark:text-white tracking-tight">{value}</h4>
+          <h4 className="text-3xl font-black mt-1 text-black dark:text-white tracking-tight">{value}</h4>
         </div>
         <div className={`p-3 rounded-xl flex items-center justify-center h-12 w-12 ${colorMap[color] || 'bg-gray-100 text-black'}`}>
           <Icon />
@@ -71,7 +71,7 @@ const ModuleSummary = ({ title, icon: Icon, items, color }: any) => {
     <div className="h-full rounded-3xl border border-gray-200 dark:border-white/5 bg-white dark:bg-zinc-900 p-6 hover:border-gray-300 dark:hover:border-white/10 transition-colors">
       <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100 dark:border-white/5">
         <Icon className={iconColors[color]} />
-        <h3 className="text-xs font-black uppercase tracking-widest text-gray-900 dark:text-white">{title}</h3>
+        <h3 className="text-xs font-black uppercase tracking-widest text-black dark:text-white">{title}</h3>
       </div>
       <div className="flex flex-col gap-3">
         {items.map((item: any, idx: number) => (
@@ -80,7 +80,7 @@ const ModuleSummary = ({ title, icon: Icon, items, color }: any) => {
             className="flex justify-between items-center p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
           >
             <div>
-              <p className="text-sm font-bold text-gray-900 dark:text-white">{item.label}</p>
+              <p className="text-sm font-bold text-black dark:text-white">{item.label}</p>
               <p className="text-xs font-medium text-black">{item.sub}</p>
             </div>
             <span className={`
@@ -155,7 +155,7 @@ export const Dashboard: React.FC = () => {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <div className="flex items-center gap-3 mb-1">
-            <h2 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight leading-none">
+            <h2 className="text-3xl font-black text-black dark:text-white tracking-tight leading-none">
               Plataforma Integrada ESG
             </h2>
             <span className="px-2 py-1 rounded bg-primary text-white text-[10px] font-black uppercase tracking-wider">

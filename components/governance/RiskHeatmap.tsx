@@ -28,7 +28,7 @@ const mockRisks: Risk[] = [
 const DetailRow = ({ label, value, highlight }: { label: string, value: string, highlight?: boolean }) => (
     <div className="flex justify-between items-center">
         <span className="text-xs font-bold text-black">{label}</span>
-        <span className={`text-sm font-black ${highlight ? 'text-red-600' : 'text-gray-900 dark:text-gray-100'}`}>{value}</span>
+        <span className={`text-sm font-black ${highlight ? 'text-red-600' : 'text-black dark:text-gray-100'}`}>{value}</span>
     </div>
 );
 
@@ -80,7 +80,7 @@ export const RiskHeatmap: React.FC = () => {
     };
 
     return (
-        <div className="flex flex-col gap-8 animate-in fade-in duration-500 text-gray-900 dark:text-white">
+        <div className="flex flex-col gap-8 animate-in fade-in duration-500 text-black dark:text-white">
             {/* Header */}
             <div className="flex items-center gap-4">
                 <div className="w-14 h-14 bg-amber-100 dark:bg-amber-900/20 rounded-2xl flex items-center justify-center">
@@ -194,7 +194,7 @@ export const RiskHeatmap: React.FC = () => {
                     </div>
 
                     <div className="bg-white dark:bg-[#1C1C1C] rounded-[32px] p-8 border border-gray-200 dark:border-white/5">
-                        <h4 className="text-sm font-black text-gray-900 dark:text-white mb-4 uppercase tracking-wide">Prioridade de Mitigação</h4>
+                        <h4 className="text-sm font-black text-black dark:text-white mb-4 uppercase tracking-wide">Prioridade de Mitigação</h4>
                         <div className="space-y-2">
                             {mockRisks
                                 .sort((a, b) => Number(calculateRiskScore(b)) - Number(calculateRiskScore(a)))
@@ -212,10 +212,10 @@ export const RiskHeatmap: React.FC = () => {
                                             {r.id}
                                         </div>
                                         <div className="flex-1 min-w-0">
-                                            <span className="block text-xs font-black text-gray-800 dark:text-gray-200 truncate">{r.name}</span>
+                                            <span className="block text-xs font-black text-black dark:text-white truncate">{r.name}</span>
                                             <span className="block text-[10px] font-medium text-black">{r.category}</span>
                                         </div>
-                                        <span className="text-sm font-black text-gray-900 dark:text-white">{calculateRiskScore(r)}</span>
+                                        <span className="text-sm font-black text-black dark:text-white">{calculateRiskScore(r)}</span>
                                     </button>
                                 ))
                             }

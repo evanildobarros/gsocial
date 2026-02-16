@@ -44,7 +44,7 @@ const FunnelRow = ({ label, employees, active }: { label: string, employees: Emp
         `}>
             <div className="flex justify-between items-center mb-4">
                 <span className="text-[10px] font-black uppercase tracking-[0.2em] text-black">{label}</span>
-                <span className="text-xs font-black text-gray-900 dark:text-gray-100">N = {employees.length}</span>
+                <span className="text-xs font-black text-black dark:text-gray-100">N = {employees.length}</span>
             </div>
             <div className="grid grid-cols-2 gap-8">
                 <div>
@@ -73,7 +73,7 @@ const FunnelRow = ({ label, employees, active }: { label: string, employees: Emp
 const WageGapMonitor = ({ label, gap }: { label: string, gap: number }) => (
     <div>
         <div className="flex justify-between items-center mb-2">
-            <span className="text-xs font-black text-black dark:text-gray-700">{label}</span>
+            <span className="text-xs font-black text-black dark:text-white">{label}</span>
             <span className={`text-xs font-black ${gap > 5 ? 'text-red-500' : 'text-green-500'}`}>{gap.toFixed(1)}%</span>
         </div>
         <div className="h-1 w-full bg-gray-100 dark:bg-white/10 rounded-full overflow-hidden">
@@ -157,9 +157,9 @@ export const DiversityDashboard: React.FC = () => {
                             <Accessibility size={32} />
                         </div>
                         <div>
-                            <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">Diversidade e Inclusão</h1>
+                            <h1 className="text-3xl font-black text-black dark:text-white tracking-tight">Diversidade e Inclusão</h1>
                             <div className="flex items-center gap-2">
-                                <span className="px-2 py-0.5 rounded bg-gray-100 dark:bg-white/10 text-[10px] font-black uppercase text-black dark:text-gray-700">GRI 405</span>
+                                <span className="px-2 py-0.5 rounded bg-gray-100 dark:bg-white/10 text-[10px] font-black uppercase text-black dark:text-white">GRI 405</span>
                                 <span className="text-xs font-bold text-black">Conformidade EMAP 2026</span>
                             </div>
                         </div>
@@ -214,7 +214,7 @@ export const DiversityDashboard: React.FC = () => {
                     </div>
                     <div>
                         <h3 className="text-sm font-black text-red-600 dark:text-red-400 uppercase tracking-wide">Disparidade Salarial Crítica Detectada</h3>
-                        <p className="text-sm font-medium text-black dark:text-gray-700 mt-1">
+                        <p className="text-sm font-medium text-black dark:text-white mt-1">
                             Identificamos lacunas superiores a 5% em cargos estratégicos. Recomenda-se revisão imediata conforme Volume III ESG.
                         </p>
                     </div>

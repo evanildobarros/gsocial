@@ -28,7 +28,7 @@ export const SupplyChainAudit: React.FC = () => {
         <div className="space-y-6 animate-in fade-in duration-500">
             <div className="flex justify-between items-center mb-6">
                 <div>
-                    <h1 className="text-2xl font-black text-gray-900 dark:text-white tracking-tight flex items-center gap-2">
+                    <h1 className="text-2xl font-black text-black dark:text-white tracking-tight flex items-center gap-2">
                         Auditoria da Cadeia de Valor
                     </h1>
                     <p className="text-sm text-black mt-1">
@@ -56,7 +56,7 @@ export const SupplyChainAudit: React.FC = () => {
                 <div className="bg-white dark:bg-[#1C1C1C] p-4 rounded-3xl border border-gray-200 dark:border-white/5 shadow-sm flex items-center justify-between">
                     <div>
                         <span className="text-xs text-black font-bold uppercase">Total Monitorado</span>
-                        <p className="text-2xl font-black text-gray-900 dark:text-white">1,248</p>
+                        <p className="text-2xl font-black text-black dark:text-white">1,248</p>
                     </div>
                     <Truck className="w-8 h-8 text-gray-200 dark:text-white/10" />
                 </div>
@@ -79,7 +79,7 @@ export const SupplyChainAudit: React.FC = () => {
                             const risk = getRiskLevel(supplier.riskScore);
                             return (
                                 <tr key={supplier.id} className="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
-                                    <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">
+                                    <td className="px-6 py-4 font-medium text-black dark:text-white">
                                         <div className="flex items-center gap-3">
                                             <div className="w-8 h-8 rounded bg-gray-100 dark:bg-white/10 flex items-center justify-center text-xs font-bold text-black">
                                                 {supplier.name.substring(0, 2).toUpperCase()}
@@ -90,7 +90,7 @@ export const SupplyChainAudit: React.FC = () => {
                                             </div>
                                         </div>
                                     </td>
-                                    <td className="px-6 py-4 text-black dark:text-gray-700">{supplier.category}</td>
+                                    <td className="px-6 py-4 text-black dark:text-white">{supplier.category}</td>
                                     <td className="px-6 py-4">
                                         <div className="flex items-center gap-2">
                                             <div className="w-16 h-1.5 bg-gray-200 dark:bg-white/10 rounded-full overflow-hidden">
@@ -135,7 +135,7 @@ export const SupplyChainAudit: React.FC = () => {
             </div>
 
             <div className="bg-gray-50 dark:bg-white/5 p-4 rounded-3xl border border-gray-200 dark:border-white/10">
-                <h4 className="font-bold text-black dark:text-gray-200 text-xs uppercase mb-2">Lógica de Bloqueio Automático</h4>
+                <h4 className="font-bold text-black dark:text-white text-xs uppercase mb-2">Lógica de Bloqueio Automático</h4>
                 <p className="text-xs text-black">
                     Fornecedores com <strong>Risk Score &gt; 80</strong> são automaticamente bloqueados de novos contratos no ERP financeiro.
                     A reintegração exige uma auditoria física e aprovação do Compliance Officer.

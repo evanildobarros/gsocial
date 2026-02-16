@@ -92,7 +92,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onAddNew, onEdit }) =>
       {/* Search and Action Bar */}
       <div className="p-6 rounded-3xl flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-white/5 shadow-sm">
         <div>
-          <h2 className="text-xl font-black text-gray-900 dark:text-white tracking-tight">
+          <h2 className="text-xl font-black text-black dark:text-white tracking-tight">
             Portfólio de Projetos Estratégicos
           </h2>
           <p className="text-sm font-medium text-black dark:text-black">
@@ -164,7 +164,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onAddNew, onEdit }) =>
                 </div>
 
                 {/* Title and Theme */}
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 leading-tight">
+                <h3 className="text-xl font-bold text-black dark:text-white mb-2 leading-tight">
                   {p.name}
                 </h3>
                 <div className="flex items-center gap-2 mb-6">
@@ -237,13 +237,13 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onAddNew, onEdit }) =>
                 </div>
                 <button
                   onClick={() => setProjectToDelete(null)}
-                  className="text-black hover:text-gray-900 dark:hover:text-white transition-colors"
+                  className="text-black hover:text-black dark:hover:text-white transition-colors"
                 >
                   <CloseIcon fontSize="small" />
                 </button>
               </div>
 
-              <h3 className="text-xl font-black text-gray-900 dark:text-white mb-4">
+              <h3 className="text-xl font-black text-black dark:text-white mb-4">
                 Excluir dados deste projeto?
               </h3>
 
@@ -270,7 +270,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onAddNew, onEdit }) =>
                 </button>
                 <button
                   onClick={() => setProjectToDelete(null)}
-                  className="w-full py-3 text-black dark:text-black hover:text-gray-900 dark:hover:text-white font-bold text-sm transition-colors"
+                  className="w-full py-3 text-black dark:text-black hover:text-black dark:hover:text-white font-bold text-sm transition-colors"
                 >
                   Manter Projeto
                 </button>

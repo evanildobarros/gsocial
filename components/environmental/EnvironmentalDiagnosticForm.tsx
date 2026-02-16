@@ -292,7 +292,7 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
                     <div className="text-[10px] font-black text-green-600 uppercase tracking-widest mb-1 flex items-center gap-2">
                         <Leaf size={12} /> Pilar Ambiental (E) — ABNT PR 2030
                     </div>
-                    <h1 className="text-2xl font-black text-gray-900 dark:text-white tracking-tighter">
+                    <h1 className="text-2xl font-black text-black dark:text-white tracking-tighter">
                         {viewMode === 'list' ? ' Auditorias & Terminais' : 'Novo Diagnóstico de Instalação'}
                     </h1>
                 </div>
@@ -342,7 +342,7 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
                                     <div className="p-6 space-y-4">
                                         <div className="flex justify-between items-start">
                                             <div className="min-w-0 flex-1">
-                                                <h3 className="font-black text-gray-900 dark:text-white truncate pr-2 group-hover:text-green-600 transition-colors">{a.terminal_name}</h3>
+                                                <h3 className="font-black text-black dark:text-white truncate pr-2 group-hover:text-green-600 transition-colors">{a.terminal_name}</h3>
                                                 <span className="text-[10px] font-bold text-black uppercase tracking-widest">{a.operation_type}</span>
                                             </div>
                                             <div className={`p-2 rounded-xl ${risk.color} bg-opacity-10`}>
@@ -373,7 +373,7 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
                         <div className="bg-white dark:bg-[#1C1C1C] rounded-3xl border border-gray-200 dark:border-white/5 p-8 space-y-8">
                             <div className="flex items-center gap-3 border-b border-gray-50 dark:border-white/5 pb-4">
                                 <Anchor className="text-green-600" />
-                                <h2 className="font-black text-gray-900 dark:text-white uppercase tracking-wider text-sm">Instalação & Operação</h2>
+                                <h2 className="font-black text-black dark:text-white uppercase tracking-wider text-sm">Instalação & Operação</h2>
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -417,12 +417,12 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
                                         <div key={q.id} className="space-y-5">
                                             <div className="flex items-center justify-between">
                                                 <div className="flex items-center gap-3">
-                                                    <h3 className="font-black text-gray-800 dark:text-white">{q.question}</h3>
+                                                    <h3 className="font-black text-black dark:text-white">{q.question}</h3>
                                                     {isMaterial && (
                                                         <span className="px-2 py-0.5 bg-amber-100 text-amber-600 text-[8px] font-black uppercase rounded-lg border border-amber-200">Materialidade Crítica (2x Peso)</span>
                                                     )}
                                                 </div>
-                                                <HelpCircle className="text-gray-700 cursor-help" size={16} />
+                                                <HelpCircle className="text-gray-300 cursor-help" size={16} />
                                             </div>
 
                                             <div className="grid grid-cols-1 gap-2">
@@ -435,7 +435,7 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
                                                         <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${answers[q.id] === opt.value ? 'border-green-500 bg-green-500' : 'border-gray-300'}`}>
                                                             {answers[q.id] === opt.value && <div className="w-1.5 h-1.5 bg-white rounded-full" />}
                                                         </div>
-                                                        <span className="text-sm font-bold text-black dark:text-gray-700">{opt.label}</span>
+                                                        <span className="text-sm font-bold text-black dark:text-white">{opt.label}</span>
                                                     </button>
                                                 ))}
                                             </div>

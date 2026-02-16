@@ -107,7 +107,7 @@ export const SocialSummaryCard: React.FC<SocialSummaryCardProps> = ({ answers })
                     <span className={`text-sm font-black uppercase ${globalStatus.color}`}>
                         Nível {Math.round(avgScore)} — {globalStatus.label}
                     </span>
-                    <span className="text-lg font-black text-gray-900 dark:text-white">
+                    <span className="text-lg font-black text-black dark:text-white">
                         {avgScore.toFixed(1)} <span className="text-xs text-black">/ 5.0</span>
                     </span>
                 </div>

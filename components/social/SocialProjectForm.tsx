@@ -165,7 +165,7 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                             <Target className="w-8 h-8 text-white" />
                         </div>
                         <div>
-                            <h2 className="text-3xl font-black text-gray-900 dark:text-white tracking-tighter">
+                            <h2 className="text-3xl font-black text-black dark:text-white tracking-tighter">
                                 {initialData ? 'Editar Projeto' : 'Novo Projeto Social'}
                             </h2>
                             <p className="text-sm font-medium text-black italic">
@@ -332,7 +332,7 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                         <div className="space-y-4">
                             <div className="flex items-center gap-2">
                                 <MapPin className="text-red-500 w-4 h-4" />
-                                <h3 className="text-sm font-black text-gray-900 dark:text-white">Comunidades Beneficiadas</h3>
+                                <h3 className="text-sm font-black text-black dark:text-white">Comunidades Beneficiadas</h3>
                                 <span className="text-[10px] px-2 py-0.5 bg-gray-100 dark:bg-white/10 rounded-full text-black italic">Área de Influência Direta</span>
                             </div>
 
@@ -404,7 +404,7 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                                                                 setCurrentNeighborhood('');
                                                                 setShowSuggestions(false);
                                                             }}
-                                                            className="w-full text-left px-4 py-2.5 text-xs font-bold text-black dark:text-gray-700 hover:bg-happiness-1 hover:text-white transition-colors flex items-center gap-2 border-b border-gray-50 dark:border-white/5 last:border-0"
+                                                            className="w-full text-left px-4 py-2.5 text-xs font-bold text-black dark:text-white hover:bg-happiness-1 hover:text-white transition-colors flex items-center gap-2 border-b border-gray-50 dark:border-white/5 last:border-0"
                                                         >
                                                             <div className="w-1.5 h-1.5 rounded-full bg-happiness-1 group-hover:bg-white" />
                                                             {comm}
@@ -426,7 +426,7 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                         </div>
 
                         <div className="space-y-4">
-                            <h3 className="text-sm font-black text-gray-900 dark:text-white">Materialidade do Território (Vol. III)</h3>
+                            <h3 className="text-sm font-black text-black dark:text-white">Materialidade do Território (Vol. III)</h3>
                             <div className="flex flex-wrap gap-2">
                                 {MATERIALITY_TOPICS.map(topic => {
                                     const isSelected = formData.materialityTopics.includes(topic);
@@ -454,7 +454,7 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                 <div className="mt-12 pt-10 border-t border-gray-100 dark:border-white/5">
                     <div className="flex items-center gap-3 mb-6">
                         <div className="w-1.5 h-6 bg-happiness-1 rounded-full" />
-                        <h3 className="text-xl font-black text-gray-900 dark:text-white">ODS Relacionados (ONU)</h3>
+                        <h3 className="text-xl font-black text-black dark:text-white">ODS Relacionados (ONU)</h3>
                     </div>
 
                     <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-9 lg:grid-cols-12 gap-3">

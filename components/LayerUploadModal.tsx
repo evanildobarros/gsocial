@@ -136,7 +136,7 @@ export const LayerUploadModal: React.FC<LayerUploadModalProps> = ({ open, onClos
                             <Database className="w-5 h-5 text-happiness-1" />
                         </div>
                         <div>
-                            <h2 className="font-bold text-gray-900 dark:text-white leading-tight">Importar Mapeamento ESG</h2>
+                            <h2 className="font-bold text-black dark:text-white leading-tight">Importar Mapeamento ESG</h2>
                             <p className="text-[10px] text-black uppercase tracking-widest mt-0.5">Categorização obrigatória para inteligência de dados</p>
                         </div>
                     </div>
@@ -176,7 +176,7 @@ export const LayerUploadModal: React.FC<LayerUploadModalProps> = ({ open, onClos
                                 <div className="w-16 h-16 bg-gray-100 dark:bg-white/5 rounded-full flex items-center justify-center mb-4">
                                     <Upload className={`w-8 h-8 ${isDragging ? 'text-happiness-1' : 'text-black'}`} />
                                 </div>
-                                <p className="text-sm font-bold text-black dark:text-gray-200 mb-1">Arraste e solte ou clique para selecionar</p>
+                                <p className="text-sm font-bold text-black dark:text-white mb-1">Arraste e solte ou clique para selecionar</p>
                                 <p className="text-[10px] text-black font-bold uppercase tracking-widest">KML, GeoJSON, Shapefile (ZIP) ou CSV</p>
                             </div>
                         ) : (
@@ -186,7 +186,7 @@ export const LayerUploadModal: React.FC<LayerUploadModalProps> = ({ open, onClos
                                         <CheckCircle2 className="w-5 h-5 text-green-500" />
                                     </div>
                                     <div className="truncate">
-                                        <p className="text-sm font-black text-gray-800 dark:text-gray-200 truncate">{selectedFile.name}</p>
+                                        <p className="text-sm font-black text-black dark:text-white truncate">{selectedFile.name}</p>
                                         <p className="text-[10px] text-black font-bold uppercase tracking-widest">{(selectedFile.size / 1024).toFixed(1)} KB</p>
                                     </div>
                                 </div>
@@ -211,7 +211,7 @@ export const LayerUploadModal: React.FC<LayerUploadModalProps> = ({ open, onClos
                                     value={layerName}
                                     onChange={(e) => setLayerName(e.target.value)}
                                     placeholder="Ex: Mapeamento da Poligonal do Porto"
-                                    className="w-full bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-3xl px-4 py-3 text-sm text-gray-900 dark:text-white placeholder:text-black dark:placeholder:text-black focus:border-happiness-1 focus:ring-1 focus:ring-happiness-1 transition-all outline-none font-bold"
+                                    className="w-full bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-3xl px-4 py-3 text-sm text-black dark:text-white placeholder:text-black dark:placeholder:text-black focus:border-happiness-1 focus:ring-1 focus:ring-happiness-1 transition-all outline-none font-bold"
                                 />
                             </div>
 
@@ -230,7 +230,7 @@ export const LayerUploadModal: React.FC<LayerUploadModalProps> = ({ open, onClos
                                         />
                                     </div>
                                     <div className="flex flex-col">
-                                        <span className="text-xs font-mono font-black text-gray-900 dark:text-white uppercase">{selectedColor}</span>
+                                        <span className="text-xs font-mono font-black text-black dark:text-white uppercase">{selectedColor}</span>
                                         <span className="text-[9px] text-black font-medium italic">Clique no círculo para escolher a cor</span>
                                     </div>
                                 </div>
@@ -275,7 +275,7 @@ export const LayerUploadModal: React.FC<LayerUploadModalProps> = ({ open, onClos
                                     uploadState.status === 'success' ? <CheckCircle2 className="w-6 h-6 text-green-500" /> :
                                         <AlertCircle className="w-6 h-6 text-red-500" />}
                                 <div className="flex-1">
-                                    <p className="text-sm font-black text-gray-900 dark:text-gray-100 uppercase tracking-tight">
+                                    <p className="text-sm font-black text-black dark:text-gray-100 uppercase tracking-tight">
                                         {uploadState.status === 'success' ? 'Importação Concluída' : uploadState.status === 'error' ? 'Falha na Importação' : 'Processando...'}
                                     </p>
                                     <p className="text-[11px] text-black dark:text-black font-medium mt-1">{uploadState.message}</p>
@@ -289,7 +289,7 @@ export const LayerUploadModal: React.FC<LayerUploadModalProps> = ({ open, onClos
                 <div className="p-6 border-t border-gray-100 dark:border-white/10 bg-gray-50 dark:bg-zinc-900/50 flex justify-between gap-4">
                     <button
                         onClick={handleClose}
-                        className="px-6 py-3 rounded-full text-sm font-black text-black hover:text-gray-800 dark:hover:text-white uppercase tracking-widest transition-colors"
+                        className="px-6 py-3 rounded-full text-sm font-black text-black hover:text-black dark:hover:text-white uppercase tracking-widest transition-colors"
                     >
                         Cancelar
                     </button>

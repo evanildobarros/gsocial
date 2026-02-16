@@ -305,7 +305,7 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
             <div className={`relative transition-all duration-300 ease-in-out ${isSidebarOpen ? 'w-80' : 'w-0'}`}>
                 <div className={`w-80 h-full flex flex-col bg-white dark:bg-[#1C1C1C] rounded-3xl border border-gray-200 dark:border-white/5 shadow-sm overflow-hidden shrink-0 transition-opacity duration-300 ${isSidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
                     <div className="p-4 border-b border-gray-100 dark:border-white/5 flex justify-between items-center bg-gray-50 dark:bg-zinc-900">
-                        <div className="flex items-center gap-2 text-black dark:text-gray-200">
+                        <div className="flex items-center gap-2 text-black dark:text-white">
                             <Layers size={18} />
                             <h2 className="font-bold text-sm">Gestão de Camadas</h2>
                             <span className="text-[10px] bg-happiness-1/10 text-happiness-1 px-1.5 py-0.5 rounded-3xl font-bold">{layers.length}</span>
@@ -335,7 +335,7 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
                                                 {pillarConfig.icon}
                                                 <span className={`text-[10px] font-black uppercase ${pillarConfig.color}`}>{pillarConfig.label}</span>
                                             </div>
-                                            <span className="text-[9px] font-bold bg-white dark:bg-zinc-800 text-gray-900 dark:text-gray-100 px-1.5 py-0.5 rounded-full border">{pillarLayers.length}</span>
+                                            <span className="text-[9px] font-bold bg-white dark:bg-zinc-800 text-black dark:text-gray-100 px-1.5 py-0.5 rounded-full border">{pillarLayers.length}</span>
                                         </button>
                                     </div>
 
@@ -350,9 +350,9 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
                                                 <div key={groupName} className="space-y-1">
                                                     <div className="flex items-center gap-1 group/header">
                                                         <button onClick={() => toggleGroup(groupName)} className="flex-1 flex items-center gap-2 p-1.5 hover:bg-gray-100 dark:hover:bg-white/10 rounded-3xl transition-all text-left">
-                                                            {expandedGroups[groupName] ? <ChevronDown size={12} className="text-gray-900 dark:text-white" /> : <ChevronRight size={12} className="text-gray-900 dark:text-white" />}
+                                                            {expandedGroups[groupName] ? <ChevronDown size={12} className="text-black dark:text-white" /> : <ChevronRight size={12} className="text-black dark:text-white" />}
                                                             <Database size={12} className="text-happiness-1" />
-                                                            <span className="text-[11px] font-black text-gray-900 dark:text-white truncate tracking-tight uppercase">{groupName}</span>
+                                                            <span className="text-[11px] font-black text-black dark:text-white truncate tracking-tight uppercase">{groupName}</span>
                                                         </button>
                                                         <button
                                                             onClick={(e) => { e.stopPropagation(); toggleGroupVisibility(groupName, groupLayers); }}
@@ -376,7 +376,7 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
                                                                 <div key={layer.id} onClick={() => focusLayer(layer)} className={`group flex items-center justify-between p-1.5 rounded-3xl transition-all cursor-pointer ${layer.visible ? 'bg-white dark:bg-white/5 shadow-sm border border-gray-100 dark:border-white/5' : 'bg-gray-50/50 dark:bg-transparent opacity-60'} hover:bg-happiness-1/5 mb-0.5`}>
                                                                     <div className="flex items-center gap-2 flex-1 min-w-0">
                                                                         <div className="w-2 h-2 rounded-full shadow-sm" style={{ backgroundColor: layer.color }} />
-                                                                        <span className={`text-[11px] font-black truncate tracking-tight ${layer.visible ? 'text-gray-900 dark:text-gray-100' : 'text-black dark:text-black italic'}`}>
+                                                                        <span className={`text-[11px] font-black truncate tracking-tight ${layer.visible ? 'text-black dark:text-gray-100' : 'text-black dark:text-black italic'}`}>
                                                                             {layer.name}
                                                                         </span>
                                                                     </div>
@@ -502,7 +502,7 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
                                                     </span>
                                                 )}
                                             </div>
-                                            <h4 className="font-black text-gray-900 dark:text-white text-xl tracking-tight truncate leading-none">
+                                            <h4 className="font-black text-black dark:text-white text-xl tracking-tight truncate leading-none">
                                                 {selectedElement.layer.name}
                                             </h4>
                                         </div>
@@ -514,7 +514,7 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
                                             <span className="text-[9px] font-bold text-black uppercase tracking-widest block">Famílias</span>
                                             <div className="flex items-center gap-1.5">
                                                 <Users size={12} className="text-happiness-1" />
-                                                <span className="text-sm font-black text-gray-900 dark:text-gray-100">
+                                                <span className="text-sm font-black text-black dark:text-gray-100">
                                                     {selectedElement.layer.details?.familias || 0}
                                                 </span>
                                             </div>
@@ -523,7 +523,7 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
                                             <span className="text-[9px] font-bold text-black uppercase tracking-widest block">Perfil</span>
                                             <div className="flex items-center gap-1.5">
                                                 <Database size={12} className="text-orange-500" />
-                                                <span className="text-sm font-black text-gray-900 dark:text-gray-100">
+                                                <span className="text-sm font-black text-black dark:text-gray-100">
                                                     {selectedElement.layer.details?.tipo || '-'}
                                                 </span>
                                             </div>
@@ -536,7 +536,7 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
                                             <span className="text-[9px] font-bold text-black uppercase tracking-widest block">Demandas</span>
                                             <div className="flex items-center gap-1.5">
                                                 <BarChart3 size={12} className="text-amber-500" />
-                                                <span className="text-sm font-black text-gray-900 dark:text-gray-100">
+                                                <span className="text-sm font-black text-black dark:text-gray-100">
                                                     {selectedElement.layer.details?.demandas || 0}
                                                 </span>
                                             </div>
@@ -553,7 +553,7 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
                                                 <AlertTriangle size={14} className="text-happiness-3 shrink-0 mt-0.5" />
                                                 <div>
                                                     <span className="text-[8px] font-black uppercase text-happiness-3 block mb-1">Ação Recomendada</span>
-                                                    <p className="text-[10px] font-bold text-gray-100 dark:text-gray-800 leading-relaxed italic">
+                                                    <p className="text-[10px] font-bold text-gray-100 dark:text-black leading-relaxed italic">
                                                         "Criação de Fundação Portuária compartilhada para mitigação de impactos locais."
                                                     </p>
                                                 </div>
@@ -628,7 +628,7 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
                                                 <span className="text-[10px] font-black text-red-600 uppercase tracking-widest">Alerta Crítico</span>
                                                 <span className="text-[9px] font-bold text-black">Há 12 min</span>
                                             </div>
-                                            <h4 className="text-sm font-bold text-gray-800 dark:text-gray-100 italic">Resíduo Fora da Zona COFAM</h4>
+                                            <h4 className="text-sm font-bold text-black dark:text-gray-100 italic">Resíduo Fora da Zona COFAM</h4>
                                             <p className="text-xs text-black dark:text-black mt-2 leading-relaxed">
                                                 Detectado descarte não autorizado nas coordenadas <span className="font-mono">-2.585, -44.372</span>. Protocolo de contingência nível 2 ativado.
                                             </p>
@@ -652,7 +652,7 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
                                                 <span className="text-[9px] font-mono font-black text-black">{tk.id}</span>
                                                 <span className={`px-2 py-0.5 rounded-full text-[8px] font-black uppercase ${tk.status === 'Pendente' ? 'bg-amber-100 text-amber-700' : 'bg-purple-100 text-purple-700'}`}>{tk.status}</span>
                                             </div>
-                                            <h4 className="text-xs font-bold text-black dark:text-gray-200 group-hover:text-purple-600 transition-colors">{tk.title}</h4>
+                                            <h4 className="text-xs font-bold text-black dark:text-white group-hover:text-purple-600 transition-colors">{tk.title}</h4>
                                             <div className="mt-2 flex gap-1">
                                                 {tk.tags.map(t => (
                                                     <span key={t} className="text-[8px] px-1.5 py-0.5 bg-gray-100 dark:bg-white/5 text-black rounded-3xl">{t}</span>
@@ -668,7 +668,7 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
                         <div className="p-4 bg-white dark:bg-zinc-900 border-t border-gray-100 dark:border-white/5 flex justify-end gap-3">
                             <button
                                 onClick={() => setIsAlertModalOpen(false)}
-                                className="px-4 py-2 text-[10px] font-black uppercase tracking-widest text-black hover:text-gray-800 transition-colors"
+                                className="px-4 py-2 text-[10px] font-black uppercase tracking-widest text-black hover:text-black transition-colors"
                             >
                                 Fechar
                             </button>

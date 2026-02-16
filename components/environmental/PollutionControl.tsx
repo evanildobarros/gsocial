@@ -18,7 +18,7 @@ export const PollutionControl: React.FC = () => {
         <div className="space-y-8 animate-in fade-in duration-700">
             {/* Header */}
             <div>
-                <h2 className="text-3xl font-black text-gray-900 tracking-tight">Prevenção & Controle de Poluição</h2>
+                <h2 className="text-3xl font-black text-black tracking-tight">Prevenção & Controle de Poluição</h2>
                 <p className="text-black font-medium">Monitoramento de qualidade do ar, ruído e rastreabilidade de resíduos.</p>
             </div>
 
@@ -32,7 +32,7 @@ export const PollutionControl: React.FC = () => {
                             <div className="p-3 bg-red-50 rounded-3xl">
                                 <AlertOctagon className="w-6 h-6 text-red-600" />
                             </div>
-                            <h3 className="text-xl font-black text-gray-900 leading-tight">Botão de Emergência Ambiental (PAM)</h3>
+                            <h3 className="text-xl font-black text-black leading-tight">Botão de Emergência Ambiental (PAM)</h3>
                         </div>
                         <p className="text-black text-sm font-medium">
                             Use em caso de derramamento de óleo, vazamento químico ou incidentes graves. Aciona a Coordenação de Resposta (COREM) instantaneamente.
@@ -45,7 +45,7 @@ export const PollutionControl: React.FC = () => {
                                 <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto ring-8 ring-green-50">
                                     <CheckCircle2 className="w-12 h-12 text-green-600" />
                                 </div>
-                                <h4 className="text-xl font-black text-gray-900">COREM Notificada</h4>
+                                <h4 className="text-xl font-black text-black">COREM Notificada</h4>
                                 <p className="text-xs text-black font-bold uppercase tracking-widest">Equipe em deslocamento</p>
                                 <button
                                     onClick={() => setIsEmergencyActive(false)}
@@ -94,18 +94,18 @@ export const PollutionControl: React.FC = () => {
                                 <span className="px-2 py-1 bg-green-50 text-green-600 text-[10px] font-black rounded-full uppercase">Qualidade: Boa</span>
                             </div>
                             <div className="space-y-4">
-                                <h4 className="text-lg font-black text-gray-900 leading-none">Qualidade do Ar</h4>
+                                <h4 className="text-lg font-black text-black leading-none">Qualidade do Ar</h4>
                                 <div className="space-y-3">
                                     <div className="flex justify-between items-center text-sm">
                                         <span className="text-black font-medium">Material Particulado PM2.5</span>
-                                        <span className="font-black text-gray-900">12 µg/m³</span>
+                                        <span className="font-black text-black">12 µg/m³</span>
                                     </div>
                                     <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
                                         <div className="w-[15%] h-full bg-green-500"></div>
                                     </div>
                                     <div className="flex justify-between items-center text-sm pt-2">
                                         <span className="text-black font-medium">Nível de Ruído</span>
-                                        <span className="font-black text-gray-900">65 dB(A)</span>
+                                        <span className="font-black text-black">65 dB(A)</span>
                                     </div>
                                     <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
                                         <div className="w-[65%] h-full bg-yellow-500"></div>
@@ -136,7 +136,7 @@ export const PollutionControl: React.FC = () => {
                                         <p className="text-xl font-black">8.2t</p>
                                     </div>
                                 </div>
-                                <button className="w-full py-3 bg-white text-gray-900 rounded-3xl font-black text-[10px] uppercase tracking-widest hover:bg-gray-200 transition-all">
+                                <button className="w-full py-3 bg-white text-black rounded-3xl font-black text-[10px] uppercase tracking-widest hover:bg-gray-200 transition-all">
                                     Upload de Manifesto (MTR)
                                 </button>
                             </div>
@@ -145,7 +145,7 @@ export const PollutionControl: React.FC = () => {
 
                     {/* Kanban Flow Simple */}
                     <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-xl shadow-blue-900/5">
-                        <h4 className="text-xl font-black text-gray-900 mb-8">Fluxo de Destinação de Resíduos</h4>
+                        <h4 className="text-xl font-black text-black mb-8">Fluxo de Destinação de Resíduos</h4>
                         <div className="grid grid-cols-4 gap-4">
                             {['Geração', 'Armazenamento', 'Coleta', 'Destinação'].map((stage, i) => (
                                 <div key={i} className="flex flex-col gap-3">

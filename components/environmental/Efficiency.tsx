@@ -144,13 +144,13 @@ export const Efficiency: React.FC = () => {
             {/* Header */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
                 <div>
-                    <h2 className="text-3xl font-black text-gray-900 dark:text-white tracking-tighter italic">Eficiência de Recursos</h2>
+                    <h2 className="text-3xl font-black text-black dark:text-white tracking-tighter italic">Eficiência de Recursos</h2>
                     <p className="text-black font-medium italic">Gestão hídrica e energética para operações portuárias sustentáveis.</p>
                 </div>
                 <div className="flex gap-3">
                     <button
                         onClick={generatePDF}
-                        className="px-4 py-2 rounded-lg border border-gray-300 dark:border-white/10 text-black dark:text-gray-700 font-black text-[11px] hover:bg-gray-50 dark:hover:bg-white/5 transition-colors flex items-center gap-2"
+                        className="px-4 py-2 rounded-lg border border-gray-300 dark:border-white/10 text-black dark:text-white font-black text-[11px] hover:bg-gray-50 dark:hover:bg-white/5 transition-colors flex items-center gap-2"
                     >
                         <Download className="w-4 h-4" /> EXPORTAR
                     </button>
@@ -210,7 +210,7 @@ export const Efficiency: React.FC = () => {
                     <div className="p-6 border-b border-gray-100 dark:border-white/5 flex justify-between items-center">
                         <div className="flex items-center gap-3">
                             <History className="w-5 h-5 text-black" />
-                            <h3 className="text-sm font-black uppercase tracking-tighter dark:text-gray-700">Histórico de Consumo</h3>
+                            <h3 className="text-sm font-black uppercase tracking-tighter dark:text-white">Histórico de Consumo</h3>
                         </div>
                     </div>
                     <div className="overflow-x-auto">
@@ -227,7 +227,7 @@ export const Efficiency: React.FC = () => {
                             <tbody className="divide-y divide-gray-100 dark:divide-white/5">
                                 {records.map((rec) => (
                                     <tr key={rec.id} className="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
-                                        <td className="px-8 py-4 font-black italic text-sm text-gray-900 dark:text-white">
+                                        <td className="px-8 py-4 font-black italic text-sm text-black dark:text-white">
                                             {rec.period_month}/{rec.period_year}
                                         </td>
                                         <td className="px-8 py-4 text-xs font-bold text-black dark:text-black">
@@ -258,8 +258,8 @@ export const Efficiency: React.FC = () => {
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
                     <div className="bg-white dark:bg-[#1C1C1C] w-full max-w-sm rounded-[32px] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
                         <div className="px-6 py-5 border-b border-gray-100 dark:border-white/5 flex justify-between items-center">
-                            <h3 className="text-lg font-black text-gray-900 dark:text-white uppercase tracking-tight">Lançar Medição</h3>
-                            <button onClick={() => !isSaving && setIsModalOpen(false)} className="text-black hover:text-gray-900 dark:hover:text-white">
+                            <h3 className="text-lg font-black text-black dark:text-white uppercase tracking-tight">Lançar Medição</h3>
+                            <button onClick={() => !isSaving && setIsModalOpen(false)} className="text-black hover:text-black dark:hover:text-white">
                                 <X className="w-5 h-5" />
                             </button>
                         </div>
@@ -354,7 +354,7 @@ const EfficiencyCard = ({ label, value, unit, icon: Icon, color, bg }: any) => (
         </div>
         <p className="text-[10px] font-black text-black uppercase tracking-widest mb-1">{label}</p>
         <div className="flex items-baseline gap-1">
-            <h4 className="text-3xl font-black text-gray-900 dark:text-white tracking-tighter">{value}</h4>
+            <h4 className="text-3xl font-black text-black dark:text-white tracking-tighter">{value}</h4>
             <span className="text-[10px] font-bold text-black">{unit}</span>
         </div>
     </div>

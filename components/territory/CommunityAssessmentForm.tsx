@@ -107,7 +107,7 @@ const StarRating = ({ value, onChange, readOnly = false }: { value: number; onCh
                     disabled={readOnly}
                 >
                     <Star
-                        className={`w-${readOnly ? '3' : '6'} h-${readOnly ? '3' : '6'} ${star <= value ? 'text-amber-400 fill-amber-400' : 'text-gray-700 dark:text-black'}`}
+                        className={`w-${readOnly ? '3' : '6'} h-${readOnly ? '3' : '6'} ${star <= value ? 'text-amber-400 fill-amber-400' : 'text-gray-300 dark:text-black'}`}
                     />
                 </button>
             ))}
@@ -362,8 +362,8 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                     <div className="text-[11px] font-black text-black uppercase tracking-widest mb-1">
                         Licença Social para Operar (LSO)
                     </div>
-                    <h1 className="text-2xl font-black text-gray-900 dark:text-white tracking-tighter flex items-center gap-2">
-                        {viewMode === 'list' ? 'Gestão de Territórios & Risco' : 'Calculadora de Impacto Social'}
+                    <h1 className="text-2xl font-black text-black dark:text-white tracking-tighter flex items-center gap-2">
+                        {viewMode === 'list' ? 'Gestão de Territórios & Risco' : 'Cadastro de Comunidade Local'}
                     </h1>
                     <p className="text-sm text-black font-medium italic mt-1">
                         {viewMode === 'list'
@@ -444,7 +444,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                                     <div className="p-6">
                                         <div className="flex justify-between items-start mb-4">
                                             <div>
-                                                <h3 className="text-lg font-black text-gray-900 dark:text-white tracking-tight group-hover:text-happiness-1 transition-colors">
+                                                <h3 className="text-lg font-black text-black dark:text-white tracking-tight group-hover:text-happiness-1 transition-colors">
                                                     {listRisk.badge.split(' ')[0]} {assessment.community_name}
                                                 </h3>
                                                 <div className="flex items-center gap-2 mt-1">
@@ -466,15 +466,15 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
 
                                         <div className="space-y-3 mb-6">
                                             <div className="flex items-center gap-2 text-xs font-medium text-black">
-                                                <Users size={14} className="text-gray-700" />
+                                                <Users size={14} className="text-gray-300" />
                                                 <span>{assessment.estimated_families} Famílias</span>
                                             </div>
                                             <div className="flex items-center gap-2 text-xs font-medium text-black">
-                                                <Droplets size={14} className="text-gray-700" />
+                                                <Droplets size={14} className="text-gray-300" />
                                                 <span>Água: {assessment.water_access}</span>
                                             </div>
                                             <div className="flex items-center gap-2 text-xs font-medium text-black">
-                                                <BarChart3 size={14} className="text-gray-700" />
+                                                <BarChart3 size={14} className="text-gray-300" />
                                                 <span>{assessment.priority_needs?.length || 0} Demandas Prioritárias</span>
                                             </div>
                                         </div>
@@ -531,7 +531,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                             <div className="p-8">
                                 <div className="flex items-center gap-2 mb-6 border-b border-gray-100 dark:border-white/5 pb-4">
                                     <MapPin className="text-happiness-1 w-5 h-5" />
-                                    <h3 className="font-bold text-gray-900 dark:text-white uppercase tracking-wider text-sm">📍 Identidade Territorial</h3>
+                                    <h3 className="font-bold text-black dark:text-white uppercase tracking-wider text-sm">📍 Identidade Territorial</h3>
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -583,7 +583,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                             <div className="p-8">
                                 <div className="flex items-center gap-2 mb-6 border-b border-gray-100 dark:border-white/5 pb-4">
                                     <Hammer className="text-happiness-1 w-5 h-5" />
-                                    <h3 className="font-bold text-gray-900 dark:text-white uppercase tracking-wider text-sm">🏗️ Infraestrutura & Conformidade (Vol. I)</h3>
+                                    <h3 className="font-bold text-black dark:text-white uppercase tracking-wider text-sm">🏗️ Infraestrutura & Conformidade (Vol. I)</h3>
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
@@ -603,7 +603,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                                                         onChange={(e) => setWaterAccess(e.target.value)}
                                                         className="hidden"
                                                     />
-                                                    <span className="text-sm font-medium text-black dark:text-gray-700">{opt}</span>
+                                                    <span className="text-sm font-medium text-black dark:text-white">{opt}</span>
                                                 </label>
                                             ))}
                                         </div>
@@ -626,7 +626,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                                                             onChange={(e) => setSanitationStatus(e.target.value)}
                                                             className="hidden"
                                                         />
-                                                        <span className="text-sm font-medium text-black dark:text-gray-700">{opt}</span>
+                                                        <span className="text-sm font-medium text-black dark:text-white">{opt}</span>
                                                     </label>
                                                 ))}
                                             </div>
@@ -654,7 +654,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                             <div className="p-8">
                                 <div className="flex items-center gap-2 mb-6 border-b border-gray-100 dark:border-white/5 pb-4">
                                     <BarChart3 className="text-amber-500 w-5 h-5" />
-                                    <h3 className="font-bold text-gray-900 dark:text-white uppercase tracking-wider text-sm">📊 Materialidade & Impactos (Vol. III)</h3>
+                                    <h3 className="font-bold text-black dark:text-white uppercase tracking-wider text-sm">📊 Materialidade & Impactos (Vol. III)</h3>
                                 </div>
 
                                 <div className="space-y-8">
@@ -685,7 +685,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                                                     </div>
                                                     <div>
                                                         <span className="text-[11px] font-black text-black uppercase tracking-widest block">Comprovante de S-ROI</span>
-                                                        <span className="text-xs font-bold text-black dark:text-gray-700">
+                                                        <span className="text-xs font-bold text-black dark:text-white">
                                                             {sroiEvidence ? sroiEvidence.name : 'Upload obrigatório para ações sociais'}
                                                         </span>
                                                     </div>
@@ -755,7 +755,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                             <div className="space-y-3">
                                 <div className="flex justify-between items-center text-xs">
                                     <span className="font-bold text-black">Comunidade</span>
-                                    <span className="font-black text-gray-800 dark:text-gray-200 truncate max-w-[150px]">{communityName || '-'}</span>
+                                    <span className="font-black text-black dark:text-white truncate max-w-[150px]">{communityName || '-'}</span>
                                 </div>
                                 <div className="flex justify-between items-center text-xs">
                                     <span className="font-bold text-black">Famílias</span>
@@ -763,7 +763,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                                 </div>
                                 <div className="flex justify-between items-center text-xs">
                                     <span className="font-bold text-black">Perfil</span>
-                                    <span className="font-black text-gray-800 dark:text-gray-200">{settlementType || '-'}</span>
+                                    <span className="font-black text-black dark:text-white">{settlementType || '-'}</span>
                                 </div>
                                 <div className="flex justify-between items-center text-xs">
                                     <span className="font-bold text-black">Relacionamento</span>

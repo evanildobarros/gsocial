@@ -134,7 +134,7 @@ export const NewProject: React.FC<NewProjectProps> = ({ onBack }) => {
                             <input
                                 value={formData.name}
                                 onChange={e => setFormData({ ...formData, name: e.target.value })}
-                                className="w-full border-2 border-gray-100 rounded-3xl p-3 focus:border-happiness-1 focus:outline-none transition text-gray-900 placeholder:text-black font-semibold"
+                                className="w-full border-2 border-gray-100 rounded-3xl p-3 focus:border-happiness-1 focus:outline-none transition text-black placeholder:text-black font-semibold"
                                 placeholder="Ex: Monitoramento Hídrico Vila Maranhão"
                             />
                         </div>
@@ -143,7 +143,7 @@ export const NewProject: React.FC<NewProjectProps> = ({ onBack }) => {
                             <select
                                 value={formData.pilar}
                                 onChange={e => setFormData({ ...formData, pilar: e.target.value })}
-                                className="w-full border-2 border-gray-100 rounded-3xl p-3 focus:border-happiness-1 focus:outline-none bg-white transition text-gray-900 font-semibold"
+                                className="w-full border-2 border-gray-100 rounded-3xl p-3 focus:border-happiness-1 focus:outline-none bg-white transition text-black font-semibold"
                             >
                                 <option value="">Selecione...</option>
                                 <option value="Ambiental">Ambiental (E)</option>
@@ -156,7 +156,7 @@ export const NewProject: React.FC<NewProjectProps> = ({ onBack }) => {
                             <select
                                 value={formData.tema}
                                 onChange={e => setFormData({ ...formData, tema: e.target.value })}
-                                className="w-full border-2 border-gray-100 rounded-3xl p-3 focus:border-happiness-1 focus:outline-none bg-white transition text-gray-900 font-semibold"
+                                className="w-full border-2 border-gray-100 rounded-3xl p-3 focus:border-happiness-1 focus:outline-none bg-white transition text-black font-semibold"
                             >
                                 <option value="">Selecione o tema mapeado...</option>
                                 <option>Atração de novos negócios e investimentos</option>
@@ -174,7 +174,7 @@ export const NewProject: React.FC<NewProjectProps> = ({ onBack }) => {
                                 value={formData.objeto}
                                 onChange={e => setFormData({ ...formData, objeto: e.target.value })}
                                 rows={3}
-                                className="w-full border-2 border-gray-100 rounded-3xl p-3 focus:border-happiness-1 focus:outline-none transition text-gray-900 placeholder:text-black font-semibold"
+                                className="w-full border-2 border-gray-100 rounded-3xl p-3 focus:border-happiness-1 focus:outline-none transition text-black placeholder:text-black font-semibold"
                                 placeholder="Descreva as ações, público-alvo e metodologia..."
                             />
                         </div>

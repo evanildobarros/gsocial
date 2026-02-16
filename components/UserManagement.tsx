@@ -126,7 +126,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ onAddUser }) => 
                 </span>
             );
             case 'user': return (
-                <span className="inline-flex items-center gap-1 bg-gray-100 dark:bg-gray-800 text-black dark:text-gray-700 px-2 py-1 rounded-lg text-xs font-black uppercase tracking-wide border border-gray-200 dark:border-gray-700">
+                <span className="inline-flex items-center gap-1 bg-gray-100 dark:bg-gray-800 text-black dark:text-white px-2 py-1 rounded-lg text-xs font-black uppercase tracking-wide border border-gray-200 dark:border-gray-700">
                     <UserIcon sx={{ fontSize: 14 }} /> Usuário
                 </span>
             );
@@ -153,7 +153,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ onAddUser }) => 
             {/* Header Section */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h2 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight leading-none mb-2">
+                    <h2 className="text-3xl font-black text-black dark:text-white tracking-tight leading-none mb-2">
                         Gestão de Membros
                     </h2>
                     <p className="text-black dark:text-black font-medium">
@@ -218,7 +218,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ onAddUser }) => 
                                                     {profile.full_name?.substring(0, 2).toUpperCase() || 'U'}
                                                 </div>
                                                 <div>
-                                                    <p className="font-black text-gray-900 dark:text-white text-sm">
+                                                    <p className="font-black text-black dark:text-white text-sm">
                                                         {profile.full_name || 'Sem Nome'}
                                                     </p>
                                                     <p className="text-[10px] font-mono text-black">ID: {profile.id.substring(0, 8)}</p>
@@ -226,7 +226,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ onAddUser }) => 
                                             </div>
                                         </td>
                                         <td className="px-6 py-4">
-                                            <div className="flex items-center gap-2 text-black dark:text-gray-700">
+                                            <div className="flex items-center gap-2 text-black dark:text-white">
                                                 <MailIcon style={{ fontSize: 16 }} className="text-black" />
                                                 <span className="text-sm font-semibold">{profile.email}</span>
                                             </div>
@@ -255,7 +255,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ onAddUser }) => 
                                                     <div className="absolute right-8 top-12 z-20 bg-white dark:bg-zinc-800 border border-gray-100 dark:border-white/10 rounded-xl shadow-xl w-48 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
                                                         <button
                                                             onClick={() => handleEditClick(profile)}
-                                                            className="w-full text-left px-4 py-3 text-sm font-bold text-black dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-white/5 flex items-center gap-2"
+                                                            className="w-full text-left px-4 py-3 text-sm font-bold text-black dark:text-white hover:bg-gray-50 dark:hover:bg-white/5 flex items-center gap-2"
                                                         >
                                                             <EditIcon fontSize="small" /> Editar Usuário
                                                         </button>
@@ -286,7 +286,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ onAddUser }) => 
                         <ShieldCheckIcon style={{ fontSize: 32 }} />
                     </div>
                     <div>
-                        <h3 className="text-xl font-black text-gray-900 dark:text-white mb-1">
+                        <h3 className="text-xl font-black text-black dark:text-white mb-1">
                             Segurança de Acessos
                         </h3>
                         <p className="text-sm font-medium text-black dark:text-black max-w-md">
@@ -305,8 +305,8 @@ export const UserManagement: React.FC<UserManagementProps> = ({ onAddUser }) => 
                 <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
                     <div className="bg-white dark:bg-[#1C1C1C] w-full max-w-sm rounded-3xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
                         <div className="px-6 py-4 border-b border-gray-100 dark:border-white/5 flex justify-between items-center">
-                            <h3 className="text-lg font-black text-gray-900 dark:text-white">Editar Usuário</h3>
-                            <button onClick={() => setEditDialogOpen(false)} className="text-black hover:text-gray-900 dark:hover:text-white">
+                            <h3 className="text-lg font-black text-black dark:text-white">Editar Usuário</h3>
+                            <button onClick={() => setEditDialogOpen(false)} className="text-black hover:text-black dark:hover:text-white">
                                 <CloseIcon fontSize="small" />
                             </button>
                         </div>
@@ -318,7 +318,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ onAddUser }) => 
                                     type="text"
                                     value={editName}
                                     onChange={(e) => setEditName(e.target.value)}
-                                    className="w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-sm font-semibold text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50"
+                                    className="w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-sm font-semibold text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50"
                                 />
                             </div>
 
@@ -330,7 +330,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ onAddUser }) => 
                                         <select
                                             value={editRole}
                                             onChange={(e) => setEditRole(e.target.value as UserRole)}
-                                            className="w-full pl-10 pr-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-sm font-semibold text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50 appearance-none cursor-pointer"
+                                            className="w-full pl-10 pr-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-sm font-semibold text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50 appearance-none cursor-pointer"
                                         >
                                             <option value="user">Usuário Comum</option>
                                             <option value="admin">Administrador</option>

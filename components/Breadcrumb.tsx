@@ -22,9 +22,9 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({ items }) => {
 
             {items.map((item, idx) => (
                 <React.Fragment key={idx}>
-                    <ChevronRight className="w-3 h-3 text-gray-700 dark:text-black" />
+                    <ChevronRight className="w-3 h-3 text-gray-300 dark:text-black" />
                     {idx === items.length - 1 ? (
-                        <span className="font-bold text-black dark:text-gray-700">
+                        <span className="font-bold text-black dark:text-white">
                             {item.label}
                         </span>
                     ) : (

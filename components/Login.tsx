@@ -130,7 +130,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin, onBack }) => {
           </div>
 
           <div className="mb-10">
-            <h3 className="text-3xl font-black mb-2 tracking-tight text-gray-900 dark:text-white">
+            <h3 className="text-3xl font-black mb-2 tracking-tight text-black dark:text-white">
               {resetMode ? 'Recuperar Senha' : 'Login'}
             </h3>
             <p className="text-black dark:text-black font-medium">
@@ -141,7 +141,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin, onBack }) => {
           {resetSuccess ? (
             <div className="p-8 text-center rounded-3xl border border-emerald-500 bg-emerald-50 dark:bg-emerald-900/10">
               <CheckCircle style={{ fontSize: 64 }} className="text-emerald-500 mb-4" />
-              <h4 className="text-lg font-black text-gray-900 dark:text-white mb-2">
+              <h4 className="text-lg font-black text-black dark:text-white mb-2">
                 Link de acesso enviado!
               </h4>
               <p className="text-sm text-black dark:text-black mb-6 font-medium">
@@ -149,7 +149,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin, onBack }) => {
               </p>
               <button
                 onClick={() => { setResetMode(false); setResetSuccess(false); }}
-                className="w-full py-3 rounded-full border border-gray-300 dark:border-white/20 text-black dark:text-gray-200 font-bold hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+                className="w-full py-3 rounded-full border border-gray-300 dark:border-white/20 text-black dark:text-white font-bold hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
               >
                 Voltar ao Login
               </button>
@@ -175,7 +175,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin, onBack }) => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="w-full pl-10 pr-4 py-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-white/10 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-gray-900 dark:text-white"
+                    className="w-full pl-10 pr-4 py-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-white/10 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-black dark:text-white"
                   />
                 </div>
               </div>
@@ -196,7 +196,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin, onBack }) => {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       required
-                      className="w-full pl-10 pr-10 py-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-white/10 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-gray-900 dark:text-white"
+                      className="w-full pl-10 pr-10 py-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-white/10 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-black dark:text-white"
                     />
                     <button
                       type="button"
@@ -237,7 +237,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin, onBack }) => {
                 <button
                   type="button"
                   onClick={() => setResetMode(false)}
-                  className="w-full py-2 text-black dark:text-black hover:text-gray-900 dark:hover:text-white text-xs font-bold transition-colors flex items-center justify-center gap-2"
+                  className="w-full py-2 text-black dark:text-black hover:text-black dark:hover:text-white text-xs font-bold transition-colors flex items-center justify-center gap-2"
                 >
                   <ArrowBack fontSize="small" />
                   Voltar ao Login

@@ -42,7 +42,7 @@ export const KimiLandingPage: React.FC = () => {
 
                     {/* Desktop CTA */}
                     <div className="hidden md:flex items-center gap-4">
-                        <button className="text-sm font-bold text-gray-700 hover:text-white transition-colors">
+                        <button className="text-sm font-bold text-gray-300 hover:text-white transition-colors">
                             Login
                         </button>
                         <button className="bg-purple-600 hover:bg-purple-500 text-white px-5 py-2.5 rounded-lg font-bold text-sm transition-all shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40">

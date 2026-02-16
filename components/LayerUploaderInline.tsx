@@ -135,7 +135,7 @@ export const LayerUploaderInline: React.FC<LayerUploaderInlineProps> = ({ onLaye
                     <Database className="w-5 h-5 text-happiness-1" />
                 </div>
                 <div>
-                    <h3 className="font-bold text-gray-900 dark:text-white">Importar Mapeamento ESG</h3>
+                    <h3 className="font-bold text-black dark:text-white">Importar Mapeamento ESG</h3>
                     <p className="text-xs text-black">Categorização obrigatória para inteligência de dados</p>
                 </div>
             </div>
@@ -162,7 +162,7 @@ export const LayerUploaderInline: React.FC<LayerUploaderInlineProps> = ({ onLaye
                             <div className="w-12 h-12 bg-gray-100 dark:bg-white/5 rounded-full flex items-center justify-center mb-3">
                                 <Upload className={`w-6 h-6 ${isDragging ? 'text-happiness-1' : 'text-black'}`} />
                             </div>
-                            <p className="text-sm font-bold text-black dark:text-gray-200 mb-1">Arraste e solte ou clique para selecionar</p>
+                            <p className="text-sm font-bold text-black dark:text-white mb-1">Arraste e solte ou clique para selecionar</p>
                             <p className="text-[10px] text-black">KML, GeoJSON, Shapefile (ZIP) ou CSV</p>
                         </div>
                     ) : (
@@ -172,7 +172,7 @@ export const LayerUploaderInline: React.FC<LayerUploaderInlineProps> = ({ onLaye
                                     <CheckCircle2 className="w-4 h-4 text-green-500" />
                                 </div>
                                 <div className="truncate">
-                                    <p className="text-sm font-bold text-gray-800 dark:text-gray-200 truncate">{selectedFile.name}</p>
+                                    <p className="text-sm font-bold text-black dark:text-white truncate">{selectedFile.name}</p>
                                     <p className="text-[10px] text-black uppercase">{(selectedFile.size / 1024).toFixed(1)} KB</p>
                                 </div>
                             </div>
@@ -198,7 +198,7 @@ export const LayerUploaderInline: React.FC<LayerUploaderInlineProps> = ({ onLaye
                                 value={layerName}
                                 onChange={(e) => setLayerName(e.target.value)}
                                 placeholder="Ex: Mapeamento da Poligonal do Porto"
-                                className="w-full bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-3xl px-4 py-2.5 text-sm text-gray-900 dark:text-white placeholder:text-black dark:placeholder:text-black focus:border-happiness-1 focus:ring-1 focus:ring-happiness-1 transition-all outline-none"
+                                className="w-full bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-3xl px-4 py-2.5 text-sm text-black dark:text-white placeholder:text-black dark:placeholder:text-black focus:border-happiness-1 focus:ring-1 focus:ring-happiness-1 transition-all outline-none"
                             />
                         </div>
 
@@ -214,7 +214,7 @@ export const LayerUploaderInline: React.FC<LayerUploaderInlineProps> = ({ onLaye
                                         className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                                     />
                                 </div>
-                                <span className="text-[10px] font-mono font-black text-gray-900 dark:text-white uppercase">{selectedColor}</span>
+                                <span className="text-[10px] font-mono font-black text-black dark:text-white uppercase">{selectedColor}</span>
                             </div>
                         </div>
 
@@ -254,7 +254,7 @@ export const LayerUploaderInline: React.FC<LayerUploaderInlineProps> = ({ onLaye
                                 uploadState.status === 'success' ? <CheckCircle2 className="w-5 h-5 text-green-500" /> :
                                     <AlertCircle className="w-5 h-5 text-red-500" />}
                             <div className="flex-1">
-                                <p className="text-sm font-bold text-gray-900 dark:text-gray-100">{uploadState.status === 'success' ? 'Importação Concluída' : uploadState.status === 'error' ? 'Falha na Importação' : 'Processando...'}</p>
+                                <p className="text-sm font-bold text-black dark:text-gray-100">{uploadState.status === 'success' ? 'Importação Concluída' : uploadState.status === 'error' ? 'Falha na Importação' : 'Processando...'}</p>
                                 <p className="text-xs text-black dark:text-black mt-0.5">{uploadState.message}</p>
                             </div>
                         </div>
@@ -266,7 +266,7 @@ export const LayerUploaderInline: React.FC<LayerUploaderInlineProps> = ({ onLaye
             <div className="p-5 border-t border-gray-100 dark:border-white/10 bg-gray-50 dark:bg-zinc-900/50 flex justify-end gap-3">
                 <button
                     onClick={resetForm}
-                    className="px-5 py-2.5 text-sm font-bold text-black hover:text-gray-800 dark:hover:text-white transition-all outline-none"
+                    className="px-5 py-2.5 text-sm font-bold text-black hover:text-black dark:hover:text-white transition-all outline-none"
                 >
                     Cancelar
                 </button>

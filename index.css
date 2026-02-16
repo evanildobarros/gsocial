@@ -192,7 +192,7 @@ h3 { @apply font-bold; }
 
 p {
   line-height: 1.6; /* Comfortable reading height */
-  @apply text-black dark:text-black;
+  @apply text-gray-600 dark:text-gray-400;
 }
 
 /* Animações (migrado do index.html) */
@@ -234,13 +234,13 @@ textarea {
 
 ::placeholder {
   color: #9ca3af !important;
-  /* text-black */
+  /* text-gray-400 */
   opacity: 1;
 }
 
 .dark ::placeholder {
   color: #6b7280 !important;
-  /* text-black */
+  /* text-gray-500 */
 }
 
 /* Specific fix for inputs with dark:bg-black/20 or similar in light mode */

@@ -50,7 +50,7 @@ export const PredictiveAnalysis: React.FC = () => {
             {/* Header */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-2">
                 <div>
-                    <h1 className="text-2xl font-black text-gray-900 dark:text-white tracking-tight flex items-center gap-2">
+                    <h1 className="text-2xl font-black text-black dark:text-white tracking-tight flex items-center gap-2">
                         <Brain className="w-6 h-6 text-purple-600" />
                         Análise Preditiva & Simulação de Cenários
                     </h1>
@@ -67,7 +67,7 @@ export const PredictiveAnalysis: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Controls Panel */}
                 <div className="bg-white dark:bg-[#1C1C1C] p-6 rounded-3xl border border-gray-200 dark:border-white/5 shadow-sm h-full">
-                    <div className="flex items-center gap-2 mb-6 text-gray-900 dark:text-white font-bold border-b border-gray-100 dark:border-white/5 pb-4">
+                    <div className="flex items-center gap-2 mb-6 text-black dark:text-white font-bold border-b border-gray-100 dark:border-white/5 pb-4">
                         <Sliders className="w-5 h-5" />
                         Parâmetros de Simulação
                     </div>
@@ -75,7 +75,7 @@ export const PredictiveAnalysis: React.FC = () => {
                     <div className="space-y-8">
                         <div>
                             <div className="flex justify-between mb-2">
-                                <label className="text-xs font-bold text-black dark:text-gray-700">Crescimento de Carga (%)</label>
+                                <label className="text-xs font-bold text-black dark:text-white">Crescimento de Carga (%)</label>
                                 <span className="text-xs font-black text-blue-600 bg-blue-50 px-2 py-0.5 rounded">{cargoGrowth}%</span>
                             </div>
                             <input
@@ -91,7 +91,7 @@ export const PredictiveAnalysis: React.FC = () => {
 
                         <div>
                             <div className="flex justify-between mb-2">
-                                <label className="text-xs font-bold text-black dark:text-gray-700">Adoção Renovável (%)</label>
+                                <label className="text-xs font-bold text-black dark:text-white">Adoção Renovável (%)</label>
                                 <span className="text-xs font-black text-green-600 bg-green-50 px-2 py-0.5 rounded">{renewableAdoption}%</span>
                             </div>
                             <input
@@ -107,7 +107,7 @@ export const PredictiveAnalysis: React.FC = () => {
 
                         <div>
                             <div className="flex justify-between mb-2">
-                                <label className="text-xs font-bold text-black dark:text-gray-700">Investimento Social (% Budget)</label>
+                                <label className="text-xs font-bold text-black dark:text-white">Investimento Social (% Budget)</label>
                                 <span className="text-xs font-black text-orange-600 bg-orange-50 px-2 py-0.5 rounded">{socialInvestment}%</span>
                             </div>
                             <input
@@ -139,7 +139,7 @@ export const PredictiveAnalysis: React.FC = () => {
                     <div className="bg-white dark:bg-[#1C1C1C] p-6 rounded-3xl border border-gray-200 dark:border-white/5 shadow-sm">
                         <div className="flex justify-between items-start mb-6">
                             <div>
-                                <h3 className="font-bold text-gray-900 dark:text-white text-lg">Projeção de Emissões (tCO2e)</h3>
+                                <h3 className="font-bold text-black dark:text-white text-lg">Projeção de Emissões (tCO2e)</h3>
                                 <div className="flex items-center gap-4 mt-2">
                                     <div className="flex items-center gap-2">
                                         <div className="w-3 h-1 bg-gray-400 rounded-full"></div>
@@ -225,7 +225,7 @@ export const PredictiveAnalysis: React.FC = () => {
                         </div>
 
                         <div className="bg-white dark:bg-[#1C1C1C] p-5 rounded-3xl border border-gray-200 dark:border-white/5">
-                            <h4 className="font-bold text-black dark:text-gray-200 text-sm mb-3 flex items-center gap-2">
+                            <h4 className="font-bold text-black dark:text-white text-sm mb-3 flex items-center gap-2">
                                 <Zap className="w-4 h-4 text-yellow-500" />
                                 Insights Automáticos
                             </h4>

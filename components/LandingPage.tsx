@@ -48,14 +48,14 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
     }, []);
 
     return (
-        <div className="min-h-screen bg-white dark:bg-zinc-950 font-sans text-gray-900 dark:text-white selection:bg-cyan-500 selection:text-white">
+        <div className="min-h-screen bg-white dark:bg-zinc-950 font-sans text-black dark:text-white selection:bg-cyan-500 selection:text-white">
             {/* Navigation */}
             <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md shadow-lg py-4' : 'bg-transparent py-6'}`}>
                 <div className="container mx-auto px-6 flex justify-between items-center">
                     <div className="flex items-center gap-3">
                         <img src="/logo_itaqui.png" alt="ESGporto" className="h-10 w-auto brightness-0 invert dark:invert-0 lg:brightness-100" />
                         <div className="hidden lg:block">
-                            <span className={`text-xl font-black tracking-tighter ${scrolled ? 'text-gray-900 dark:text-white' : 'text-white'}`}>ESGporto</span>
+                            <span className={`text-xl font-black tracking-tighter ${scrolled ? 'text-black dark:text-white' : 'text-white'}`}>ESGporto</span>
                         </div>
                     </div>
                     <div className="flex items-center gap-6">
@@ -100,7 +100,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                             A bússola definitiva para a <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-emerald-400">Gestão ESG Portuária</span>.
                         </h1>
 
-                        <p className="text-lg md:text-xl text-gray-700 mb-8 leading-relaxed max-w-2xl font-light">
+                        <p className="text-lg md:text-xl text-gray-300 mb-8 leading-relaxed max-w-2xl font-light">
                             Do diagnóstico à transformação: monitore indicadores, mitigue riscos climáticos e fortaleça a licença social para operar com base na ABNT PR 2030 e padrões globais (GRI).
                         </p>
 
@@ -171,7 +171,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                                 <span className="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">Sobre o Porto</span>
                             </div>
 
-                            <h2 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white leading-tight">
+                            <h2 className="text-4xl md:text-5xl font-black text-black dark:text-white leading-tight">
                                 Um dos Principais Portos do <span className="text-blue-600 dark:text-blue-400">Brasil</span>
                             </h2>
 
@@ -192,7 +192,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                                     <Droplets className="w-6 h-6" />
                                 </div>
                                 <div>
-                                    <div className="text-2xl font-black text-gray-900 dark:text-white">9</div>
+                                    <div className="text-2xl font-black text-black dark:text-white">9</div>
                                     <div className="text-xs text-black font-medium">Berços operacionais</div>
                                 </div>
                             </div>
@@ -331,7 +331,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                                         <div key={item.name} className="flex items-center justify-between text-sm">
                                             <div className="flex items-center gap-2">
                                                 <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }}></div>
-                                                <span className="text-gray-700">{item.name}</span>
+                                                <span className="text-gray-300">{item.name}</span>
                                             </div>
                                             <span className="font-bold text-white">{item.value}%</span>
                                         </div>
@@ -479,7 +479,7 @@ const StatCard: React.FC<{ icon: React.ReactNode; value: string; label: string }
         <div className="mb-6 p-4 bg-blue-600 rounded-2xl shadow-lg shadow-blue-500/30 group-hover:scale-110 transition-transform duration-300">
             {icon}
         </div>
-        <div className="text-4xl font-black text-gray-900 dark:text-white mb-2">{value}</div>
+        <div className="text-4xl font-black text-black dark:text-white mb-2">{value}</div>
         <div className="text-sm font-medium text-black dark:text-black max-w-[150px] leading-relaxed">{label}</div>
     </div>
 );
@@ -496,7 +496,7 @@ const DownloadCard: React.FC<{ title: string; subtitle: string; tag: string }> =
     <div className="group p-6 rounded-2xl border border-gray-100 dark:border-white/10 bg-gray-50 dark:bg-zinc-900 cursor-pointer hover:border-cyan-500/50 transition-all">
         <div className="flex justify-between items-start mb-4">
             <FileText className="text-black group-hover:text-cyan-500 transition-colors" />
-            <div className="px-2 py-1 rounded text-[10px] font-bold bg-gray-200 dark:bg-white/10 text-black dark:text-gray-700 uppercase">{tag}</div>
+            <div className="px-2 py-1 rounded text-[10px] font-bold bg-gray-200 dark:bg-white/10 text-black dark:text-white uppercase">{tag}</div>
         </div>
         <h4 className="font-bold text-lg dark:text-white mb-2 group-hover:text-cyan-500 transition-colors">{title}</h4>
         <p className="text-black dark:text-black text-sm mb-4">{subtitle}</p>

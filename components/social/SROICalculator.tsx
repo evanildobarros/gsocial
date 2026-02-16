@@ -173,7 +173,7 @@ export const SROICalculator: React.FC = () => {
                             <Calculator size={32} />
                         </div>
                         <div>
-                            <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">Motor de Impacto Social</h1>
+                            <h1 className="text-3xl font-black text-black dark:text-white tracking-tight">Motor de Impacto Social</h1>
                             <p className="text-sm font-bold text-black">Social Return on Investment (SROI) • Proxies Financeiras</p>
                         </div>
                     </div>
@@ -197,7 +197,7 @@ export const SROICalculator: React.FC = () => {
                             <div className="p-2 rounded-xl bg-blue-50 dark:bg-blue-900/10">
                                 <FileBarChart className="text-blue-600 w-6 h-6" />
                             </div>
-                            <h2 className="text-xl font-black text-gray-900 dark:text-white">Parâmetros de Investimento</h2>
+                            <h2 className="text-xl font-black text-black dark:text-white">Parâmetros de Investimento</h2>
                         </div>
 
                         <div className="space-y-6 relative z-10">
@@ -206,7 +206,7 @@ export const SROICalculator: React.FC = () => {
                                 <select
                                     value={selectedProjectId}
                                     onChange={(e) => handleProjectChange(e.target.value)}
-                                    className="w-full px-4 py-3 bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-white/10 rounded-2xl text-sm font-bold focus:outline-none focus:border-happiness-1 transition-all text-gray-900 dark:text-white"
+                                    className="w-full px-4 py-3 bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-white/10 rounded-2xl text-sm font-bold focus:outline-none focus:border-happiness-1 transition-all text-black dark:text-white"
                                 >
                                     <option value="">-- Inserção Manual --</option>
                                     {projects.map((p) => <option key={p.id} value={p.id.toString()}>{p.name}</option>)}
@@ -220,7 +220,7 @@ export const SROICalculator: React.FC = () => {
                                     placeholder="Ex: Formação de Estivadores Locais"
                                     value={formData.projectName}
                                     onChange={(e) => setFormData({ ...formData, projectName: e.target.value })}
-                                    className="w-full px-4 py-3 bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-white/10 rounded-2xl text-sm font-bold focus:outline-none focus:border-happiness-1 transition-all text-gray-900 dark:text-white"
+                                    className="w-full px-4 py-3 bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-white/10 rounded-2xl text-sm font-bold focus:outline-none focus:border-happiness-1 transition-all text-black dark:text-white"
                                 />
                             </div>
 
@@ -245,7 +245,7 @@ export const SROICalculator: React.FC = () => {
                                             type="number"
                                             value={formData.beneficiaries}
                                             onChange={(e) => setFormData({ ...formData, beneficiaries: e.target.value })}
-                                            className="w-full pl-9 pr-4 py-3 bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-white/10 rounded-2xl text-sm font-black focus:outline-none focus:border-happiness-1 transition-all text-gray-900 dark:text-white"
+                                            className="w-full pl-9 pr-4 py-3 bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-white/10 rounded-2xl text-sm font-black focus:outline-none focus:border-happiness-1 transition-all text-black dark:text-white"
                                         />
                                     </div>
                                 </div>
@@ -349,13 +349,13 @@ export const SROICalculator: React.FC = () => {
                                 <div className="p-2 rounded-xl bg-purple-50 dark:bg-purple-900/10">
                                     <History className="text-purple-600 w-5 h-5" />
                                 </div>
-                                <h2 className="text-xl font-black text-gray-900 dark:text-white leading-none">Histórico de Impacto</h2>
+                                <h2 className="text-xl font-black text-black dark:text-white leading-none">Histórico de Impacto</h2>
                             </div>
                         </div>
 
                         {isLoadingHistory ? (
                             <div className="py-10 text-center flex justify-center">
-                                <Loader2 className="w-8 h-8 text-gray-700 animate-spin" />
+                                <Loader2 className="w-8 h-8 text-gray-300 animate-spin" />
                             </div>
                         ) : (
                             <div className="space-y-3">
@@ -366,9 +366,9 @@ export const SROICalculator: React.FC = () => {
                                     >
                                         <div className="flex justify-between items-center">
                                             <div className="min-w-0 flex-1 pr-4">
-                                                <h3 className="text-xs font-black text-gray-900 dark:text-white truncate mb-1 group-hover:text-happiness-1 transition-colors uppercase tracking-tight">{record.project_name}</h3>
+                                                <h3 className="text-xs font-black text-black dark:text-white truncate mb-1 group-hover:text-happiness-1 transition-colors uppercase tracking-tight">{record.project_name}</h3>
                                                 <div className="flex items-center gap-2">
-                                                    <span className="px-1.5 py-0.5 rounded bg-gray-200 dark:bg-gray-800 text-[8px] font-black text-black dark:text-gray-700 uppercase truncate">
+                                                    <span className="px-1.5 py-0.5 rounded bg-gray-200 dark:bg-gray-800 text-[8px] font-black text-black dark:text-white uppercase truncate">
                                                         {record.outcome_type}
                                                     </span>
                                                 </div>

@@ -292,7 +292,7 @@ export const GovernanceDiagnosticForm: React.FC = () => {
                     <div className="text-[10px] font-black text-purple-600 uppercase tracking-widest mb-1 flex items-center gap-2">
                         <Shield size={12} /> Pilar Governança (G) — ABNT PR 2030
                     </div>
-                    <h1 className="text-2xl font-black text-gray-900 dark:text-white tracking-tighter">
+                    <h1 className="text-2xl font-black text-black dark:text-white tracking-tighter">
                         {viewMode === 'list' ? 'Operadores & Fornecedores' : 'Nova Auditoria de Integridade'}
                     </h1>
                 </div>
@@ -342,7 +342,7 @@ export const GovernanceDiagnosticForm: React.FC = () => {
                                     <div className="p-6 space-y-4">
                                         <div className="flex justify-between items-start">
                                             <div className="min-w-0 flex-1">
-                                                <h3 className="font-black text-gray-900 dark:text-white truncate pr-2 group-hover:text-purple-600 transition-colors">{a.company_name}</h3>
+                                                <h3 className="font-black text-black dark:text-white truncate pr-2 group-hover:text-purple-600 transition-colors">{a.company_name}</h3>
                                                 <span className="text-[10px] font-bold text-black uppercase tracking-widest">Criticidade: {a.criticality}</span>
                                             </div>
                                             <div className={`p-2 rounded-xl ${risk.color} bg-opacity-10`}>
@@ -373,7 +373,7 @@ export const GovernanceDiagnosticForm: React.FC = () => {
                         <div className="bg-white dark:bg-[#1C1C1C] rounded-3xl border border-gray-200 dark:border-white/5 p-8 space-y-8">
                             <div className="flex items-center gap-3 border-b border-gray-50 pb-4">
                                 <Building2 className="text-purple-600" />
-                                <h2 className="font-black text-gray-900 dark:text-white uppercase tracking-wider text-sm">Entidade & Criticidade Estratégica</h2>
+                                <h2 className="font-black text-black dark:text-white uppercase tracking-wider text-sm">Entidade & Criticidade Estratégica</h2>
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -410,8 +410,8 @@ export const GovernanceDiagnosticForm: React.FC = () => {
                                 {GOVERNANCE_QUESTIONS.map(q => (
                                     <div key={q.id} className="space-y-5">
                                         <div className="flex items-center justify-between">
-                                            <h3 className="font-black text-gray-800 dark:text-white">{q.question}</h3>
-                                            <HelpCircle className="text-gray-700 cursor-help" size={16} />
+                                            <h3 className="font-black text-black dark:text-white">{q.question}</h3>
+                                            <HelpCircle className="text-gray-300 cursor-help" size={16} />
                                         </div>
 
                                         <div className="grid grid-cols-1 gap-2">
@@ -424,7 +424,7 @@ export const GovernanceDiagnosticForm: React.FC = () => {
                                                     <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${answers[q.id] === opt.value ? 'border-purple-500 bg-purple-500' : 'border-gray-300'}`}>
                                                         {answers[q.id] === opt.value && <div className="w-1.5 h-1.5 bg-white rounded-full" />}
                                                     </div>
-                                                    <span className="text-sm font-bold text-black dark:text-gray-700">{opt.label}</span>
+                                                    <span className="text-sm font-bold text-black dark:text-white">{opt.label}</span>
                                                 </button>
                                             ))}
                                         </div>
@@ -491,7 +491,7 @@ export const GovernanceDiagnosticForm: React.FC = () => {
 
                         {/* Layer Uploader */}
                         <div className="bg-zinc-50 dark:bg-white/5 p-6 rounded-3xl border border-gray-200 dark:border-white/10">
-                             <div className="flex items-center gap-2 mb-4 text-black dark:text-gray-700">
+                             <div className="flex items-center gap-2 mb-4 text-black dark:text-white">
                                 <Zap size={16} />
                                 <span className="text-[10px] font-black uppercase tracking-widest">Mapas de Risco Corporativo</span>
                              </div>

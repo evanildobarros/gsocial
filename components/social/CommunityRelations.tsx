@@ -4,7 +4,7 @@ import { MessageSquare, AlertCircle, CheckCircle, Clock, Users, ArrowUpRight } f
 const StatusChip = ({ status }: { status: string }) => {
     const getStatusStyles = (status: string) => {
         switch (status) {
-            case 'Recebido': return 'bg-gray-100 text-black dark:bg-gray-700 dark:text-gray-700';
+            case 'Recebido': return 'bg-gray-100 text-black dark:bg-gray-700 dark:text-white';
             case 'Em Análise': return 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400';
             case 'Ação Tomada': return 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400';
             case 'Feedback Enviado': return 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400';
@@ -30,7 +30,7 @@ export const CommunityRelations: React.FC = () => {
         <div className="space-y-6 animate-in fade-in duration-500">
             <div className="flex justify-between items-center mb-6">
                 <div>
-                    <h1 className="text-2xl font-black text-gray-900 dark:text-white tracking-tight">Gestão de Relacionamento & Território</h1>
+                    <h1 className="text-2xl font-black text-black dark:text-white tracking-tight">Gestão de Relacionamento & Território</h1>
                     <p className="text-sm text-black mt-1">Canal de Escuta Ativa e Mapeamento de Stakeholders</p>
                 </div>
             </div>
@@ -41,7 +41,7 @@ export const CommunityRelations: React.FC = () => {
                     <div className="p-6 border-b border-gray-100 dark:border-white/5 flex justify-between items-center">
                         <div className="flex items-center gap-2">
                             <MessageSquare className="w-5 h-5 text-happiness-1" />
-                            <h2 className="text-lg font-bold text-gray-900 dark:text-white">Ouvidoria 2.0 (Tickets)</h2>
+                            <h2 className="text-lg font-bold text-black dark:text-white">Ouvidoria 2.0 (Tickets)</h2>
                         </div>
                         <span className="text-xs font-bold bg-red-100 text-red-600 px-2 py-1 rounded-3xl border border-red-200">
                             1 Crítico Pendente
@@ -62,7 +62,7 @@ export const CommunityRelations: React.FC = () => {
                                         <AlertCircle className="w-5 h-5" />
                                     </div>
                                     <div>
-                                        <h3 className="font-bold text-sm text-gray-900 dark:text-white flex items-center gap-2">
+                                        <h3 className="font-bold text-sm text-black dark:text-white flex items-center gap-2">
                                             {ticket.category}
                                             <span className="text-[10px] text-black font-normal">#{ticket.id}</span>
                                         </h3>
@@ -71,7 +71,7 @@ export const CommunityRelations: React.FC = () => {
                                 </div>
                                 <div className="flex items-center gap-4">
                                     <StatusChip status={ticket.status} />
-                                    <ArrowUpRight className="w-4 h-4 text-gray-700 group-hover:text-happiness-1 transition-colors" />
+                                    <ArrowUpRight className="w-4 h-4 text-gray-300 group-hover:text-happiness-1 transition-colors" />
                                 </div>
                             </div>
                         ))}
@@ -83,7 +83,7 @@ export const CommunityRelations: React.FC = () => {
 
                 {/* Stakeholder Matrix Placeholder */}
                 <div className="bg-white dark:bg-[#1C1C1C] rounded-3xl border border-gray-200 dark:border-white/5 shadow-sm p-6 flex flex-col">
-                    <div className="flex items-center gap-2 mb-6 text-gray-900 dark:text-white">
+                    <div className="flex items-center gap-2 mb-6 text-black dark:text-white">
                         <Users className="w-5 h-5 text-purple-500" />
                         <h2 className="text-lg font-bold">Matriz de Stakeholders</h2>
                     </div>

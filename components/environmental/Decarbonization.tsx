@@ -152,7 +152,7 @@ export const Decarbonization: React.FC = () => {
                         <div className="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-900/10 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
                             <Cloud className="w-6 h-6" />
                         </div>
-                        <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">
+                        <h1 className="text-3xl font-black text-black dark:text-white tracking-tight">
                             Clima & Descarbonização
                         </h1>
                     </div>
@@ -164,7 +164,7 @@ export const Decarbonization: React.FC = () => {
                 <div className="flex gap-3">
                     <button
                         onClick={generatePDF}
-                        className="px-6 py-2.5 rounded-full border border-gray-200 dark:border-white/10 font-bold text-black dark:text-gray-700 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors flex items-center gap-2 text-sm"
+                        className="px-6 py-2.5 rounded-full border border-gray-200 dark:border-white/10 font-bold text-black dark:text-white hover:bg-gray-50 dark:hover:bg-white/5 transition-colors flex items-center gap-2 text-sm"
                     >
                         <Download className="w-4 h-4" /> Relatório PDF
                     </button>
@@ -190,7 +190,7 @@ export const Decarbonization: React.FC = () => {
                         </span>
 
                         <div className="flex items-baseline gap-2 mt-4 mb-2 relative z-10">
-                            <span className="text-6xl font-black text-gray-900 dark:text-white tracking-tighter">
+                            <span className="text-6xl font-black text-black dark:text-white tracking-tighter">
                                 {latestRecord?.carbon_intensity.toFixed(4) || "0.0000"}
                             </span>
                             <span className="text-xs font-bold text-black">kgCO2e / Ton</span>
@@ -206,7 +206,7 @@ export const Decarbonization: React.FC = () => {
                     </div>
 
                     <div className="p-8 rounded-[32px] border border-gray-200 dark:border-white/5 bg-white dark:bg-zinc-900">
-                        <h3 className="text-sm font-black uppercase tracking-wider text-gray-900 dark:text-white mb-6">
+                        <h3 className="text-sm font-black uppercase tracking-wider text-black dark:text-white mb-6">
                             Quebra de Emissões (kgCO2e)
                         </h3>
                         <div className="space-y-6">
@@ -232,7 +232,7 @@ export const Decarbonization: React.FC = () => {
                 <div className="lg:col-span-8 space-y-6">
                     <div className="p-8 rounded-[32px] border border-gray-200 dark:border-white/5 bg-white dark:bg-zinc-900 h-full flex flex-col">
                         <div className="flex justify-between items-center mb-8">
-                            <h3 className="text-lg font-black text-gray-900 dark:text-white">Desempenho Climático Histórico</h3>
+                            <h3 className="text-lg font-black text-black dark:text-white">Desempenho Climático Histórico</h3>
                             <div className="px-3 py-1 rounded-full border border-emerald-200 bg-emerald-50 dark:bg-emerald-900/10 dark:border-emerald-500/20 flex items-center gap-2">
                                 <CheckCircle2 className="w-3 h-3 text-emerald-500" />
                                 <span className="text-[10px] font-bold text-emerald-700 dark:text-emerald-300 uppercase tracking-wide">Net Zero 2050</span>
@@ -295,8 +295,8 @@ export const Decarbonization: React.FC = () => {
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
                     <div className="bg-white dark:bg-[#1C1C1C] w-full max-w-md rounded-3xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
                         <div className="px-6 py-5 border-b border-gray-100 dark:border-white/5 flex justify-between items-center">
-                            <h3 className="text-lg font-black text-gray-900 dark:text-white">Lançamento de Inventário</h3>
-                            <button onClick={() => !isSaving && setIsModalOpen(false)} className="text-black hover:text-gray-900 dark:hover:text-white">
+                            <h3 className="text-lg font-black text-black dark:text-white">Lançamento de Inventário</h3>
+                            <button onClick={() => !isSaving && setIsModalOpen(false)} className="text-black hover:text-black dark:hover:text-white">
                                 <X className="w-5 h-5" />
                             </button>
                         </div>
@@ -313,7 +313,7 @@ export const Decarbonization: React.FC = () => {
                                         type="number"
                                         value={formData.month}
                                         onChange={(e) => setFormData({ ...formData, month: Number(e.target.value) })}
-                                        className="w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-sm font-bold text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+                                        className="w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-sm font-bold text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
                                     />
                                 </div>
                                 <div className="space-y-1">
@@ -322,7 +322,7 @@ export const Decarbonization: React.FC = () => {
                                         type="number"
                                         value={formData.year}
                                         onChange={(e) => setFormData({ ...formData, year: Number(e.target.value) })}
-                                        className="w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-sm font-bold text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+                                        className="w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-sm font-bold text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
                                     />
                                 </div>
                             </div>
@@ -334,7 +334,7 @@ export const Decarbonization: React.FC = () => {
                                         type="number"
                                         value={formData.fuel}
                                         onChange={(e) => setFormData({ ...formData, fuel: Number(e.target.value) })}
-                                        className="w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-sm font-bold text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+                                        className="w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-sm font-bold text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
                                     />
                                 </div>
                                 <div className="space-y-1">
@@ -343,7 +343,7 @@ export const Decarbonization: React.FC = () => {
                                         type="number"
                                         value={formData.energy}
                                         onChange={(e) => setFormData({ ...formData, energy: Number(e.target.value) })}
-                                        className="w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-sm font-bold text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+                                        className="w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-sm font-bold text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
                                     />
                                 </div>
                                 <div className="space-y-1">
@@ -352,7 +352,7 @@ export const Decarbonization: React.FC = () => {
                                         type="number"
                                         value={formData.cargo}
                                         onChange={(e) => setFormData({ ...formData, cargo: Number(e.target.value) })}
-                                        className="w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-sm font-bold text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+                                        className="w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-sm font-bold text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
                                     />
                                 </div>
                             </div>
@@ -360,7 +360,7 @@ export const Decarbonization: React.FC = () => {
                             <div className="pt-2 flex gap-3">
                                 <button
                                     onClick={() => setIsModalOpen(false)}
-                                    className="flex-1 py-3 bg-gray-100 hover:bg-gray-200 dark:bg-white/5 dark:hover:bg-white/10 text-black dark:text-gray-700 rounded-xl font-bold text-sm transition-colors"
+                                    className="flex-1 py-3 bg-gray-100 hover:bg-gray-200 dark:bg-white/5 dark:hover:bg-white/10 text-black dark:text-white rounded-xl font-bold text-sm transition-colors"
                                 >
                                     Cancelar
                                 </button>
@@ -390,7 +390,7 @@ const EmissionStat = ({ label, value, color, textColor, icon }: { label: string,
                     <div className={`${textColor}`}>{icon}</div>
                     <span className="text-xs font-bold text-black uppercase tracking-tight">{label}</span>
                 </div>
-                <span className="text-sm font-black text-gray-900 dark:text-white">{value.toLocaleString('pt-BR')} kg</span>
+                <span className="text-sm font-black text-black dark:text-white">{value.toLocaleString('pt-BR')} kg</span>
             </div>
             <div className="h-2 w-full bg-gray-100 dark:bg-white/5 rounded-full overflow-hidden">
                 <div

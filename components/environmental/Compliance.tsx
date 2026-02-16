@@ -7,7 +7,7 @@ export const Compliance: React.FC = () => {
             {/* Header */}
             <div className="flex justify-between items-end">
                 <div>
-                    <h2 className="text-3xl font-black text-gray-900 tracking-tight">Conformidade & Licenciamento</h2>
+                    <h2 className="text-3xl font-black text-black tracking-tight">Conformidade & Licenciamento</h2>
                     <p className="text-black font-medium">Controle de condicionantes ambientais e repositório de evidências.</p>
                 </div>
                 <div className="flex items-center gap-2 px-4 py-2 bg-blue-50 border border-blue-100 rounded-3xl">
@@ -23,7 +23,7 @@ export const Compliance: React.FC = () => {
                         <div className="p-3 bg-white rounded-3xl shadow-sm">
                             <AlertCircle className="w-6 h-6 text-yellow-500" />
                         </div>
-                        <h3 className="text-xl font-black text-gray-900">Semáforo de Condicionantes</h3>
+                        <h3 className="text-xl font-black text-black">Semáforo de Condicionantes</h3>
                     </div>
                 </div>
 
@@ -48,12 +48,12 @@ export const Compliance: React.FC = () => {
                                     <td className="px-8 py-6 max-w-sm">
                                         <div className="flex flex-col">
                                             <span className="text-[10px] font-black text-[#2148C0] uppercase tracking-widest mb-1">{row.license}</span>
-                                            <span className="font-bold text-gray-900 leading-tight">{row.condition}</span>
+                                            <span className="font-bold text-black leading-tight">{row.condition}</span>
                                         </div>
                                     </td>
                                     <td className="px-8 py-6">
                                         <div className="flex items-center gap-2 text-sm font-medium text-black">
-                                            <Calendar className="w-4 h-4 text-gray-700" />
+                                            <Calendar className="w-4 h-4 text-gray-300" />
                                             {row.date}
                                         </div>
                                     </td>
@@ -76,7 +76,7 @@ export const Compliance: React.FC = () => {
                                         )}
                                     </td>
                                     <td className="px-8 py-6 text-right">
-                                        <button className="p-2 text-gray-700 hover:text-gray-900 transition-colors">
+                                        <button className="p-2 text-gray-300 hover:text-black transition-colors">
                                             <Search className="w-4 h-4" />
                                         </button>
                                     </td>
@@ -120,7 +120,7 @@ export const Compliance: React.FC = () => {
 
                 <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-xl shadow-blue-900/5 flex flex-col items-center justify-center text-center space-y-4">
                     <ShieldCheck className="w-16 h-16 text-[#2148C0]" />
-                    <h4 className="text-xl font-black text-gray-900">Trilha de Auditoria</h4>
+                    <h4 className="text-xl font-black text-black">Trilha de Auditoria</h4>
                     <p className="text-sm text-black font-medium max-w-xs">
                         Todas as alterações e uploads são registrados com carimbo de tempo (blockchain-ready) para suporte em auditorias ambientais.
                     </p>

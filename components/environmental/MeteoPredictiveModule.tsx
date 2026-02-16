@@ -156,7 +156,7 @@ export const MeteoPredictiveModule: React.FC = () => {
                             <Compass className="w-8 h-8" />
                         </div>
                         <div>
-                            <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">Inteligência Climática</h1>
+                            <h1 className="text-3xl font-black text-black dark:text-white tracking-tight">Inteligência Climática</h1>
                             <p className="text-sm font-medium text-black italic">Predição Operacional • Berço 100</p>
                         </div>
                     </div>
@@ -166,7 +166,7 @@ export const MeteoPredictiveModule: React.FC = () => {
                     <input type="file" ref={fileInputRef} onChange={handleFileUpload} accept=".csv" className="hidden" />
                     <button
                         onClick={() => fileInputRef.current?.click()}
-                        className="px-4 py-2 border border-gray-200 dark:border-white/10 rounded-full font-bold text-sm text-black dark:text-gray-700 hover:bg-gray-50 dark:hover:bg-white/5 flex items-center gap-2 transition-colors"
+                        className="px-4 py-2 border border-gray-200 dark:border-white/10 rounded-full font-bold text-sm text-black dark:text-white hover:bg-gray-50 dark:hover:bg-white/5 flex items-center gap-2 transition-colors"
                     >
                         <Upload size={16} />
                         Importar Histórico
@@ -204,7 +204,7 @@ export const MeteoPredictiveModule: React.FC = () => {
                         <TrendingUp className="w-4 h-4 text-green-500" />
                     </div>
                     <span className="text-[10px] font-black text-black uppercase tracking-[0.2em]">VENTO ESCALAR</span>
-                    <div className="mt-1 text-3xl font-black text-gray-900 dark:text-white">
+                    <div className="mt-1 text-3xl font-black text-black dark:text-white">
                         {data[23]?.windSpeed.toFixed(1)} <span className="text-sm font-normal text-black">m/s</span>
                     </div>
                 </div>
@@ -215,7 +215,7 @@ export const MeteoPredictiveModule: React.FC = () => {
                         <span className="text-[10px] font-black text-red-500 uppercase">ALERTA</span>
                     </div>
                     <span className="text-[10px] font-black text-black uppercase tracking-[0.2em]">PRECIPITAÇÃO ACUM.</span>
-                    <div className="mt-1 text-3xl font-black text-gray-900 dark:text-white">
+                    <div className="mt-1 text-3xl font-black text-black dark:text-white">
                         {data.reduce((acc, c) => acc + c.rainMm, 0).toFixed(1)} <span className="text-sm font-normal text-black">mm</span>
                     </div>
                 </div>
@@ -226,7 +226,7 @@ export const MeteoPredictiveModule: React.FC = () => {
                         <span className="text-[10px] font-black text-black uppercase">ESTÁVEL</span>
                     </div>
                     <span className="text-[10px] font-black text-black uppercase tracking-[0.2em]">TEMPERATURA</span>
-                    <div className="mt-1 text-3xl font-black text-gray-900 dark:text-white">
+                    <div className="mt-1 text-3xl font-black text-black dark:text-white">
                         {data[23]?.temp.toFixed(1)} <span className="text-sm font-normal text-black">°C</span>
                     </div>
                 </div>
@@ -237,7 +237,7 @@ export const MeteoPredictiveModule: React.FC = () => {
                         <span className="text-[10px] font-black text-green-500 uppercase">-5%</span>
                     </div>
                     <span className="text-[10px] font-black text-black uppercase tracking-[0.2em]">UMIDADE</span>
-                    <div className="mt-1 text-3xl font-black text-gray-900 dark:text-white">
+                    <div className="mt-1 text-3xl font-black text-black dark:text-white">
                         {data[23]?.humidity.toFixed(0)} <span className="text-sm font-normal text-black">%</span>
                     </div>
                 </div>
@@ -247,7 +247,7 @@ export const MeteoPredictiveModule: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-[350px_1fr] gap-8">
                 <div className="space-y-6">
                     <div className="bg-white/80 dark:bg-zinc-900/50 backdrop-blur-xl rounded-[32px] p-6 border border-gray-200 dark:border-white/5 shadow-lg">
-                        <h3 className="text-sm font-black text-gray-900 dark:text-white uppercase tracking-wider mb-6">ROSA DOS VENTOS</h3>
+                        <h3 className="text-sm font-black text-black dark:text-white uppercase tracking-wider mb-6">ROSA DOS VENTOS</h3>
                         <div className="h-[280px] w-full flex justify-center">
                             <ResponsiveContainer>
                                 <RadarChart cx="50%" cy="50%" outerRadius="80%" data={windRoseData}>
@@ -260,7 +260,7 @@ export const MeteoPredictiveModule: React.FC = () => {
                     </div>
 
                     <div className="bg-white dark:bg-[#1C1C1C] rounded-[32px] p-6 border border-gray-200 dark:border-white/5">
-                        <h3 className="text-sm font-black text-gray-900 dark:text-white mb-4">ANÁLISE DE RISCO AMBIENTAL</h3>
+                        <h3 className="text-sm font-black text-black dark:text-white mb-4">ANÁLISE DE RISCO AMBIENTAL</h3>
                         <div className="space-y-4">
                             <div>
                                 <div className="flex justify-between items-center mb-2">
@@ -282,7 +282,7 @@ export const MeteoPredictiveModule: React.FC = () => {
                 <div className="space-y-6">
                     <div className="bg-white/80 dark:bg-zinc-900/50 backdrop-blur-xl rounded-[32px] p-6 border border-gray-200 dark:border-white/5 shadow-lg">
                         <div className="flex justify-between items-center mb-6">
-                            <h3 className="text-sm font-black text-gray-900 dark:text-white uppercase tracking-wider">JANELAS OPERACIONAIS (PRÓXIMAS 24H)</h3>
+                            <h3 className="text-sm font-black text-black dark:text-white uppercase tracking-wider">JANELAS OPERACIONAIS (PRÓXIMAS 24H)</h3>
                             <Zap className="text-amber-500 w-5 h-5" />
                         </div>
 
@@ -319,7 +319,7 @@ export const MeteoPredictiveModule: React.FC = () => {
                     </div>
 
                     <div className="bg-white dark:bg-[#1C1C1C] rounded-[32px] p-6 border border-gray-200 dark:border-white/5">
-                        <h3 className="text-sm font-black text-gray-900 dark:text-white uppercase tracking-wider mb-6">VELOCIDADE DO VENTO VS. PRECIPITAÇÃO</h3>
+                        <h3 className="text-sm font-black text-black dark:text-white uppercase tracking-wider mb-6">VELOCIDADE DO VENTO VS. PRECIPITAÇÃO</h3>
                         <div className="h-[320px] w-full">
                             <ResponsiveContainer>
                                 <LineChart data={data}>

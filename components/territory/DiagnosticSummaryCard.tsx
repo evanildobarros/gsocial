@@ -71,7 +71,7 @@ export const DiagnosticSummaryCard: React.FC<DiagnosticSummaryCardProps> = ({ on
             <div className="space-y-3">
                 <div className="flex justify-between items-center text-xs">
                     <span className="font-bold text-black">Comunidade</span>
-                    <span className="font-black text-gray-800 dark:text-gray-200 truncate max-w-[150px]">{selectedCommunity?.community_name || '-'}</span>
+                    <span className="font-black text-black dark:text-white truncate max-w-[150px]">{selectedCommunity?.community_name || '-'}</span>
                 </div>
                 <div className="flex justify-between items-center text-xs">
                     <span className="font-bold text-black">Famílias</span>
@@ -79,7 +79,7 @@ export const DiagnosticSummaryCard: React.FC<DiagnosticSummaryCardProps> = ({ on
                 </div>
                 <div className="flex justify-between items-center text-xs">
                     <span className="font-bold text-black">Perfil</span>
-                    <span className="font-black text-gray-800 dark:text-gray-200">{selectedCommunity?.settlement_type || '-'}</span>
+                    <span className="font-black text-black dark:text-white">{selectedCommunity?.settlement_type || '-'}</span>
                 </div>
                 <div className="flex justify-between items-center text-xs">
                     <span className="font-bold text-black">Relacionamento</span>

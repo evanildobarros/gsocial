@@ -45,7 +45,7 @@ export const ShipWaste: React.FC = () => {
             {/* Header */}
             <div className="flex justify-between items-start">
                 <div>
-                    <h2 className="text-3xl font-black text-gray-900 tracking-tight flex items-center gap-3">
+                    <h2 className="text-3xl font-black text-black tracking-tight flex items-center gap-3">
                         <Trash2 className="w-8 h-8 text-happiness-5" /> Gestão de Resíduos de Navios
                     </h2>
                     <p className="text-black font-medium italic">Procedimento Operacional EMAP-PC-112 (Regulatório ANTAQ)</p>
@@ -72,7 +72,7 @@ export const ShipWaste: React.FC = () => {
                     <div key={i} className="bg-white p-5 rounded-3xl border border-gray-100 shadow-sm flex items-center justify-between">
                         <div>
                             <span className="text-[10px] font-black uppercase text-black block mb-1">{stat.label}</span>
-                            <p className="text-2xl font-black text-gray-900 tracking-tighter">{stat.value}</p>
+                            <p className="text-2xl font-black text-black tracking-tighter">{stat.value}</p>
                         </div>
                         <div className="p-3 bg-gray-50 rounded-3xl">{stat.icon}</div>
                     </div>
@@ -106,7 +106,7 @@ export const ShipWaste: React.FC = () => {
                                                 {r.vessel_name.charAt(0)}
                                             </div>
                                             <div>
-                                                <p className="font-bold text-gray-900">{r.vessel_name}</p>
+                                                <p className="font-bold text-black">{r.vessel_name}</p>
                                                 <p className="text-[10px] text-black font-bold uppercase">{r.id}</p>
                                             </div>
                                         </div>
@@ -116,7 +116,7 @@ export const ShipWaste: React.FC = () => {
                                             {r.waste_type_marpol}
                                         </span>
                                     </td>
-                                    <td className="px-8 py-6 text-center font-black text-gray-900">
+                                    <td className="px-8 py-6 text-center font-black text-black">
                                         {Number(r.volume_m3).toFixed(1)}
                                     </td>
                                     <td className="px-8 py-6">

@@ -169,7 +169,7 @@ export const UserProfilePage: React.FC = () => {
                             {!isEditing ? (
                                 <button
                                     onClick={() => setIsEditing(true)}
-                                    className="flex-1 md:flex-none items-center justify-center gap-2 px-6 py-3 border-2 border-gray-200 dark:border-white/10 rounded-full font-bold text-black dark:text-gray-700 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors flex"
+                                    className="flex-1 md:flex-none items-center justify-center gap-2 px-6 py-3 border-2 border-gray-200 dark:border-white/10 rounded-full font-bold text-black dark:text-white hover:bg-gray-50 dark:hover:bg-white/5 transition-colors flex"
                                 >
                                     <EditIcon fontSize="small" />
                                     Editar Perfil
@@ -205,11 +205,11 @@ export const UserProfilePage: React.FC = () => {
                                     <input
                                         value={formData.full_name}
                                         onChange={(e) => setFormData({ full_name: e.target.value })}
-                                        className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white w-full bg-transparent border-b-2 border-gray-200 dark:border-white/10 focus:border-primary outline-none transition-colors pb-2"
+                                        className="text-4xl md:text-5xl font-black text-black dark:text-white w-full bg-transparent border-b-2 border-gray-200 dark:border-white/10 focus:border-primary outline-none transition-colors pb-2"
                                         placeholder="Seu Nome Completo"
                                     />
                                 ) : (
-                                    <h1 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white tracking-tight">
+                                    <h1 className="text-4xl md:text-5xl font-black text-black dark:text-white tracking-tight">
                                         {profile.full_name || 'Usuário ESGporto'}
                                     </h1>
                                 )}
@@ -222,7 +222,7 @@ export const UserProfilePage: React.FC = () => {
                                     </div>
                                     <div>
                                         <p className="text-[10px] font-bold text-black uppercase tracking-wide">E-mail Corporativo</p>
-                                        <p className="font-bold text-gray-900 dark:text-white break-all">{profile.email}</p>
+                                        <p className="font-bold text-black dark:text-white break-all">{profile.email}</p>
                                     </div>
                                 </div>
 
@@ -232,7 +232,7 @@ export const UserProfilePage: React.FC = () => {
                                     </div>
                                     <div>
                                         <p className="text-[10px] font-bold text-black uppercase tracking-wide">Data de Ingresso</p>
-                                        <p className="font-bold text-gray-900 dark:text-white">
+                                        <p className="font-bold text-black dark:text-white">
                                             {new Date(profile.created_at).toLocaleDateString('pt-BR')}
                                         </p>
                                     </div>
@@ -249,7 +249,7 @@ export const UserProfilePage: React.FC = () => {
 
                                 <div className={`inline-block px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wide mb-6 ${profile.role === 'master' ? 'bg-purple-100 text-purple-700 dark:bg-black dark:text-purple-300' :
                                         profile.role === 'admin' ? 'bg-blue-100 text-blue-700 dark:bg-black dark:text-blue-300' :
-                                            'bg-gray-200 text-black dark:bg-black dark:text-gray-700'
+                                            'bg-gray-200 text-black dark:bg-black dark:text-white'
                                     }`}>
                                     {profile.role === 'master' ? 'Master Admin' : profile.role === 'admin' ? 'Administrador' : 'Colaborador'}
                                 </div>

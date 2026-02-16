@@ -46,7 +46,7 @@ export const LAIA: React.FC = () => {
             {/* Header */}
             <div className="flex justify-between items-start">
                 <div>
-                    <h2 className="text-3xl font-black text-gray-900 tracking-tight">Digital LAIA (Levantamento PC-56)</h2>
+                    <h2 className="text-3xl font-black text-black tracking-tight">Digital LAIA (Levantamento PC-56)</h2>
                     <p className="text-black font-medium italic">Aspectos e Impactos Ambientais do Porto do Itaqui</p>
                 </div>
                 <button className="bg-happiness-1 text-white px-6 py-3 rounded-3xl font-black text-sm uppercase tracking-widest flex items-center gap-2 shadow-xl shadow-happiness-1/20 hover:scale-105 transition-all">
@@ -67,7 +67,7 @@ export const LAIA: React.FC = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="md:col-span-2 bg-white p-4 rounded-3xl border border-gray-100 flex items-center gap-4 shadow-sm">
-                    <Search className="w-5 h-5 text-gray-700" />
+                    <Search className="w-5 h-5 text-gray-300" />
                     <input
                         type="text"
                         placeholder="Buscar por atividade ou impacto..."
@@ -78,7 +78,7 @@ export const LAIA: React.FC = () => {
                 </div>
                 <div className="bg-white p-4 rounded-3xl border border-gray-100 flex items-center justify-between shadow-sm">
                     <span className="text-xs font-black uppercase text-black">Total Monitorado</span>
-                    <p className="text-2xl font-black text-gray-900">{records.length}</p>
+                    <p className="text-2xl font-black text-black">{records.length}</p>
                 </div>
             </div>
 
@@ -105,7 +105,7 @@ export const LAIA: React.FC = () => {
                                 return (
                                     <tr key={record.id} className="hover:bg-gray-50/50 transition-colors">
                                         <td className="px-6 py-6">
-                                            <p className="font-bold text-gray-900 text-sm">{record.activity_source}</p>
+                                            <p className="font-bold text-black text-sm">{record.activity_source}</p>
                                             <span className="text-[10px] text-black font-bold uppercase">{record.id}</span>
                                         </td>
                                         <td className="px-6 py-6">
@@ -128,7 +128,7 @@ export const LAIA: React.FC = () => {
                                             </div>
                                         </td>
                                         <td className="px-6 py-6 text-right">
-                                            <button className="p-2 text-gray-700 hover:text-happiness-1">
+                                            <button className="p-2 text-gray-300 hover:text-happiness-1">
                                                 <Search className="w-4 h-4" />
                                             </button>
                                         </td>

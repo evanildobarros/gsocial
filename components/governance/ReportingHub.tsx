@@ -37,13 +37,13 @@ export const ReportingHub: React.FC = () => {
                             <FileText size={32} />
                         </div>
                         <div>
-                            <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">Hub de Transparência</h1>
+                            <h1 className="text-3xl font-black text-black dark:text-white tracking-tight">Hub de Transparência</h1>
                             <p className="text-sm font-bold text-black">Central de Relatórios ESG & Divulgação Pública</p>
                         </div>
                     </div>
                 </div>
                 <div className="flex gap-3">
-                    <button className="px-4 py-2 border border-gray-200 dark:border-white/10 rounded-full font-bold text-sm text-black dark:text-gray-700 hover:bg-gray-50 dark:hover:bg-white/5 flex items-center gap-2 transition-colors">
+                    <button className="px-4 py-2 border border-gray-200 dark:border-white/10 rounded-full font-bold text-sm text-black dark:text-white hover:bg-gray-50 dark:hover:bg-white/5 flex items-center gap-2 transition-colors">
                         <Settings size={16} />
                         Configurar Mapeamento
                     </button>
@@ -63,7 +63,7 @@ export const ReportingHub: React.FC = () => {
                                 <FileBarChart className="text-blue-600 w-6 h-6" />
                             </div>
                             <div>
-                                <h2 className="text-xl font-black text-gray-900 dark:text-white">Gerador de Relatórios</h2>
+                                <h2 className="text-xl font-black text-black dark:text-white">Gerador de Relatórios</h2>
                                 <p className="text-xs font-bold text-black uppercase tracking-wide">Frameworks Internacionais de Reporte</p>
                             </div>
                         </div>
@@ -79,7 +79,7 @@ export const ReportingHub: React.FC = () => {
                                             <FileText size={18} />
                                         </div>
                                         <div>
-                                            <h3 className="text-sm font-black text-gray-800 dark:text-gray-200">{template.name}</h3>
+                                            <h3 className="text-sm font-black text-black dark:text-white">{template.name}</h3>
                                             <div className="flex items-center gap-2 mt-0.5">
                                                 <span className="text-[10px] font-bold text-black uppercase tracking-wider">{template.type}</span>
                                                 <div className="w-px h-3 bg-gray-300 dark:bg-white/20" />
@@ -124,7 +124,7 @@ export const ReportingHub: React.FC = () => {
                             <div className="p-2 rounded-xl bg-cyan-50 dark:bg-cyan-900/10">
                                 <Globe className="text-cyan-600 w-6 h-6" />
                             </div>
-                            <h2 className="text-xl font-black text-gray-900 dark:text-white">Portal do Cidadão</h2>
+                            <h2 className="text-xl font-black text-black dark:text-white">Portal do Cidadão</h2>
                         </div>
 
                         <div className="text-center mb-8 relative z-10">
@@ -134,7 +134,7 @@ export const ReportingHub: React.FC = () => {
                                 </div>
                                 <div className="absolute bottom-0 right-0 w-5 h-5 bg-green-500 rounded-full border-[3px] border-white dark:border-[#1C1C1C]" />
                             </div>
-                            <h3 className="text-xl font-black text-gray-900 dark:text-white">Canal Operante</h3>
+                            <h3 className="text-xl font-black text-black dark:text-white">Canal Operante</h3>
                             <p className="text-[10px] font-black text-black uppercase tracking-widest mt-1">SISTEMA DE DIVULGAÇÃO EM TEMPO REAL</p>
                         </div>
 
@@ -142,7 +142,7 @@ export const ReportingHub: React.FC = () => {
                             {transparencyItems.map((item) => (
                                 <div key={item.id}>
                                     <div className="flex justify-between items-center mb-2">
-                                        <span className="text-sm font-black text-black dark:text-gray-700">{item.name}</span>
+                                        <span className="text-sm font-black text-black dark:text-white">{item.name}</span>
                                         <div className="flex items-center gap-2">
                                             <span className="text-[10px] font-bold text-black">{item.update}</span>
                                             <div className={`w-2 h-2 rounded-full ${item.status === 'Live' ? 'bg-green-500' : 'bg-amber-500'}`} />
