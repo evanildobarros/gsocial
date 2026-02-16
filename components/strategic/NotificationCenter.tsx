@@ -112,12 +112,12 @@ export const NotificationCenter: React.FC = () => {
             {/* Header */}
             <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <div className="flex items-center gap-4">
-                    <div className="w-14 h-14 bg-black dark:bg-white rounded-2xl flex items-center justify-center shadow-xl">
-                        <Bell className="text-white dark:text-black w-7 h-7" />
+                    <div className="w-14 h-14 bg-happiness-1/10 text-happiness-1 rounded-2xl flex items-center justify-center border border-happiness-1/20 shadow-xl">
+                        <Bell className="w-7 h-7" />
                     </div>
                     <div>
                         <h1 className="text-2xl font-black text-black dark:text-white tracking-tighter">Central de Alertas & Notificações</h1>
-                        <p className="text-sm font-bold text-black dark:text-gray-300 italic">Inteligência Preditiva e Monitoramento Operacional em Tempo Real.</p>
+                        <p className="text-sm font-bold text-black dark:text-white italic">Inteligência Preditiva e Monitoramento Operacional em Tempo Real.</p>
                     </div>
                 </div>
 
@@ -126,7 +126,7 @@ export const NotificationCenter: React.FC = () => {
                         <button
                             key={opt}
                             onClick={() => setFilter(opt)}
-                            className={`px-6 py-2 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all ${filter === opt ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg' : 'text-black dark:text-white hover:bg-gray-50 dark:hover:bg-white/5'}`}
+                            className={`px-6 py-2 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all ${filter === opt ? 'bg-happiness-1 text-white shadow-lg' : 'text-black dark:text-white hover:bg-gray-50 dark:hover:bg-white/5'}`}
                         >
                             {opt === 'all' ? 'Ver Tudo' : opt === 'environmental' ? 'Ambiental' : 'Social'}
                         </button>
@@ -207,7 +207,7 @@ export const NotificationCenter: React.FC = () => {
 
                 {/* Sidebar Stats */}
                 <div className="space-y-6">
-                    <div className="bg-black dark:bg-white rounded-[32px] p-8 text-white dark:text-black shadow-2xl relative overflow-hidden group">
+                    <div className="bg-happiness-1 rounded-[32px] p-8 text-white shadow-2xl relative overflow-hidden group">
                         <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:rotate-12 transition-transform duration-700">
                             <ShieldAlert size={120} />
                         </div>
@@ -219,7 +219,7 @@ export const NotificationCenter: React.FC = () => {
                                     <span className="text-4xl font-black tracking-tighter">02</span>
                                     <p className="text-[11px] font-bold uppercase opacity-70 mt-1">Alertas Críticos</p>
                                 </div>
-                                <div className="w-12 h-1 bg-red-500 rounded-full mb-2 animate-pulse" />
+                                <div className="w-12 h-1 bg-white/50 rounded-full mb-2 animate-pulse" />
                             </div>
                             
                             <div className="flex justify-between items-end">
@@ -227,10 +227,10 @@ export const NotificationCenter: React.FC = () => {
                                     <span className="text-4xl font-black tracking-tighter">18</span>
                                     <p className="text-[11px] font-bold uppercase opacity-70 mt-1">Incidentes Resolvidos</p>
                                 </div>
-                                <div className="w-12 h-1 bg-green-500 rounded-full mb-2" />
+                                <div className="w-12 h-1 bg-white/30 rounded-full mb-2" />
                             </div>
 
-                            <button className="w-full py-4 bg-white/10 dark:bg-black/5 hover:bg-white/20 dark:hover:bg-black/10 border border-white/20 dark:border-black/10 rounded-2xl text-[11px] font-black uppercase tracking-widest transition-all">
+                            <button className="w-full py-4 bg-white text-happiness-1 hover:bg-white/90 rounded-2xl text-[11px] font-black uppercase tracking-widest transition-all shadow-lg">
                                 Exportar Log Mensal
                             </button>
                         </div>
