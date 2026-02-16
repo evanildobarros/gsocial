@@ -4,15 +4,15 @@ import { MessageSquare, AlertCircle, CheckCircle, Clock, Users, ArrowUpRight } f
 const StatusChip = ({ status }: { status: string }) => {
     const getStatusStyles = (status: string) => {
         switch (status) {
-            case 'Recebido': return 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300';
+            case 'Recebido': return 'bg-gray-100 text-black dark:bg-gray-700 dark:text-gray-100';
             case 'Em Análise': return 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400';
             case 'Ação Tomada': return 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400';
             case 'Feedback Enviado': return 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400';
-            default: return 'bg-gray-100 text-gray-600';
+            default: return 'bg-gray-100 text-black';
         }
     };
     return (
-        <span className={`px-2.5 py-1 rounded-lg text-[11px] font-bold uppercase ${getStatusStyles(status)}`}>
+        <span className={`px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase ${getStatusStyles(status)}`}>
             {status}
         </span>
     );
@@ -30,8 +30,8 @@ export const CommunityRelations: React.FC = () => {
         <div className="space-y-6 animate-in fade-in duration-500">
             <div className="flex justify-between items-center mb-6">
                 <div>
-                    <h1 className="text-2xl font-black text-gray-900 dark:text-white tracking-tight">Gestão de Relacionamento & Território</h1>
-                    <p className="text-sm text-gray-500 mt-1">Canal de Escuta Ativa e Mapeamento de Stakeholders</p>
+                    <h1 className="text-2xl font-black text-black dark:text-white tracking-tight">Gestão de Relacionamento & Território</h1>
+                    <p className="text-sm text-black mt-1">Canal de Escuta Ativa e Mapeamento de Stakeholders</p>
                 </div>
             </div>
 
@@ -41,7 +41,7 @@ export const CommunityRelations: React.FC = () => {
                     <div className="p-6 border-b border-gray-100 dark:border-white/5 flex justify-between items-center">
                         <div className="flex items-center gap-2">
                             <MessageSquare className="w-5 h-5 text-happiness-1" />
-                            <h2 className="text-lg font-bold text-gray-900 dark:text-white">Ouvidoria 2.0 (Tickets)</h2>
+                            <h2 className="text-lg font-bold text-black dark:text-white">Ouvidoria 2.0 (Tickets)</h2>
                         </div>
                         <span className="text-xs font-bold bg-red-100 text-red-600 px-2 py-1 rounded-3xl border border-red-200">
                             1 Crítico Pendente
@@ -62,28 +62,28 @@ export const CommunityRelations: React.FC = () => {
                                         <AlertCircle className="w-5 h-5" />
                                     </div>
                                     <div>
-                                        <h3 className="font-bold text-sm text-gray-900 dark:text-white flex items-center gap-2">
+                                        <h3 className="font-bold text-sm text-black dark:text-white flex items-center gap-2">
                                             {ticket.category}
-                                            <span className="text-[11px] text-gray-400 font-normal">#{ticket.id}</span>
+                                            <span className="text-[10px] text-black font-normal">#{ticket.id}</span>
                                         </h3>
-                                        <p className="text-xs text-gray-500">{ticket.local} • {ticket.date}</p>
+                                        <p className="text-xs text-black">{ticket.local} • {ticket.date}</p>
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-4">
                                     <StatusChip status={ticket.status} />
-                                    <ArrowUpRight className="w-4 h-4 text-gray-300 group-hover:text-happiness-1 transition-colors" />
+                                    <ArrowUpRight className="w-4 h-4 text-gray-600 group-hover:text-happiness-1 transition-colors" />
                                 </div>
                             </div>
                         ))}
                     </div>
-                    <div className="p-4 bg-gray-50 dark:bg-white/5 text-center text-xs font-bold text-gray-500 cursor-pointer hover:text-happiness-1 uppercase tracking-wider">
+                    <div className="p-4 bg-gray-50 dark:bg-white/5 text-center text-xs font-bold text-black cursor-pointer hover:text-happiness-1 uppercase tracking-wider">
                         Ver todos os tickets
                     </div>
                 </div>
 
                 {/* Stakeholder Matrix Placeholder */}
                 <div className="bg-white dark:bg-[#1C1C1C] rounded-3xl border border-gray-200 dark:border-white/5 shadow-sm p-6 flex flex-col">
-                    <div className="flex items-center gap-2 mb-6 text-gray-900 dark:text-white">
+                    <div className="flex items-center gap-2 mb-6 text-black dark:text-white">
                         <Users className="w-5 h-5 text-purple-500" />
                         <h2 className="text-lg font-bold">Matriz de Stakeholders</h2>
                     </div>
@@ -93,17 +93,17 @@ export const CommunityRelations: React.FC = () => {
                         <div className="absolute left-4 bottom-4 w-[calc(100%-32px)] h-px bg-gray-300 dark:bg-white/20" /> {/* X Axis */}
                         <div className="absolute left-4 bottom-4 h-[calc(100%-32px)] w-px bg-gray-300 dark:bg-white/20" /> {/* Y Axis */}
 
-                        <span className="absolute bottom-1 right-4 text-[11px] font-bold text-gray-400 uppercase">Interesse</span>
-                        <span className="absolute top-4 left-6 text-[11px] font-bold text-gray-400 uppercase">Poder</span>
+                        <span className="absolute bottom-1 right-4 text-[9px] font-bold text-black uppercase">Interesse</span>
+                        <span className="absolute top-4 left-6 text-[9px] font-bold text-black uppercase">Poder</span>
 
                         {/* Bubbles */}
-                        <div className="absolute top-1/4 right-1/4 w-16 h-16 rounded-full bg-blue-500/20 border border-blue-500 flex items-center justify-center text-[11px] font-bold text-blue-700 dark:text-blue-300 text-center leading-tight hover:scale-110 transition-transform cursor-pointer">
+                        <div className="absolute top-1/4 right-1/4 w-16 h-16 rounded-full bg-blue-500/20 border border-blue-500 flex items-center justify-center text-[8px] font-bold text-blue-700 dark:text-blue-300 text-center leading-tight hover:scale-110 transition-transform cursor-pointer">
                             Assoc.<br />Moradores
                         </div>
-                        <div className="absolute top-1/3 left-1/3 w-12 h-12 rounded-full bg-green-500/20 border border-green-500 flex items-center justify-center text-[11px] font-bold text-green-700 dark:text-green-300 text-center hover:scale-110 transition-transform cursor-pointer">
+                        <div className="absolute top-1/3 left-1/3 w-12 h-12 rounded-full bg-green-500/20 border border-green-500 flex items-center justify-center text-[8px] font-bold text-green-700 dark:text-green-300 text-center hover:scale-110 transition-transform cursor-pointer">
                             ONG<br />Local
                         </div>
-                        <div className="absolute top-10 right-10 w-10 h-10 rounded-full bg-red-500/20 border border-red-500 flex items-center justify-center text-[11px] font-bold text-red-700 dark:text-red-300 text-center hover:scale-110 transition-transform cursor-pointer">
+                        <div className="absolute top-10 right-10 w-10 h-10 rounded-full bg-red-500/20 border border-red-500 flex items-center justify-center text-[8px] font-bold text-red-700 dark:text-red-300 text-center hover:scale-110 transition-transform cursor-pointer">
                             Gov.<br />Estadual
                         </div>
                     </div>

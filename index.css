@@ -186,7 +186,7 @@ h3 { @apply font-bold; }
 
 p {
   line-height: 1.6; /* Comfortable reading height */
-  @apply text-gray-600 dark:text-gray-400;
+  @apply text-black dark:text-white;
 }
 
 /* Animações (migrado do index.html) */
@@ -215,14 +215,14 @@ p {
 input,
 select,
 textarea {
-  color: #111827;
+  color: #000000;
   /* text-gray-900 */
 }
 
 .dark input,
 .dark select,
 .dark textarea {
-  color: #f9fafb;
+  color: #ffffff;
   /* text-gray-50 */
 }
 

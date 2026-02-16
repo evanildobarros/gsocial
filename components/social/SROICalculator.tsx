@@ -173,13 +173,13 @@ export const SROICalculator: React.FC = () => {
                             <Calculator size={32} />
                         </div>
                         <div>
-                            <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">Motor de Impacto Social</h1>
-                            <p className="text-sm font-bold text-gray-500">Social Return on Investment (SROI) • Proxies Financeiras</p>
+                            <h1 className="text-3xl font-black text-black dark:text-white tracking-tight">Motor de Impacto Social</h1>
+                            <p className="text-sm font-bold text-black">Social Return on Investment (SROI) • Proxies Financeiras</p>
                         </div>
                     </div>
                 </div>
                 <div className="flex gap-2">
-                    <div className="px-3 py-1.5 border border-blue-200 dark:border-blue-900/30 text-blue-700 dark:text-blue-300 font-black text-[11px] uppercase rounded-xl flex items-center gap-1.5 bg-blue-50 dark:bg-blue-900/10">
+                    <div className="px-3 py-1.5 border border-blue-200 dark:border-blue-900/30 text-blue-700 dark:text-blue-300 font-black text-[10px] uppercase rounded-xl flex items-center gap-1.5 bg-blue-50 dark:bg-blue-900/10">
                         <ShieldCheck size={14} /> Compliance PR 2030
                     </div>
                 </div>
@@ -197,16 +197,16 @@ export const SROICalculator: React.FC = () => {
                             <div className="p-2 rounded-xl bg-blue-50 dark:bg-blue-900/10">
                                 <FileBarChart className="text-blue-600 w-6 h-6" />
                             </div>
-                            <h2 className="text-xl font-black text-gray-900 dark:text-white">Parâmetros de Investimento</h2>
+                            <h2 className="text-xl font-black text-black dark:text-white">Parâmetros de Investimento</h2>
                         </div>
 
                         <div className="space-y-6 relative z-10">
                             <div className="space-y-1">
-                                <label className="text-xs font-bold text-gray-500 uppercase ml-1">Vincular a Projeto Estratégico</label>
+                                <label className="text-xs font-bold text-black uppercase ml-1">Vincular a Projeto Estratégico</label>
                                 <select
                                     value={selectedProjectId}
                                     onChange={(e) => handleProjectChange(e.target.value)}
-                                    className="w-full px-4 py-3 bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-white/10 rounded-2xl text-sm font-bold focus:outline-none focus:border-happiness-1 transition-all text-gray-900 dark:text-white"
+                                    className="w-full px-4 py-3 bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-white/10 rounded-2xl text-sm font-bold focus:outline-none focus:border-happiness-1 transition-all text-black dark:text-white"
                                 >
                                     <option value="">-- Inserção Manual --</option>
                                     {projects.map((p) => <option key={p.id} value={p.id.toString()}>{p.name}</option>)}
@@ -214,21 +214,21 @@ export const SROICalculator: React.FC = () => {
                             </div>
 
                             <div className="space-y-1">
-                                <label className="text-xs font-bold text-gray-500 uppercase ml-1">Título da Iniciativa Social</label>
+                                <label className="text-xs font-bold text-black uppercase ml-1">Título da Iniciativa Social</label>
                                 <input
                                     type="text"
                                     placeholder="Ex: Formação de Estivadores Locais"
                                     value={formData.projectName}
                                     onChange={(e) => setFormData({ ...formData, projectName: e.target.value })}
-                                    className="w-full px-4 py-3 bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-white/10 rounded-2xl text-sm font-bold focus:outline-none focus:border-happiness-1 transition-all text-gray-900 dark:text-white"
+                                    className="w-full px-4 py-3 bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-white/10 rounded-2xl text-sm font-bold focus:outline-none focus:border-happiness-1 transition-all text-black dark:text-white"
                                 />
                             </div>
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-1">
-                                    <label className="text-xs font-bold text-gray-500 uppercase ml-1">Investimento EMAP (R$)</label>
+                                    <label className="text-xs font-bold text-black uppercase ml-1">Investimento EMAP (R$)</label>
                                     <div className="relative">
-                                        <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                                        <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-black" />
                                         <input
                                             type="number"
                                             value={formData.investment}
@@ -238,30 +238,30 @@ export const SROICalculator: React.FC = () => {
                                     </div>
                                 </div>
                                 <div className="space-y-1">
-                                    <label className="text-xs font-bold text-gray-500 uppercase ml-1">Nº Beneficiários Diretos</label>
+                                    <label className="text-xs font-bold text-black uppercase ml-1">Nº Beneficiários Diretos</label>
                                     <div className="relative">
-                                        <Users className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                                        <Users className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-black" />
                                         <input
                                             type="number"
                                             value={formData.beneficiaries}
                                             onChange={(e) => setFormData({ ...formData, beneficiaries: e.target.value })}
-                                            className="w-full pl-9 pr-4 py-3 bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-white/10 rounded-2xl text-sm font-black focus:outline-none focus:border-happiness-1 transition-all text-gray-900 dark:text-white"
+                                            className="w-full pl-9 pr-4 py-3 bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-white/10 rounded-2xl text-sm font-black focus:outline-none focus:border-happiness-1 transition-all text-black dark:text-white"
                                         />
                                     </div>
                                 </div>
                             </div>
 
                             <div className="space-y-1">
-                                <label className="text-xs font-bold text-gray-500 uppercase ml-1">Tipo de Impacto (Proxy de Mercado)</label>
+                                <label className="text-xs font-bold text-black uppercase ml-1">Tipo de Impacto (Proxy de Mercado)</label>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                     {Object.entries(IMPACT_PROXIES).map(([id, proxy]) => (
                                         <button
                                             key={id}
                                             type="button"
                                             onClick={() => setFormData({ ...formData, projectType: id as any })}
-                                            className={`p-4 rounded-2xl border text-left transition-all ${formData.projectType === id ? 'bg-happiness-1 border-happiness-1 text-white shadow-lg shadow-happiness-1/20 scale-[1.02]' : 'bg-transparent border-gray-100 hover:border-happiness-1/30 dark:border-white/5 dark:text-gray-400'}`}
+                                            className={`p-4 rounded-2xl border text-left transition-all ${formData.projectType === id ? 'bg-happiness-1 border-happiness-1 text-white shadow-lg shadow-happiness-1/20 scale-[1.02]' : 'bg-transparent border-gray-100 hover:border-happiness-1/30 dark:border-white/5 dark:text-black'}`}
                                         >
-                                            <span className="text-[11px] font-black uppercase block mb-1 opacity-80">Metodologia ESGporto</span>
+                                            <span className="text-[10px] font-black uppercase block mb-1 opacity-80">Metodologia ESGporto</span>
                                             <span className="text-sm font-black uppercase tracking-tight">{proxy.label}</span>
                                         </button>
                                     ))}
@@ -270,7 +270,7 @@ export const SROICalculator: React.FC = () => {
 
                             <div className="p-4 bg-gray-50 dark:bg-white/5 rounded-2xl border border-gray-100 dark:border-white/5 space-y-3">
                                 <div className="flex justify-between items-center">
-                                    <label className="text-[11px] font-black text-gray-400 uppercase tracking-widest ml-1">% de Atribuição (Deadweight)</label>
+                                    <label className="text-[10px] font-black text-black uppercase tracking-widest ml-1">% de Atribuição (Deadweight)</label>
                                     <span className="text-xs font-black text-happiness-1">{formData.attribution}%</span>
                                 </div>
                                 <input
@@ -281,7 +281,7 @@ export const SROICalculator: React.FC = () => {
                                     onChange={(e) => setFormData({ ...formData, attribution: e.target.value })}
                                     className="w-full h-1.5 bg-gray-200 dark:bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-happiness-1"
                                 />
-                                <div className="flex items-center gap-2 text-[11px] text-gray-400 italic">
+                                <div className="flex items-center gap-2 text-[9px] text-black italic">
                                     <Info size={10} />
                                     <span>Valor que ocorreria SEM a intervenção do Porto.</span>
                                 </div>
@@ -309,7 +309,7 @@ export const SROICalculator: React.FC = () => {
                          
                          <div className="relative z-10 space-y-8">
                              <div>
-                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-white/20 text-[11px] font-black uppercase tracking-widest mb-4">
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-white/20 text-[9px] font-black uppercase tracking-widest mb-4">
                                     <ShieldCheck size={10} /> Resultado do Cálculo (S-ROI)
                                 </span>
                                 <h1 className="text-6xl font-black tracking-tighter">
@@ -320,7 +320,7 @@ export const SROICalculator: React.FC = () => {
 
                              <div className="space-y-4">
                                  <div className="p-4 bg-white/10 rounded-2xl backdrop-blur-sm border border-white/10">
-                                     <span className="text-[11px] font-black uppercase text-white/60 block mb-1">Valor Social Total Criado</span>
+                                     <span className="text-[10px] font-black uppercase text-white/60 block mb-1">Valor Social Total Criado</span>
                                      <span className="text-2xl font-black tracking-tight">R$ {currentSROI.socialValue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
                                  </div>
                                  <p className="text-xs font-medium leading-relaxed italic opacity-80 flex items-start gap-2">
@@ -335,7 +335,7 @@ export const SROICalculator: React.FC = () => {
                                          <div key={i} className="w-8 h-8 rounded-full border-2 border-blue-600 bg-white/20" />
                                      ))}
                                  </div>
-                                 <button className="flex items-center gap-1.5 text-[11px] font-black uppercase tracking-widest hover:underline">
+                                 <button className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest hover:underline">
                                      Exportar Laudo <ExternalLink size={12} />
                                  </button>
                              </div>
@@ -349,13 +349,13 @@ export const SROICalculator: React.FC = () => {
                                 <div className="p-2 rounded-xl bg-purple-50 dark:bg-purple-900/10">
                                     <History className="text-purple-600 w-5 h-5" />
                                 </div>
-                                <h2 className="text-xl font-black text-gray-900 dark:text-white leading-none">Histórico de Impacto</h2>
+                                <h2 className="text-xl font-black text-black dark:text-white leading-none">Histórico de Impacto</h2>
                             </div>
                         </div>
 
                         {isLoadingHistory ? (
                             <div className="py-10 text-center flex justify-center">
-                                <Loader2 className="w-8 h-8 text-gray-300 animate-spin" />
+                                <Loader2 className="w-8 h-8 text-gray-600 animate-spin" />
                             </div>
                         ) : (
                             <div className="space-y-3">
@@ -366,16 +366,16 @@ export const SROICalculator: React.FC = () => {
                                     >
                                         <div className="flex justify-between items-center">
                                             <div className="min-w-0 flex-1 pr-4">
-                                                <h3 className="text-xs font-black text-gray-900 dark:text-white truncate mb-1 group-hover:text-happiness-1 transition-colors uppercase tracking-tight">{record.project_name}</h3>
+                                                <h3 className="text-xs font-black text-black dark:text-white truncate mb-1 group-hover:text-happiness-1 transition-colors uppercase tracking-tight">{record.project_name}</h3>
                                                 <div className="flex items-center gap-2">
-                                                    <span className="px-1.5 py-0.5 rounded bg-gray-200 dark:bg-gray-800 text-[11px] font-black text-gray-600 dark:text-gray-300 uppercase truncate">
+                                                    <span className="px-1.5 py-0.5 rounded bg-gray-200 dark:bg-gray-800 text-[8px] font-black text-black dark:text-gray-100 uppercase truncate">
                                                         {record.outcome_type}
                                                     </span>
                                                 </div>
                                             </div>
                                             <div className="text-right shrink-0">
                                                 <div className="text-sm font-black text-happiness-1">{record.sroi_ratio.toFixed(2)}x</div>
-                                                <div className="text-[11px] font-bold text-gray-400 uppercase tracking-tighter">R$ {record.investment.toLocaleString()}</div>
+                                                <div className="text-[9px] font-bold text-black uppercase tracking-tighter">R$ {record.investment.toLocaleString()}</div>
                                             </div>
                                         </div>
                                     </div>

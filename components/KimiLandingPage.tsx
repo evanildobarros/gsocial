@@ -33,7 +33,7 @@ export const KimiLandingPage: React.FC = () => {
                     </div>
 
                     {/* Desktop Nav */}
-                    <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">
+                    <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-black">
                         <a href="#" className="hover:text-white transition-colors">Funcionalidades</a>
                         <a href="#" className="hover:text-white transition-colors">Soluções</a>
                         <a href="#" className="hover:text-white transition-colors">Preços</a>
@@ -42,7 +42,7 @@ export const KimiLandingPage: React.FC = () => {
 
                     {/* Desktop CTA */}
                     <div className="hidden md:flex items-center gap-4">
-                        <button className="text-sm font-bold text-gray-300 hover:text-white transition-colors">
+                        <button className="text-sm font-bold text-gray-600 hover:text-white transition-colors">
                             Login
                         </button>
                         <button className="bg-purple-600 hover:bg-purple-500 text-white px-5 py-2.5 rounded-lg font-bold text-sm transition-all shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40">
@@ -52,7 +52,7 @@ export const KimiLandingPage: React.FC = () => {
 
                     {/* Mobile Menu Button */}
                     <button
-                        className="md:hidden text-gray-400 hover:text-white"
+                        className="md:hidden text-black hover:text-white"
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
                     >
                         {isMenuOpen ? <X /> : <Menu />}
@@ -62,10 +62,10 @@ export const KimiLandingPage: React.FC = () => {
                 {/* Mobile Menu */}
                 {isMenuOpen && (
                     <div className="md:hidden border-t border-white/5 bg-gray-950 p-6 space-y-4">
-                        <a href="#" className="block text-gray-400 hover:text-white font-medium">Funcionalidades</a>
-                        <a href="#" className="block text-gray-400 hover:text-white font-medium">Soluções</a>
-                        <a href="#" className="block text-gray-400 hover:text-white font-medium">Preços</a>
-                        <a href="#" className="block text-gray-400 hover:text-white font-medium">Contato</a>
+                        <a href="#" className="block text-black hover:text-white font-medium">Funcionalidades</a>
+                        <a href="#" className="block text-black hover:text-white font-medium">Soluções</a>
+                        <a href="#" className="block text-black hover:text-white font-medium">Preços</a>
+                        <a href="#" className="block text-black hover:text-white font-medium">Contato</a>
                         <div className="pt-4 flex flex-col gap-3">
                             <button className="w-full py-3 bg-white/5 rounded-lg font-bold">Login</button>
                             <button className="w-full py-3 bg-purple-600 rounded-lg font-bold text-white">Começar Agora</button>
@@ -93,7 +93,7 @@ export const KimiLandingPage: React.FC = () => {
                                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">IA Autônomos</span> em Minutos.
                             </h1>
 
-                            <p className="text-lg text-gray-400 mb-10 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                            <p className="text-lg text-black mb-10 leading-relaxed max-w-2xl mx-auto lg:mx-0">
                                 Orquestre, gerencie e escale sua força de trabalho digital sem infraestrutura complexa. Focado em eficiência, segurança e resultados reais.
                             </p>
 
@@ -108,7 +108,7 @@ export const KimiLandingPage: React.FC = () => {
                                 </button>
                             </div>
 
-                            <div className="flex items-center justify-center lg:justify-start gap-4 text-sm text-gray-500 font-medium">
+                            <div className="flex items-center justify-center lg:justify-start gap-4 text-sm text-black font-medium">
                                 <div className="flex -space-x-2">
                                     {[1, 2, 3, 4].map(i => (
                                         <div key={i} className="w-8 h-8 rounded-full bg-gray-800 border-2 border-gray-950 flex items-center justify-center text-xs text-white">
@@ -146,7 +146,7 @@ export const KimiLandingPage: React.FC = () => {
                                                     <div className="text-xs text-green-400 flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span> Ativo</div>
                                                 </div>
                                             </div>
-                                            <div className="text-xs text-gray-500 font-mono">ID: #88219</div>
+                                            <div className="text-xs text-black font-mono">ID: #88219</div>
                                         </div>
                                         <div className="space-y-2">
                                             <div className="h-2 w-3/4 bg-white/10 rounded"></div>
@@ -155,7 +155,7 @@ export const KimiLandingPage: React.FC = () => {
                                     </div>
 
                                     <div className="bg-white/5 rounded-xl p-4 border border-white/5">
-                                        <div className="text-xs text-gray-400 mb-2">Performance</div>
+                                        <div className="text-xs text-black mb-2">Performance</div>
                                         <div className="text-2xl font-bold text-white mb-1">98.5%</div>
                                         <div className="h-1 w-full bg-gray-800 rounded-full overflow-hidden">
                                             <div className="h-full w-[98.5%] bg-green-500"></div>
@@ -163,7 +163,7 @@ export const KimiLandingPage: React.FC = () => {
                                     </div>
 
                                     <div className="bg-white/5 rounded-xl p-4 border border-white/5">
-                                        <div className="text-xs text-gray-400 mb-2">Tarefas/min</div>
+                                        <div className="text-xs text-black mb-2">Tarefas/min</div>
                                         <div className="text-2xl font-bold text-white mb-1">1,240</div>
                                         <div className="flex gap-1 h-3 items-end">
                                             <div className="w-1 h-full bg-purple-500 opacity-20 rounded-sm"></div>
@@ -182,7 +182,7 @@ export const KimiLandingPage: React.FC = () => {
             {/* Trusted By */}
             <section className="py-10 border-y border-white/5 bg-white/[0.02]">
                 <div className="container mx-auto px-6 text-center">
-                    <p className="text-sm font-bold text-gray-500 mb-8 uppercase tracking-widest">Confiado por equipes inovadoras</p>
+                    <p className="text-sm font-bold text-black mb-8 uppercase tracking-widest">Confiado por equipes inovadoras</p>
                     <div className="flex flex-wrap justify-center items-center gap-12 grayscale opacity-50">
                         {['TechCorp', 'InnovateLabs', 'FutureNet', 'AlphaSystem', 'GlobalData'].map((name) => (
                             <div key={name} className="tex-xl font-bold text-white/40">{name}</div>
@@ -197,7 +197,7 @@ export const KimiLandingPage: React.FC = () => {
                 <div className="container mx-auto px-6">
                     <div className="text-center max-w-3xl mx-auto mb-16">
                         <h2 className="text-3xl md:text-5xl font-black text-white mb-6">Por que escolher a KimiAgents?</h2>
-                        <p className="text-gray-400 text-lg">Tecnologia de ponta para automatizar fluxos complexos com simplicidade.</p>
+                        <p className="text-black text-lg">Tecnologia de ponta para automatizar fluxos complexos com simplicidade.</p>
                     </div>
 
                     <div className="grid md:grid-cols-3 gap-8">
@@ -254,7 +254,7 @@ export const KimiLandingPage: React.FC = () => {
             <section className="py-24 bg-gradient-to-br from-purple-900 via-gray-900 to-gray-900 text-center">
                 <div className="container mx-auto px-6">
                     <h2 className="text-4xl md:text-5xl font-black text-white mb-6">Pronto para automatizar o futuro?</h2>
-                    <p className="text-gray-400 text-lg max-w-2xl mx-auto mb-10">
+                    <p className="text-black text-lg max-w-2xl mx-auto mb-10">
                         Junte-se a milhares de desenvolvedores que estão construindo a nova geração de software inteligente.
                     </p>
                     <button className="px-10 py-5 bg-white text-purple-900 rounded-xl font-black text-lg shadow-xl shadow-white/10 hover:scale-105 transition-transform">
@@ -272,14 +272,14 @@ export const KimiLandingPage: React.FC = () => {
                                 <Bot className="text-purple-500" />
                                 <span className="text-xl font-bold text-white">KimiAgents</span>
                             </div>
-                            <p className="text-gray-500 text-sm">
+                            <p className="text-black text-sm">
                                 Empowering developers to build autonomous AI workforce.
                             </p>
                         </div>
 
                         <div>
                             <h4 className="font-bold text-white mb-4">Produto</h4>
-                            <ul className="space-y-2 text-gray-500 text-sm">
+                            <ul className="space-y-2 text-black text-sm">
                                 <li><a href="#" className="hover:text-purple-400">Features</a></li>
                                 <li><a href="#" className="hover:text-purple-400">Integrações</a></li>
                                 <li><a href="#" className="hover:text-purple-400">Preços</a></li>
@@ -289,7 +289,7 @@ export const KimiLandingPage: React.FC = () => {
 
                         <div>
                             <h4 className="font-bold text-white mb-4">Empresa</h4>
-                            <ul className="space-y-2 text-gray-500 text-sm">
+                            <ul className="space-y-2 text-black text-sm">
                                 <li><a href="#" className="hover:text-purple-400">Sobre</a></li>
                                 <li><a href="#" className="hover:text-purple-400">Blog</a></li>
                                 <li><a href="#" className="hover:text-purple-400">Carreiras</a></li>
@@ -299,14 +299,14 @@ export const KimiLandingPage: React.FC = () => {
 
                         <div>
                             <h4 className="font-bold text-white mb-4">Legal</h4>
-                            <ul className="space-y-2 text-gray-500 text-sm">
+                            <ul className="space-y-2 text-black text-sm">
                                 <li><a href="#" className="hover:text-purple-400">Privacidade</a></li>
                                 <li><a href="#" className="hover:text-purple-400">Termos</a></li>
                                 <li><a href="#" className="hover:text-purple-400">Segurança</a></li>
                             </ul>
                         </div>
                     </div>
-                    <div className="border-t border-white/5 pt-8 text-center text-gray-600 text-sm">
+                    <div className="border-t border-white/5 pt-8 text-center text-black text-sm">
                         © 2026 KimiAgents Inc. Todos os direitos reservados.
                     </div>
                 </div>
@@ -323,7 +323,7 @@ const BenefitCard: React.FC<{ icon: React.ReactNode, title: string, desc: string
             {icon}
         </div>
         <h3 className="text-xl font-bold text-white mb-3">{title}</h3>
-        <p className="text-gray-400 leading-relaxed text-sm">{desc}</p>
+        <p className="text-black leading-relaxed text-sm">{desc}</p>
     </div>
 );
 
@@ -332,7 +332,7 @@ const Step: React.FC<{ number: string, title: string, desc: string, icon: React.
         <div className="flex-1 space-y-6 text-center lg:text-left">
             <div className="inline-block text-5xl font-black text-white/10">{number}</div>
             <h3 className="text-3xl font-bold text-white">{title}</h3>
-            <p className="text-gray-400 text-lg leading-relaxed">{desc}</p>
+            <p className="text-black text-lg leading-relaxed">{desc}</p>
         </div>
         <div className="flex-1 w-full flex justify-center">
             <div className="w-full max-w-md bg-gray-800 rounded-3xl p-8 border border-white/5 shadow-2xl relative">
@@ -344,7 +344,7 @@ const Step: React.FC<{ number: string, title: string, desc: string, icon: React.
                     <div className="h-4 w-1/3 bg-white/20 rounded"></div>
                     <div className="h-32 w-full bg-black/50 rounded-xl border border-white/5 p-4 font-mono text-xs text-green-400">
                         $ agent init --name "SalesBot"<br />
-                        <span className="text-gray-500">Initializing environment...</span><br />
+                        <span className="text-black">Initializing environment...</span><br />
                         <span className="text-blue-400">✔ Agent configuration loaded</span><br />
                         <span className="text-blue-400">✔ Tools connected</span><br />
                         <span className="text-white">Ready to deploy.</span>

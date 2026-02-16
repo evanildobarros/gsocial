@@ -48,7 +48,7 @@ export const ThemeSwitcher: React.FC = () => {
                     p-1.5 rounded-full transition-all duration-200 flex items-center justify-center
                     ${theme === 'system'
                         ? 'bg-white dark:bg-neutral-600 text-happiness-1 dark:text-white shadow-sm'
-                        : 'text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300'
+                        : 'text-black dark:text-black hover:text-black dark:hover:text-gray-600'
                     }
                 `}
                 title="Sistema"
@@ -61,7 +61,7 @@ export const ThemeSwitcher: React.FC = () => {
                     p-1.5 rounded-full transition-all duration-200 flex items-center justify-center
                     ${theme === 'light'
                         ? 'bg-white dark:bg-neutral-600 text-yellow-500 shadow-sm'
-                        : 'text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300'
+                        : 'text-black dark:text-black hover:text-black dark:hover:text-gray-600'
                     }
                 `}
                 title="Claro"
@@ -74,7 +74,7 @@ export const ThemeSwitcher: React.FC = () => {
                     p-1.5 rounded-full transition-all duration-200 flex items-center justify-center
                     ${theme === 'dark'
                         ? 'bg-white dark:bg-neutral-600 text-purple-400 shadow-sm'
-                        : 'text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300'
+                        : 'text-black dark:text-black hover:text-black dark:hover:text-gray-600'
                     }
                 `}
                 title="Escuro"

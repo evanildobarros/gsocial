@@ -106,7 +106,7 @@ export const UserProfilePage: React.FC = () => {
         return (
             <div className="flex flex-col items-center py-20 gap-4">
                 <div className="w-16 h-16 rounded-full border-4 border-gray-200 border-t-primary animate-spin"></div>
-                <span className="text-xs font-black uppercase tracking-widest text-gray-400 animate-pulse">
+                <span className="text-xs font-black uppercase tracking-widest text-black animate-pulse">
                     Sincronizando seu perfil...
                 </span>
             </div>
@@ -146,8 +146,8 @@ export const UserProfilePage: React.FC = () => {
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 relative">
                         <div className="relative -mt-20 ml-0 md:ml-6 group">
                             <div
-                                className={`w-40 h-40 rounded-full border-8 border-white dark:border-zinc-900 shadow-2xl overflow-hidden flex items-center justify-center text-5xl font-black text-white ${profile.role === 'master' ? 'bg-gradient-to-br from-purple-600 to-red-600' : 'bg-primary'}
-                                    `}
+                                className={`w-40 h-40 rounded-full border-8 border-white dark:border-zinc-900 shadow-2xl overflow-hidden flex items-center justify-center text-5xl font-black text-white ${profile.role === 'master' ? 'bg-gradient-to-br from-purple-600 to-red-600' : 'bg-primary'
+                                    }`}
                             >
                                 {profile.avatar_url ? (
                                     <img src={profile.avatar_url} alt={profile.full_name} className="w-full h-full object-cover" />
@@ -169,7 +169,7 @@ export const UserProfilePage: React.FC = () => {
                             {!isEditing ? (
                                 <button
                                     onClick={() => setIsEditing(true)}
-                                    className="flex-1 md:flex-none items-center justify-center gap-2 px-6 py-3 border-2 border-gray-200 dark:border-white/10 rounded-full font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors flex"
+                                    className="flex-1 md:flex-none items-center justify-center gap-2 px-6 py-3 border-2 border-gray-200 dark:border-white/10 rounded-full font-bold text-black dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors flex"
                                 >
                                     <EditIcon fontSize="small" />
                                     Editar Perfil
@@ -198,18 +198,18 @@ export const UserProfilePage: React.FC = () => {
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mt-8 md:mt-12">
                         <div className="lg:col-span-2 space-y-10">
                             <div>
-                                <span className="text-[11px] font-black uppercase tracking-[0.2em] text-gray-400 block mb-2">
+                                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-black block mb-2">
                                     Identificação
                                 </span>
                                 {isEditing ? (
                                     <input
                                         value={formData.full_name}
                                         onChange={(e) => setFormData({ full_name: e.target.value })}
-                                        className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white w-full bg-transparent border-b-2 border-gray-200 dark:border-white/10 focus:border-primary outline-none transition-colors pb-2"
+                                        className="text-4xl md:text-5xl font-black text-black dark:text-white w-full bg-transparent border-b-2 border-gray-200 dark:border-white/10 focus:border-primary outline-none transition-colors pb-2"
                                         placeholder="Seu Nome Completo"
                                     />
                                 ) : (
-                                    <h1 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white tracking-tight">
+                                    <h1 className="text-4xl md:text-5xl font-black text-black dark:text-white tracking-tight">
                                         {profile.full_name || 'Usuário ESGporto'}
                                     </h1>
                                 )}
@@ -221,8 +221,8 @@ export const UserProfilePage: React.FC = () => {
                                         <MailIcon fontSize="small" />
                                     </div>
                                     <div>
-                                        <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wide">E-mail Corporativo</p>
-                                        <p className="font-bold text-gray-900 dark:text-white break-all">{profile.email}</p>
+                                        <p className="text-[10px] font-bold text-black uppercase tracking-wide">E-mail Corporativo</p>
+                                        <p className="font-bold text-black dark:text-white break-all">{profile.email}</p>
                                     </div>
                                 </div>
 
@@ -231,8 +231,8 @@ export const UserProfilePage: React.FC = () => {
                                         <CalendarIcon fontSize="small" />
                                     </div>
                                     <div>
-                                        <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wide">Data de Ingresso</p>
-                                        <p className="font-bold text-gray-900 dark:text-white">
+                                        <p className="text-[10px] font-bold text-black uppercase tracking-wide">Data de Ingresso</p>
+                                        <p className="font-bold text-black dark:text-white">
                                             {new Date(profile.created_at).toLocaleDateString('pt-BR')}
                                         </p>
                                     </div>
@@ -249,12 +249,12 @@ export const UserProfilePage: React.FC = () => {
 
                                 <div className={`inline-block px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wide mb-6 ${profile.role === 'master' ? 'bg-purple-100 text-purple-700 dark:bg-black dark:text-purple-300' :
                                         profile.role === 'admin' ? 'bg-blue-100 text-blue-700 dark:bg-black dark:text-blue-300' :
-                                            'bg-gray-200 text-gray-700 dark:bg-black dark:text-gray-300'
+                                            'bg-gray-200 text-black dark:bg-black dark:text-gray-100'
                                     }`}>
                                     {profile.role === 'master' ? 'Master Admin' : profile.role === 'admin' ? 'Administrador' : 'Colaborador'}
                                 </div>
 
-                                <p className="text-sm text-gray-600 dark:text-gray-400 font-medium italic leading-relaxed">
+                                <p className="text-sm text-black dark:text-black font-medium italic leading-relaxed">
                                     {profile.role === 'master'
                                         ? 'Você possui privilégios totais de supervisão, auditoria e gestão de membros do ecossistema ESGporto.'
                                         : profile.role === 'admin'
@@ -265,7 +265,7 @@ export const UserProfilePage: React.FC = () => {
 
                             <div className="px-6 py-4 rounded-2xl border border-emerald-200 bg-emerald-50 dark:bg-emerald-900/10 dark:border-emerald-500/20 flex items-center gap-3">
                                 <VerifiedIcon className="text-emerald-500" />
-                                <span className="text-[11px] font-black text-emerald-700 dark:text-emerald-300 uppercase tracking-widest">
+                                <span className="text-[10px] font-black text-emerald-700 dark:text-emerald-300 uppercase tracking-widest">
                                     Conta Verificada
                                 </span>
                             </div>

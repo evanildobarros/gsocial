@@ -48,14 +48,14 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
     }, []);
 
     return (
-        <div className="min-h-screen bg-white dark:bg-zinc-950 font-sans text-gray-900 dark:text-white selection:bg-cyan-500 selection:text-white">
+        <div className="min-h-screen bg-white dark:bg-zinc-950 font-sans text-black dark:text-white selection:bg-cyan-500 selection:text-white">
             {/* Navigation */}
             <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md shadow-lg py-4' : 'bg-transparent py-6'}`}>
                 <div className="container mx-auto px-6 flex justify-between items-center">
                     <div className="flex items-center gap-3">
                         <img src="/logo_itaqui.png" alt="ESGporto" className="h-10 w-auto brightness-0 invert dark:invert-0 lg:brightness-100" />
                         <div className="hidden lg:block">
-                            <span className={`text-xl font-black tracking-tighter ${scrolled ? 'text-gray-900 dark:text-white' : 'text-white'}`}>ESGporto</span>
+                            <span className={`text-xl font-black tracking-tighter ${scrolled ? 'text-black dark:text-white' : 'text-white'}`}>ESGporto</span>
                         </div>
                     </div>
                     <div className="flex items-center gap-6">
@@ -100,7 +100,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                             A bússola definitiva para a <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-emerald-400">Gestão ESG Portuária</span>.
                         </h1>
 
-                        <p className="text-lg md:text-xl text-gray-300 mb-8 leading-relaxed max-w-2xl font-light">
+                        <p className="text-lg md:text-xl text-gray-600 mb-8 leading-relaxed max-w-2xl font-light">
                             Do diagnóstico à transformação: monitore indicadores, mitigue riscos climáticos e fortaleça a licença social para operar com base na ABNT PR 2030 e padrões globais (GRI).
                         </p>
 
@@ -115,7 +115,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                             </button>
                         </div>
 
-                        <div className="mt-12 flex items-center gap-6 text-sm font-medium text-gray-400">
+                        <div className="mt-12 flex items-center gap-6 text-sm font-medium text-black">
                             <div className="flex items-center gap-2">
                                 <CheckCircle2 size={16} className="text-emerald-500" />
                                 <span>Compliance ABNT 2030</span>
@@ -171,15 +171,15 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                                 <span className="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">Sobre o Porto</span>
                             </div>
 
-                            <h2 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white leading-tight">
+                            <h2 className="text-4xl md:text-5xl font-black text-black dark:text-white leading-tight">
                                 Um dos Principais Portos do <span className="text-blue-600 dark:text-blue-400">Brasil</span>
                             </h2>
 
-                            <p className="text-lg text-gray-500 dark:text-gray-400 leading-relaxed">
+                            <p className="text-lg text-black dark:text-black leading-relaxed">
                                 Localizado em São Luís, Maranhão, o Porto do Itaqui é um dos principais hubs logísticos do país para movimentação de granéis sólidos e líquidos. Sua posição estratégica na costa atlântica facilita a conexão com mercados nacionais e internacionais.
                             </p>
 
-                            <p className="text-lg text-gray-500 dark:text-gray-400 leading-relaxed">
+                            <p className="text-lg text-black dark:text-black leading-relaxed">
                                 Com nove berços operacionais e capacidade para receber embarcações de grande porte, o porto movimentou cerca de 34 milhões de toneladas em 2022, sendo referência em eficiência operacional e compromisso ambiental.
                             </p>
                         </div>
@@ -192,8 +192,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                                     <Droplets className="w-6 h-6" />
                                 </div>
                                 <div>
-                                    <div className="text-2xl font-black text-gray-900 dark:text-white">9</div>
-                                    <div className="text-xs text-gray-500 font-medium">Berços operacionais</div>
+                                    <div className="text-2xl font-black text-black dark:text-white">9</div>
+                                    <div className="text-xs text-black font-medium">Berços operacionais</div>
                                 </div>
                             </div>
 
@@ -222,7 +222,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                     <div className="text-center max-w-3xl mx-auto mb-16">
                         <span className="text-emerald-600 dark:text-emerald-400 font-bold tracking-widest uppercase text-xs mb-2 block">Plano de Descarbonização</span>
                         <h2 className="text-3xl md:text-5xl font-black dark:text-white mb-6">Rumo ao Porto Verde</h2>
-                        <p className="text-gray-500 dark:text-gray-400 text-lg">
+                        <p className="text-black dark:text-black text-lg">
                             Nossas iniciativas para reduzir emissões nos principais focos de impacto operacional.
                         </p>
                     </div>
@@ -263,7 +263,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                         <div className="flex-1">
                             <span className="text-cyan-400 font-bold tracking-widest uppercase text-xs mb-2 block">Roadmap SBTi</span>
                             <h2 className="text-4xl font-black text-white mb-6">Neutralidade de Carbono</h2>
-                            <p className="text-gray-400 text-lg mb-8 leading-relaxed">
+                            <p className="text-black text-lg mb-8 leading-relaxed">
                                 Estamos comprometidos com a Science Based Targets initiative (SBTi) para garantir que nosso crescimento seja dissociado das emissões de carbono.
                             </p>
 
@@ -276,7 +276,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                                     <div>
                                         <h4 className="text-2xl font-black text-white">2040</h4>
                                         <p className="text-cyan-400 font-bold mb-2">Meta Intermediária</p>
-                                        <p className="text-gray-400">Redução de 96% nas emissões de Escopo 1 e 2.</p>
+                                        <p className="text-black">Redução de 96% nas emissões de Escopo 1 e 2.</p>
                                     </div>
                                 </div>
                                 <div className="flex gap-6 items-start">
@@ -286,7 +286,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                                     <div>
                                         <h4 className="text-2xl font-black text-white">2050</h4>
                                         <p className="text-emerald-400 font-bold mb-2">Net Zero</p>
-                                        <p className="text-gray-400">Neutralidade total alinhada às metas da IMO e Acordo de Paris.</p>
+                                        <p className="text-black">Neutralidade total alinhada às metas da IMO e Acordo de Paris.</p>
                                     </div>
                                 </div>
                             </div>
@@ -331,7 +331,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                                         <div key={item.name} className="flex items-center justify-between text-sm">
                                             <div className="flex items-center gap-2">
                                                 <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }}></div>
-                                                <span className="text-gray-300">{item.name}</span>
+                                                <span className="text-gray-600">{item.name}</span>
                                             </div>
                                             <span className="font-bold text-white">{item.value}%</span>
                                         </div>
@@ -339,7 +339,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                                 </div>
                                 <div className="mt-6 pt-6 border-t border-white/10 text-center">
                                     <div className="text-3xl font-black text-white">189.225</div>
-                                    <div className="text-xs text-gray-500 uppercase">Toneladas Totais (2022)</div>
+                                    <div className="text-xs text-black uppercase">Toneladas Totais (2022)</div>
                                 </div>
                             </div>
                         </div>
@@ -411,14 +411,14 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                                 </div>
                                 <span className="text-2xl font-black tracking-tight text-white">Porto do Itaqui</span>
                             </div>
-                            <p className="text-gray-400 text-sm leading-7 max-w-md font-medium">
+                            <p className="text-black text-sm leading-7 max-w-md font-medium">
                                 Administrado pela Empresa Maranhense de Administração Portuária (EMAP), o Porto do Itaqui é referência em sustentabilidade e eficiência operacional na América Latina.
                             </p>
                             <div className="flex gap-4 pt-2">
-                                <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center hover:bg-blue-600 transition-colors cursor-pointer text-gray-400 hover:text-white">
+                                <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center hover:bg-blue-600 transition-colors cursor-pointer text-black hover:text-white">
                                     <Globe2 size={18} />
                                 </div>
-                                <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center hover:bg-blue-600 transition-colors cursor-pointer text-gray-400 hover:text-white">
+                                <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center hover:bg-blue-600 transition-colors cursor-pointer text-black hover:text-white">
                                     <FileText size={18} />
                                 </div>
                             </div>
@@ -427,7 +427,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                         {/* Column 2: Quick Links */}
                         <div>
                             <h4 className="font-bold mb-6 text-white">Links Rápidos</h4>
-                            <ul className="space-y-4 text-gray-400 text-sm font-medium">
+                            <ul className="space-y-4 text-black text-sm font-medium">
                                 <li><a href="#" className="hover:text-blue-400 transition-colors flex items-center gap-2">Sobre o Porto</a></li>
                                 <li><a href="#" className="hover:text-blue-400 transition-colors flex items-center gap-2">Pilares ESG</a></li>
                                 <li><a href="#" className="hover:text-blue-400 transition-colors flex items-center gap-2">Descarbonização</a></li>
@@ -438,7 +438,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                         {/* Column 3: Contact */}
                         <div>
                             <h4 className="font-bold mb-6 text-white">Contato</h4>
-                            <div className="space-y-4 text-gray-400 text-sm font-medium">
+                            <div className="space-y-4 text-black text-sm font-medium">
                                 <p>São Luís, Maranhão</p>
                                 <p>Av. dos Portugueses, s/n</p>
                                 <p>CEP: 65085-370</p>
@@ -451,7 +451,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
 
                     {/* Bottom Bar */}
                     <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
-                        <p className="text-gray-500 text-xs font-medium">
+                        <p className="text-black text-xs font-medium">
                             © 2025 Porto do Itaqui - EMAP. Todos os direitos reservados.
                         </p>
                         <div className="flex items-center gap-6">
@@ -479,8 +479,8 @@ const StatCard: React.FC<{ icon: React.ReactNode; value: string; label: string }
         <div className="mb-6 p-4 bg-blue-600 rounded-2xl shadow-lg shadow-blue-500/30 group-hover:scale-110 transition-transform duration-300">
             {icon}
         </div>
-        <div className="text-4xl font-black text-gray-900 dark:text-white mb-2">{value}</div>
-        <div className="text-sm font-medium text-gray-500 dark:text-gray-400 max-w-[150px] leading-relaxed">{label}</div>
+        <div className="text-4xl font-black text-black dark:text-white mb-2">{value}</div>
+        <div className="text-sm font-medium text-black dark:text-black max-w-[150px] leading-relaxed">{label}</div>
     </div>
 );
 
@@ -488,18 +488,18 @@ const FeatureCard: React.FC<{ icon: React.ReactNode; title: string; desc: string
     <div className={`p-8 bg-white dark:bg-zinc-800 rounded-2xl border-l-4 ${color} shadow-lg hover:shadow-xl transition-all hover:-translate-y-1`}>
         <div className="mb-4">{icon}</div>
         <h3 className="text-xl font-bold mb-3 dark:text-white">{title}</h3>
-        <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">{desc}</p>
+        <p className="text-black dark:text-black text-sm leading-relaxed">{desc}</p>
     </div>
 );
 
 const DownloadCard: React.FC<{ title: string; subtitle: string; tag: string }> = ({ title, subtitle, tag }) => (
     <div className="group p-6 rounded-2xl border border-gray-100 dark:border-white/10 bg-gray-50 dark:bg-zinc-900 cursor-pointer hover:border-cyan-500/50 transition-all">
         <div className="flex justify-between items-start mb-4">
-            <FileText className="text-gray-400 group-hover:text-cyan-500 transition-colors" />
-            <div className="px-2 py-1 rounded text-[11px] font-bold bg-gray-200 dark:bg-white/10 text-gray-600 dark:text-gray-300 uppercase">{tag}</div>
+            <FileText className="text-black group-hover:text-cyan-500 transition-colors" />
+            <div className="px-2 py-1 rounded text-[10px] font-bold bg-gray-200 dark:bg-white/10 text-black dark:text-gray-100 uppercase">{tag}</div>
         </div>
         <h4 className="font-bold text-lg dark:text-white mb-2 group-hover:text-cyan-500 transition-colors">{title}</h4>
-        <p className="text-gray-500 dark:text-gray-400 text-sm mb-4">{subtitle}</p>
+        <p className="text-black dark:text-black text-sm mb-4">{subtitle}</p>
         <div className="flex items-center gap-2 text-cyan-600 dark:text-cyan-400 text-xs font-bold uppercase tracking-wider">
             <Download size={14} />
             Baixar Arquivo

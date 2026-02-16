@@ -17,14 +17,14 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({ items }) => {
                 onClick={() => items[0]?.onClick?.()}
                 className="p-1.5 rounded-3xl hover:bg-gray-100 dark:hover:bg-white/5 transition-colors"
             >
-                <Home className="w-4 h-4 text-gray-400" />
+                <Home className="w-4 h-4 text-black" />
             </button>
 
             {items.map((item, idx) => (
                 <React.Fragment key={idx}>
-                    <ChevronRight className="w-3 h-3 text-gray-300 dark:text-gray-600" />
+                    <ChevronRight className="w-3 h-3 text-gray-600 dark:text-black" />
                     {idx === items.length - 1 ? (
-                        <span className="font-bold text-gray-700 dark:text-gray-300">
+                        <span className="font-bold text-black dark:text-gray-100">
                             {item.label}
                         </span>
                     ) : (

@@ -279,7 +279,7 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
         return (
             <div className="flex flex-col justify-center items-center py-40 gap-4">
                 <Loader2 className="w-8 h-8 text-green-300 animate-spin" />
-                <p className="text-gray-400 font-bold uppercase tracking-widest text-xs">Carregando Auditorias Ambientais...</p>
+                <p className="text-black font-bold uppercase tracking-widest text-xs">Carregando Auditorias Ambientais...</p>
             </div>
         );
     }
@@ -289,10 +289,10 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
             {/* Header */}
             <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 px-2">
                 <div>
-                    <div className="text-[11px] font-black text-green-600 uppercase tracking-widest mb-1 flex items-center gap-2">
+                    <div className="text-[10px] font-black text-green-600 uppercase tracking-widest mb-1 flex items-center gap-2">
                         <Leaf size={12} /> Pilar Ambiental (E) — ABNT PR 2030
                     </div>
-                    <h1 className="text-2xl font-black text-gray-900 dark:text-white tracking-tighter">
+                    <h1 className="text-2xl font-black text-black dark:text-white tracking-tighter">
                         {viewMode === 'list' ? ' Auditorias & Terminais' : 'Novo Diagnóstico de Instalação'}
                     </h1>
                 </div>
@@ -307,7 +307,7 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
                     ) : (
                         <button
                             onClick={() => { setViewMode('list'); resetForm(); }}
-                            className="flex items-center gap-2 px-4 py-2 text-gray-500 font-bold rounded-3xl text-xs hover:bg-gray-50 transition-colors"
+                            className="flex items-center gap-2 px-4 py-2 text-black font-bold rounded-3xl text-xs hover:bg-gray-50 transition-colors"
                         >
                             <ArrowLeft size={14} /> VOLTAR À LISTA
                         </button>
@@ -320,7 +320,7 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
                     {/* Filter & Search */}
                     <div className="bg-white dark:bg-[#1C1C1C] rounded-3xl border border-gray-200 dark:border-white/5 p-4 flex gap-4">
                         <div className="flex-1 relative flex items-center">
-                            <Search className="absolute left-3 w-4 h-4 text-gray-400" />
+                            <Search className="absolute left-3 w-4 h-4 text-black" />
                             <input
                                 type="text"
                                 placeholder="Buscar por terminal ou instalação..."
@@ -329,7 +329,7 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
                                 onChange={(e) => setSearchQuery(e.target.value)}
                             />
                         </div>
-                        <button onClick={fetchAssessments} className="px-4 py-2 text-gray-400 hover:text-green-600 transition-colors"><RefreshCw size={14} /></button>
+                        <button onClick={fetchAssessments} className="px-4 py-2 text-black hover:text-green-600 transition-colors"><RefreshCw size={14} /></button>
                     </div>
 
                     {/* Terminal List Grid */}
@@ -342,18 +342,18 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
                                     <div className="p-6 space-y-4">
                                         <div className="flex justify-between items-start">
                                             <div className="min-w-0 flex-1">
-                                                <h3 className="font-black text-gray-900 dark:text-white truncate pr-2 group-hover:text-green-600 transition-colors">{a.terminal_name}</h3>
-                                                <span className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">{a.operation_type}</span>
+                                                <h3 className="font-black text-black dark:text-white truncate pr-2 group-hover:text-green-600 transition-colors">{a.terminal_name}</h3>
+                                                <span className="text-[10px] font-bold text-black uppercase tracking-widest">{a.operation_type}</span>
                                             </div>
                                             <div className={`p-2 rounded-xl ${risk.color} bg-opacity-10`}>
                                                 <AlertTriangle size={16} />
                                             </div>
                                         </div>
-                                        <div className={`inline-flex px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-tight ${risk.color}`}>
+                                        <div className={`inline-flex px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-tight ${risk.color}`}>
                                             {risk.badge}
                                         </div>
                                         <div className="flex justify-between items-center pt-4 border-t border-gray-50 dark:border-white/5">
-                                            <span className="text-[11px] font-bold text-gray-400">AUDITORIA 2026</span>
+                                            <span className="text-[9px] font-bold text-black">AUDITORIA 2026</span>
                                             <div className="flex gap-1">
                                                 <button onClick={() => handleEdit(a)} className="p-2 text-green-600 hover:bg-green-50 rounded-full transition-colors"><Edit size={16} /></button>
                                                 <button onClick={() => handleDelete(a.id, a.terminal_name)} className="p-2 text-red-500 hover:bg-red-50 rounded-full transition-colors"><Trash2 size={16} /></button>
@@ -373,12 +373,12 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
                         <div className="bg-white dark:bg-[#1C1C1C] rounded-3xl border border-gray-200 dark:border-white/5 p-8 space-y-8">
                             <div className="flex items-center gap-3 border-b border-gray-50 dark:border-white/5 pb-4">
                                 <Anchor className="text-green-600" />
-                                <h2 className="font-black text-gray-900 dark:text-white uppercase tracking-wider text-sm">Instalação & Operação</h2>
+                                <h2 className="font-black text-black dark:text-white uppercase tracking-wider text-sm">Instalação & Operação</h2>
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <div className="space-y-2">
-                                    <label className="text-[11px] font-black text-gray-400 uppercase tracking-widest ml-1">Nome do Terminal / Instalação</label>
+                                    <label className="text-[10px] font-black text-black uppercase tracking-widest ml-1">Nome do Terminal / Instalação</label>
                                     <input
                                         type="text"
                                         placeholder="Ex: Terminal de Granéis Sul"
@@ -388,16 +388,16 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-[11px] font-black text-gray-400 uppercase tracking-widest ml-1">Tipo de Operação (Dual Materiality)</label>
+                                    <label className="text-[10px] font-black text-black uppercase tracking-widest ml-1">Tipo de Operação (Dual Materiality)</label>
                                     <div className="grid grid-cols-2 gap-2">
                                         {OPERATION_TYPES.map(op => (
                                             <button
                                                 key={op.id}
                                                 onClick={() => setOperationType(op.id)}
-                                                className={`p-3 rounded-2xl border flex items-center gap-2 transition-all ${operationType === op.id ? 'bg-green-600 border-green-600 text-white shadow-lg' : 'bg-transparent border-gray-100 text-gray-500 hover:border-green-300 dark:border-white/5 dark:text-gray-400'}`}
+                                                className={`p-3 rounded-2xl border flex items-center gap-2 transition-all ${operationType === op.id ? 'bg-green-600 border-green-600 text-white shadow-lg' : 'bg-transparent border-gray-100 text-black hover:border-green-300 dark:border-white/5 dark:text-black'}`}
                                             >
                                                 <op.icon size={14} />
-                                                <span className="text-[11px] font-black uppercase tracking-tight">{op.label}</span>
+                                                <span className="text-[9px] font-black uppercase tracking-tight">{op.label}</span>
                                             </button>
                                         ))}
                                     </div>
@@ -417,12 +417,12 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
                                         <div key={q.id} className="space-y-5">
                                             <div className="flex items-center justify-between">
                                                 <div className="flex items-center gap-3">
-                                                    <h3 className="font-black text-gray-800 dark:text-white">{q.question}</h3>
+                                                    <h3 className="font-black text-black dark:text-white">{q.question}</h3>
                                                     {isMaterial && (
-                                                        <span className="px-2 py-0.5 bg-amber-100 text-amber-600 text-[11px] font-black uppercase rounded-lg border border-amber-200">Materialidade Crítica (2x Peso)</span>
+                                                        <span className="px-2 py-0.5 bg-amber-100 text-amber-600 text-[8px] font-black uppercase rounded-lg border border-amber-200">Materialidade Crítica (2x Peso)</span>
                                                     )}
                                                 </div>
-                                                <HelpCircle className="text-gray-300 cursor-help" size={16} />
+                                                <HelpCircle className="text-gray-600 cursor-help" size={16} />
                                             </div>
 
                                             <div className="grid grid-cols-1 gap-2">
@@ -435,7 +435,7 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
                                                         <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${answers[q.id] === opt.value ? 'border-green-500 bg-green-500' : 'border-gray-300'}`}>
                                                             {answers[q.id] === opt.value && <div className="w-1.5 h-1.5 bg-white rounded-full" />}
                                                         </div>
-                                                        <span className="text-sm font-bold text-gray-700 dark:text-gray-300">{opt.label}</span>
+                                                        <span className="text-sm font-bold text-black dark:text-gray-100">{opt.label}</span>
                                                     </button>
                                                 ))}
                                             </div>
@@ -444,9 +444,9 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
                                                 <div className="p-4 bg-gray-50 dark:bg-zinc-950 rounded-2xl border border-dashed border-gray-200 dark:border-white/10 flex justify-between items-center">
                                                     <div className="flex items-center gap-3">
                                                         <FileText className="text-green-600" size={18} />
-                                                        <span className="text-[11px] font-black text-gray-400 uppercase tracking-widest">Evidência Obrigatória (PR 2030)</span>
+                                                        <span className="text-[10px] font-black text-black uppercase tracking-widest">Evidência Obrigatória (PR 2030)</span>
                                                     </div>
-                                                    <button className="text-[11px] font-black text-green-600 uppercase hover:underline">Selecionar PDF/Anexo</button>
+                                                    <button className="text-[10px] font-black text-green-600 uppercase hover:underline">Selecionar PDF/Anexo</button>
                                                 </div>
                                             )}
                                         </div>
@@ -457,7 +457,7 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
 
                         {/* Action Buttons */}
                         <div className="flex justify-end gap-4 pb-12">
-                            <button onClick={() => { setViewMode('list'); resetForm(); }} className="px-6 py-3 text-gray-400 font-black text-xs uppercase tracking-widest hover:text-gray-600 transition-colors">Descartar</button>
+                            <button onClick={() => { setViewMode('list'); resetForm(); }} className="px-6 py-3 text-black font-black text-xs uppercase tracking-widest hover:text-black transition-colors">Descartar</button>
                             <button
                                 onClick={handleSave}
                                 disabled={saving || !terminalName}
@@ -475,20 +475,20 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
                         <div className={`p-8 rounded-3xl border shadow-2xl animate-in zoom-in-95 duration-500 ${currentRisk.color} border-current border-opacity-20`}>
                              <div className="flex items-center gap-2 mb-6">
                                 <Thermometer className="opacity-70" />
-                                <span className="text-[11px] font-black uppercase tracking-widest opacity-70">Termômetro de Risco Ambiental</span>
+                                <span className="text-[10px] font-black uppercase tracking-widest opacity-70">Termômetro de Risco Ambiental</span>
                              </div>
 
                              <div className="space-y-6">
                                 <div>
                                     <h4 className="text-xl font-black leading-tight uppercase tracking-tight">{currentRisk.badge}</h4>
-                                    <p className="text-[11px] font-bold opacity-60 uppercase mt-1">Status de Conformidade Operacional</p>
+                                    <p className="text-[10px] font-bold opacity-60 uppercase mt-1">Status de Conformidade Operacional</p>
                                 </div>
 
                                 <div className="p-5 bg-white/40 dark:bg-black/20 rounded-2xl border border-current border-opacity-10 space-y-3">
                                     <div className="flex items-start gap-3">
                                         {currentRisk.level === 'CRÍTICO' ? <AlertTriangle className="shrink-0" size={18} /> : <Lightbulb className="shrink-0" size={18} />}
                                         <div className="space-y-1">
-                                            <span className="text-[11px] font-black uppercase opacity-70">RECOMENDAÇÃO CONSULTIVA</span>
+                                            <span className="text-[9px] font-black uppercase opacity-70">RECOMENDAÇÃO CONSULTIVA</span>
                                             <p className="text-xs font-bold leading-relaxed italic">"{currentRisk.recommendation}"</p>
                                         </div>
                                     </div>
@@ -503,9 +503,9 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
                         <div className="bg-blue-50/30 dark:bg-white/5 p-6 rounded-3xl border border-blue-100 dark:border-white/10">
                              <div className="flex items-center gap-2 mb-4 text-blue-600 dark:text-blue-400">
                                 <Zap size={16} />
-                                <span className="text-[11px] font-black uppercase tracking-widest">Geoprocessamento</span>
+                                <span className="text-[10px] font-black uppercase tracking-widest">Geoprocessamento</span>
                              </div>
-                             <p className="text-[11px] text-gray-500 dark:text-gray-400 font-medium mb-6">Vincule camadas de monitoramento (fumaça, poeira, vazamentos) ao terminal selecionado.</p>
+                             <p className="text-[11px] text-black dark:text-black font-medium mb-6">Vincule camadas de monitoramento (fumaça, poeira, vazamentos) ao terminal selecionado.</p>
                              <LayerUploaderInline onLayersLoaded={() => showSuccess('Geometria vinculada à instalação.')} />
                         </div>
                     </div>
