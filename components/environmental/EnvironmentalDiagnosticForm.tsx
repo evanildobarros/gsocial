@@ -26,7 +26,6 @@ import {
     AlertTriangle,
     Database,
     Zap,
-    Trash,
     Users,
     FileText
 } from 'lucide-react';
@@ -357,7 +356,7 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
                                             <span className="text-[9px] font-bold text-gray-400">AUDITORIA 2026</span>
                                             <div className="flex gap-1">
                                                 <button onClick={() => handleEdit(a)} className="p-2 text-green-600 hover:bg-green-50 rounded-full transition-colors"><Edit size={16} /></button>
-                                                <button onClick={() => handleDelete(a.id, a.terminal_name)} className="p-2 text-red-500 hover:bg-red-50 rounded-full transition-colors"><Trash size={16} /></button>
+                                                <button onClick={() => handleDelete(a.id, a.terminal_name)} className="p-2 text-red-500 hover:bg-red-50 rounded-full transition-colors"><Trash2 size={16} /></button>
                                             </div>
                                         </div>
                                     </div>
