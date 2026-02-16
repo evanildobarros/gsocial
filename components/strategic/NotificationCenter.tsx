@@ -20,8 +20,8 @@ import {
 
 interface Notification {
     id: string;
-    type: 'environmental' | 'social' | 'governance' | 'system';
-    priority: 'critical' | 'high' | 'medium' | 'low';
+    type: 'Ambiental' | 'Social' | 'Governança' | 'Sistema';
+    priority: 'crítico' | 'alto' | 'médio' | 'baixo';
     title: string;
     description: string;
     location?: string;
@@ -30,14 +30,14 @@ interface Notification {
 }
 
 export const NotificationCenter: React.FC = () => {
-    const [filter, setFilter] = useState<'all' | 'environmental' | 'social'>('all');
+    const [filter, setFilter] = useState<'all' | 'Ambiental' | 'Social'>('all');
     
-    // Mock data based on real map alerts
+    // Mock data in Portuguese
     const [notifications, setNotifications] = useState<Notification[]>([
         {
             id: 'AL-902',
-            type: 'environmental',
-            priority: 'critical',
+            type: 'Ambiental',
+            priority: 'crítico',
             title: 'Resíduo Fora da Zona COFAM',
             description: 'Detectado descarte não autorizado nas coordenadas -2.585, -44.372. Protocolo de contingência nível 2 ativado pela equipe de monitoramento via satélite.',
             location: 'Zona Sul do Porto',
@@ -46,8 +46,8 @@ export const NotificationCenter: React.FC = () => {
         },
         {
             id: 'SO-871',
-            type: 'social',
-            priority: 'high',
+            type: 'Social',
+            priority: 'alto',
             title: 'Risco de Licença Social: Vila Maranhão',
             description: 'Índice de vulnerabilidade atingiu nível crítico (Score 8). Falta de acesso hídrico somado ao aumento de ruído noturno gerou 3 novos tickets de ouvidoria nas últimas 24h.',
             location: 'Vila Maranhão',
@@ -56,8 +56,8 @@ export const NotificationCenter: React.FC = () => {
         },
         {
             id: 'SO-855',
-            type: 'social',
-            priority: 'medium',
+            type: 'Social',
+            priority: 'médio',
             title: 'Ação Social Pendente de S-ROI',
             description: 'O projeto "Capacitação Mulheres do Itaqui" atingiu 100 beneficiárias, mas o relatório de Retorno Social sobre Investimento ainda não foi anexado.',
             location: 'Itaqui-Bacanga',
@@ -66,17 +66,17 @@ export const NotificationCenter: React.FC = () => {
         },
         {
             id: 'GO-112',
-            type: 'governance',
-            priority: 'medium',
-            title: 'Audit de Due Diligence Expirando',
+            type: 'Governança',
+            priority: 'médio',
+            title: 'Auditoria de Due Diligence Expirando',
             description: 'A auditoria do fornecedor "Logística Alpha" vence em 15 dias. Nível de criticidade estratégica ALTA exige renovação imediata da documentação anticorrupção.',
             timestamp: 'Ontem às 16:40',
             status: 'read'
         },
         {
             id: 'SY-001',
-            type: 'system',
-            priority: 'low',
+            type: 'Sistema',
+            priority: 'baixo',
             title: 'Sincronização Supabase OK',
             description: 'Backup diário do banco de dados e camadas geoespaciais concluído com sucesso às 03:00 AM.',
             timestamp: 'Hoje às 03:00',
@@ -86,18 +86,18 @@ export const NotificationCenter: React.FC = () => {
 
     const getPriorityStyles = (priority: string) => {
         switch (priority) {
-            case 'critical': return 'bg-red-50 text-red-600 border-red-200';
-            case 'high': return 'bg-orange-50 text-orange-600 border-orange-200';
-            case 'medium': return 'bg-blue-50 text-blue-600 border-blue-200';
+            case 'crítico': return 'bg-red-50 text-red-600 border-red-200';
+            case 'alto': return 'bg-orange-50 text-orange-600 border-orange-200';
+            case 'médio': return 'bg-blue-50 text-blue-600 border-blue-200';
             default: return 'bg-green-50 text-green-600 border-green-200';
         }
     };
 
     const getTypeIcon = (type: string) => {
         switch (type) {
-            case 'environmental': return <Droplets size={18} className="text-green-600" />;
-            case 'social': return <Users size={18} className="text-orange-600" />;
-            case 'governance': return <ShieldAlert size={18} className="text-blue-600" />;
+            case 'Ambiental': return <Droplets size={18} className="text-green-600" />;
+            case 'Social': return <Users size={18} className="text-orange-600" />;
+            case 'Governança': return <ShieldAlert size={18} className="text-blue-600" />;
             default: return <Info size={18} className="text-purple-600" />;
         }
     };
@@ -108,7 +108,7 @@ export const NotificationCenter: React.FC = () => {
     });
 
     return (
-        <div className="w-full space-y-8 animate-in fade-in duration-700 pb-20">
+        <div className="w-full space-y-8 animate-in fade-in duration-700 pb-20 text-black">
             {/* Header */}
             <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <div className="flex items-center gap-4">
@@ -122,13 +122,13 @@ export const NotificationCenter: React.FC = () => {
                 </div>
 
                 <div className="flex bg-white dark:bg-zinc-900 p-1 rounded-2xl border border-gray-100 dark:border-white/10 shadow-sm">
-                    {(['all', 'environmental', 'social'] as const).map((opt) => (
+                    {(['all', 'Ambiental', 'Social'] as const).map((opt) => (
                         <button
                             key={opt}
                             onClick={() => setFilter(opt)}
                             className={`px-6 py-2 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all ${filter === opt ? 'bg-happiness-1 text-white shadow-lg' : 'text-black dark:text-white hover:bg-gray-50 dark:hover:bg-white/5'}`}
                         >
-                            {opt === 'all' ? 'Ver Tudo' : opt === 'environmental' ? 'Ambiental' : 'Social'}
+                            {opt === 'all' ? 'Ver Tudo' : opt}
                         </button>
                     ))}
                 </div>
@@ -144,7 +144,7 @@ export const NotificationCenter: React.FC = () => {
                         >
                             <div className="p-6 md:p-8 flex gap-6">
                                 {/* Side Indicator */}
-                                <div className={`w-1 rounded-full ${n.priority === 'critical' ? 'bg-red-500' : n.priority === 'high' ? 'bg-orange-500' : 'bg-blue-500'}`} />
+                                <div className={`w-1 rounded-full ${n.priority === 'crítico' ? 'bg-red-500' : n.priority === 'alto' ? 'bg-orange-500' : 'bg-blue-500'}`} />
 
                                 <div className="flex-1 space-y-4">
                                     {/* Top Metadata */}
@@ -155,7 +155,7 @@ export const NotificationCenter: React.FC = () => {
                                             </div>
                                             <div>
                                                 <span className="text-[11px] font-black text-black dark:text-white uppercase tracking-widest block leading-none">{n.type}</span>
-                                                <span className="text-[11px] font-bold text-black dark:text-gray-400 mt-1 flex items-center gap-1">
+                                                <span className="text-[11px] font-bold text-black dark:text-white mt-1 flex items-center gap-1">
                                                     <Clock size={10} /> {n.timestamp}
                                                 </span>
                                             </div>
@@ -170,7 +170,7 @@ export const NotificationCenter: React.FC = () => {
                                         <h3 className="text-xl font-black text-black dark:text-white tracking-tight leading-tight group-hover:text-happiness-1 transition-colors">
                                             {n.title}
                                         </h3>
-                                        <p className="text-sm font-medium text-black dark:text-gray-200 leading-relaxed">
+                                        <p className="text-sm font-medium text-black dark:text-gray-100 leading-relaxed">
                                             {n.description}
                                         </p>
                                     </div>
@@ -184,7 +184,7 @@ export const NotificationCenter: React.FC = () => {
                                             </div>
                                         )}
                                         <div className="flex items-center gap-2 ml-auto">
-                                            <button className="flex items-center gap-2 px-4 py-2 bg-black dark:bg-white text-white dark:text-black rounded-xl text-[11px] font-black uppercase tracking-widest hover:opacity-90 transition-opacity">
+                                            <button className="flex items-center gap-2 px-4 py-2 bg-black dark:bg-white text-white dark:text-black rounded-xl text-[11px] font-black uppercase tracking-widest hover:opacity-90 transition-opacity font-bold">
                                                 Ação Reativa <ArrowUpRight size={14} />
                                             </button>
                                             <button className="p-2 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-white/5 rounded-xl transition-colors">
@@ -211,7 +211,7 @@ export const NotificationCenter: React.FC = () => {
                         <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:rotate-12 transition-transform duration-700">
                             <ShieldAlert size={120} />
                         </div>
-                        <h2 className="text-xs font-black uppercase tracking-[0.2em] mb-8 opacity-70">Painel de Resiliência</h2>
+                        <h2 className="text-[11px] font-black uppercase tracking-[0.2em] mb-8 opacity-70">Painel de Resiliência</h2>
                         
                         <div className="space-y-8 relative z-10">
                             <div className="flex justify-between items-end">
@@ -230,20 +230,20 @@ export const NotificationCenter: React.FC = () => {
                                 <div className="w-12 h-1 bg-white/30 rounded-full mb-2" />
                             </div>
 
-                            <button className="w-full py-4 bg-white text-happiness-1 hover:bg-white/90 rounded-2xl text-[11px] font-black uppercase tracking-widest transition-all shadow-lg">
+                            <button className="w-full py-4 bg-white text-happiness-1 hover:bg-white/90 rounded-2xl text-[11px] font-black uppercase tracking-widest transition-all shadow-lg font-bold">
                                 Exportar Log Mensal
                             </button>
                         </div>
                     </div>
 
-                    <div className="bg-white dark:bg-[#1C1C1C] rounded-[32px] p-8 border border-gray-100 dark:border-white/5 space-y-6 shadow-sm">
+                    <div className="bg-white dark:bg-[#1C1C1C] rounded-[32px] p-8 border border-gray-200 dark:border-white/5 space-y-6 shadow-sm">
                         <h3 className="text-sm font-black text-black dark:text-white uppercase tracking-widest flex items-center gap-2">
                             <Thermometer size={16} className="text-happiness-1" />
                             Urgência do Sistema
                         </h3>
                         <div className="space-y-4">
                             <div className="space-y-2">
-                                <div className="flex justify-between text-[11px] font-bold text-black dark:text-gray-400 uppercase">
+                                <div className="flex justify-between text-[11px] font-bold text-black dark:text-white uppercase">
                                     <span>Ambiental</span>
                                     <span>70%</span>
                                 </div>
@@ -252,7 +252,7 @@ export const NotificationCenter: React.FC = () => {
                                 </div>
                             </div>
                             <div className="space-y-2">
-                                <div className="flex justify-between text-[11px] font-bold text-black dark:text-gray-400 uppercase">
+                                <div className="flex justify-between text-[11px] font-bold text-black dark:text-white uppercase">
                                     <span>Social (LSO)</span>
                                     <span>92%</span>
                                 </div>
