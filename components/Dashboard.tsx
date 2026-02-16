@@ -26,7 +26,7 @@ const KPICard = ({ title, value, subtext, icon: Icon, trend, trendValue, color, 
   };
 
   const trendColor = trend === 'up' ? 'text-emerald-600 dark:text-emerald-400' :
-    trend === 'down' ? 'text-red-600 dark:text-red-400' : 'text-black';
+    trend === 'down' ? 'text-red-600 dark:text-red-400' : 'text-gray-500';
 
   return (
     <div className={`
@@ -35,10 +35,10 @@ const KPICard = ({ title, value, subtext, icon: Icon, trend, trendValue, color, 
     `}>
       <div className="flex justify-between mb-4">
         <div>
-          <p className="text-[10px] font-black uppercase tracking-widest text-black dark:text-black">{title}</p>
-          <h4 className="text-3xl font-black mt-1 text-black dark:text-white tracking-tight">{value}</h4>
+          <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">{title}</p>
+          <h4 className="text-3xl font-black mt-1 text-gray-900 dark:text-white tracking-tight">{value}</h4>
         </div>
-        <div className={`p-3 rounded-xl flex items-center justify-center h-12 w-12 ${colorMap[color] || 'bg-gray-100 text-black'}`}>
+        <div className={`p-3 rounded-xl flex items-center justify-center h-12 w-12 ${colorMap[color] || 'bg-gray-100 text-gray-700'}`}>
           <Icon />
         </div>
       </div>
@@ -50,7 +50,7 @@ const KPICard = ({ title, value, subtext, icon: Icon, trend, trendValue, color, 
             {trendValue}
           </span>
         )}
-        <span className="text-xs font-medium text-black dark:text-black">{subtext}</span>
+        <span className="text-xs font-medium text-gray-400 dark:text-gray-500">{subtext}</span>
       </div>
 
       {isWarning && (
@@ -71,7 +71,7 @@ const ModuleSummary = ({ title, icon: Icon, items, color }: any) => {
     <div className="h-full rounded-3xl border border-gray-200 dark:border-white/5 bg-white dark:bg-zinc-900 p-6 hover:border-gray-300 dark:hover:border-white/10 transition-colors">
       <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100 dark:border-white/5">
         <Icon className={iconColors[color]} />
-        <h3 className="text-xs font-black uppercase tracking-widest text-black dark:text-white">{title}</h3>
+        <h3 className="text-xs font-black uppercase tracking-widest text-gray-900 dark:text-white">{title}</h3>
       </div>
       <div className="flex flex-col gap-3">
         {items.map((item: any, idx: number) => (
@@ -80,15 +80,15 @@ const ModuleSummary = ({ title, icon: Icon, items, color }: any) => {
             className="flex justify-between items-center p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
           >
             <div>
-              <p className="text-sm font-bold text-black dark:text-white">{item.label}</p>
-              <p className="text-xs font-medium text-black">{item.sub}</p>
+              <p className="text-sm font-bold text-gray-900 dark:text-white">{item.label}</p>
+              <p className="text-xs font-medium text-gray-400">{item.sub}</p>
             </div>
             <span className={`
               px-2 py-1 rounded-3xl text-[10px] font-black uppercase
               ${item.status === 'success' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300' : ''}
               ${item.status === 'warning' ? 'bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-300' : ''}
               ${item.status === 'danger' ? 'bg-red-100 text-red-700 dark:bg-red-500/20 dark:text-red-300' : ''}
-              ${item.status === 'neutral' ? 'bg-gray-100 text-black dark:bg-gray-800 dark:text-black' : ''}
+              ${item.status === 'neutral' ? 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400' : ''}
             `}>
               {item.value}
             </span>
@@ -142,7 +142,7 @@ export const Dashboard: React.FC = () => {
     return (
       <div className="flex flex-col items-center justify-center py-40 gap-4">
         <div className="w-12 h-12 rounded-full border-4 border-gray-200 border-t-primary animate-spin"></div>
-        <span className="text-[10px] font-black uppercase tracking-widest text-black animate-pulse">
+        <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 animate-pulse">
           Consolidando Matriz ESG...
         </span>
       </div>
@@ -155,14 +155,14 @@ export const Dashboard: React.FC = () => {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <div className="flex items-center gap-3 mb-1">
-            <h2 className="text-3xl font-black text-black dark:text-white tracking-tight leading-none">
+            <h2 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight leading-none">
               Plataforma Integrada ESG
             </h2>
             <span className="px-2 py-1 rounded bg-primary text-white text-[10px] font-black uppercase tracking-wider">
               Porto do Itaqui
             </span>
           </div>
-          <p className="text-sm font-medium text-black dark:text-black">
+          <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
             Visão consolidada: TCFD, GRI Standards e PR 2030 (ABNT).
           </p>
         </div>
@@ -260,7 +260,7 @@ export const Dashboard: React.FC = () => {
 
       {/* Operational View */}
       <div className="p-8 text-center rounded-3xl border border-dashed border-gray-300 dark:border-white/10 bg-gray-50 dark:bg-white/5">
-        <span className="text-[10px] font-black uppercase tracking-widest text-black flex items-center justify-center gap-2">
+        <span className="text-[10px] font-black uppercase tracking-widest text-gray-500 flex items-center justify-center gap-2">
           <SyncIcon style={{ fontSize: 16 }} className="animate-spin-slow" />
           Sincronização Ativa com Supabase Cloud Cluster
         </span>

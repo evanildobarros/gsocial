@@ -43,13 +43,13 @@ const FunnelRow = ({ label, employees, active }: { label: string, employees: Emp
             }
         `}>
             <div className="flex justify-between items-center mb-4">
-                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-black">{label}</span>
-                <span className="text-xs font-black text-black dark:text-gray-100">N = {employees.length}</span>
+                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500">{label}</span>
+                <span className="text-xs font-black text-gray-900 dark:text-gray-100">N = {employees.length}</span>
             </div>
             <div className="grid grid-cols-2 gap-8">
                 <div>
                     <div className="flex justify-between items-center mb-2">
-                        <span className="text-xs font-bold text-black dark:text-black">Feminino</span>
+                        <span className="text-xs font-bold text-gray-600 dark:text-gray-400">Feminino</span>
                         <span className="text-xs font-black text-blue-600 dark:text-blue-400">{wPct.toFixed(1)}%</span>
                     </div>
                     <div className="h-1.5 w-full bg-gray-200 dark:bg-white/10 rounded-full overflow-hidden">
@@ -58,7 +58,7 @@ const FunnelRow = ({ label, employees, active }: { label: string, employees: Emp
                 </div>
                 <div>
                     <div className="flex justify-between items-center mb-2">
-                        <span className="text-xs font-bold text-black dark:text-black">Preto/Pardo</span>
+                        <span className="text-xs font-bold text-gray-600 dark:text-gray-400">Preto/Pardo</span>
                         <span className="text-xs font-black text-purple-600 dark:text-purple-400">{bPct.toFixed(1)}%</span>
                     </div>
                     <div className="h-1.5 w-full bg-gray-200 dark:bg-white/10 rounded-full overflow-hidden">
@@ -73,7 +73,7 @@ const FunnelRow = ({ label, employees, active }: { label: string, employees: Emp
 const WageGapMonitor = ({ label, gap }: { label: string, gap: number }) => (
     <div>
         <div className="flex justify-between items-center mb-2">
-            <span className="text-xs font-black text-black dark:text-gray-100">{label}</span>
+            <span className="text-xs font-black text-gray-700 dark:text-gray-300">{label}</span>
             <span className={`text-xs font-black ${gap > 5 ? 'text-red-500' : 'text-green-500'}`}>{gap.toFixed(1)}%</span>
         </div>
         <div className="h-1 w-full bg-gray-100 dark:bg-white/10 rounded-full overflow-hidden">
@@ -142,7 +142,7 @@ export const DiversityDashboard: React.FC = () => {
         return (
             <div className="flex flex-col items-center py-20 gap-4 text-center">
                 <Loader2 className="w-16 h-16 text-blue-500 animate-spin" />
-                <span className="text-xs font-black uppercase tracking-widest text-black">Sincronizando Dados DE&I...</span>
+                <span className="text-xs font-black uppercase tracking-widest text-gray-500">Sincronizando Dados DE&I...</span>
             </div>
         );
     }
@@ -157,10 +157,10 @@ export const DiversityDashboard: React.FC = () => {
                             <Accessibility size={32} />
                         </div>
                         <div>
-                            <h1 className="text-3xl font-black text-black dark:text-white tracking-tight">Diversidade e Inclusão</h1>
+                            <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">Diversidade e Inclusão</h1>
                             <div className="flex items-center gap-2">
-                                <span className="px-2 py-0.5 rounded bg-gray-100 dark:bg-white/10 text-[10px] font-black uppercase text-black dark:text-gray-100">GRI 405</span>
-                                <span className="text-xs font-bold text-black">Conformidade EMAP 2026</span>
+                                <span className="px-2 py-0.5 rounded bg-gray-100 dark:bg-white/10 text-[10px] font-black uppercase text-gray-600 dark:text-gray-300">GRI 405</span>
+                                <span className="text-xs font-bold text-gray-500">Conformidade EMAP 2026</span>
                             </div>
                         </div>
                     </div>
@@ -173,7 +173,7 @@ export const DiversityDashboard: React.FC = () => {
 
             {/* Toolbar */}
             <div className="p-4 rounded-[24px] bg-white dark:bg-[#1C1C1C] border border-gray-200 dark:border-white/5 flex flex-wrap gap-4 items-center">
-                <div className="flex items-center gap-2 mr-4 text-black">
+                <div className="flex items-center gap-2 mr-4 text-gray-500">
                     <Filter className="w-5 h-5" />
                     <span className="text-xs font-black uppercase tracking-widest">Filtros de Visão</span>
                 </div>
@@ -214,7 +214,7 @@ export const DiversityDashboard: React.FC = () => {
                     </div>
                     <div>
                         <h3 className="text-sm font-black text-red-600 dark:text-red-400 uppercase tracking-wide">Disparidade Salarial Crítica Detectada</h3>
-                        <p className="text-sm font-medium text-black dark:text-gray-100 mt-1">
+                        <p className="text-sm font-medium text-gray-600 dark:text-gray-300 mt-1">
                             Identificamos lacunas superiores a 5% em cargos estratégicos. Recomenda-se revisão imediata conforme Volume III ESG.
                         </p>
                     </div>
@@ -230,7 +230,7 @@ export const DiversityDashboard: React.FC = () => {
                                 <h2 className="text-lg font-black flex items-center gap-2">
                                     <Scale className="text-blue-500 w-5 h-5" /> Funil de Ocupação
                                 </h2>
-                                <p className="text-xs font-bold text-black mt-1">Representatividade por estrato hierárquico</p>
+                                <p className="text-xs font-bold text-gray-500 mt-1">Representatividade por estrato hierárquico</p>
                             </div>
                         </div>
 
@@ -245,7 +245,7 @@ export const DiversityDashboard: React.FC = () => {
                 {/* KEY PERFORMANCE INDICATORS */}
                 <div className="lg:col-span-1 space-y-6">
                     <div className="bg-purple-50/30 dark:bg-purple-900/5 rounded-[32px] p-8 border border-purple-100 dark:border-purple-900/20 text-center relative overflow-hidden">
-                        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-black">Conformidade PCD</span>
+                        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500">Conformidade PCD</span>
 
                         <div className="relative py-8 flex justify-center">
                             {/* Custom Circular Progress */}
@@ -280,7 +280,7 @@ export const DiversityDashboard: React.FC = () => {
                                 </div>
                             </div>
                         </div>
-                        <p className="text-xs font-medium text-black italic">Meta Lei 8.213: 5.0%</p>
+                        <p className="text-xs font-medium text-gray-400 italic">Meta Lei 8.213: 5.0%</p>
                     </div>
 
                     <div className="bg-white dark:bg-[#1C1C1C] rounded-[32px] p-8 border border-gray-200 dark:border-white/5 shadow-sm hover:shadow-md transition-all">

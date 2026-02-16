@@ -77,7 +77,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onAddNew, onEdit }) =>
       case 'Ambiental': return { icon: <LeafIcon fontSize="small" />, color: 'bg-happiness-5/10 text-happiness-5 border border-happiness-5/20' };
       case 'Social': return { icon: <UsersIcon fontSize="small" />, color: 'bg-happiness-1/10 text-happiness-1 border border-happiness-1/20' };
       case 'Governança': return { icon: <ShieldIcon fontSize="small" />, color: 'bg-happiness-2/10 text-happiness-2 border border-happiness-2/20' };
-      default: return { icon: null, color: 'bg-gray-100 text-black dark:bg-gray-800 dark:text-black' };
+      default: return { icon: null, color: 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-400' };
     }
   };
 
@@ -92,17 +92,17 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onAddNew, onEdit }) =>
       {/* Search and Action Bar */}
       <div className="p-6 rounded-3xl flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-white/5 shadow-sm">
         <div>
-          <h2 className="text-xl font-black text-black dark:text-white tracking-tight">
+          <h2 className="text-xl font-black text-gray-900 dark:text-white tracking-tight">
             Portfólio de Projetos Estratégicos
           </h2>
-          <p className="text-sm font-medium text-black dark:text-black">
+          <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
             Gestão integrada da Área de Influência do Itaqui
           </p>
         </div>
 
         <div className="flex items-center gap-3">
           <div className="relative w-full md:w-72">
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-black">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400">
               <SearchIcon fontSize="small" />
             </div>
             <input
@@ -126,7 +126,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onAddNew, onEdit }) =>
       {loading ? (
         <div className="flex flex-col items-center py-20 gap-4">
           <div className="w-12 h-12 rounded-full border-4 border-gray-200 border-t-happiness-1 animate-spin"></div>
-          <span className="text-[10px] font-black uppercase tracking-widest text-black animate-pulse">
+          <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 animate-pulse">
             Sincronizando Portfólio...
           </span>
         </div>
@@ -148,14 +148,14 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onAddNew, onEdit }) =>
                   <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button
                       onClick={() => onEdit?.(p)}
-                      className="p-1.5 rounded-lg border border-gray-200 dark:border-white/10 text-black hover:text-happiness-1 hover:border-happiness-1 transition-colors"
+                      className="p-1.5 rounded-lg border border-gray-200 dark:border-white/10 text-gray-400 hover:text-happiness-1 hover:border-happiness-1 transition-colors"
                       title="Editar"
                     >
                       <EditIcon fontSize="small" />
                     </button>
                     <button
                       onClick={() => setProjectToDelete(p.id)}
-                      className="p-1.5 rounded-lg border border-gray-200 dark:border-white/10 text-black hover:text-red-500 hover:border-red-500 transition-colors"
+                      className="p-1.5 rounded-lg border border-gray-200 dark:border-white/10 text-gray-400 hover:text-red-500 hover:border-red-500 transition-colors"
                       title="Excluir"
                     >
                       <DeleteIcon fontSize="small" />
@@ -164,12 +164,12 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onAddNew, onEdit }) =>
                 </div>
 
                 {/* Title and Theme */}
-                <h3 className="text-xl font-bold text-black dark:text-white mb-2 leading-tight">
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 leading-tight">
                   {p.name}
                 </h3>
                 <div className="flex items-center gap-2 mb-6">
                   <span className="w-2 h-2 rounded-full bg-happiness-1/80"></span>
-                  <span className="text-xs font-bold text-black dark:text-black uppercase tracking-wide">
+                  <span className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide">
                     {p.tema}
                   </span>
                 </div>
@@ -186,7 +186,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onAddNew, onEdit }) =>
                     />
                   ))}
                   {(p.sdg_targets?.length || 0) > 4 && (
-                    <div className="w-8 h-8 rounded-3xl bg-gray-50 dark:bg-white/5 border border-dashed border-gray-300 dark:border-white/20 flex items-center justify-center text-[10px] font-black text-black">
+                    <div className="w-8 h-8 rounded-3xl bg-gray-50 dark:bg-white/5 border border-dashed border-gray-300 dark:border-white/20 flex items-center justify-center text-[10px] font-black text-gray-500">
                       +{p.sdg_targets!.length - 4}
                     </div>
                   )}
@@ -237,13 +237,13 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onAddNew, onEdit }) =>
                 </div>
                 <button
                   onClick={() => setProjectToDelete(null)}
-                  className="text-black hover:text-black dark:hover:text-white transition-colors"
+                  className="text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
                 >
                   <CloseIcon fontSize="small" />
                 </button>
               </div>
 
-              <h3 className="text-xl font-black text-black dark:text-white mb-4">
+              <h3 className="text-xl font-black text-gray-900 dark:text-white mb-4">
                 Excluir dados deste projeto?
               </h3>
 
@@ -270,7 +270,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onAddNew, onEdit }) =>
                 </button>
                 <button
                   onClick={() => setProjectToDelete(null)}
-                  className="w-full py-3 text-black dark:text-black hover:text-black dark:hover:text-white font-bold text-sm transition-colors"
+                  className="w-full py-3 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-bold text-sm transition-colors"
                 >
                   Manter Projeto
                 </button>

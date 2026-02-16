@@ -114,7 +114,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin, onBack }) => {
         {onBack && (
           <button
             onClick={onBack}
-            className="absolute top-8 left-8 flex items-center gap-2 text-black hover:text-primary transition-colors font-bold text-sm"
+            className="absolute top-8 left-8 flex items-center gap-2 text-gray-500 hover:text-primary transition-colors font-bold text-sm"
           >
             <ArrowBack fontSize="small" />
             Voltar
@@ -130,10 +130,10 @@ export const Login: React.FC<LoginProps> = ({ onLogin, onBack }) => {
           </div>
 
           <div className="mb-10">
-            <h3 className="text-3xl font-black mb-2 tracking-tight text-black dark:text-white">
+            <h3 className="text-3xl font-black mb-2 tracking-tight text-gray-900 dark:text-white">
               {resetMode ? 'Recuperar Senha' : 'Login'}
             </h3>
-            <p className="text-black dark:text-black font-medium">
+            <p className="text-gray-500 dark:text-gray-400 font-medium">
               {resetMode ? 'Insira seu e-mail para receber as instruções.' : 'Acesse o painel integrado de sustentabilidade.'}
             </p>
           </div>
@@ -141,15 +141,15 @@ export const Login: React.FC<LoginProps> = ({ onLogin, onBack }) => {
           {resetSuccess ? (
             <div className="p-8 text-center rounded-3xl border border-emerald-500 bg-emerald-50 dark:bg-emerald-900/10">
               <CheckCircle style={{ fontSize: 64 }} className="text-emerald-500 mb-4" />
-              <h4 className="text-lg font-black text-black dark:text-white mb-2">
+              <h4 className="text-lg font-black text-gray-900 dark:text-white mb-2">
                 Link de acesso enviado!
               </h4>
-              <p className="text-sm text-black dark:text-black mb-6 font-medium">
+              <p className="text-sm text-gray-500 dark:text-gray-400 mb-6 font-medium">
                 Verifique sua caixa de entrada (e o spam) para redefinir sua senha.
               </p>
               <button
                 onClick={() => { setResetMode(false); setResetSuccess(false); }}
-                className="w-full py-3 rounded-full border border-gray-300 dark:border-white/20 text-black dark:text-gray-50 font-bold hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+                className="w-full py-3 rounded-full border border-gray-300 dark:border-white/20 text-gray-700 dark:text-gray-200 font-bold hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
               >
                 Voltar ao Login
               </button>
@@ -163,11 +163,11 @@ export const Login: React.FC<LoginProps> = ({ onLogin, onBack }) => {
               )}
 
               <div className="relative">
-                <label className="block text-xs font-bold text-black dark:text-black mb-1 ml-1">
+                <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 mb-1 ml-1">
                   {resetMode ? 'E-MAIL DE RECUPERAÇÃO' : 'E-MAIL CORPORATIVO'}
                 </label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-black">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
                     <EmailIcon fontSize="small" />
                   </div>
                   <input
@@ -175,7 +175,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin, onBack }) => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="w-full pl-10 pr-4 py-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-white/10 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-black dark:text-white"
+                    className="w-full pl-10 pr-4 py-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-white/10 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-gray-900 dark:text-white"
                   />
                 </div>
               </div>
@@ -183,12 +183,12 @@ export const Login: React.FC<LoginProps> = ({ onLogin, onBack }) => {
               {!resetMode && (
                 <div className="relative">
                   <div className="flex justify-between items-center mb-1 ml-1">
-                    <label className="text-xs font-bold text-black dark:text-black">
+                    <label className="text-xs font-bold text-gray-500 dark:text-gray-400">
                       SENHA DE ACESSO
                     </label>
                   </div>
                   <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-black">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
                       <LockIcon fontSize="small" />
                     </div>
                     <input
@@ -196,12 +196,12 @@ export const Login: React.FC<LoginProps> = ({ onLogin, onBack }) => {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       required
-                      className="w-full pl-10 pr-10 py-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-white/10 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-black dark:text-white"
+                      className="w-full pl-10 pr-10 py-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-white/10 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-gray-900 dark:text-white"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-black hover:text-black dark:hover:text-gray-200 transition-colors"
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
                     >
                       {showPassword ? <VisibilityOff fontSize="small" /> : <Visibility fontSize="small" />}
                     </button>
@@ -237,7 +237,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin, onBack }) => {
                 <button
                   type="button"
                   onClick={() => setResetMode(false)}
-                  className="w-full py-2 text-black dark:text-black hover:text-black dark:hover:text-white text-xs font-bold transition-colors flex items-center justify-center gap-2"
+                  className="w-full py-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white text-xs font-bold transition-colors flex items-center justify-center gap-2"
                 >
                   <ArrowBack fontSize="small" />
                   Voltar ao Login
@@ -247,7 +247,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin, onBack }) => {
           )}
 
           <div className="mt-10 text-center">
-            <span className="text-[10px] font-bold text-black dark:text-black uppercase tracking-widest block">
+            <span className="text-[10px] font-bold text-gray-400 dark:text-gray-600 uppercase tracking-widest block">
               Ambiente Seguro · gSocial ESGporto v2.5
             </span>
           </div>

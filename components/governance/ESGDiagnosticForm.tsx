@@ -233,7 +233,7 @@ export const ESGDiagnosticForm: React.FC<ESGDiagnosticFormProps> = ({ initialTab
                     <div key={q.id} className="space-y-4">
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
-                                <span className="text-sm font-black text-black dark:text-gray-50 uppercase tracking-tight">
+                                <span className="text-sm font-black text-gray-800 dark:text-gray-200 uppercase tracking-tight">
                                     {q.question}
                                 </span>
                                 {multiplier > 1 && (
@@ -247,7 +247,7 @@ export const ESGDiagnosticForm: React.FC<ESGDiagnosticFormProps> = ({ initialTab
                                     </span>
                                 )}
                             </div>
-                            <button className="p-1.5 text-black hover:text-black transition-colors" title="Saiba mais">
+                            <button className="p-1.5 text-gray-400 hover:text-gray-600 transition-colors" title="Saiba mais">
                                 <HelpCircle size={14} />
                             </button>
                         </div>
@@ -271,7 +271,7 @@ export const ESGDiagnosticForm: React.FC<ESGDiagnosticFormProps> = ({ initialTab
                                                 <div className="w-2 h-2 rounded-full bg-white" />
                                             )}
                                         </div>
-                                        <span className="text-sm font-bold text-black dark:text-gray-100">{opt.label}</span>
+                                        <span className="text-sm font-bold text-gray-700 dark:text-gray-300">{opt.label}</span>
                                     </label>
                                 </div>
                             ))}
@@ -280,7 +280,7 @@ export const ESGDiagnosticForm: React.FC<ESGDiagnosticFormProps> = ({ initialTab
                         {q.evidenceRequired && (
                             <div className="mt-4 p-4 rounded-3xl border border-dashed border-gray-200 dark:border-white/10 bg-gray-50/50 dark:bg-white/5">
                                 <div className="flex items-center justify-between">
-                                    <div className="flex items-center gap-2 text-black">
+                                    <div className="flex items-center gap-2 text-gray-500">
                                         <Upload size={14} />
                                         <span className="text-[10px] font-bold uppercase tracking-widest">
                                             Evidência Documental Obrigatória (Evitar Wash)
@@ -312,10 +312,10 @@ export const ESGDiagnosticForm: React.FC<ESGDiagnosticFormProps> = ({ initialTab
             {/* Header */}
             <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h1 className="text-2xl font-black text-black dark:text-white tracking-tighter flex items-center gap-3">
+                    <h1 className="text-2xl font-black text-gray-900 dark:text-white tracking-tighter flex items-center gap-3">
                         Autoavaliação de Maturidade ESG porto (ABNT PR 2030)
                     </h1>
-                    <p className="text-black font-medium italic mt-1">
+                    <p className="text-gray-500 font-medium italic mt-1">
                         Mapeamento de materialidade setorial e conformidade normativa.
                     </p>
                 </div>
@@ -323,7 +323,7 @@ export const ESGDiagnosticForm: React.FC<ESGDiagnosticFormProps> = ({ initialTab
 
             {/* Operation Selector - Dual Materiality Input */}
             <div className="bg-white dark:bg-[#1C1C1C] p-6 rounded-3xl border border-gray-200 dark:border-white/5">
-                <p className="text-[10px] font-black text-black uppercase tracking-widest mb-4 flex items-center gap-2">
+                <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2">
                     <Anchor size={14} className="text-happiness-1" />
                     Selecione o Tipo de Operação Portuária (Ajuste de Dupla Materialidade)
                 </p>
@@ -357,7 +357,7 @@ export const ESGDiagnosticForm: React.FC<ESGDiagnosticFormProps> = ({ initialTab
                                 onClick={() => setTabIndex(0)}
                                 className={`flex-1 py-4 px-6 flex items-center justify-center gap-2 text-sm font-bold transition-colors ${tabIndex === 0
                                         ? 'text-happiness-1 border-b-2 border-happiness-1 bg-white dark:bg-[#1C1C1C]'
-                                        : 'text-black hover:text-black'
+                                        : 'text-gray-500 hover:text-gray-700'
                                     }`}
                             >
                                 <Leaf size={18} />
@@ -367,7 +367,7 @@ export const ESGDiagnosticForm: React.FC<ESGDiagnosticFormProps> = ({ initialTab
                                 onClick={() => setTabIndex(1)}
                                 className={`flex-1 py-4 px-6 flex items-center justify-center gap-2 text-sm font-bold transition-colors ${tabIndex === 1
                                         ? 'text-happiness-1 border-b-2 border-happiness-1 bg-white dark:bg-[#1C1C1C]'
-                                        : 'text-black hover:text-black'
+                                        : 'text-gray-500 hover:text-gray-700'
                                     }`}
                             >
                                 <Users size={18} />
@@ -377,7 +377,7 @@ export const ESGDiagnosticForm: React.FC<ESGDiagnosticFormProps> = ({ initialTab
                                 onClick={() => setTabIndex(2)}
                                 className={`flex-1 py-4 px-6 flex items-center justify-center gap-2 text-sm font-bold transition-colors ${tabIndex === 2
                                         ? 'text-happiness-1 border-b-2 border-happiness-1 bg-white dark:bg-[#1C1C1C]'
-                                        : 'text-black hover:text-black'
+                                        : 'text-gray-500 hover:text-gray-700'
                                     }`}
                             >
                                 <ShieldCheck size={18} />

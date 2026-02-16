@@ -45,15 +45,15 @@ export const ShipWaste: React.FC = () => {
             {/* Header */}
             <div className="flex justify-between items-start">
                 <div>
-                    <h2 className="text-3xl font-black text-black tracking-tight flex items-center gap-3">
+                    <h2 className="text-3xl font-black text-gray-900 tracking-tight flex items-center gap-3">
                         <Trash2 className="w-8 h-8 text-happiness-5" /> Gestão de Resíduos de Navios
                     </h2>
-                    <p className="text-black font-medium italic">Procedimento Operacional EMAP-PC-112 (Regulatório ANTAQ)</p>
+                    <p className="text-gray-500 font-medium italic">Procedimento Operacional EMAP-PC-112 (Regulatório ANTAQ)</p>
                 </div>
                 <div className="flex gap-3">
                     <button
                         onClick={handleExportANTAQ}
-                        className="bg-gray-100 text-black px-6 py-3 rounded-3xl font-black text-sm uppercase tracking-widest flex items-center gap-2 hover:bg-gray-200 transition-all"
+                        className="bg-gray-100 text-gray-700 px-6 py-3 rounded-3xl font-black text-sm uppercase tracking-widest flex items-center gap-2 hover:bg-gray-200 transition-all"
                     >
                         <Download className="w-5 h-5" /> Exportar ANTAQ/GISIS
                     </button>
@@ -71,8 +71,8 @@ export const ShipWaste: React.FC = () => {
                 {stats.map((stat, i) => (
                     <div key={i} className="bg-white p-5 rounded-3xl border border-gray-100 shadow-sm flex items-center justify-between">
                         <div>
-                            <span className="text-[10px] font-black uppercase text-black block mb-1">{stat.label}</span>
-                            <p className="text-2xl font-black text-black tracking-tighter">{stat.value}</p>
+                            <span className="text-[10px] font-black uppercase text-gray-400 block mb-1">{stat.label}</span>
+                            <p className="text-2xl font-black text-gray-900 tracking-tighter">{stat.value}</p>
                         </div>
                         <div className="p-3 bg-gray-50 rounded-3xl">{stat.icon}</div>
                     </div>
@@ -84,7 +84,7 @@ export const ShipWaste: React.FC = () => {
                 {isLoading ? (
                     <div className="flex flex-col items-center justify-center py-20 space-y-4">
                         <Loader2 className="w-10 h-10 text-happiness-1 animate-spin" />
-                        <p className="text-black font-black uppercase tracking-widest text-[10px]">Sincronizando com Supabase...</p>
+                        <p className="text-gray-400 font-black uppercase tracking-widest text-[10px]">Sincronizando com Supabase...</p>
                     </div>
                 ) : (
                     <table className="w-full text-left">
@@ -106,17 +106,17 @@ export const ShipWaste: React.FC = () => {
                                                 {r.vessel_name.charAt(0)}
                                             </div>
                                             <div>
-                                                <p className="font-bold text-black">{r.vessel_name}</p>
-                                                <p className="text-[10px] text-black font-bold uppercase">{r.id}</p>
+                                                <p className="font-bold text-gray-900">{r.vessel_name}</p>
+                                                <p className="text-[10px] text-gray-400 font-bold uppercase">{r.id}</p>
                                             </div>
                                         </div>
                                     </td>
                                     <td className="px-8 py-6">
-                                        <span className="text-xs font-semibold text-black bg-gray-100 px-2 py-1 rounded">
+                                        <span className="text-xs font-semibold text-gray-700 bg-gray-100 px-2 py-1 rounded">
                                             {r.waste_type_marpol}
                                         </span>
                                     </td>
-                                    <td className="px-8 py-6 text-center font-black text-black">
+                                    <td className="px-8 py-6 text-center font-black text-gray-900">
                                         {Number(r.volume_m3).toFixed(1)}
                                     </td>
                                     <td className="px-8 py-6">
@@ -142,7 +142,7 @@ export const ShipWaste: React.FC = () => {
                             ))}
                             {records.length === 0 && (
                                 <tr>
-                                    <td colSpan={5} className="px-8 py-20 text-center text-black font-medium">
+                                    <td colSpan={5} className="px-8 py-20 text-center text-gray-400 font-medium">
                                         Nenhum registro de resíduo encontrado.
                                     </td>
                                 </tr>

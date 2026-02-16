@@ -56,10 +56,10 @@ export const ESGDiagnosticsCenter: React.FC<ESGDiagnosticsCenterProps> = ({ onSe
                     <ClipboardCheck size={32} />
                 </div>
                 <div>
-                    <h1 className="text-3xl font-black text-black dark:text-white tracking-tight">
+                    <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">
                         Central de Diagnósticos ESG
                     </h1>
-                    <p className="text-sm font-medium text-black italic">
+                    <p className="text-sm font-medium text-gray-500 italic">
                         Selecione o módulo de levantamento de dados ou autoavaliação para iniciar.
                     </p>
                 </div>
@@ -83,13 +83,13 @@ export const ESGDiagnosticsCenter: React.FC<ESGDiagnosticsCenterProps> = ({ onSe
                             {m.icon}
                         </div>
 
-                        <span className="text-[10px] font-black text-black uppercase tracking-[0.2em] mb-1">
+                        <span className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-1">
                             {m.subtitle}
                         </span>
-                        <h2 className="text-2xl font-black text-black dark:text-white mb-3 tracking-tight">
+                        <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-3 tracking-tight">
                             {m.title}
                         </h2>
-                        <p className="text-sm text-black font-medium leading-relaxed mb-8 flex-grow">
+                        <p className="text-sm text-gray-500 font-medium leading-relaxed mb-8 flex-grow">
                             {m.desc}
                         </p>
 

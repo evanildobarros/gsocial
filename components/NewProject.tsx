@@ -114,7 +114,7 @@ export const NewProject: React.FC<NewProjectProps> = ({ onBack }) => {
 
     return (
         <div className="w-full space-y-6 animate-in fade-in duration-500">
-            <button onClick={onBack} className="flex items-center text-black hover:text-happiness-1 transition font-bold uppercase text-[10px] tracking-widest">
+            <button onClick={onBack} className="flex items-center text-gray-400 hover:text-happiness-1 transition font-bold uppercase text-[10px] tracking-widest">
                 <ArrowLeft className="w-4 h-4 mr-2" /> Voltar
             </button>
 
@@ -130,20 +130,20 @@ export const NewProject: React.FC<NewProjectProps> = ({ onBack }) => {
                 <div className="p-8">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                         <div className="space-y-1">
-                            <label className="text-sm font-bold text-black">Nome do Projeto</label>
+                            <label className="text-sm font-bold text-gray-700">Nome do Projeto</label>
                             <input
                                 value={formData.name}
                                 onChange={e => setFormData({ ...formData, name: e.target.value })}
-                                className="w-full border-2 border-gray-100 rounded-3xl p-3 focus:border-happiness-1 focus:outline-none transition text-black placeholder:text-black font-semibold"
+                                className="w-full border-2 border-gray-100 rounded-3xl p-3 focus:border-happiness-1 focus:outline-none transition text-gray-900 placeholder:text-gray-400 font-semibold"
                                 placeholder="Ex: Monitoramento Hídrico Vila Maranhão"
                             />
                         </div>
                         <div className="space-y-1">
-                            <label className="text-sm font-bold text-black">Pilar ESG</label>
+                            <label className="text-sm font-bold text-gray-700">Pilar ESG</label>
                             <select
                                 value={formData.pilar}
                                 onChange={e => setFormData({ ...formData, pilar: e.target.value })}
-                                className="w-full border-2 border-gray-100 rounded-3xl p-3 focus:border-happiness-1 focus:outline-none bg-white transition text-black font-semibold"
+                                className="w-full border-2 border-gray-100 rounded-3xl p-3 focus:border-happiness-1 focus:outline-none bg-white transition text-gray-900 font-semibold"
                             >
                                 <option value="">Selecione...</option>
                                 <option value="Ambiental">Ambiental (E)</option>
@@ -152,11 +152,11 @@ export const NewProject: React.FC<NewProjectProps> = ({ onBack }) => {
                             </select>
                         </div>
                         <div className="space-y-1 md:col-span-2">
-                            <label className="text-sm font-bold text-black">Tema Material (Vol. III)</label>
+                            <label className="text-sm font-bold text-gray-700">Tema Material (Vol. III)</label>
                             <select
                                 value={formData.tema}
                                 onChange={e => setFormData({ ...formData, tema: e.target.value })}
-                                className="w-full border-2 border-gray-100 rounded-3xl p-3 focus:border-happiness-1 focus:outline-none bg-white transition text-black font-semibold"
+                                className="w-full border-2 border-gray-100 rounded-3xl p-3 focus:border-happiness-1 focus:outline-none bg-white transition text-gray-900 font-semibold"
                             >
                                 <option value="">Selecione o tema mapeado...</option>
                                 <option>Atração de novos negócios e investimentos</option>
@@ -169,12 +169,12 @@ export const NewProject: React.FC<NewProjectProps> = ({ onBack }) => {
                             </select>
                         </div>
                         <div className="space-y-1 md:col-span-2">
-                            <label className="text-sm font-bold text-black">Descrição do Objeto</label>
+                            <label className="text-sm font-bold text-gray-700">Descrição do Objeto</label>
                             <textarea
                                 value={formData.objeto}
                                 onChange={e => setFormData({ ...formData, objeto: e.target.value })}
                                 rows={3}
-                                className="w-full border-2 border-gray-100 rounded-3xl p-3 focus:border-happiness-1 focus:outline-none transition text-black placeholder:text-black font-semibold"
+                                className="w-full border-2 border-gray-100 rounded-3xl p-3 focus:border-happiness-1 focus:outline-none transition text-gray-900 placeholder:text-gray-400 font-semibold"
                                 placeholder="Descreva as ações, público-alvo e metodologia..."
                             />
                         </div>
@@ -204,7 +204,7 @@ export const NewProject: React.FC<NewProjectProps> = ({ onBack }) => {
                             <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2">
                                 <div className="flex items-center gap-4">
                                     <div className="bg-white px-4 py-2 rounded-3xl shadow-sm border border-happiness-3/30">
-                                        <span className="text-xs text-black uppercase font-bold">Score de Alinhamento</span>
+                                        <span className="text-xs text-gray-500 uppercase font-bold">Score de Alinhamento</span>
                                         <div className="text-2xl font-bold text-happiness-1">{analysis.alinhamento_score}/100</div>
                                     </div>
                                     <div className="flex gap-2 flex-wrap">
@@ -218,11 +218,11 @@ export const NewProject: React.FC<NewProjectProps> = ({ onBack }) => {
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div className="bg-white/60 p-4 rounded-3xl border border-happiness-3/30">
                                         <h4 className="text-xs font-bold uppercase text-green-700 mb-1">Impactos Positivos</h4>
-                                        <p className="text-sm text-black">{analysis.impactos}</p>
+                                        <p className="text-sm text-gray-700">{analysis.impactos}</p>
                                     </div>
                                     <div className="bg-white/60 p-4 rounded-3xl border border-happiness-3/30">
                                         <h4 className="text-xs font-bold uppercase text-red-700 mb-1">Riscos Mapeados</h4>
-                                        <p className="text-sm text-black">{analysis.riscos}</p>
+                                        <p className="text-sm text-gray-700">{analysis.riscos}</p>
                                     </div>
                                 </div>
                             </div>
@@ -234,7 +234,7 @@ export const NewProject: React.FC<NewProjectProps> = ({ onBack }) => {
                     </div>
 
                     <div className="flex justify-end space-x-3 pt-6 mt-6 border-t border-gray-100">
-                        <button onClick={onBack} className="px-6 py-3 text-black font-bold hover:text-black transition">Cancelar</button>
+                        <button onClick={onBack} className="px-6 py-3 text-gray-500 font-bold hover:text-gray-700 transition">Cancelar</button>
                         <button
                             onClick={handleSave}
                             disabled={isSaving || !formData.name}

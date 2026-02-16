@@ -47,7 +47,7 @@ export const InnovationFunnel: React.FC = () => {
                     <h2 className="text-3xl font-black tracking-tight flex items-center gap-3">
                         <Sparkles className="w-8 h-8 text-yellow-400" /> Roda da Inovação
                     </h2>
-                    <p className="text-black font-medium italic mt-2">Funil de Ideias e Melhoria Contínua EMAP (CRIARE)</p>
+                    <p className="text-gray-400 font-medium italic mt-2">Funil de Ideias e Melhoria Contínua EMAP (CRIARE)</p>
                 </div>
                 <button className="bg-happiness-1 text-white px-8 py-4 rounded-3xl font-black text-sm uppercase tracking-widest flex items-center gap-2 shadow-xl shadow-happiness-1/20 hover:scale-105 transition-all w-full md:w-auto">
                     <Plus className="w-5 h-5" /> Submeter Ideia
@@ -62,12 +62,12 @@ export const InnovationFunnel: React.FC = () => {
                             <div className={`${stage.color} text-white w-12 h-12 rounded-3xl flex items-center justify-center mx-auto shadow-lg`}>
                                 {stage.icon}
                             </div>
-                            <h4 className="text-[10px] font-black uppercase text-black tracking-widest">{stage.name}</h4>
-                            <p className="text-3xl font-black text-black">{stage.count}</p>
+                            <h4 className="text-[10px] font-black uppercase text-gray-400 tracking-widest">{stage.name}</h4>
+                            <p className="text-3xl font-black text-gray-900">{stage.count}</p>
                         </div>
                         {i < 3 && (
                             <div className="hidden md:block absolute -right-3 top-1/2 -translate-y-1/2 z-10 p-1 bg-gray-50 rounded-full border border-gray-100">
-                                <ArrowRight className="w-4 h-4 text-gray-600" />
+                                <ArrowRight className="w-4 h-4 text-gray-300" />
                             </div>
                         )}
                     </div>
@@ -78,7 +78,7 @@ export const InnovationFunnel: React.FC = () => {
             {isLoading ? (
                 <div className="flex flex-col items-center justify-center py-20 space-y-4">
                     <Loader2 className="w-10 h-10 text-happiness-1 animate-spin" />
-                    <p className="text-black font-black uppercase tracking-widest text-[10px]">Carregando Portfólio de Inovação...</p>
+                    <p className="text-gray-400 font-black uppercase tracking-widest text-[10px]">Carregando Portfólio de Inovação...</p>
                 </div>
             ) : (
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -94,11 +94,11 @@ export const InnovationFunnel: React.FC = () => {
                                     </span>
                                     <div className="flex items-center gap-2 bg-gray-50 px-3 py-1 rounded-full border border-gray-100">
                                         <BarChart3 className="w-3.5 h-3.5 text-happiness-1" />
-                                        <span className="text-[10px] font-black text-black">{idea.alignment_score}% Alinhamento</span>
+                                        <span className="text-[10px] font-black text-gray-900">{idea.alignment_score}% Alinhamento</span>
                                     </div>
                                 </div>
-                                <h3 className="text-xl font-black text-black leading-tight">{idea.title}</h3>
-                                <p className="text-sm text-black font-medium leading-relaxed italic line-clamp-2">
+                                <h3 className="text-xl font-black text-gray-900 leading-tight">{idea.title}</h3>
+                                <p className="text-sm text-gray-500 font-medium leading-relaxed italic line-clamp-2">
                                     "{idea.description}"
                                 </p>
                             </div>
@@ -109,8 +109,8 @@ export const InnovationFunnel: React.FC = () => {
                                         {idea.author_id.substring(0, 2).toUpperCase()}
                                     </div>
                                     <div>
-                                        <p className="text-[10px] font-black text-black uppercase">Autor: {idea.author_id.substring(0, 8)}...</p>
-                                        <p className="text-[9px] font-bold text-black uppercase tracking-widest">{idea.stage}</p>
+                                        <p className="text-[10px] font-black text-gray-900 uppercase">Autor: {idea.author_id.substring(0, 8)}...</p>
+                                        <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">{idea.stage}</p>
                                     </div>
                                 </div>
                                 <button className="text-[10px] font-black text-happiness-1 uppercase tracking-widest hover:underline flex items-center gap-1">
@@ -121,7 +121,7 @@ export const InnovationFunnel: React.FC = () => {
                     ))}
                     {ideas.length === 0 && (
                         <div className="col-span-full py-20 text-center bg-gray-50 rounded-3xl border-2 border-dashed border-gray-200">
-                            <p className="text-black font-medium">Nenhuma ideia submetida ainda.</p>
+                            <p className="text-gray-400 font-medium">Nenhuma ideia submetida ainda.</p>
                         </div>
                     )}
                 </div>
@@ -133,8 +133,8 @@ export const InnovationFunnel: React.FC = () => {
                     <Heart className="w-8 h-8 text-happiness-1 fill-happiness-1" />
                 </div>
                 <div>
-                    <h4 className="text-black font-black text-lg">Cultura de Melhoria Contínua</h4>
-                    <p className="text-black text-sm font-medium leading-relaxed italic">
+                    <h4 className="text-gray-900 font-black text-lg">Cultura de Melhoria Contínua</h4>
+                    <p className="text-gray-500 text-sm font-medium leading-relaxed italic">
                         O Programa CRIARE estimula funcionários a proporem soluções que reduzam custos, melhorem a segurança ou impulsionem as metas ESG do Porto do Itaqui.
                     </p>
                 </div>
