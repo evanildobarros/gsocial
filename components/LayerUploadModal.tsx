@@ -225,12 +225,12 @@ export const LayerUploadModal: React.FC<LayerUploadModalProps> = ({ open, onClos
                                         type="color"
                                         value={selectedColor}
                                         onChange={(e) => setSelectedColor(e.target.value)}
-                                        className="w-12 h-10 rounded-xl border-none cursor-pointer bg-transparent"
-                                        style={{ minWidth: '48px' }}
+                                        className="w-10 h-10 rounded-full border-none cursor-pointer bg-transparent overflow-hidden"
+                                        style={{ minWidth: '40px' }}
                                     />
                                     <div className="flex flex-col">
                                         <span className="text-xs font-mono font-black text-gray-900 dark:text-white uppercase">{selectedColor}</span>
-                                        <span className="text-[9px] text-gray-400 font-medium italic">Clique no quadro para escolher a cor</span>
+                                        <span className="text-[9px] text-gray-400 font-medium italic">Clique no círculo para escolher a cor</span>
                                     </div>
                                 </div>
                             </div>

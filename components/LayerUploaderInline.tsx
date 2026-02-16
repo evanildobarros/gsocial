@@ -210,7 +210,7 @@ export const LayerUploaderInline: React.FC<LayerUploaderInlineProps> = ({ onLaye
                                     type="color"
                                     value={selectedColor}
                                     onChange={(e) => setSelectedColor(e.target.value)}
-                                    className="w-8 h-8 rounded-lg border-none cursor-pointer bg-transparent"
+                                    className="w-8 h-8 rounded-full border-none cursor-pointer bg-transparent overflow-hidden"
                                 />
                                 <span className="text-[10px] font-mono font-black text-gray-900 dark:text-white uppercase">{selectedColor}</span>
                             </div>
