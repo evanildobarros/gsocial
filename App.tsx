@@ -71,6 +71,7 @@ import { EnvironmentalDiagnosticForm } from './components/environmental/Environm
 import { GovernanceDiagnosticForm } from './components/governance/GovernanceDiagnosticForm';
 import { Breadcrumb } from './components/Breadcrumb';
 import SocialProjectForm from './components/social/SocialProjectForm';
+import { NotificationCenter } from './components/strategic/NotificationCenter';
 
 // Componente NavItem refatorado com Tailwind
 interface NavItemProps {
@@ -328,6 +329,7 @@ export default function App() {
             case AppMode.ESG_CENTER: return <ESGDiagnosticsCenter onSelectMode={(m, t) => { setDiagnosticTab(t || 0); setMode(m); }} />;
             case AppMode.ENV_DIAGNOSTIC: return <EnvironmentalDiagnosticForm />;
             case AppMode.GOV_ESG_DIAGNOSTIC: return <GovernanceDiagnosticForm />;
+            case AppMode.STRATEGIC_NOTIFICATIONS: return <NotificationCenter />;
             case AppMode.NEW_SOCIAL_PROJECT: return (
                 <SocialProjectForm
                     key={selectedProject?.id || 'new'}
@@ -408,6 +410,7 @@ export default function App() {
             case AppMode.ESG_CENTER: return 'Central de Diagnósticos ESG';
             case AppMode.ENV_DIAGNOSTIC: return 'Diagnóstico Ambiental (ABNT PR 2030)';
             case AppMode.GOV_ESG_DIAGNOSTIC: return 'Diagnóstico de Governança (ABNT PR 2030)';
+            case AppMode.STRATEGIC_NOTIFICATIONS: return 'Central de Alertas & Notificações';
             case AppMode.NEW_SOCIAL_PROJECT: return 'Novo Projeto Social Estratégico';
             default: return 'ESGporto';
         }
@@ -477,6 +480,8 @@ export default function App() {
             // Estratégico
             case AppMode.STRATEGIC_PREDICTIVE:
                 return [home, { label: 'Estratégico' }, { label: 'Preditivo' }];
+            case AppMode.STRATEGIC_NOTIFICATIONS:
+                return [home, { label: 'Estratégico' }, { label: 'Notificações' }];
 
             // Usuários
             case AppMode.USERS:
@@ -684,7 +689,13 @@ export default function App() {
                             onClick={() => setMode(AppMode.STRATEGIC_PREDICTIVE)}
                             collapsed={!sidebarOpen}
                         />
-                        <NavItem icon={<NotificationsIcon />} label="Alertas & Notificações" active={false} onClick={() => { }} collapsed={!sidebarOpen} />
+                        <NavItem 
+                            icon={<NotificationsIcon />} 
+                            label="Alertas & Notificações" 
+                            active={mode === AppMode.STRATEGIC_NOTIFICATIONS} 
+                            onClick={() => setMode(AppMode.STRATEGIC_NOTIFICATIONS)} 
+                            collapsed={!sidebarOpen} 
+                        />
                     </div>
 
                     <div className="my-4 border-t border-gray-100 dark:border-white/5 mx-4" />
@@ -763,7 +774,10 @@ export default function App() {
                         <div className="h-6 w-px bg-gray-200 dark:bg-white/10"></div>
 
                         <div className="relative group">
-                            <button className="relative p-2 text-black hover:text-happiness-1 transition-colors">
+                            <button 
+                                onClick={() => setMode(AppMode.STRATEGIC_NOTIFICATIONS)}
+                                className={`relative p-2 transition-colors ${mode === AppMode.STRATEGIC_NOTIFICATIONS ? 'text-happiness-1' : 'text-black hover:text-happiness-1'}`}
+                            >
                                 <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-zinc-900"></span>
                                 <NotificationsIcon />
                             </button>
