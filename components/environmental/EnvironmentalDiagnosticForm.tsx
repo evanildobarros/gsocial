@@ -173,12 +173,7 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
             if (data) setAssessments(data);
         } catch (err: any) {
             console.error('Fetch error:', err);
-            // Se a tabela não existe ainda, mostramos aviso amigável
-            if (err.code === '42P01') {
-                showError('Tabela de diagnósticos ambientais não encontrada no banco.');
-            } else {
-                showError('Erro ao carregar auditorias ambientais.');
-            }
+            showError('Erro ao carregar auditorias ambientais.');
         } finally {
             setLoading(false);
         }
@@ -377,7 +372,7 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
                     <div className="space-y-6">
                         {/* Terminal ID & Setup */}
                         <div className="bg-white dark:bg-[#1C1C1C] rounded-3xl border border-gray-200 dark:border-white/5 p-8 space-y-8">
-                            <div className="flex items-center gap-3 border-b border-gray-100 dark:border-white/5 pb-4">
+                            <div className="flex items-center gap-3 border-b border-gray-50 dark:border-white/5 pb-4">
                                 <Anchor className="text-green-600" />
                                 <h2 className="font-black text-gray-900 dark:text-white uppercase tracking-wider text-sm">Instalação & Operação</h2>
                             </div>

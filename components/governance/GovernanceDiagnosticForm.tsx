@@ -448,7 +448,7 @@ export const GovernanceDiagnosticForm: React.FC = () => {
 
                         {/* Actions */}
                         <div className="flex justify-end gap-4 pb-12">
-                            <button onClick={() => { setViewMode('list'); resetForm(); }} className="px-6 py-3 text-gray-400 font-black text-xs uppercase tracking-widest">Descartar</button>
+                            <button onClick={() => { setViewMode('list'); resetForm(); }} className="px-6 py-3 text-gray-400 font-black text-xs uppercase tracking-widest hover:text-gray-600 transition-colors">Descartar</button>
                             <button
                                 onClick={handleSave}
                                 disabled={saving || !companyName}
