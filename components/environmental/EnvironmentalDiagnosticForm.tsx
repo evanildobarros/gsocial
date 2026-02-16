@@ -26,7 +26,8 @@ import {
     AlertTriangle,
     Database,
     Zap,
-    Trash
+    Trash,
+    Users
 } from 'lucide-react';
 
 import { supabase } from '../../utils/supabase';
