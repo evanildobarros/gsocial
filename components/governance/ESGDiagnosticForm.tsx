@@ -83,34 +83,47 @@ const ENVIRONMENTAL_QUESTIONS: Question[] = [
 const SOCIAL_QUESTIONS: Question[] = [
     {
         id: "s_diversity",
-        question: "Percentual de mulheres/minorias na liderança estratégica?",
+        question: "Como a diversidade e inclusão são tratadas na estrutura de liderança?",
         options: [
-            { value: 1, label: "Abaixo de 10%" },
-            { value: 3, label: "Entre 10% e 30%" },
-            { value: 5, label: "Acima de 30% com metas afirmativas" }
+            { value: 1, label: "Não há política formal ou baseia-se apenas no discurso (Risco de Diversity Washing)" },
+            { value: 3, label: "Política implementada, código de ética e comitê de diversidade ativo" },
+            { value: 5, label: "Metas afirmativas alcançadas com dados demográficos transparentes e mudança estrutural na liderança" }
         ],
         weight: 2.0,
-        evidenceRequired: true
+        evidenceRequired: true // Exige upload do Relatório Demográfico ou Censo Interno
     },
     {
-        id: "s_training",
-        question: "Investimento em capacitação para comunidades locais?",
+        id: "s_community",
+        question: "Qual o nível de impacto e investimento na Relação Porto-Cidade (ex: comunidades do entorno)?",
         options: [
-            { value: 1, label: "Nenhum investimento formal" },
-            { value: 3, label: "Cursos pontuais sem métrica" },
-            { value: 5, label: "Programa estruturado com medição de S-ROI" }
+            { value: 1, label: "Inexistente ou restrito a doações filantrópicas esporádicas (Risco de Social Washing)" },
+            { value: 3, label: "Projetos de relacionamento pontuais e mitigação de impactos (poeira, ruído)" },
+            { value: 5, label: "Programas estruturantes de longo prazo focados em infraestrutura, água e segurança alimentar" }
         ],
-        weight: 1.5
+        weight: 2.5, // Peso máximo devido à Materialidade de Impacto Portuário
+        evidenceRequired: true // Exige upload de Relatório S-ROI (Retorno Social sobre Investimento)
     },
     {
         id: "s_human_rights",
-        question: "Due Diligence em Direitos Humanos na cadeia de suprimentos?",
+        question: "Qual o rigor na garantia de Direitos Humanos e Due Diligence na Cadeia de Valor (motoristas, terceiros, OGMO)?",
         options: [
-            { value: 1, label: "Não realiza" },
-            { value: 3, label: "Cláusulas contratuais básicas" },
-            { value: 5, label: "Auditoria in-loco e monitoramento contínuo" }
+            { value: 1, label: "Apenas exigência de cláusulas contratuais padrão" },
+            { value: 3, label: "Auditorias por amostragem e canal de denúncias estendido a terceiros" },
+            { value: 5, label: "Due Diligence rigorosa e rastreabilidade total contra trabalho infantil/forçado" }
         ],
-        weight: 2.0
+        weight: 2.0,
+        evidenceRequired: true // Exige upload do Relatório de Auditoria de Terceira Parte
+    },
+    {
+        id: "s_safety",
+        question: "Qual a maturidade da gestão de Saúde e Segurança Ocupacional (SSO)?",
+        options: [
+            { value: 1, label: "Reativa: foco apenas em cumprir as Normas Regulamentadoras básicas" },
+            { value: 3, label: "Prevenção: monitorização contínua e certificação ISO 45001" },
+            { value: 5, label: "Cultura 'Zero Acidentes' integrada, abrangendo saúde física, mental e segurança psicológica" }
+        ],
+        weight: 1.5,
+        evidenceRequired: false
     }
 ];
 

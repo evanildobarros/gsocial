@@ -1,5 +1,5 @@
 import React from 'react';
-import { Users, Heart, GraduationCap, Briefcase, ShieldCheck } from 'lucide-react';
+import { Users, Heart, ShieldCheck, Briefcase } from 'lucide-react';
 
 interface SocialSummaryCardProps {
     answers: Record<string, number>;
@@ -31,11 +31,11 @@ export const SocialSummaryCard: React.FC<SocialSummaryCardProps> = ({ answers })
             color: 'text-orange-500',
         },
         {
-            id: 's_training',
-            label: 'Educação & Treinamento',
-            icon: GraduationCap,
-            value: answers['s_training'] || 1,
-            color: 'text-blue-500',
+            id: 's_community',
+            label: 'Relação Porto-Cidade',
+            icon: Heart,
+            value: answers['s_community'] || 1,
+            color: 'text-pink-500',
         },
         {
             id: 's_human_rights',
@@ -45,10 +45,10 @@ export const SocialSummaryCard: React.FC<SocialSummaryCardProps> = ({ answers })
             color: 'text-red-500',
         },
         {
-            id: 's_employment',
-            label: 'Empregabilidade Local',
+            id: 's_safety',
+            label: 'Saúde & Segurança (SSO)',
             icon: Briefcase,
-            value: answers['s_employment'] || 1,
+            value: answers['s_safety'] || 1,
             color: 'text-emerald-500',
         }
     ];
