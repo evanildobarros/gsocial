@@ -27,7 +27,8 @@ import {
     Database,
     Zap,
     Trash,
-    Users
+    Users,
+    FileText
 } from 'lucide-react';
 
 import { supabase } from '../../utils/supabase';
@@ -164,21 +165,26 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
         const fetchAssessments = async () => {
             setLoading(true);
             try {
+                // Tenta buscar da tabela, mas ignora silenciosamente se não existir (404)
                 const { data, error } = await supabase
-                    .from('environmental_assessments' as any) // Tabela futura
+                    .from('environmental_assessments' as any) 
                     .select('*')
                     .order('created_at', { ascending: false });
                 
-                if (!error && data) setAssessments(data);
+                if (error && error.code !== '42P01') { // 42P01 é "relation does not exist" no Postgres
+                     console.warn('Supabase Error:', error.message);
+                }
+
+                if (data) setAssessments(data);
                 else {
-                    // Mock data for initial presentation
+                    // Fallback para mock state se a tabela não existir
                     setAssessments([
                         { id: '1', terminal_name: 'Terminal de Granéis Líquidos (TGL)', operation_type: 'liquid', risk_level: 'CRÍTICO', created_at: new Date().toISOString(), answers: { e_spill: 1, e_ghg: 1 } },
                         { id: '2', terminal_name: 'Terminal Sul', operation_type: 'solid', risk_level: 'ESTÁVEL', created_at: new Date().toISOString(), answers: { e_spill: 5, e_ghg: 3, e_waste: 5 } }
                     ]);
                 }
             } catch (err) {
-                console.warn('Database not ready, using mock state.');
+                console.warn('Database connection issues, using local state.');
             } finally {
                 setLoading(false);
             }
@@ -348,7 +354,7 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
                     <div className="space-y-6">
                         {/* Terminal ID & Setup */}
                         <div className="bg-white dark:bg-[#1C1C1C] rounded-3xl border border-gray-200 dark:border-white/5 p-8 space-y-8">
-                            <div className="flex items-center gap-3 border-b border-gray-50 pb-4">
+                            <div className="flex items-center gap-3 border-b border-gray-100 dark:border-white/5 pb-4">
                                 <Anchor className="text-green-600" />
                                 <h2 className="font-black text-gray-900 dark:text-white uppercase tracking-wider text-sm">Instalação & Operação</h2>
                             </div>
@@ -371,7 +377,7 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
                                             <button
                                                 key={op.id}
                                                 onClick={() => setOperationType(op.id)}
-                                                className={`p-3 rounded-2xl border flex items-center gap-2 transition-all ${operationType === op.id ? 'bg-green-600 border-green-600 text-white shadow-lg' : 'bg-transparent border-gray-100 text-gray-500 hover:border-green-300'}`}
+                                                className={`p-3 rounded-2xl border flex items-center gap-2 transition-all ${operationType === op.id ? 'bg-green-600 border-green-600 text-white shadow-lg' : 'bg-transparent border-gray-100 text-gray-500 hover:border-green-300 dark:border-white/5 dark:text-gray-400'}`}
                                             >
                                                 <op.icon size={14} />
                                                 <span className="text-[9px] font-black uppercase tracking-tight">{op.label}</span>
@@ -418,7 +424,7 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
                                             </div>
 
                                             {q.evidenceRequired && (
-                                                <div className="p-4 bg-gray-50 dark:bg-zinc-950 rounded-2xl border border-dashed border-gray-200 flex justify-between items-center">
+                                                <div className="p-4 bg-gray-50 dark:bg-zinc-950 rounded-2xl border border-dashed border-gray-200 dark:border-white/10 flex justify-between items-center">
                                                     <div className="flex items-center gap-3">
                                                         <FileText className="text-green-600" size={18} />
                                                         <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Evidência Obrigatória (PR 2030)</span>
@@ -477,12 +483,12 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
                         <EnvironmentalSummaryCard answers={answers} />
 
                         {/* Layer Uploader */}
-                        <div className="bg-blue-50/30 p-6 rounded-3xl border border-blue-100">
-                             <div className="flex items-center gap-2 mb-4 text-blue-600">
+                        <div className="bg-blue-50/30 dark:bg-white/5 p-6 rounded-3xl border border-blue-100 dark:border-white/10">
+                             <div className="flex items-center gap-2 mb-4 text-blue-600 dark:text-blue-400">
                                 <Zap size={16} />
                                 <span className="text-[10px] font-black uppercase tracking-widest">Geoprocessamento</span>
                              </div>
-                             <p className="text-[11px] text-gray-500 font-medium mb-6">Vincule camadas de monitoramento (fumaça, poeira, vazamentos) ao terminal selecionado.</p>
+                             <p className="text-[11px] text-gray-500 dark:text-gray-400 font-medium mb-6">Vincule camadas de monitoramento (fumaça, poeira, vazamentos) ao terminal selecionado.</p>
                              <LayerUploaderInline onLayersLoaded={() => showSuccess('Geometria vinculada à instalação.')} />
                         </div>
                     </div>

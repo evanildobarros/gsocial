@@ -165,7 +165,11 @@ export const GovernanceDiagnosticForm: React.FC = () => {
                     .select('*')
                     .order('created_at', { ascending: false });
                 
-                if (!error && data) setAssessments(data);
+                if (error && error.code !== '42P01') {
+                     console.warn('Supabase Error:', error.message);
+                }
+
+                if (data) setAssessments(data);
                 else {
                     setAssessments([
                         { id: '1', company_name: 'Logística TransGlobal S.A.', criticality: 'high', risk_level: 'CRÍTICO', created_at: new Date().toISOString(), answers: { g_compliance: 1, g_transparency: 1 } },
@@ -173,7 +177,7 @@ export const GovernanceDiagnosticForm: React.FC = () => {
                     ]);
                 }
             } catch (err) {
-                console.warn('DB not ready.');
+                console.warn('DB local state fallback.');
             } finally {
                 setLoading(false);
             }
@@ -327,7 +331,7 @@ export const GovernanceDiagnosticForm: React.FC = () => {
                                             <span className="text-[9px] font-bold text-gray-400">DUE DILIGENCE 2026</span>
                                             <div className="flex gap-1">
                                                 <button onClick={() => handleEdit(a)} className="p-2 text-purple-600 hover:bg-purple-50 rounded-full transition-colors"><Edit size={16} /></button>
-                                                <button className="p-2 text-red-500 hover:bg-red-50 rounded-full transition-colors"><Trash2 size={16} /></button>
+                                                <button className="p-2 text-red-500 hover:bg-red-50 rounded-full transition-colors"><Trash size={16} /></button>
                                             </div>
                                         </div>
                                     </div>
@@ -365,7 +369,7 @@ export const GovernanceDiagnosticForm: React.FC = () => {
                                             <button
                                                 key={level.id}
                                                 onClick={() => setCriticality(level.id)}
-                                                className={`flex-1 p-3 rounded-2xl border text-[10px] font-black uppercase transition-all ${criticality === level.id ? 'bg-purple-600 border-purple-600 text-white shadow-lg' : 'bg-transparent border-gray-100 text-gray-400'}`}
+                                                className={`flex-1 p-3 rounded-2xl border text-[10px] font-black uppercase transition-all ${criticality === level.id ? 'bg-purple-600 border-purple-600 text-white shadow-lg' : 'bg-transparent border-gray-100 text-gray-400 dark:border-white/5 dark:text-gray-400'}`}
                                             >
                                                 {level.label}
                                             </button>
@@ -382,7 +386,7 @@ export const GovernanceDiagnosticForm: React.FC = () => {
                                     <div key={q.id} className="space-y-5">
                                         <div className="flex items-center justify-between">
                                             <h3 className="font-black text-gray-800 dark:text-white">{q.question}</h3>
-                                            <HelpCircle className="text-gray-300" size={16} />
+                                            <HelpCircle className="text-gray-300 cursor-help" size={16} />
                                         </div>
 
                                         <div className="grid grid-cols-1 gap-2">
@@ -419,7 +423,7 @@ export const GovernanceDiagnosticForm: React.FC = () => {
 
                         {/* Actions */}
                         <div className="flex justify-end gap-4 pb-12">
-                            <button onClick={() => { setViewMode('list'); resetForm(); }} className="px-6 py-3 text-gray-400 font-black text-xs uppercase tracking-widest">Descartar</button>
+                            <button onClick={() => { setViewMode('list'); resetForm(); }} className="px-6 py-3 text-gray-400 font-black text-xs uppercase tracking-widest hover:text-gray-600 transition-colors">Descartar</button>
                             <button
                                 onClick={handleSave}
                                 disabled={saving || !companyName}
@@ -461,12 +465,12 @@ export const GovernanceDiagnosticForm: React.FC = () => {
                         <GovernanceSummaryCard answers={answers} />
 
                         {/* Layer Uploader */}
-                        <div className="bg-zinc-50 p-6 rounded-3xl border border-gray-200">
-                             <div className="flex items-center gap-2 mb-4 text-gray-700">
+                        <div className="bg-zinc-50 dark:bg-white/5 p-6 rounded-3xl border border-gray-200 dark:border-white/10">
+                             <div className="flex items-center gap-2 mb-4 text-gray-700 dark:text-gray-300">
                                 <Zap size={16} />
                                 <span className="text-[10px] font-black uppercase tracking-widest">Mapas de Risco Corporativo</span>
                              </div>
-                             <p className="text-[11px] text-gray-500 font-medium mb-6">Importe poligonais de áreas de atuação ou infraestrutura vinculadas a este parceiro.</p>
+                             <p className="text-[11px] text-gray-500 dark:text-gray-400 font-medium mb-6">Importe poligonais de áreas de atuação ou infraestrutura vinculadas a este parceiro.</p>
                              <LayerUploaderInline onLayersLoaded={() => showSuccess('Geometria vinculada ao parceiro.')} />
                         </div>
                     </div>
