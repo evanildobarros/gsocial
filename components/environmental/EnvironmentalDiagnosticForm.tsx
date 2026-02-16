@@ -149,7 +149,7 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
     const [viewMode, setViewMode] = useState<'list' | 'create'>('list');
     const [searchQuery, setSearchQuery] = useState('');
     
-    // Persistence State (Mocking Supabase table 'environmental_assessments')
+    // Persistence State
     const [assessments, setAssessments] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
@@ -161,34 +161,30 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
     const [answers, setAnswers] = useState<Record<string, number>>({});
     const [evidences, setEvidences] = useState<Record<string, File | null>>({});
 
-    useEffect(() => {
-        const fetchAssessments = async () => {
-            setLoading(true);
-            try {
-                // Tenta buscar da tabela, mas ignora silenciosamente se não existir (404)
-                const { data, error } = await supabase
-                    .from('environmental_assessments' as any) 
-                    .select('*')
-                    .order('created_at', { ascending: false });
-                
-                if (error && error.code !== '42P01') { // 42P01 é "relation does not exist" no Postgres
-                     console.warn('Supabase Error:', error.message);
-                }
-
-                if (data) setAssessments(data);
-                else {
-                    // Fallback para mock state se a tabela não existir
-                    setAssessments([
-                        { id: '1', terminal_name: 'Terminal de Granéis Líquidos (TGL)', operation_type: 'liquid', risk_level: 'CRÍTICO', created_at: new Date().toISOString(), answers: { e_spill: 1, e_ghg: 1 } },
-                        { id: '2', terminal_name: 'Terminal Sul', operation_type: 'solid', risk_level: 'ESTÁVEL', created_at: new Date().toISOString(), answers: { e_spill: 5, e_ghg: 3, e_waste: 5 } }
-                    ]);
-                }
-            } catch (err) {
-                console.warn('Database connection issues, using local state.');
-            } finally {
-                setLoading(false);
+    const fetchAssessments = async () => {
+        setLoading(true);
+        try {
+            const { data, error } = await supabase
+                .from('environmental_assessments') 
+                .select('*')
+                .order('created_at', { ascending: false });
+            
+            if (error) throw error;
+            if (data) setAssessments(data);
+        } catch (err: any) {
+            console.error('Fetch error:', err);
+            // Se a tabela não existe ainda, mostramos aviso amigável
+            if (err.code === '42P01') {
+                showError('Tabela de diagnósticos ambientais não encontrada no banco.');
+            } else {
+                showError('Erro ao carregar auditorias ambientais.');
             }
-        };
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
         fetchAssessments();
     }, []);
 
@@ -213,28 +209,55 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
 
         setSaving(true);
         try {
+            const { data: { user } } = await supabase.auth.getUser();
+
             const dataToSave = {
-                id: editingId || crypto.randomUUID(),
                 terminal_name: terminalName,
                 operation_type: operationType,
                 answers: answers,
                 risk_level: currentRisk.level,
-                created_at: new Date().toISOString()
+                created_by: user?.id
             };
 
-            // NOTE: Replace with real Supabase call when table is ready
-            setAssessments(prev => {
-                if (editingId) return prev.map(a => a.id === editingId ? dataToSave : a);
-                return [dataToSave, ...prev];
-            });
+            if (editingId) {
+                const { error } = await supabase
+                    .from('environmental_assessments')
+                    .update(dataToSave)
+                    .eq('id', editingId);
+                if (error) throw error;
+                showSuccess('Diagnóstico ambiental atualizado!');
+            } else {
+                const { error } = await supabase
+                    .from('environmental_assessments')
+                    .insert([dataToSave]);
+                if (error) throw error;
+                showSuccess('Novo diagnóstico ambiental registrado!');
+            }
 
-            showSuccess('Diagnóstico ambiental registrado com sucesso!');
             resetForm();
+            await fetchAssessments();
             setViewMode('list');
         } catch (err: any) {
             showError('Erro ao salvar: ' + err.message);
         } finally {
             setSaving(false);
+        }
+    };
+
+    const handleDelete = async (id: string, name: string) => {
+        if (!window.confirm(`Excluir diagnóstico do terminal "${name}"?`)) return;
+
+        try {
+            const { error } = await supabase
+                .from('environmental_assessments')
+                .delete()
+                .eq('id', id);
+
+            if (error) throw error;
+            showSuccess('Registro excluído.');
+            await fetchAssessments();
+        } catch (err: any) {
+            showError('Erro ao excluir: ' + err.message);
         }
     };
 
@@ -312,7 +335,7 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
                                 onChange={(e) => setSearchQuery(e.target.value)}
                             />
                         </div>
-                        <button className="px-4 py-2 text-gray-400 font-bold text-xs uppercase tracking-widest hover:text-gray-600"><Filter size={14} /></button>
+                        <button onClick={fetchAssessments} className="px-4 py-2 text-gray-400 hover:text-green-600 transition-colors"><RefreshCw size={14} /></button>
                     </div>
 
                     {/* Terminal List Grid */}
@@ -339,7 +362,7 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
                                             <span className="text-[9px] font-bold text-gray-400">AUDITORIA 2026</span>
                                             <div className="flex gap-1">
                                                 <button onClick={() => handleEdit(a)} className="p-2 text-green-600 hover:bg-green-50 rounded-full transition-colors"><Edit size={16} /></button>
-                                                <button className="p-2 text-red-500 hover:bg-red-50 rounded-full transition-colors"><Trash size={16} /></button>
+                                                <button onClick={() => handleDelete(a.id, a.terminal_name)} className="p-2 text-red-500 hover:bg-red-50 rounded-full transition-colors"><Trash size={16} /></button>
                                             </div>
                                         </div>
                                     </div>

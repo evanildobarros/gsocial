@@ -156,32 +156,29 @@ export const GovernanceDiagnosticForm: React.FC = () => {
     const [answers, setAnswers] = useState<Record<string, number>>({});
     const [evidences, setEvidences] = useState<Record<string, File | null>>({});
 
-    useEffect(() => {
-        const fetchAssessments = async () => {
-            setLoading(true);
-            try {
-                const { data, error } = await supabase
-                    .from('governance_assessments' as any)
-                    .select('*')
-                    .order('created_at', { ascending: false });
-                
-                if (error && error.code !== '42P01') {
-                     console.warn('Supabase Error:', error.message);
-                }
-
-                if (data) setAssessments(data);
-                else {
-                    setAssessments([
-                        { id: '1', company_name: 'Logística TransGlobal S.A.', criticality: 'high', risk_level: 'CRÍTICO', created_at: new Date().toISOString(), answers: { g_compliance: 1, g_transparency: 1 } },
-                        { id: '2', company_name: 'Porto Serviços Ltda', criticality: 'low', risk_level: 'ESTÁVEL', created_at: new Date().toISOString(), answers: { g_compliance: 5, g_transparency: 5, g_ethics: 5 } }
-                    ]);
-                }
-            } catch (err) {
-                console.warn('DB local state fallback.');
-            } finally {
-                setLoading(false);
+    const fetchAssessments = async () => {
+        setLoading(true);
+        try {
+            const { data, error } = await supabase
+                .from('governance_assessments')
+                .select('*')
+                .order('created_at', { ascending: false });
+            
+            if (error) throw error;
+            if (data) setAssessments(data);
+        } catch (err: any) {
+            console.error('Fetch error:', err);
+            if (err.code === '42P01') {
+                showError('Tabela de governança não encontrada no banco.');
+            } else {
+                showError('Erro ao carregar auditorias GRC.');
             }
-        };
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
         fetchAssessments();
     }, []);
 
@@ -206,27 +203,55 @@ export const GovernanceDiagnosticForm: React.FC = () => {
 
         setSaving(true);
         try {
+            const { data: { user } } = await supabase.auth.getUser();
+
             const dataToSave = {
-                id: editingId || crypto.randomUUID(),
                 company_name: companyName,
                 criticality: criticality,
                 answers: answers,
                 risk_level: currentRisk.level,
-                created_at: new Date().toISOString()
+                created_by: user?.id
             };
 
-            setAssessments(prev => {
-                if (editingId) return prev.map(a => a.id === editingId ? dataToSave : a);
-                return [dataToSave, ...prev];
-            });
+            if (editingId) {
+                const { error } = await supabase
+                    .from('governance_assessments')
+                    .update(dataToSave)
+                    .eq('id', editingId);
+                if (error) throw error;
+                showSuccess('Diagnóstico de governança atualizado!');
+            } else {
+                const { error } = await supabase
+                    .from('governance_assessments')
+                    .insert([dataToSave]);
+                if (error) throw error;
+                showSuccess('Nova auditoria de integridade registrada!');
+            }
 
-            showSuccess('Diagnóstico de governança registrado com sucesso!');
             resetForm();
+            await fetchAssessments();
             setViewMode('list');
         } catch (err: any) {
             showError('Erro ao salvar: ' + err.message);
         } finally {
             setSaving(false);
+        }
+    };
+
+    const handleDelete = async (id: string, name: string) => {
+        if (!window.confirm(`Excluir auditoria da empresa "${name}"?`)) return;
+
+        try {
+            const { error } = await supabase
+                .from('governance_assessments')
+                .delete()
+                .eq('id', id);
+
+            if (error) throw error;
+            showSuccess('Registro excluído.');
+            await fetchAssessments();
+        } catch (err: any) {
+            showError('Erro ao excluir: ' + err.message);
         }
     };
 
@@ -304,7 +329,7 @@ export const GovernanceDiagnosticForm: React.FC = () => {
                                 onChange={(e) => setSearchQuery(e.target.value)}
                             />
                         </div>
-                        <button className="px-4 py-2 text-gray-400 font-bold text-xs uppercase tracking-widest hover:text-gray-600"><Filter size={14} /></button>
+                        <button onClick={fetchAssessments} className="px-4 py-2 text-gray-400 hover:text-purple-600 transition-colors"><RefreshCw size={14} /></button>
                     </div>
 
                     {/* Records List */}
@@ -331,7 +356,7 @@ export const GovernanceDiagnosticForm: React.FC = () => {
                                             <span className="text-[9px] font-bold text-gray-400">DUE DILIGENCE 2026</span>
                                             <div className="flex gap-1">
                                                 <button onClick={() => handleEdit(a)} className="p-2 text-purple-600 hover:bg-purple-50 rounded-full transition-colors"><Edit size={16} /></button>
-                                                <button className="p-2 text-red-500 hover:bg-red-50 rounded-full transition-colors"><Trash size={16} /></button>
+                                                <button onClick={() => handleDelete(a.id, a.company_name)} className="p-2 text-red-500 hover:bg-red-50 rounded-full transition-colors"><Trash size={16} /></button>
                                             </div>
                                         </div>
                                     </div>
@@ -423,7 +448,7 @@ export const GovernanceDiagnosticForm: React.FC = () => {
 
                         {/* Actions */}
                         <div className="flex justify-end gap-4 pb-12">
-                            <button onClick={() => { setViewMode('list'); resetForm(); }} className="px-6 py-3 text-gray-400 font-black text-xs uppercase tracking-widest hover:text-gray-600 transition-colors">Descartar</button>
+                            <button onClick={() => { setViewMode('list'); resetForm(); }} className="px-6 py-3 text-gray-400 font-black text-xs uppercase tracking-widest">Descartar</button>
                             <button
                                 onClick={handleSave}
                                 disabled={saving || !companyName}
