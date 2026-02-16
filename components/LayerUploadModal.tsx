@@ -238,7 +238,6 @@ export const LayerUploadModal: React.FC<LayerUploadModalProps> = ({ open, onClos
 
                             <div className="space-y-3">
                                 <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">4. Pilar ESG (Categoria)</label>
-                                <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Pilar ESG (Categoria)</label>
                                 <div className="grid grid-cols-2 gap-3">
                                     {PILLAR_OPTIONS.map((opt) => (
                                         <button

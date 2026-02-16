@@ -42,7 +42,7 @@ export default {
                 },
             },
             fontFamily: {
-                sans: ['Google Sans', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                sans: ['Google Sans', 'Roboto', 'Arial', 'Helvetica', 'ui-sans-serif', 'system-ui', 'sans-serif'],
             }
         },
     },

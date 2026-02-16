@@ -166,7 +166,7 @@ html {
 }
 
 body {
-  font-family: 'Google Sans', 'Inter', sans-serif;
+  font-family: 'Google Sans', 'Roboto', 'Arial', 'Helvetica', sans-serif;
   overflow-y: auto;
   overflow-x: hidden;
   min-height: 100%;
