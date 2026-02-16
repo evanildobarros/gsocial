@@ -486,8 +486,14 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
                                 
                                 <div className="p-6 space-y-5">
                                     {/* Identidade */}
-                                    <div className="flex justify-between items-start">
-                                        <div className="space-y-1 flex-1 min-w-0 pr-2">
+                                    <div className="flex items-start gap-4">
+                                        {/* Ícone Primeiro */}
+                                        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center border shadow-sm shrink-0 ${getRiskStyle(selectedElement.layer.details?.risk_level).bg} ${getRiskStyle(selectedElement.layer.details?.risk_level).border}`}>
+                                            <MapPin className={`w-6 h-6 ${getRiskStyle(selectedElement.layer.details?.risk_level).color}`} />
+                                        </div>
+
+                                        {/* Títulos Depois */}
+                                        <div className="space-y-1 flex-1 min-w-0">
                                             <div className="flex items-center gap-2">
                                                 <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Diagnóstico Social</span>
                                                 {selectedElement.layer.details?.risk_level && (
@@ -499,9 +505,6 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
                                             <h4 className="font-black text-gray-900 dark:text-white text-xl tracking-tight truncate leading-none">
                                                 {selectedElement.layer.name}
                                             </h4>
-                                        </div>
-                                        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center border shadow-sm ${getRiskStyle(selectedElement.layer.details?.risk_level).bg} ${getRiskStyle(selectedElement.layer.details?.risk_level).border}`}>
-                                            <MapPin className={`w-6 h-6 ${getRiskStyle(selectedElement.layer.details?.risk_level).color}`} />
                                         </div>
                                     </div>
 
@@ -559,20 +562,9 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
                                     )}
 
                                     {/* Rodapé do Popup */}
-                                    <div className="flex justify-between items-center pt-2">
-                                        <div className="flex items-center gap-1.5">
-                                            <Clock size={10} className="text-gray-400" />
-                                            <span className="text-[9px] font-bold text-gray-400 italic">Atualizado em 2026</span>
-                                        </div>
-                                        <button 
-                                            className="px-4 py-1.5 bg-gray-900 dark:bg-white text-white dark:text-black text-[9px] font-black uppercase tracking-widest rounded-full hover:opacity-90 transition-opacity"
-                                            onClick={() => {
-                                                // Futura funcionalidade: Abrir detalhes completos
-                                                showSuccess("Abrindo dossiê completo...");
-                                            }}
-                                        >
-                                            Ver Dossie
-                                        </button>
+                                    <div className="flex items-center gap-1.5 pt-2">
+                                        <Clock size={10} className="text-gray-400" />
+                                        <span className="text-[9px] font-bold text-gray-400 italic">Atualizado em 2026</span>
                                     </div>
                                 </div>
                             </div>
