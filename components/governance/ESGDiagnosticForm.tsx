@@ -185,7 +185,7 @@ export const ESGDiagnosticForm: React.FC<ESGDiagnosticFormProps> = ({ initialTab
             // Lógica de Dupla Materialidade: ajusta peso conforme operação
             if (operationType === 'liquid' && qId === 'e_spill') return 2.0; // Vazamento é crítico para líquidos
             if (operationType === 'solid' && qId === 'e_waste') return 1.5; // Resíduos críticos para sólidos
-            if (operationType === 'passengers' && qId === 's_diversity') return 1.5; // Interface social forte
+            if (operationType === 'passengers' && qId === 's_community') return 1.5; // Interface social forte
             return 1.0;
         };
 
@@ -220,8 +220,6 @@ export const ESGDiagnosticForm: React.FC<ESGDiagnosticFormProps> = ({ initialTab
         return MATURITY_LEVELS[level] || MATURITY_LEVELS[1];
     };
 
-    const currentMaturity = getMaturityInfo(scores.global);
-
     const renderQuestions = (questions: Question[]) => (
         <div className="space-y-8">
             {questions.map(q => {
@@ -229,6 +227,7 @@ export const ESGDiagnosticForm: React.FC<ESGDiagnosticFormProps> = ({ initialTab
                 let multiplier = 1;
                 if (operationType === 'liquid' && q.id === 'e_spill') multiplier = 2;
                 if (operationType === 'solid' && q.id === 'e_waste') multiplier = 1.5;
+                if (operationType === 'passengers' && q.id === 's_community') multiplier = 1.5;
 
                 return (
                     <div key={q.id} className="space-y-4">
@@ -243,7 +242,7 @@ export const ESGDiagnosticForm: React.FC<ESGDiagnosticFormProps> = ({ initialTab
                                     </span>
                                 )}
                                 {q.weight > 1.5 && multiplier === 1 && (
-                                    <span className="px-2 py-0.5 bg-red-50 text-red-500 font-bold text-[8px] rounded-lg dark:bg-red-900/20">
+                                    <span className="px-2 py-0.5 bg-red-50 text-red-600 font-bold text-[8px] rounded-lg dark:bg-red-900/20">
                                         Critério Crítico
                                     </span>
                                 )}

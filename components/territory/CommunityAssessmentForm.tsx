@@ -42,6 +42,53 @@ const SANITATION_OPTIONS = ["Rede Coletora", "Fossa Séptica", "Esgoto a Céu Ab
 const NEGATIVE_IMPACTS_OPTIONS = ["Poeira/Particulados", "Ruído Noturno", "Tráfego de Caminhões", "Odor Forte", "Resíduos na Praia"];
 const PRIORITY_NEEDS_OPTIONS = ["Empregabilidade", "Cursos Profissionalizantes", "Reforma de Equipamentos Públicos", "Acesso à Internet", "Segurança Alimentar"];
 
+// Motor de Cálculo de Risco Socioambiental (Licença Social para Operar)
+const calculateRiskHeatmap = (
+    waterAccess: string,
+    sanitationStatus: string,
+    negativeImpacts: string[],
+    relationshipLevel: number
+) => {
+    let riskScore = 0;
+
+    // 1. Fator de Vulnerabilidade Estrutural
+    if (waterAccess === 'Precário' || waterAccess === 'Carro Pipa') riskScore += 2;
+    if (sanitationStatus === 'Esgoto a Céu Aberto') riskScore += 2;
+
+    // 2. Fator de Impacto Portuário (Materialidade de Impacto)
+    riskScore += negativeImpacts.length * 1.5;
+
+    // 3. Fator de Mitigação: Relacionamento Empreendedor
+    if (relationshipLevel === 1) riskScore += 3; // Agrava muito
+    if (relationshipLevel === 2) riskScore += 1; // Agrava levemente
+    if (relationshipLevel === 4) riskScore -= 1; // Mitiga levemente
+    if (relationshipLevel === 5) riskScore -= 2; // Mitiga muito
+
+    // 4. Output do Diagnóstico (Dashboard)
+    if (riskScore >= 7) {
+        return {
+            level: 'CRÍTICO',
+            color: 'bg-red-50 text-red-600 border-red-200',
+            badge: '🔴 Risco Crítico de Conflito',
+            recommendation: 'AÇÃO IMEDIATA: Alta vulnerabilidade somada a impactos não mitigados. Recomendada a integração a uma Fundação Portuária compartilhada no Itaqui-Bacanga para investimento estrutural (S-ROI). Revisar Due Diligence de motoristas urgentemente.'
+        };
+    } else if (riskScore >= 4) {
+        return {
+            level: 'MODERADO',
+            color: 'bg-yellow-50 text-yellow-600 border-yellow-200',
+            badge: '🟡 Risco Moderado',
+            recommendation: 'ATENÇÃO: Externalidades perceptíveis gerando atrito. Necessário intensificar monitoramento de qualidade do ar/ruídos e promover escuta ativa através do Canal de Ouvidoria com as lideranças locais.'
+        };
+    } else {
+        return {
+            level: 'PLENO',
+            color: 'bg-green-50 text-green-600 border-green-200',
+            badge: '🟢 Licença Social Plena',
+            recommendation: 'OPERAÇÃO SAUDÁVEL: O terminal atua como agente de desenvolvimento. O relacionamento de alta confiança mitiga os impactos operacionais inerentes. Manter rastreabilidade de direitos humanos na cadeia.'
+        };
+    }
+};
+
 // Helper for Star Rating
 const StarRating = ({ value, onChange, readOnly = false }: { value: number; onChange?: (val: number) => void; readOnly?: boolean }) => {
     return (
@@ -150,39 +197,10 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
         }
     };
 
-    // --- Risk Heatmap Logic ---
-    const riskData = useMemo(() => {
-        let score = 0;
-        
-        // 1. Impactos Negativos (Mais que 3 é crítico)
-        if (negativeImpacts.length >= 3) score += 40;
-        else if (negativeImpacts.length > 0) score += 20;
-
-        // 2. Acesso à Água (Precário é crítico)
-        if (waterAccess === 'Precário') score += 30;
-
-        // 3. Relacionamento (Abaixo de 2 é crítico)
-        if (relationshipLevel <= 2) score += 30;
-
-        let level: 'Critical' | 'Moderate' | 'Full' = 'Full';
-        let label = 'Licença Social Plena';
-        let color = 'text-green-500';
-        let bg = 'bg-green-50';
-
-        if (score >= 60) {
-            level = 'Critical';
-            label = 'Risco Crítico (Instabilidade)';
-            color = 'text-red-600';
-            bg = 'bg-red-50';
-        } else if (score >= 30) {
-            level = 'Moderate';
-            label = 'Risco Moderado';
-            color = 'text-amber-600';
-            bg = 'bg-amber-50';
-        }
-
-        return { level, label, color, bg, score };
-    }, [negativeImpacts, waterAccess, relationshipLevel]);
+    // --- Real-time Risk Heatmap ---
+    const currentRisk = useMemo(() => {
+        return calculateRiskHeatmap(waterAccess, sanitationStatus, negativeImpacts, relationshipLevel);
+    }, [waterAccess, sanitationStatus, negativeImpacts, relationshipLevel]);
 
     const handleEdit = (assessment: CommunityAssessment) => {
         setEditingId(assessment.id);
@@ -242,7 +260,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                 priority_needs: priorityNeeds,
                 relationship_level: relationshipLevel,
                 due_diligence_audit: dueDiligence,
-                risk_level: riskData.level,
+                risk_level: currentRisk.level as any,
                 assessment_date: new Date().toISOString(),
                 coordinates: [0, 0],
                 created_by: user?.id
@@ -271,7 +289,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                 tipo: assessmentData.settlement_type,
                 relacionamento: assessmentData.relationship_level,
                 community_name: communityName,
-                risk_level: riskData.label,
+                risk_level: currentRisk.badge,
                 demandas: assessmentData.priority_needs?.length || 0
             };
 
@@ -403,81 +421,89 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
 
                     {/* Records List */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {filteredAssessments.map((assessment) => (
-                            <div key={assessment.id} className="bg-white dark:bg-[#1C1C1C] rounded-3xl border border-gray-200 dark:border-white/5 shadow-sm hover:border-happiness-1 transition-all group overflow-hidden">
-                                <div className={`h-1.5 w-full ${
-                                    assessment.risk_level === 'Critical' ? 'bg-red-500' : 
-                                    assessment.risk_level === 'Moderate' ? 'bg-amber-500' : 'bg-green-500'
-                                }`} />
-                                <div className="p-6">
-                                    <div className="flex justify-between items-start mb-4">
-                                        <div>
-                                            <h3 className="text-lg font-black text-gray-900 dark:text-white tracking-tight group-hover:text-happiness-1 transition-colors">
-                                                {assessment.community_name}
-                                            </h3>
-                                            <div className="flex items-center gap-2 mt-1">
-                                                <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest">
-                                                    {assessment.settlement_type}
-                                                </span>
-                                                <span className={`text-[8px] font-black uppercase px-2 py-0.5 rounded-full ${
-                                                    assessment.risk_level === 'Critical' ? 'bg-red-100 text-red-600' : 
-                                                    assessment.risk_level === 'Moderate' ? 'bg-amber-100 text-amber-600' : 'bg-green-100 text-green-600'
-                                                }`}>
-                                                    {assessment.risk_level === 'Critical' ? 'CRÍTICO' : 
-                                                     assessment.risk_level === 'Moderate' ? 'MODERADO' : 'ESTÁVEL'}
-                                                </span>
+                        {filteredAssessments.map((assessment) => {
+                             const listRisk = calculateRiskHeatmap(
+                                assessment.water_access,
+                                assessment.sanitation_status || '',
+                                assessment.negative_impacts || [],
+                                assessment.relationship_level || 3
+                             );
+
+                             return (
+                                <div key={assessment.id} className="bg-white dark:bg-[#1C1C1C] rounded-3xl border border-gray-200 dark:border-white/5 shadow-sm hover:border-happiness-1 transition-all group overflow-hidden">
+                                    <div className={`h-1.5 w-full ${
+                                        listRisk.level === 'CRÍTICO' ? 'bg-red-500' : 
+                                        listRisk.level === 'MODERADO' ? 'bg-amber-500' : 'bg-green-500'
+                                    }`} />
+                                    <div className="p-6">
+                                        <div className="flex justify-between items-start mb-4">
+                                            <div>
+                                                <h3 className="text-lg font-black text-gray-900 dark:text-white tracking-tight group-hover:text-happiness-1 transition-colors">
+                                                    {listRisk.badge.split(' ')[0]} {assessment.community_name}
+                                                </h3>
+                                                <div className="flex items-center gap-2 mt-1">
+                                                    <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest">
+                                                        {assessment.settlement_type}
+                                                    </span>
+                                                    <span className={`text-[8px] font-black uppercase px-2 py-0.5 rounded-full ${
+                                                        listRisk.level === 'CRÍTICO' ? 'bg-red-100 text-red-600' : 
+                                                        listRisk.level === 'MODERADO' ? 'bg-amber-100 text-amber-600' : 'bg-green-100 text-green-600'
+                                                    }`}>
+                                                        {listRisk.level}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div className="p-2 bg-happiness-1/10 rounded-2xl">
+                                                <MapPin className="text-happiness-1 w-4 h-4" />
                                             </div>
                                         </div>
-                                        <div className="p-2 bg-happiness-1/10 rounded-2xl">
-                                            <MapPin className="text-happiness-1 w-4 h-4" />
-                                        </div>
-                                    </div>
 
-                                    <div className="space-y-3 mb-6">
-                                        <div className="flex items-center gap-2 text-xs font-medium text-gray-500">
-                                            <Users size={14} className="text-gray-300" />
-                                            <span>{assessment.estimated_families} Famílias</span>
+                                        <div className="space-y-3 mb-6">
+                                            <div className="flex items-center gap-2 text-xs font-medium text-gray-500">
+                                                <Users size={14} className="text-gray-300" />
+                                                <span>{assessment.estimated_families} Famílias</span>
+                                            </div>
+                                            <div className="flex items-center gap-2 text-xs font-medium text-gray-500">
+                                                <Droplets size={14} className="text-gray-300" />
+                                                <span>Água: {assessment.water_access}</span>
+                                            </div>
+                                            <div className="flex items-center gap-2 text-xs font-medium text-gray-500">
+                                                <BarChart3 size={14} className="text-gray-300" />
+                                                <span>{assessment.priority_needs?.length || 0} Demandas Prioritárias</span>
+                                            </div>
                                         </div>
-                                        <div className="flex items-center gap-2 text-xs font-medium text-gray-500">
-                                            <Droplets size={14} className="text-gray-300" />
-                                            <span>Água: {assessment.water_access}</span>
-                                        </div>
-                                        <div className="flex items-center gap-2 text-xs font-medium text-gray-500">
-                                            <BarChart3 size={14} className="text-gray-300" />
-                                            <span>{assessment.priority_needs?.length || 0} Demandas Prioritárias</span>
-                                        </div>
-                                    </div>
 
-                                    <div className="flex justify-between items-center pt-4 border-t border-gray-50 dark:border-white/5">
-                                        <div className="flex items-center gap-1">
-                                            <StarRating value={assessment.relationship_level} readOnly />
-                                        </div>
-                                        <div className="flex items-center gap-1">
-                                            <button
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    handleEdit(assessment);
-                                                }}
-                                                className="p-2 text-happiness-1 hover:bg-happiness-1/10 dark:hover:bg-happiness-1/10 rounded-full transition-colors"
-                                                title="Editar"
-                                            >
-                                                <Edit size={16} />
-                                            </button>
-                                            <button
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    handleDelete(assessment.id, assessment.community_name);
-                                                }}
-                                                className="p-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full transition-colors"
-                                                title="Excluir"
-                                            >
-                                                <Trash2 size={16} />
-                                            </button>
+                                        <div className="flex justify-between items-center pt-4 border-t border-gray-50 dark:border-white/5">
+                                            <div className="flex items-center gap-1">
+                                                <StarRating value={assessment.relationship_level} readOnly />
+                                            </div>
+                                            <div className="flex items-center gap-1">
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleEdit(assessment);
+                                                    }}
+                                                    className="p-2 text-happiness-1 hover:bg-happiness-1/10 dark:hover:bg-happiness-1/10 rounded-full transition-colors"
+                                                    title="Editar"
+                                                >
+                                                    <Edit size={16} />
+                                                </button>
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleDelete(assessment.id, assessment.community_name);
+                                                    }}
+                                                    className="p-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full transition-colors"
+                                                    title="Excluir"
+                                                >
+                                                    <Trash2 size={16} />
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
+                             );
+                        })}
 
                         {filteredAssessments.length === 0 && (
                             <div className="col-span-full py-20 text-center flex flex-col items-center opacity-30">
@@ -713,64 +739,69 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
 
                     {/* Sidebar */}
                     <div className="space-y-6 sticky top-24 h-fit">
-                        {/* Heatmap de Risco LSO */}
-                        <div className={`p-6 rounded-3xl border shadow-xl animate-in zoom-in-95 duration-500 ${riskData.bg} border-current border-opacity-20`}>
+                        {/* Resumo do Diagnóstico */}
+                        <div className="bg-white dark:bg-[#1C1C1C] rounded-3xl border border-gray-200 dark:border-white/5 shadow-sm p-6">
+                            <div className="text-xs font-black text-gray-400 uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
+                                <Users className="w-4 h-4 text-orange-500" />
+                                Resumo do Diagnóstico
+                            </div>
+
+                            <div className="space-y-3">
+                                <div className="flex justify-between items-center text-xs">
+                                    <span className="font-bold text-gray-500">Comunidade</span>
+                                    <span className="font-black text-gray-800 dark:text-gray-200 truncate max-w-[150px]">{communityName || '-'}</span>
+                                </div>
+                                <div className="flex justify-between items-center text-xs">
+                                    <span className="font-bold text-gray-500">Famílias</span>
+                                    <span className="font-black text-happiness-1">{estimatedFamilies || 0}</span>
+                                </div>
+                                <div className="flex justify-between items-center text-xs">
+                                    <span className="font-bold text-gray-500">Perfil</span>
+                                    <span className="font-black text-gray-800 dark:text-gray-200">{settlementType || '-'}</span>
+                                </div>
+                                <div className="flex justify-between items-center text-xs">
+                                    <span className="font-bold text-gray-500">Relacionamento</span>
+                                    <span className="font-black text-amber-500">{relationshipLevel}/5</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Termômetro de Risco Socioambiental - Heatmap LSO */}
+                        <div className={`p-6 rounded-3xl border shadow-xl animate-in zoom-in-95 duration-500 ${currentRisk.color} border-current border-opacity-20`}>
                             <div className="flex items-center gap-2 mb-4">
-                                <ShieldAlert className={riskData.color} size={18} />
-                                <span className={`text-[10px] font-black uppercase tracking-widest ${riskData.color}`}>
-                                    Matriz de Risco LSO
+                                <ShieldAlert className="opacity-70" size={18} />
+                                <span className="text-[10px] font-black uppercase tracking-widest opacity-70">
+                                    Termômetro de Risco Socioambiental
                                 </span>
                             </div>
 
                             <div className="space-y-4">
                                 <div>
-                                    <h4 className={`text-xl font-black leading-tight ${riskData.color}`}>
-                                        {riskData.label}
+                                    <h4 className="text-lg font-black leading-tight">
+                                        {currentRisk.badge}
                                     </h4>
-                                    <p className="text-[10px] text-gray-500 font-bold mt-1 uppercase tracking-tight">
-                                        Licença Social para Operar
+                                    <p className="text-[10px] opacity-70 font-bold mt-1 uppercase tracking-tight">
+                                        Licença Social para Operar (LSO)
                                     </p>
                                 </div>
 
-                                <div className="h-2 bg-gray-200 dark:bg-white/10 rounded-full overflow-hidden">
-                                    <div 
-                                        className={`h-full transition-all duration-1000 ${
-                                            riskData.level === 'Critical' ? 'bg-red-500' : 
-                                            riskData.level === 'Moderate' ? 'bg-amber-500' : 'bg-green-500'
-                                        }`}
-                                        style={{ width: `${riskData.score}%` }}
-                                    />
-                                </div>
-
-                                <div className="space-y-2 pt-2">
-                                    <div className="flex justify-between text-[10px] font-bold text-gray-400">
-                                        <span>Severidade do Impacto</span>
-                                        <span className="text-gray-600 dark:text-gray-300">{negativeImpacts.length}/5</span>
-                                    </div>
-                                    <div className="flex justify-between text-[10px] font-bold text-gray-400">
-                                        <span>Conflito Territorial</span>
-                                        <span className="text-gray-600 dark:text-gray-300">{relationshipLevel < 3 ? 'ALTO' : 'BAIXO'}</span>
+                                <div className="p-4 bg-white/40 dark:bg-black/20 rounded-2xl border border-current border-opacity-10 space-y-3">
+                                    <div className="flex items-start gap-3">
+                                        {currentRisk.level === 'CRÍTICO' ? (
+                                            <AlertTriangle className="w-5 h-5 shrink-0" />
+                                        ) : (
+                                            <Lightbulb className="w-5 h-5 shrink-0" />
+                                        )}
+                                        <div className="space-y-1">
+                                            <span className="text-[10px] font-black uppercase tracking-widest opacity-80">Recomendação Consultiva</span>
+                                            <p className="text-xs font-medium leading-relaxed italic">
+                                                "{currentRisk.recommendation}"
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        {/* Automatic Recommendation - Critical Case */}
-                        {riskData.level === 'Critical' && (
-                            <div className="bg-zinc-900 dark:bg-white rounded-3xl p-6 shadow-2xl relative overflow-hidden group">
-                                <div className="absolute top-0 right-0 p-4 opacity-10">
-                                    <Lightbulb className="w-16 h-16 text-happiness-1" />
-                                </div>
-                                <h4 className="text-white dark:text-zinc-900 font-black text-xs uppercase tracking-widest mb-3 flex items-center gap-2">
-                                    <Lightbulb size={14} className="text-happiness-3" />
-                                    Recomendação Consultiva
-                                </h4>
-                                <p className="text-happiness-3 dark:text-happiness-4 text-xs font-black mb-2">AÇÃO RECOMENDADA:</p>
-                                <p className="text-gray-300 dark:text-zinc-600 text-sm font-medium leading-relaxed italic">
-                                    "Criação de Fundação Portuária compartilhada para mitigação de impactos locais e gestão centralizada de investimentos sociais."
-                                </p>
-                            </div>
-                        )}
 
                         {/* Geospatial Upload - Bloco Inline ESG */}
                         <LayerUploaderInline onLayersLoaded={async (layers) => {
@@ -787,7 +818,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                                         ...l.details,
                                         community_name: communityName,
                                         sync_id: editingId,
-                                        risk_level: riskData.label,
+                                        risk_level: currentRisk.badge,
                                         familias: estimatedFamilies === '' ? 0 : estimatedFamilies,
                                         tipo: settlementType,
                                         relacionamento: relationshipLevel,
