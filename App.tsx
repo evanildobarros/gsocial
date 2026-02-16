@@ -576,6 +576,7 @@ export default function App() {
 
                     <SectionHeader
                         label="Visão Geral"
+                        icon={<DashboardIcon />}
                         collapsed={!sidebarOpen}
                         open={overviewOpen}
                         onToggle={() => setOverviewOpen(!overviewOpen)}
