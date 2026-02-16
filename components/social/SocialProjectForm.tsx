@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
     Save,
     X as CloseIcon,
@@ -9,10 +9,13 @@ import {
     Calendar,
     Check,
     ChevronDown,
-    Search
+    Search,
+    Coins,
+    TrendingUp
 } from 'lucide-react';
 import { SocialProject, SocialProjectStatus, MATERIALITY_TOPICS, CommunityAssessment } from '../../types';
 import { supabase } from '../../utils/supabase';
+import { calculateProjectSROI, IMPACT_PROXIES } from './SROICalculator';
 
 interface SocialProjectFormProps {
     onSubmit: (project: Omit<SocialProject, 'id'>) => void;
@@ -35,10 +38,10 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
         neighborhoods: initialData?.neighborhoods || [],
         materialityTopics: initialData?.materialityTopics || [],
         sdgTargets: initialData?.sdgTargets || [],
-        estimatedImpactValue: initialData?.estimatedImpactValue || 0
+        estimatedImpactValue: initialData?.estimatedImpactValue || 0,
+        projectedSroi: initialData?.projectedSroi || 0
     });
 
-    const [sroi, setSroi] = useState<number>(0);
     const [currentNeighborhood, setCurrentNeighborhood] = useState('');
     const [registeredCommunities, setRegisteredCommunities] = useState<string[]>([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
@@ -67,14 +70,24 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
         fetchCommunities();
     }, []);
 
+    // --- S-ROI Auto-calculation Engine ---
     useEffect(() => {
-        if (formData.budget > 0 && formData.estimatedImpactValue > 0) {
-            const calculatedSroi = formData.estimatedImpactValue / formData.budget;
-            setSroi(parseFloat(calculatedSroi.toFixed(2)));
-        } else {
-            setSroi(0);
+        if (formData.budget > 0 && formData.beneficiariesTarget > 0) {
+            // Detect project type based on selected materiality topics
+            const isSanitation = formData.materialityTopics.some(t => 
+                t.includes('Saúde') || t.includes('Saneamento') || t.includes('Infraestrutura')
+            );
+            
+            const type = isSanitation ? 'saneamento_basico' : 'empregabilidade';
+            const sroiData = calculateProjectSROI(formData.budget, formData.beneficiariesTarget, type);
+            
+            setFormData(prev => ({
+                ...prev,
+                estimatedImpactValue: sroiData.socialValue,
+                projectedSroi: parseFloat(sroiData.ratio)
+            }));
         }
-    }, [formData.budget, formData.estimatedImpactValue]);
+    }, [formData.budget, formData.beneficiariesTarget, formData.materialityTopics]);
 
     const handleBudgetChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value.replace(/\D/g, '');
@@ -86,7 +99,7 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
         const { name, value } = e.target;
         setFormData(prev => ({
             ...prev,
-            [name]: name === 'beneficiariesTarget' || name === 'estimatedImpactValue'
+            [name]: name === 'beneficiariesTarget' || name === 'estimatedImpactValue' || name === 'projectedSroi'
                 ? parseFloat(value) || 0
                 : value
         }));
@@ -127,7 +140,7 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        onSubmit({ ...formData, projectedSroi: sroi });
+        onSubmit({ ...formData });
     };
 
     const toggleMateriality = (topic: string) => {
@@ -268,22 +281,25 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                             </span>
 
                             {/* SROI Card */}
-                            <div className={`p-6 rounded-3xl border flex items-center justify-between mb-2 ${sroi >= 2
+                            <div className={`p-6 rounded-3xl border flex items-center justify-between mb-2 ${formData.projectedSroi >= 2
                                 ? 'bg-happiness-5/10 border-happiness-5/30'
                                 : 'bg-happiness-1/10 border-happiness-1/30'
-                                }`}>
-                                <div>
+                                } shadow-inner relative overflow-hidden group`}>
+                                <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:scale-110 transition-transform duration-700">
+                                    <Coins size={80} />
+                                </div>
+                                <div className="relative z-10">
                                     <div className="flex items-center gap-2 mb-1">
-                                        <BarChart3 className="w-4 h-4 text-gray-500" />
+                                        <TrendingUp className="w-4 h-4 text-gray-500" />
                                         <span className="text-[10px] font-black uppercase tracking-widest text-gray-500">
-                                            Previsão SROI
+                                            S-ROI Projetado
                                         </span>
                                     </div>
-                                    <span className={`text-4xl font-black ${sroi >= 2 ? 'text-happiness-5' : 'text-happiness-1'}`}>
-                                        {sroi}x
+                                    <span className={`text-4xl font-black ${formData.projectedSroi >= 2 ? 'text-happiness-5' : 'text-happiness-1'}`}>
+                                        {formData.projectedSroi}x
                                     </span>
                                 </div>
-                                <div className="flex flex-col gap-2 w-32">
+                                <div className="flex flex-col gap-2 w-32 relative z-10">
                                     <div className="space-y-0.5">
                                         <label className="text-[9px] font-bold text-gray-400 uppercase">Beneficiários</label>
                                         <input
@@ -291,23 +307,25 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                                             name="beneficiariesTarget"
                                             value={formData.beneficiariesTarget}
                                             onChange={handleChange}
-                                            className="w-full px-2 py-1 bg-white/50 dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg text-sm font-bold text-right"
+                                            className="w-full px-2 py-1 bg-white/50 dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg text-sm font-bold text-right focus:border-happiness-1 outline-none"
                                         />
                                     </div>
                                     <div className="space-y-0.5">
-                                        <label className="text-[9px] font-bold text-gray-400 uppercase">Impacto (R$)</label>
-                                        <input
-                                            type="number"
-                                            name="estimatedImpactValue"
-                                            value={formData.estimatedImpactValue}
-                                            onChange={handleChange}
-                                            className="w-full px-2 py-1 bg-white/50 dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg text-sm font-bold text-right"
-                                        />
+                                        <label className="text-[9px] font-bold text-gray-400 uppercase">Valor Social</label>
+                                        <div className="relative">
+                                            <input
+                                                type="number"
+                                                name="estimatedImpactValue"
+                                                readOnly
+                                                value={formData.estimatedImpactValue}
+                                                className="w-full px-2 py-1 bg-white/50 dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg text-sm font-bold text-right text-gray-500 cursor-not-allowed"
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <p className="text-[10px] font-medium text-gray-400 px-2 italic">
-                                Cada R$ 1,00 investido gera <strong>R$ {sroi}</strong> em valor social.
+                                Cálculo automático via proxies validadas: <strong>R$ {formData.estimatedImpactValue.toLocaleString('pt-BR')}</strong> de valor gerado.
                             </p>
                         </div>
 
