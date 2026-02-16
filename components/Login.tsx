@@ -247,7 +247,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin, onBack }) => {
           )}
 
           <div className="mt-10 text-center">
-            <span className="text-[10px] font-bold text-gray-400 dark:text-gray-600 uppercase tracking-widest block">
+            <span className="text-[11px] font-bold text-gray-400 dark:text-gray-600 uppercase tracking-widest block">
               Ambiente Seguro · gSocial ESGporto v2.5
             </span>
           </div>

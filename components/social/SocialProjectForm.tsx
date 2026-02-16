@@ -291,7 +291,7 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                                 <div className="relative z-10">
                                     <div className="flex items-center gap-2 mb-1">
                                         <TrendingUp className="w-4 h-4 text-gray-500" />
-                                        <span className="text-[10px] font-black uppercase tracking-widest text-gray-500">
+                                        <span className="text-[11px] font-black uppercase tracking-widest text-gray-500">
                                             S-ROI Projetado
                                         </span>
                                     </div>
@@ -301,7 +301,7 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                                 </div>
                                 <div className="flex flex-col gap-2 w-32 relative z-10">
                                     <div className="space-y-0.5">
-                                        <label className="text-[9px] font-bold text-gray-400 uppercase">Beneficiários</label>
+                                        <label className="text-[11px] font-bold text-gray-400 uppercase">Beneficiários</label>
                                         <input
                                             type="number"
                                             name="beneficiariesTarget"
@@ -311,7 +311,7 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                                         />
                                     </div>
                                     <div className="space-y-0.5">
-                                        <label className="text-[9px] font-bold text-gray-400 uppercase">Valor Social</label>
+                                        <label className="text-[11px] font-bold text-gray-400 uppercase">Valor Social</label>
                                         <div className="relative">
                                             <input
                                                 type="number"
@@ -324,7 +324,7 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                                     </div>
                                 </div>
                             </div>
-                            <p className="text-[10px] font-medium text-gray-400 px-2 italic">
+                            <p className="text-[11px] font-medium text-gray-400 px-2 italic">
                                 Cálculo automático via proxies validadas: <strong>R$ {formData.estimatedImpactValue.toLocaleString('pt-BR')}</strong> de valor gerado.
                             </p>
                         </div>
@@ -333,7 +333,7 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                             <div className="flex items-center gap-2">
                                 <MapPin className="text-red-500 w-4 h-4" />
                                 <h3 className="text-sm font-black text-gray-900 dark:text-white">Comunidades Beneficiadas</h3>
-                                <span className="text-[10px] px-2 py-0.5 bg-gray-100 dark:bg-white/10 rounded-full text-gray-500 italic">Área de Influência Direta</span>
+                                <span className="text-[11px] px-2 py-0.5 bg-gray-100 dark:bg-white/10 rounded-full text-gray-500 italic">Área de Influência Direta</span>
                             </div>
 
                             <div className="relative p-2 border border-gray-200 dark:border-white/10 rounded-2xl bg-gray-50 dark:bg-zinc-900/30">
@@ -374,13 +374,13 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                                 {showSuggestions && (
                                     <div ref={suggestionRef} className="absolute left-0 right-0 top-full mt-2 bg-white dark:bg-[#252525] border border-gray-100 dark:border-white/10 rounded-2xl shadow-2xl z-50 max-h-48 overflow-y-auto animate-in slide-in-from-top-2 duration-200 custom-scrollbar">
                                         <div className="p-2 border-b border-gray-50 dark:border-white/5 bg-gray-50/50 dark:bg-white/5 flex items-center justify-between">
-                                            <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest px-2 flex items-center gap-1.5">
+                                            <span className="text-[11px] font-black text-gray-400 uppercase tracking-widest px-2 flex items-center gap-1.5">
                                                 <Search size={10} /> Diagnósticos Registrados
                                             </span>
                                             <button 
                                                 type="button" 
                                                 onClick={() => setShowSuggestions(false)}
-                                                className="text-[9px] font-bold text-happiness-1 hover:underline px-2"
+                                                className="text-[11px] font-bold text-happiness-1 hover:underline px-2"
                                             >
                                                 Fechar
                                             </button>
@@ -412,15 +412,15 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                                                     ))
                                             ) : (
                                                 <div className="p-4 text-center">
-                                                    <p className="text-[10px] font-medium text-gray-400 italic">Nenhuma comunidade encontrada ou já selecionada.</p>
-                                                    <p className="text-[9px] text-gray-500 mt-1">Dica: Aperte Enter para adicionar "{currentNeighborhood}" como nova.</p>
+                                                    <p className="text-[11px] font-medium text-gray-400 italic">Nenhuma comunidade encontrada ou já selecionada.</p>
+                                                    <p className="text-[11px] text-gray-500 mt-1">Dica: Aperte Enter para adicionar "{currentNeighborhood}" como nova.</p>
                                                 </div>
                                             )
                                         }
                                     </div>
                                 )}
                             </div>
-                            <p className="text-[9px] font-medium text-gray-400 px-2 italic">
+                            <p className="text-[11px] font-medium text-gray-400 px-2 italic">
                                 Vincule o projeto a uma comunidade já diagnosticada para melhor integração de dados.
                             </p>
                         </div>
@@ -435,7 +435,7 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                                             key={topic}
                                             type="button"
                                             onClick={() => toggleMateriality(topic)}
-                                            className={`px-3 py-1.5 rounded-full text-[10px] font-bold border transition-all flex items-center gap-1 ${isSelected
+                                            className={`px-3 py-1.5 rounded-full text-[11px] font-bold border transition-all flex items-center gap-1 ${isSelected
                                                 ? 'bg-happiness-1 text-white border-happiness-1 shadow-md shadow-happiness-1/20'
                                                 : 'bg-transparent border-gray-200 text-gray-500 hover:border-happiness-1'
                                                 }`}

@@ -60,7 +60,7 @@ export const PredictiveAnalysis: React.FC = () => {
                 </div>
                 <div className="bg-purple-50 dark:bg-purple-900/10 px-3 py-1.5 rounded-3xl border border-purple-200 dark:border-purple-900/30 flex items-center gap-2 text-purple-700 dark:text-purple-400">
                     <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></div>
-                    <span className="text-[10px] font-black uppercase tracking-widest">IA Engine v4.2 Online</span>
+                    <span className="text-[11px] font-black uppercase tracking-widest">IA Engine v4.2 Online</span>
                 </div>
             </div>
 
@@ -86,7 +86,7 @@ export const PredictiveAnalysis: React.FC = () => {
                                 onChange={(e) => setCargoGrowth(Number(e.target.value))}
                                 className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
                             />
-                            <p className="text-[10px] text-gray-400 mt-1">Impacta emissões e risco social (tráfego).</p>
+                            <p className="text-[11px] text-gray-400 mt-1">Impacta emissões e risco social (tráfego).</p>
                         </div>
 
                         <div>
@@ -102,7 +102,7 @@ export const PredictiveAnalysis: React.FC = () => {
                                 onChange={(e) => setRenewableAdoption(Number(e.target.value))}
                                 className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-green-500"
                             />
-                            <p className="text-[10px] text-gray-400 mt-1">Fator de redução direta de Escopo 2.</p>
+                            <p className="text-[11px] text-gray-400 mt-1">Fator de redução direta de Escopo 2.</p>
                         </div>
 
                         <div>
@@ -118,7 +118,7 @@ export const PredictiveAnalysis: React.FC = () => {
                                 onChange={(e) => setSocialInvestment(Number(e.target.value))}
                                 className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-orange-500"
                             />
-                            <p className="text-[10px] text-gray-400 mt-1">Mitiga riscos de conflito comunitário.</p>
+                            <p className="text-[11px] text-gray-400 mt-1">Mitiga riscos de conflito comunitário.</p>
                         </div>
                     </div>
 
@@ -152,7 +152,7 @@ export const PredictiveAnalysis: React.FC = () => {
                                 </div>
                             </div>
                             <div className="text-right">
-                                <p className="text-[10px] text-gray-400 uppercase tracking-widest font-bold">Forecast 2026</p>
+                                <p className="text-[11px] text-gray-400 uppercase tracking-widest font-bold">Forecast 2026</p>
                                 <p className={`text-3xl font-black ${simulationData.projectedEmission > 13 ? 'text-red-500' : 'text-green-500'}`}>
                                     {(simulationData.projectedEmission).toFixed(1)}k
                                 </p>
@@ -189,11 +189,11 @@ export const PredictiveAnalysis: React.FC = () => {
                                             )}
                                         </div>
                                         {/* Tooltip on Hover */}
-                                        <div className="absolute -top-8 bg-black text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">
+                                        <div className="absolute -top-8 bg-black text-white text-[11px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">
                                             {isProjected ? 'Prev: ' : 'Real: '}{val.toFixed(1)}k
                                         </div>
                                         {/* X-Axis Label */}
-                                        <span className="text-[9px] text-gray-400 mt-2 font-mono">
+                                        <span className="text-[11px] text-gray-400 mt-2 font-mono">
                                             {['Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez', 'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'][idx]}
                                         </span>
                                     </div>

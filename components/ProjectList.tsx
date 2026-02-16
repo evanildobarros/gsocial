@@ -126,7 +126,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onAddNew, onEdit }) =>
       {loading ? (
         <div className="flex flex-col items-center py-20 gap-4">
           <div className="w-12 h-12 rounded-full border-4 border-gray-200 border-t-happiness-1 animate-spin"></div>
-          <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 animate-pulse">
+          <span className="text-[11px] font-black uppercase tracking-widest text-gray-400 animate-pulse">
             Sincronizando Portfólio...
           </span>
         </div>
@@ -141,7 +141,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onAddNew, onEdit }) =>
               >
                 {/* Header Card */}
                 <div className="flex justify-between items-start mb-4">
-                  <span className={`flex items-center gap-1.5 px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider ${pilarInfo.color}`}>
+                  <span className={`flex items-center gap-1.5 px-3 py-1 rounded-lg text-[11px] font-black uppercase tracking-wider ${pilarInfo.color}`}>
                     {pilarInfo.icon}
                     {p.pilar}
                   </span>
@@ -186,7 +186,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onAddNew, onEdit }) =>
                     />
                   ))}
                   {(p.sdg_targets?.length || 0) > 4 && (
-                    <div className="w-8 h-8 rounded-3xl bg-gray-50 dark:bg-white/5 border border-dashed border-gray-300 dark:border-white/20 flex items-center justify-center text-[10px] font-black text-gray-500">
+                    <div className="w-8 h-8 rounded-3xl bg-gray-50 dark:bg-white/5 border border-dashed border-gray-300 dark:border-white/20 flex items-center justify-center text-[11px] font-black text-gray-500">
                       +{p.sdg_targets!.length - 4}
                     </div>
                   )}
@@ -197,7 +197,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onAddNew, onEdit }) =>
                   <div className="flex flex-col gap-1">
                     <div className="flex items-center gap-1.5 text-red-500">
                       <MapPinIcon style={{ fontSize: 14 }} />
-                      <span className="text-[10px] font-black uppercase tracking-wider">
+                      <span className="text-[11px] font-black uppercase tracking-wider">
                         {p.community}
                       </span>
                     </div>
@@ -210,7 +210,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onAddNew, onEdit }) =>
                       </div>
                     )}
                   </div>
-                  <span className={`text-[10px] font-black uppercase tracking-widest ${p.status === 'Concluído' ? 'text-happiness-5' :
+                  <span className={`text-[11px] font-black uppercase tracking-widest ${p.status === 'Concluído' ? 'text-happiness-5' :
                     p.status === 'Planejado' ? 'text-amber-500' : 'text-happiness-1'
                     }`}>
                     {p.status}
@@ -231,7 +231,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onAddNew, onEdit }) =>
               <div className="flex justify-between items-center mb-6">
                 <div className="flex items-center gap-2">
                   <div className="w-2.5 h-2.5 rounded-full bg-red-500"></div>
-                  <span className="text-[10px] font-black uppercase tracking-widest text-red-500">
+                  <span className="text-[11px] font-black uppercase tracking-widest text-red-500">
                     Alerta de Exclusão
                   </span>
                 </div>

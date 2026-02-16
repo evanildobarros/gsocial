@@ -163,7 +163,7 @@ export const LayerUploaderInline: React.FC<LayerUploaderInlineProps> = ({ onLaye
                                 <Upload className={`w-6 h-6 ${isDragging ? 'text-happiness-1' : 'text-gray-400'}`} />
                             </div>
                             <p className="text-sm font-bold text-gray-700 dark:text-gray-200 mb-1">Arraste e solte ou clique para selecionar</p>
-                            <p className="text-[10px] text-gray-400">KML, GeoJSON, Shapefile (ZIP) ou CSV</p>
+                            <p className="text-[11px] text-gray-400">KML, GeoJSON, Shapefile (ZIP) ou CSV</p>
                         </div>
                     ) : (
                         <div className="bg-green-500/5 dark:bg-green-500/10 rounded-3xl border border-green-500/20 p-4 flex items-center justify-between animate-in zoom-in-95 duration-200">
@@ -173,7 +173,7 @@ export const LayerUploaderInline: React.FC<LayerUploaderInlineProps> = ({ onLaye
                                 </div>
                                 <div className="truncate">
                                     <p className="text-sm font-bold text-gray-800 dark:text-gray-200 truncate">{selectedFile.name}</p>
-                                    <p className="text-[10px] text-gray-500 uppercase">{(selectedFile.size / 1024).toFixed(1)} KB</p>
+                                    <p className="text-[11px] text-gray-500 uppercase">{(selectedFile.size / 1024).toFixed(1)} KB</p>
                                 </div>
                             </div>
                             <button onClick={() => setSelectedFile(null)} className="p-1.5 hover:bg-red-500/10 rounded-3xl text-gray-400 hover:text-red-500 transition-colors">
@@ -214,7 +214,7 @@ export const LayerUploaderInline: React.FC<LayerUploaderInlineProps> = ({ onLaye
                                         className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                                     />
                                 </div>
-                                <span className="text-[10px] font-mono font-black text-gray-900 dark:text-white uppercase">{selectedColor}</span>
+                                <span className="text-[11px] font-mono font-black text-gray-900 dark:text-white uppercase">{selectedColor}</span>
                             </div>
                         </div>
 
@@ -235,7 +235,7 @@ export const LayerUploaderInline: React.FC<LayerUploaderInlineProps> = ({ onLaye
                                         `}
                                     >
                                         <span className={opt.color}>{opt.icon}</span>
-                                        <span className={`${opt.color} text-[10px] font-black uppercase tracking-wider`}>{opt.label}</span>
+                                        <span className={`${opt.color} text-[11px] font-black uppercase tracking-wider`}>{opt.label}</span>
                                     </button>
                                 ))}
                             </div>

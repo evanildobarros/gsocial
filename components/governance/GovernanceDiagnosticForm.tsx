@@ -289,7 +289,7 @@ export const GovernanceDiagnosticForm: React.FC = () => {
             {/* Header */}
             <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 px-2">
                 <div>
-                    <div className="text-[10px] font-black text-purple-600 uppercase tracking-widest mb-1 flex items-center gap-2">
+                    <div className="text-[11px] font-black text-purple-600 uppercase tracking-widest mb-1 flex items-center gap-2">
                         <Shield size={12} /> Pilar Governança (G) — ABNT PR 2030
                     </div>
                     <h1 className="text-2xl font-black text-gray-900 dark:text-white tracking-tighter">
@@ -343,17 +343,17 @@ export const GovernanceDiagnosticForm: React.FC = () => {
                                         <div className="flex justify-between items-start">
                                             <div className="min-w-0 flex-1">
                                                 <h3 className="font-black text-gray-900 dark:text-white truncate pr-2 group-hover:text-purple-600 transition-colors">{a.company_name}</h3>
-                                                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Criticidade: {a.criticality}</span>
+                                                <span className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Criticidade: {a.criticality}</span>
                                             </div>
                                             <div className={`p-2 rounded-xl ${risk.color} bg-opacity-10`}>
                                                 <ShieldCheck size={16} />
                                             </div>
                                         </div>
-                                        <div className={`inline-flex px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-tight ${risk.color}`}>
+                                        <div className={`inline-flex px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-tight ${risk.color}`}>
                                             {risk.badge}
                                         </div>
                                         <div className="flex justify-between items-center pt-4 border-t border-gray-50 dark:border-white/5">
-                                            <span className="text-[9px] font-bold text-gray-400">DUE DILIGENCE 2026</span>
+                                            <span className="text-[11px] font-bold text-gray-400">DUE DILIGENCE 2026</span>
                                             <div className="flex gap-1">
                                                 <button onClick={() => handleEdit(a)} className="p-2 text-purple-600 hover:bg-purple-50 rounded-full transition-colors"><Edit size={16} /></button>
                                                 <button onClick={() => handleDelete(a.id, a.company_name)} className="p-2 text-red-500 hover:bg-red-50 rounded-full transition-colors"><Trash2 size={16} /></button>
@@ -378,7 +378,7 @@ export const GovernanceDiagnosticForm: React.FC = () => {
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Razão Social / Nome Fantasia</label>
+                                    <label className="text-[11px] font-black text-gray-400 uppercase tracking-widest ml-1">Razão Social / Nome Fantasia</label>
                                     <input
                                         type="text"
                                         placeholder="Ex: Operador Logístico Alpha"
@@ -388,13 +388,13 @@ export const GovernanceDiagnosticForm: React.FC = () => {
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Nível de Criticidade Estratégica</label>
+                                    <label className="text-[11px] font-black text-gray-400 uppercase tracking-widest ml-1">Nível de Criticidade Estratégica</label>
                                     <div className="flex gap-2">
                                         {CRITICALITY_LEVELS.map(level => (
                                             <button
                                                 key={level.id}
                                                 onClick={() => setCriticality(level.id)}
-                                                className={`flex-1 p-3 rounded-2xl border text-[10px] font-black uppercase transition-all ${criticality === level.id ? 'bg-purple-600 border-purple-600 text-white shadow-lg' : 'bg-transparent border-gray-100 text-gray-400 dark:border-white/5 dark:text-gray-400'}`}
+                                                className={`flex-1 p-3 rounded-2xl border text-[11px] font-black uppercase transition-all ${criticality === level.id ? 'bg-purple-600 border-purple-600 text-white shadow-lg' : 'bg-transparent border-gray-100 text-gray-400 dark:border-white/5 dark:text-gray-400'}`}
                                             >
                                                 {level.label}
                                             </button>
@@ -434,11 +434,11 @@ export const GovernanceDiagnosticForm: React.FC = () => {
                                                 <div className="flex items-center gap-3">
                                                     <FileCheck className="text-purple-600" size={18} />
                                                     <div>
-                                                        <span className="text-[10px] font-black text-purple-600 uppercase tracking-widest block">Provas de Vida Obrigatórias</span>
+                                                        <span className="text-[11px] font-black text-purple-600 uppercase tracking-widest block">Provas de Vida Obrigatórias</span>
                                                         <span className="text-[11px] font-bold text-gray-500 italic">{q.id === 'g_compliance' ? 'Política Anticorrupção' : 'Relatório de Sustentabilidade/GRI'}</span>
                                                     </div>
                                                 </div>
-                                                <button className="text-[10px] font-black text-purple-600 uppercase hover:underline">Fazer Upload</button>
+                                                <button className="text-[11px] font-black text-purple-600 uppercase hover:underline">Fazer Upload</button>
                                             </div>
                                         )}
                                     </div>
@@ -466,20 +466,20 @@ export const GovernanceDiagnosticForm: React.FC = () => {
                         <div className={`p-8 rounded-3xl border shadow-2xl animate-in zoom-in-95 duration-500 ${currentRisk.color} border-current border-opacity-20`}>
                              <div className="flex items-center gap-2 mb-6 text-purple-600">
                                 <Thermometer className="opacity-70" />
-                                <span className="text-[10px] font-black uppercase tracking-widest opacity-70">Matriz de Integridade (GRC)</span>
+                                <span className="text-[11px] font-black uppercase tracking-widest opacity-70">Matriz de Integridade (GRC)</span>
                              </div>
 
                              <div className="space-y-6">
                                 <div>
                                     <h4 className="text-xl font-black leading-tight uppercase tracking-tight">{currentRisk.badge}</h4>
-                                    <p className="text-[10px] font-bold opacity-60 uppercase mt-1">Due Diligence de Terceiros</p>
+                                    <p className="text-[11px] font-bold opacity-60 uppercase mt-1">Due Diligence de Terceiros</p>
                                 </div>
 
                                 <div className="p-5 bg-white/40 dark:bg-black/20 rounded-2xl border border-current border-opacity-10 space-y-3">
                                     <div className="flex items-start gap-3">
                                         {currentRisk.level === 'CRÍTICO' ? <AlertTriangle className="shrink-0" size={18} /> : <Lightbulb className="shrink-0" size={18} />}
                                         <div className="space-y-1">
-                                            <span className="text-[9px] font-black uppercase opacity-70">RECOMENDAÇÃO GRC</span>
+                                            <span className="text-[11px] font-black uppercase opacity-70">RECOMENDAÇÃO GRC</span>
                                             <p className="text-xs font-bold leading-relaxed italic">"{currentRisk.recommendation}"</p>
                                         </div>
                                     </div>
@@ -493,7 +493,7 @@ export const GovernanceDiagnosticForm: React.FC = () => {
                         <div className="bg-zinc-50 dark:bg-white/5 p-6 rounded-3xl border border-gray-200 dark:border-white/10">
                              <div className="flex items-center gap-2 mb-4 text-gray-700 dark:text-gray-300">
                                 <Zap size={16} />
-                                <span className="text-[10px] font-black uppercase tracking-widest">Mapas de Risco Corporativo</span>
+                                <span className="text-[11px] font-black uppercase tracking-widest">Mapas de Risco Corporativo</span>
                              </div>
                              <p className="text-[11px] text-gray-500 dark:text-gray-400 font-medium mb-6">Importe poligonais de áreas de atuação ou infraestrutura vinculadas a este parceiro.</p>
                              <LayerUploaderInline onLayersLoaded={() => showSuccess('Geometria vinculada ao parceiro.')} />

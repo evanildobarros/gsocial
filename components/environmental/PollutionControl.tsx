@@ -49,7 +49,7 @@ export const PollutionControl: React.FC = () => {
                                 <p className="text-xs text-gray-400 font-bold uppercase tracking-widest">Equipe em deslocamento</p>
                                 <button
                                     onClick={() => setIsEmergencyActive(false)}
-                                    className="text-gray-400 text-[10px] font-black uppercase tracking-widest hover:text-red-500 mt-4"
+                                    className="text-gray-400 text-[11px] font-black uppercase tracking-widest hover:text-red-500 mt-4"
                                 >
                                     Encerrar Alerta
                                 </button>
@@ -78,7 +78,7 @@ export const PollutionControl: React.FC = () => {
 
                     <div className="p-4 bg-gray-50 rounded-3xl flex items-center gap-3">
                         <MapPin className="w-4 h-4 text-gray-400" />
-                        <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Coordenadas atuais fixadas pelo GPS</span>
+                        <span className="text-[11px] font-black text-gray-400 uppercase tracking-widest">Coordenadas atuais fixadas pelo GPS</span>
                     </div>
                 </div>
 
@@ -91,7 +91,7 @@ export const PollutionControl: React.FC = () => {
                                 <div className="p-3 bg-blue-50 rounded-3xl">
                                     <Wind className="w-6 h-6 text-blue-600" />
                                 </div>
-                                <span className="px-2 py-1 bg-green-50 text-green-600 text-[10px] font-black rounded-full uppercase">Qualidade: Boa</span>
+                                <span className="px-2 py-1 bg-green-50 text-green-600 text-[11px] font-black rounded-full uppercase">Qualidade: Boa</span>
                             </div>
                             <div className="space-y-4">
                                 <h4 className="text-lg font-black text-gray-900 leading-none">Qualidade do Ar</h4>
@@ -112,7 +112,7 @@ export const PollutionControl: React.FC = () => {
                                     </div>
                                 </div>
                             </div>
-                            <p className="text-[10px] text-gray-400 font-medium italic">*Sensores integrados via IoT Industrial (CONAMA 491/18).</p>
+                            <p className="text-[11px] text-gray-400 font-medium italic">*Sensores integrados via IoT Industrial (CONAMA 491/18).</p>
                         </div>
 
                         {/* Waste Management */}
@@ -128,15 +128,15 @@ export const PollutionControl: React.FC = () => {
                                 </div>
                                 <div className="grid grid-cols-2 gap-4">
                                     <div className="bg-white/5 p-4 rounded-3xl border border-white/5">
-                                        <p className="text-[10px] font-black text-gray-500 uppercase">Reciclado</p>
+                                        <p className="text-[11px] font-black text-gray-500 uppercase">Reciclado</p>
                                         <p className="text-xl font-black">42.8t</p>
                                     </div>
                                     <div className="bg-white/5 p-4 rounded-3xl border border-white/5">
-                                        <p className="text-[10px] font-black text-gray-500 uppercase">Aterro</p>
+                                        <p className="text-[11px] font-black text-gray-500 uppercase">Aterro</p>
                                         <p className="text-xl font-black">8.2t</p>
                                     </div>
                                 </div>
-                                <button className="w-full py-3 bg-white text-gray-900 rounded-3xl font-black text-[10px] uppercase tracking-widest hover:bg-gray-200 transition-all">
+                                <button className="w-full py-3 bg-white text-gray-900 rounded-3xl font-black text-[11px] uppercase tracking-widest hover:bg-gray-200 transition-all">
                                     Upload de Manifesto (MTR)
                                 </button>
                             </div>
@@ -150,7 +150,7 @@ export const PollutionControl: React.FC = () => {
                             {['Geração', 'Armazenamento', 'Coleta', 'Destinação'].map((stage, i) => (
                                 <div key={i} className="flex flex-col gap-3">
                                     <div className={`h-2 rounded-full ${i <= 1 ? 'bg-blue-600' : 'bg-gray-100'}`}></div>
-                                    <span className={`text-[10px] font-black uppercase tracking-widest ${i <= 1 ? 'text-blue-600' : 'text-gray-400'}`}>
+                                    <span className={`text-[11px] font-black uppercase tracking-widest ${i <= 1 ? 'text-blue-600' : 'text-gray-400'}`}>
                                         {stage}
                                     </span>
                                 </div>

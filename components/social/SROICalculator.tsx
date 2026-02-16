@@ -179,7 +179,7 @@ export const SROICalculator: React.FC = () => {
                     </div>
                 </div>
                 <div className="flex gap-2">
-                    <div className="px-3 py-1.5 border border-blue-200 dark:border-blue-900/30 text-blue-700 dark:text-blue-300 font-black text-[10px] uppercase rounded-xl flex items-center gap-1.5 bg-blue-50 dark:bg-blue-900/10">
+                    <div className="px-3 py-1.5 border border-blue-200 dark:border-blue-900/30 text-blue-700 dark:text-blue-300 font-black text-[11px] uppercase rounded-xl flex items-center gap-1.5 bg-blue-50 dark:bg-blue-900/10">
                         <ShieldCheck size={14} /> Compliance PR 2030
                     </div>
                 </div>
@@ -261,7 +261,7 @@ export const SROICalculator: React.FC = () => {
                                             onClick={() => setFormData({ ...formData, projectType: id as any })}
                                             className={`p-4 rounded-2xl border text-left transition-all ${formData.projectType === id ? 'bg-happiness-1 border-happiness-1 text-white shadow-lg shadow-happiness-1/20 scale-[1.02]' : 'bg-transparent border-gray-100 hover:border-happiness-1/30 dark:border-white/5 dark:text-gray-400'}`}
                                         >
-                                            <span className="text-[10px] font-black uppercase block mb-1 opacity-80">Metodologia ESGporto</span>
+                                            <span className="text-[11px] font-black uppercase block mb-1 opacity-80">Metodologia ESGporto</span>
                                             <span className="text-sm font-black uppercase tracking-tight">{proxy.label}</span>
                                         </button>
                                     ))}
@@ -270,7 +270,7 @@ export const SROICalculator: React.FC = () => {
 
                             <div className="p-4 bg-gray-50 dark:bg-white/5 rounded-2xl border border-gray-100 dark:border-white/5 space-y-3">
                                 <div className="flex justify-between items-center">
-                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">% de Atribuição (Deadweight)</label>
+                                    <label className="text-[11px] font-black text-gray-400 uppercase tracking-widest ml-1">% de Atribuição (Deadweight)</label>
                                     <span className="text-xs font-black text-happiness-1">{formData.attribution}%</span>
                                 </div>
                                 <input
@@ -281,7 +281,7 @@ export const SROICalculator: React.FC = () => {
                                     onChange={(e) => setFormData({ ...formData, attribution: e.target.value })}
                                     className="w-full h-1.5 bg-gray-200 dark:bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-happiness-1"
                                 />
-                                <div className="flex items-center gap-2 text-[9px] text-gray-400 italic">
+                                <div className="flex items-center gap-2 text-[11px] text-gray-400 italic">
                                     <Info size={10} />
                                     <span>Valor que ocorreria SEM a intervenção do Porto.</span>
                                 </div>
@@ -309,7 +309,7 @@ export const SROICalculator: React.FC = () => {
                          
                          <div className="relative z-10 space-y-8">
                              <div>
-                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-white/20 text-[9px] font-black uppercase tracking-widest mb-4">
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-white/20 text-[11px] font-black uppercase tracking-widest mb-4">
                                     <ShieldCheck size={10} /> Resultado do Cálculo (S-ROI)
                                 </span>
                                 <h1 className="text-6xl font-black tracking-tighter">
@@ -320,7 +320,7 @@ export const SROICalculator: React.FC = () => {
 
                              <div className="space-y-4">
                                  <div className="p-4 bg-white/10 rounded-2xl backdrop-blur-sm border border-white/10">
-                                     <span className="text-[10px] font-black uppercase text-white/60 block mb-1">Valor Social Total Criado</span>
+                                     <span className="text-[11px] font-black uppercase text-white/60 block mb-1">Valor Social Total Criado</span>
                                      <span className="text-2xl font-black tracking-tight">R$ {currentSROI.socialValue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
                                  </div>
                                  <p className="text-xs font-medium leading-relaxed italic opacity-80 flex items-start gap-2">
@@ -335,7 +335,7 @@ export const SROICalculator: React.FC = () => {
                                          <div key={i} className="w-8 h-8 rounded-full border-2 border-blue-600 bg-white/20" />
                                      ))}
                                  </div>
-                                 <button className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest hover:underline">
+                                 <button className="flex items-center gap-1.5 text-[11px] font-black uppercase tracking-widest hover:underline">
                                      Exportar Laudo <ExternalLink size={12} />
                                  </button>
                              </div>
@@ -368,14 +368,14 @@ export const SROICalculator: React.FC = () => {
                                             <div className="min-w-0 flex-1 pr-4">
                                                 <h3 className="text-xs font-black text-gray-900 dark:text-white truncate mb-1 group-hover:text-happiness-1 transition-colors uppercase tracking-tight">{record.project_name}</h3>
                                                 <div className="flex items-center gap-2">
-                                                    <span className="px-1.5 py-0.5 rounded bg-gray-200 dark:bg-gray-800 text-[8px] font-black text-gray-600 dark:text-gray-300 uppercase truncate">
+                                                    <span className="px-1.5 py-0.5 rounded bg-gray-200 dark:bg-gray-800 text-[11px] font-black text-gray-600 dark:text-gray-300 uppercase truncate">
                                                         {record.outcome_type}
                                                     </span>
                                                 </div>
                                             </div>
                                             <div className="text-right shrink-0">
                                                 <div className="text-sm font-black text-happiness-1">{record.sroi_ratio.toFixed(2)}x</div>
-                                                <div className="text-[9px] font-bold text-gray-400 uppercase tracking-tighter">R$ {record.investment.toLocaleString()}</div>
+                                                <div className="text-[11px] font-bold text-gray-400 uppercase tracking-tighter">R$ {record.investment.toLocaleString()}</div>
                                             </div>
                                         </div>
                                     </div>

@@ -354,7 +354,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
             {/* Header Section */}
             <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">
+                    <div className="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-1">
                         Licença Social para Operar (LSO)
                     </div>
                     <h1 className="text-2xl font-black text-gray-900 dark:text-white tracking-tighter flex items-center gap-2">
@@ -442,10 +442,10 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                                                     {listRisk.badge.split(' ')[0]} {assessment.community_name}
                                                 </h3>
                                                 <div className="flex items-center gap-2 mt-1">
-                                                    <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest">
+                                                    <span className="text-[11px] font-black text-gray-400 uppercase tracking-widest">
                                                         {assessment.settlement_type}
                                                     </span>
-                                                    <span className={`text-[8px] font-black uppercase px-2 py-0.5 rounded-full ${
+                                                    <span className={`text-[11px] font-black uppercase px-2 py-0.5 rounded-full ${
                                                         listRisk.level === 'CRÍTICO' ? 'bg-red-100 text-red-600' : 
                                                         listRisk.level === 'MODERADO' ? 'bg-amber-100 text-amber-600' : 'bg-green-100 text-green-600'
                                                     }`}>
@@ -550,7 +550,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                                             />
                                         </div>
                                         <div>
-                                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">Perfil do Povoado</p>
+                                            <p className="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-3">Perfil do Povoado</p>
                                             <div className="flex flex-wrap gap-2">
                                                 {SETTLEMENT_TYPES.map((type) => (
                                                     <button
@@ -582,7 +582,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                                     <div>
-                                        <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3">Abastecimento de Água</p>
+                                        <p className="text-[11px] font-black uppercase tracking-widest text-gray-400 mb-3">Abastecimento de Água</p>
                                         <div className="space-y-2">
                                             {WATER_ACCESS_OPTIONS.map(opt => (
                                                 <label key={opt} className="flex items-center gap-3 p-3 rounded-2xl border border-gray-100 dark:border-white/5 hover:bg-gray-50 dark:hover:bg-white/5 cursor-pointer transition-colors">
@@ -605,7 +605,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
 
                                     <div className="space-y-6">
                                         <div>
-                                            <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3">Esgotamento Sanitário</p>
+                                            <p className="text-[11px] font-black uppercase tracking-widest text-gray-400 mb-3">Esgotamento Sanitário</p>
                                             <div className="space-y-2">
                                                 {SANITATION_OPTIONS.map(opt => (
                                                     <label key={opt} className="flex items-center gap-3 p-3 rounded-2xl border border-gray-100 dark:border-white/5 hover:bg-gray-50 dark:hover:bg-white/5 cursor-pointer transition-colors">
@@ -627,7 +627,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                                         </div>
 
                                         <div className="p-4 bg-purple-50 dark:bg-purple-900/10 rounded-2xl border border-purple-100 dark:border-purple-900/30">
-                                            <label className="text-[10px] font-black text-purple-600 uppercase tracking-widest flex items-center gap-2 mb-2">
+                                            <label className="text-[11px] font-black text-purple-600 uppercase tracking-widest flex items-center gap-2 mb-2">
                                                 <ShieldAlert size={12} /> Auditoria de Due Diligence
                                             </label>
                                             <textarea
@@ -678,7 +678,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                                                         <FileCheck className="w-5 h-5 text-happiness-1" />
                                                     </div>
                                                     <div>
-                                                        <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest block">Comprovante de S-ROI</span>
+                                                        <span className="text-[11px] font-black text-gray-400 uppercase tracking-widest block">Comprovante de S-ROI</span>
                                                         <span className="text-xs font-bold text-gray-700 dark:text-gray-300">
                                                             {sroiEvidence ? sroiEvidence.name : 'Upload obrigatório para ações sociais'}
                                                         </span>
@@ -686,7 +686,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                                                 </div>
                                                 <button 
                                                     onClick={() => document.getElementById('sroi-upload')?.click()}
-                                                    className="text-[10px] font-black text-happiness-1 uppercase hover:underline"
+                                                    className="text-[11px] font-black text-happiness-1 uppercase hover:underline"
                                                 >
                                                     {sroiEvidence ? 'Trocar' : 'Selecionar'}
                                                 </button>
@@ -696,7 +696,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                                     </div>
 
                                     <div className="bg-gray-50 dark:bg-white/5 p-6 rounded-3xl border border-gray-100 dark:border-white/10">
-                                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4">Nível de Relacionamento Empreendedor (EMAP)</p>
+                                        <p className="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-4">Nível de Relacionamento Empreendedor (EMAP)</p>
                                         <div className="flex items-center gap-4">
                                             <StarRating
                                                 value={relationshipLevel}
@@ -770,7 +770,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                         <div className={`p-6 rounded-3xl border shadow-xl animate-in zoom-in-95 duration-500 ${currentRisk.color} border-current border-opacity-20`}>
                             <div className="flex items-center gap-2 mb-4">
                                 <ShieldAlert className="opacity-70" size={18} />
-                                <span className="text-[10px] font-black uppercase tracking-widest opacity-70">
+                                <span className="text-[11px] font-black uppercase tracking-widest opacity-70">
                                     Termômetro de Risco Socioambiental
                                 </span>
                             </div>
@@ -780,7 +780,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                                     <h4 className="text-lg font-black leading-tight">
                                         {currentRisk.badge}
                                     </h4>
-                                    <p className="text-[10px] opacity-70 font-bold mt-1 uppercase tracking-tight">
+                                    <p className="text-[11px] opacity-70 font-bold mt-1 uppercase tracking-tight">
                                         Licença Social para Operar (LSO)
                                     </p>
                                 </div>
@@ -793,7 +793,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                                             <Lightbulb className="w-5 h-5 shrink-0" />
                                         )}
                                         <div className="space-y-1">
-                                            <span className="text-[10px] font-black uppercase tracking-widest opacity-80">Recomendação Consultiva</span>
+                                            <span className="text-[11px] font-black uppercase tracking-widest opacity-80">Recomendação Consultiva</span>
                                             <p className="text-xs font-medium leading-relaxed italic">
                                                 "{currentRisk.recommendation}"
                                             </p>

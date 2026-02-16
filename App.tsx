@@ -136,7 +136,7 @@ const SectionHeader: React.FC<{
                 </span>
             )}
 
-            {collapsed && <span className="text-[10px] font-black uppercase tracking-[0.25em] text-gray-400">•••</span>}
+            {collapsed && <span className="text-[11px] font-black uppercase tracking-[0.25em] text-gray-400">•••</span>}
         </div>
 
         {!collapsed && onToggle && (
@@ -550,7 +550,7 @@ export default function App() {
                                 <img src="/logo_itaqui.png" alt="Porto do Itaqui" className="h-10 w-auto object-contain" />
                                 <div className="animate-in fade-in duration-300">
                                     <h1 className="text-lg font-black tracking-tighter leading-none text-gray-900 dark:text-white">ESGporto</h1>
-                                    <p className="text-[9px] font-black text-gray-400 dark:text-happiness-3 uppercase tracking-widest mt-1">Dash Intelligence</p>
+                                    <p className="text-[11px] font-black text-gray-400 dark:text-happiness-3 uppercase tracking-widest mt-1">Dash Intelligence</p>
                                 </div>
                             </div>
                             <button
@@ -790,7 +790,7 @@ export default function App() {
                                     <div className="absolute -top-1.5 right-5 w-3 h-3 bg-white dark:bg-[#1E1E1E] transform rotate-45 border-l border-t border-gray-100 dark:border-white/5"></div>
 
                                     <div className="px-6 py-5 border-b border-gray-100 dark:border-white/5 bg-gray-50/50 dark:bg-white/5">
-                                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">{userProfile?.role || 'Usuário'}</p>
+                                        <p className="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-1">{userProfile?.role || 'Usuário'}</p>
                                         <p className="text-base font-bold text-gray-900 dark:text-white leading-tight truncate">{userProfile?.full_name}</p>
                                         <p className="text-xs text-gray-400 truncate mt-0.5">{userProfile?.email}</p>
                                     </div>
@@ -808,7 +808,7 @@ export default function App() {
 
                                     {/* Gestor de Temas */}
                                     <div className="px-4 py-4 border-t border-gray-100 dark:border-white/5 bg-gray-50/30 dark:bg-white/[0.02]">
-                                        <p className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3 flex items-center gap-2">
+                                        <p className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3 flex items-center gap-2">
                                             <ZapIcon sx={{ fontSize: 14 }} />
                                             Ambiente de Cores
                                         </p>

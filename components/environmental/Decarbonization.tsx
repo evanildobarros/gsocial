@@ -185,7 +185,7 @@ export const Decarbonization: React.FC = () => {
                             {intensityTrend <= 0 ? <TrendingDown size={160} strokeWidth={1} /> : <TrendingUp size={160} strokeWidth={1} />}
                         </div>
 
-                        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">
+                        <span className="text-[11px] font-black uppercase tracking-[0.2em] text-gray-400">
                             Intensidade de Carbono
                         </span>
 
@@ -235,7 +235,7 @@ export const Decarbonization: React.FC = () => {
                             <h3 className="text-lg font-black text-gray-900 dark:text-white">Desempenho Climático Histórico</h3>
                             <div className="px-3 py-1 rounded-full border border-emerald-200 bg-emerald-50 dark:bg-emerald-900/10 dark:border-emerald-500/20 flex items-center gap-2">
                                 <CheckCircle2 className="w-3 h-3 text-emerald-500" />
-                                <span className="text-[10px] font-bold text-emerald-700 dark:text-emerald-300 uppercase tracking-wide">Net Zero 2050</span>
+                                <span className="text-[11px] font-bold text-emerald-700 dark:text-emerald-300 uppercase tracking-wide">Net Zero 2050</span>
                             </div>
                         </div>
 
@@ -259,12 +259,12 @@ export const Decarbonization: React.FC = () => {
                                                 className="w-full bg-emerald-500/10 dark:bg-emerald-500/20 rounded-t-lg transition-all duration-300 group-hover:bg-emerald-500/30 cursor-pointer relative"
                                                 style={{ height: `${height}%` }}
                                             >
-                                                <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-[10px] font-bold px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-20 pointer-events-none">
+                                                <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-[11px] font-bold px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-20 pointer-events-none">
                                                     {rec.carbon_intensity.toFixed(4)}
                                                 </div>
                                             </div>
                                         </div>
-                                        <span className="text-[10px] font-bold text-gray-400 uppercase">
+                                        <span className="text-[11px] font-bold text-gray-400 uppercase">
                                             {rec.period_month}/{rec.period_year.toString().slice(-2)}
                                         </span>
                                     </div>

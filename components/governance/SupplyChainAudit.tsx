@@ -86,7 +86,7 @@ export const SupplyChainAudit: React.FC = () => {
                                             </div>
                                             <div>
                                                 <p className="line-clamp-1">{supplier.name}</p>
-                                                <span className="text-[10px] text-gray-400">{supplier.id}</span>
+                                                <span className="text-[11px] text-gray-400">{supplier.id}</span>
                                             </div>
                                         </div>
                                     </td>

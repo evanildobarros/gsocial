@@ -43,7 +43,7 @@ const FunnelRow = ({ label, employees, active }: { label: string, employees: Emp
             }
         `}>
             <div className="flex justify-between items-center mb-4">
-                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500">{label}</span>
+                <span className="text-[11px] font-black uppercase tracking-[0.2em] text-gray-500">{label}</span>
                 <span className="text-xs font-black text-gray-900 dark:text-gray-100">N = {employees.length}</span>
             </div>
             <div className="grid grid-cols-2 gap-8">
@@ -159,7 +159,7 @@ export const DiversityDashboard: React.FC = () => {
                         <div>
                             <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">Diversidade e Inclusão</h1>
                             <div className="flex items-center gap-2">
-                                <span className="px-2 py-0.5 rounded bg-gray-100 dark:bg-white/10 text-[10px] font-black uppercase text-gray-600 dark:text-gray-300">GRI 405</span>
+                                <span className="px-2 py-0.5 rounded bg-gray-100 dark:bg-white/10 text-[11px] font-black uppercase text-gray-600 dark:text-gray-300">GRI 405</span>
                                 <span className="text-xs font-bold text-gray-500">Conformidade EMAP 2026</span>
                             </div>
                         </div>
@@ -245,7 +245,7 @@ export const DiversityDashboard: React.FC = () => {
                 {/* KEY PERFORMANCE INDICATORS */}
                 <div className="lg:col-span-1 space-y-6">
                     <div className="bg-purple-50/30 dark:bg-purple-900/5 rounded-[32px] p-8 border border-purple-100 dark:border-purple-900/20 text-center relative overflow-hidden">
-                        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500">Conformidade PCD</span>
+                        <span className="text-[11px] font-black uppercase tracking-[0.2em] text-gray-500">Conformidade PCD</span>
 
                         <div className="relative py-8 flex justify-center">
                             {/* Custom Circular Progress */}
@@ -274,7 +274,7 @@ export const DiversityDashboard: React.FC = () => {
                                 </svg>
                                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
                                     <span className="text-3xl font-black block">{pcdPercentage.toFixed(1)}%</span>
-                                    <span className={`text-[9px] font-black uppercase ${pcdPercentage >= 5 ? 'text-green-600' : 'text-red-500'}`}>
+                                    <span className={`text-[11px] font-black uppercase ${pcdPercentage >= 5 ? 'text-green-600' : 'text-red-500'}`}>
                                         {pcdPercentage >= 5 ? 'Em Conformidade' : 'Abaixo da Cota'}
                                     </span>
                                 </div>

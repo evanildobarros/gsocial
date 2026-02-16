@@ -55,7 +55,7 @@ export const LAIA: React.FC = () => {
             </div>
 
             {/* Workflow Logic Breadcrumb */}
-            <div className="bg-white p-4 rounded-3xl border border-gray-100 flex items-center gap-4 text-[10px] font-black uppercase tracking-widest text-gray-400">
+            <div className="bg-white p-4 rounded-3xl border border-gray-100 flex items-center gap-4 text-[11px] font-black uppercase tracking-widest text-gray-400">
                 <span className="text-happiness-1">1. Atividade</span>
                 <ArrowRight className="w-3 h-3" />
                 <span>2. Aspecto</span>
@@ -86,12 +86,12 @@ export const LAIA: React.FC = () => {
                 {isLoading ? (
                     <div className="flex flex-col items-center justify-center py-20 space-y-4">
                         <Loader2 className="w-10 h-10 text-happiness-1 animate-spin" />
-                        <p className="text-gray-400 font-black uppercase tracking-widest text-[10px]">Lendo Matriz LAIA...</p>
+                        <p className="text-gray-400 font-black uppercase tracking-widest text-[11px]">Lendo Matriz LAIA...</p>
                     </div>
                 ) : (
                     <table className="w-full text-left border-collapse">
                         <thead>
-                            <tr className="bg-gray-50 text-[10px] font-black text-gray-400 uppercase tracking-[0.15em]">
+                            <tr className="bg-gray-50 text-[11px] font-black text-gray-400 uppercase tracking-[0.15em]">
                                 <th className="px-6 py-4">Fonte / Atividade</th>
                                 <th className="px-6 py-4">Aspecto & Impacto</th>
                                 <th className="px-6 py-4 text-center">Risco (SxP)</th>
@@ -106,7 +106,7 @@ export const LAIA: React.FC = () => {
                                     <tr key={record.id} className="hover:bg-gray-50/50 transition-colors">
                                         <td className="px-6 py-6">
                                             <p className="font-bold text-gray-900 text-sm">{record.activity_source}</p>
-                                            <span className="text-[10px] text-gray-400 font-bold uppercase">{record.id}</span>
+                                            <span className="text-[11px] text-gray-400 font-bold uppercase">{record.id}</span>
                                         </td>
                                         <td className="px-6 py-6">
                                             <div className="space-y-1">
@@ -117,11 +117,11 @@ export const LAIA: React.FC = () => {
                                             </div>
                                         </td>
                                         <td className="px-6 py-6 text-center">
-                                            <span className={`px-3 py-1 rounded-full text-[10px] font-black ${risk.color}`}>
+                                            <span className={`px-3 py-1 rounded-full text-[11px] font-black ${risk.color}`}>
                                                 {risk.label} ({record.risk_score})
                                             </span>
                                         </td>
-                                        <td className="px-6 py-6 font-mono text-[10px] text-gray-400 font-bold">
+                                        <td className="px-6 py-6 font-mono text-[11px] text-gray-400 font-bold">
                                             <div className="flex items-center gap-2">
                                                 <Shield className="w-3 h-3 text-green-500" />
                                                 {record.control_measure_id || 'N/A'}

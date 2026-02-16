@@ -81,15 +81,15 @@ export const ReportingHub: React.FC = () => {
                                         <div>
                                             <h3 className="text-sm font-black text-gray-800 dark:text-gray-200">{template.name}</h3>
                                             <div className="flex items-center gap-2 mt-0.5">
-                                                <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">{template.type}</span>
+                                                <span className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">{template.type}</span>
                                                 <div className="w-px h-3 bg-gray-300 dark:bg-white/20" />
-                                                <span className="text-[10px] font-black text-green-600">{template.mapping}% Mapeado</span>
+                                                <span className="text-[11px] font-black text-green-600">{template.mapping}% Mapeado</span>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div className="flex items-center gap-3">
-                                        <span className={`px-2 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider ${template.status === 'Ready' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' :
+                                        <span className={`px-2 py-1 rounded-lg text-[11px] font-black uppercase tracking-wider ${template.status === 'Ready' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' :
                                                 template.status === 'Partial' ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400' :
                                                     'bg-gray-100 text-gray-600 dark:bg-white/10 dark:text-gray-400'
                                             }`}>
@@ -135,7 +135,7 @@ export const ReportingHub: React.FC = () => {
                                 <div className="absolute bottom-0 right-0 w-5 h-5 bg-green-500 rounded-full border-[3px] border-white dark:border-[#1C1C1C]" />
                             </div>
                             <h3 className="text-xl font-black text-gray-900 dark:text-white">Canal Operante</h3>
-                            <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest mt-1">SISTEMA DE DIVULGAÇÃO EM TEMPO REAL</p>
+                            <p className="text-[11px] font-black text-gray-500 uppercase tracking-widest mt-1">SISTEMA DE DIVULGAÇÃO EM TEMPO REAL</p>
                         </div>
 
                         <div className="space-y-6 relative z-10 mb-8">
@@ -144,7 +144,7 @@ export const ReportingHub: React.FC = () => {
                                     <div className="flex justify-between items-center mb-2">
                                         <span className="text-sm font-black text-gray-700 dark:text-gray-300">{item.name}</span>
                                         <div className="flex items-center gap-2">
-                                            <span className="text-[10px] font-bold text-gray-400">{item.update}</span>
+                                            <span className="text-[11px] font-bold text-gray-400">{item.update}</span>
                                             <div className={`w-2 h-2 rounded-full ${item.status === 'Live' ? 'bg-green-500' : 'bg-amber-500'}`} />
                                         </div>
                                     </div>

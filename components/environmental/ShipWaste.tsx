@@ -71,7 +71,7 @@ export const ShipWaste: React.FC = () => {
                 {stats.map((stat, i) => (
                     <div key={i} className="bg-white p-5 rounded-3xl border border-gray-100 shadow-sm flex items-center justify-between">
                         <div>
-                            <span className="text-[10px] font-black uppercase text-gray-400 block mb-1">{stat.label}</span>
+                            <span className="text-[11px] font-black uppercase text-gray-400 block mb-1">{stat.label}</span>
                             <p className="text-2xl font-black text-gray-900 tracking-tighter">{stat.value}</p>
                         </div>
                         <div className="p-3 bg-gray-50 rounded-3xl">{stat.icon}</div>
@@ -84,12 +84,12 @@ export const ShipWaste: React.FC = () => {
                 {isLoading ? (
                     <div className="flex flex-col items-center justify-center py-20 space-y-4">
                         <Loader2 className="w-10 h-10 text-happiness-1 animate-spin" />
-                        <p className="text-gray-400 font-black uppercase tracking-widest text-[10px]">Sincronizando com Supabase...</p>
+                        <p className="text-gray-400 font-black uppercase tracking-widest text-[11px]">Sincronizando com Supabase...</p>
                     </div>
                 ) : (
                     <table className="w-full text-left">
                         <thead className="bg-[#1C1C1C] text-white">
-                            <tr className="text-[10px] font-black uppercase tracking-[0.2em]">
+                            <tr className="text-[11px] font-black uppercase tracking-[0.2em]">
                                 <th className="px-8 py-5">Navio / Viagem</th>
                                 <th className="px-8 py-5">Tipo (MARPOL)</th>
                                 <th className="px-8 py-5 text-center">Volume (M³)</th>
@@ -107,7 +107,7 @@ export const ShipWaste: React.FC = () => {
                                             </div>
                                             <div>
                                                 <p className="font-bold text-gray-900">{r.vessel_name}</p>
-                                                <p className="text-[10px] text-gray-400 font-bold uppercase">{r.id}</p>
+                                                <p className="text-[11px] text-gray-400 font-bold uppercase">{r.id}</p>
                                             </div>
                                         </div>
                                     </td>
@@ -125,13 +125,13 @@ export const ShipWaste: React.FC = () => {
                                                 <FileText className="w-4 h-4" /> {r.crr_mtr_number}
                                             </div>
                                         ) : (
-                                            <div className="flex items-center gap-2 text-red-500 font-black text-[10px] uppercase animate-pulse">
+                                            <div className="flex items-center gap-2 text-red-500 font-black text-[11px] uppercase animate-pulse">
                                                 <AlertCircle className="w-4 h-4" /> CRR PENDENTE
                                             </div>
                                         )}
                                     </td>
                                     <td className="px-8 py-6 text-right">
-                                        <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest ${r.status === 'Completed' ? 'bg-green-100 text-green-600 border border-green-200' :
+                                        <span className={`px-4 py-1.5 rounded-full text-[11px] font-black uppercase tracking-widest ${r.status === 'Completed' ? 'bg-green-100 text-green-600 border border-green-200' :
                                             r.status === 'In Progress' ? 'bg-blue-100 text-blue-600 border border-blue-200' :
                                                 'bg-orange-100 text-orange-600 border border-orange-200'
                                             }`}>

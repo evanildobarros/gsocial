@@ -114,7 +114,7 @@ export const NewProject: React.FC<NewProjectProps> = ({ onBack }) => {
 
     return (
         <div className="w-full space-y-6 animate-in fade-in duration-500">
-            <button onClick={onBack} className="flex items-center text-gray-400 hover:text-happiness-1 transition font-bold uppercase text-[10px] tracking-widest">
+            <button onClick={onBack} className="flex items-center text-gray-400 hover:text-happiness-1 transition font-bold uppercase text-[11px] tracking-widest">
                 <ArrowLeft className="w-4 h-4 mr-2" /> Voltar
             </button>
 

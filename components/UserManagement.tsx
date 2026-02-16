@@ -185,7 +185,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ onAddUser }) => 
                             className="w-full pl-10 pr-4 py-2 bg-white dark:bg-zinc-800 border border-gray-200 dark:border-white/10 rounded-full text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
                         />
                     </div>
-                    <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">
+                    <span className="text-[11px] font-black uppercase tracking-widest text-gray-400">
                         Total: {filteredProfiles.length} usuários
                     </span>
                 </div>
@@ -193,7 +193,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ onAddUser }) => 
                 {loading ? (
                     <div className="flex flex-col items-center py-20 gap-4">
                         <div className="w-12 h-12 rounded-full border-4 border-gray-200 border-t-primary animate-spin"></div>
-                        <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 animate-pulse">
+                        <span className="text-[11px] font-black uppercase tracking-widest text-gray-400 animate-pulse">
                             Sincronizando Perfis...
                         </span>
                     </div>
@@ -202,10 +202,10 @@ export const UserManagement: React.FC<UserManagementProps> = ({ onAddUser }) => 
                         <table className="w-full text-left border-collapse">
                             <thead>
                                 <tr className="bg-gray-50 dark:bg-white/5 border-b border-gray-200 dark:border-white/5">
-                                    <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-gray-500">Membro</th>
-                                    <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-gray-500">Contato</th>
-                                    <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-gray-500">Nível</th>
-                                    <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-gray-500">Desde</th>
+                                    <th className="px-6 py-4 text-[11px] font-black uppercase tracking-widest text-gray-500">Membro</th>
+                                    <th className="px-6 py-4 text-[11px] font-black uppercase tracking-widest text-gray-500">Contato</th>
+                                    <th className="px-6 py-4 text-[11px] font-black uppercase tracking-widest text-gray-500">Nível</th>
+                                    <th className="px-6 py-4 text-[11px] font-black uppercase tracking-widest text-gray-500">Desde</th>
                                     <th className="px-6 py-4 text-right"></th>
                                 </tr>
                             </thead>
@@ -221,7 +221,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ onAddUser }) => 
                                                     <p className="font-black text-gray-900 dark:text-white text-sm">
                                                         {profile.full_name || 'Sem Nome'}
                                                     </p>
-                                                    <p className="text-[10px] font-mono text-gray-400">ID: {profile.id.substring(0, 8)}</p>
+                                                    <p className="text-[11px] font-mono text-gray-400">ID: {profile.id.substring(0, 8)}</p>
                                                 </div>
                                             </div>
                                         </td>

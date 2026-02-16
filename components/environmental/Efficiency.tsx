@@ -195,12 +195,12 @@ export const Efficiency: React.FC = () => {
                     <h4 className="font-black text-xs uppercase tracking-[0.2em] text-gray-500 mb-4">Meta de Redução</h4>
                     <div className="flex items-baseline gap-2 mb-4">
                         <span className="text-4xl font-black tracking-tighter">15%</span>
-                        <span className="text-[10px] uppercase font-bold text-gray-400">vs 2025</span>
+                        <span className="text-[11px] uppercase font-bold text-gray-400">vs 2025</span>
                     </div>
                     <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
                         <div className="h-full bg-happiness-1 w-[68%]" />
                     </div>
-                    <p className="text-[10px] mt-2 font-bold text-gray-400">68% do objetivo atingido</p>
+                    <p className="text-[11px] mt-2 font-bold text-gray-400">68% do objetivo atingido</p>
                 </div>
             </div>
 
@@ -216,7 +216,7 @@ export const Efficiency: React.FC = () => {
                     <div className="overflow-x-auto">
                         <table className="w-full text-left">
                             <thead>
-                                <tr className="text-[10px] font-black text-gray-400 uppercase tracking-widest bg-gray-50 dark:bg-white/5">
+                                <tr className="text-[11px] font-black text-gray-400 uppercase tracking-widest bg-gray-50 dark:bg-white/5">
                                     <th className="px-8 py-4">Período</th>
                                     <th className="px-8 py-4">Água (m³)</th>
                                     <th className="px-8 py-4">Energia (kWh)</th>
@@ -242,7 +242,7 @@ export const Efficiency: React.FC = () => {
                                         <td className="px-8 py-4">
                                             <div className="flex items-center gap-2">
                                                 <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-                                                <span className="text-[10px] font-black uppercase text-green-600">Auditado</span>
+                                                <span className="text-[11px] font-black uppercase text-green-600">Auditado</span>
                                             </div>
                                         </td>
                                     </tr>
@@ -352,10 +352,10 @@ const EfficiencyCard = ({ label, value, unit, icon: Icon, color, bg }: any) => (
         <div className={`w-10 h-10 rounded-lg ${bg} border border-white/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
             <Icon className={`w-5 h-5 ${color}`} />
         </div>
-        <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-1">{label}</p>
+        <p className="text-[11px] font-black text-gray-500 uppercase tracking-widest mb-1">{label}</p>
         <div className="flex items-baseline gap-1">
             <h4 className="text-3xl font-black text-gray-900 dark:text-white tracking-tighter">{value}</h4>
-            <span className="text-[10px] font-bold text-gray-400">{unit}</span>
+            <span className="text-[11px] font-bold text-gray-400">{unit}</span>
         </div>
     </div>
 );

@@ -106,7 +106,7 @@ export const CreateUser: React.FC<CreateUserProps> = ({ onBack }) => {
                 <div>
                     <button
                         onClick={onBack}
-                        className="flex items-center gap-2 text-gray-400 hover:text-happiness-1 font-black text-[10px] uppercase tracking-[0.2em] mb-4 transition-colors group"
+                        className="flex items-center gap-2 text-gray-400 hover:text-happiness-1 font-black text-[11px] uppercase tracking-[0.2em] mb-4 transition-colors group"
                     >
                         <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" /> Voltar à Gestão
                     </button>
@@ -130,7 +130,7 @@ export const CreateUser: React.FC<CreateUserProps> = ({ onBack }) => {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 {/* Nome Completo */}
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">Nome Completo</label>
+                                    <label className="text-[11px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">Nome Completo</label>
                                     <div className="relative group">
                                         <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-300 group-focus-within:text-happiness-1 transition-colors" />
                                         <input
@@ -146,7 +146,7 @@ export const CreateUser: React.FC<CreateUserProps> = ({ onBack }) => {
 
                                 {/* E-mail */}
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">E-mail Corporativo</label>
+                                    <label className="text-[11px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">E-mail Corporativo</label>
                                     <div className="relative group">
                                         <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-300 group-focus-within:text-happiness-1 transition-colors" />
                                         <input
@@ -162,7 +162,7 @@ export const CreateUser: React.FC<CreateUserProps> = ({ onBack }) => {
 
                                 {/* Nível de Acesso */}
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">Perfil de Acesso</label>
+                                    <label className="text-[11px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">Perfil de Acesso</label>
                                     <div className="relative group">
                                         <Shield className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-300 group-focus-within:text-happiness-1 transition-colors" />
                                         <select
@@ -179,7 +179,7 @@ export const CreateUser: React.FC<CreateUserProps> = ({ onBack }) => {
 
                                 {/* Senha Inicial */}
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">Senha Provisória</label>
+                                    <label className="text-[11px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">Senha Provisória</label>
                                     <div className="relative group">
                                         <Key className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-300 group-focus-within:text-happiness-1 transition-colors" />
                                         <input
@@ -236,15 +236,15 @@ export const CreateUser: React.FC<CreateUserProps> = ({ onBack }) => {
                         </h3>
                         <div className="space-y-4">
                             <div className="p-4 bg-white/5 rounded-3xl border border-white/5">
-                                <p className="text-happiness-2 text-[10px] font-black uppercase tracking-widest mb-1">Master Admin</p>
+                                <p className="text-happiness-2 text-[11px] font-black uppercase tracking-widest mb-1">Master Admin</p>
                                 <p className="text-gray-400 text-xs font-medium">Controle total do sistema, gestão de faturamento e níveis de acesso.</p>
                             </div>
                             <div className="p-4 bg-white/5 rounded-3xl border border-white/5">
-                                <p className="text-happiness-3 text-[10px] font-black uppercase tracking-widest mb-1">Administrador</p>
+                                <p className="text-happiness-3 text-[11px] font-black uppercase tracking-widest mb-1">Administrador</p>
                                 <p className="text-gray-400 text-xs font-medium">Gere projetos, visualiza relatórios e gerencia usuários comuns.</p>
                             </div>
                             <div className="p-4 bg-white/5 rounded-3xl border border-white/5">
-                                <p className="text-gray-400 text-[10px] font-black uppercase tracking-widest mb-1">Usuário Comum</p>
+                                <p className="text-gray-400 text-[11px] font-black uppercase tracking-widest mb-1">Usuário Comum</p>
                                 <p className="text-gray-500 text-xs font-medium">Acesso limitado à leitura de projetos e envio de mensagens.</p>
                             </div>
                         </div>

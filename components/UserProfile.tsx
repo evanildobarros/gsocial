@@ -198,7 +198,7 @@ export const UserProfilePage: React.FC = () => {
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mt-8 md:mt-12">
                         <div className="lg:col-span-2 space-y-10">
                             <div>
-                                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 block mb-2">
+                                <span className="text-[11px] font-black uppercase tracking-[0.2em] text-gray-400 block mb-2">
                                     Identificação
                                 </span>
                                 {isEditing ? (
@@ -221,7 +221,7 @@ export const UserProfilePage: React.FC = () => {
                                         <MailIcon fontSize="small" />
                                     </div>
                                     <div>
-                                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wide">E-mail Corporativo</p>
+                                        <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wide">E-mail Corporativo</p>
                                         <p className="font-bold text-gray-900 dark:text-white break-all">{profile.email}</p>
                                     </div>
                                 </div>
@@ -231,7 +231,7 @@ export const UserProfilePage: React.FC = () => {
                                         <CalendarIcon fontSize="small" />
                                     </div>
                                     <div>
-                                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wide">Data de Ingresso</p>
+                                        <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wide">Data de Ingresso</p>
                                         <p className="font-bold text-gray-900 dark:text-white">
                                             {new Date(profile.created_at).toLocaleDateString('pt-BR')}
                                         </p>
@@ -265,7 +265,7 @@ export const UserProfilePage: React.FC = () => {
 
                             <div className="px-6 py-4 rounded-2xl border border-emerald-200 bg-emerald-50 dark:bg-emerald-900/10 dark:border-emerald-500/20 flex items-center gap-3">
                                 <VerifiedIcon className="text-emerald-500" />
-                                <span className="text-[10px] font-black text-emerald-700 dark:text-emerald-300 uppercase tracking-widest">
+                                <span className="text-[11px] font-black text-emerald-700 dark:text-emerald-300 uppercase tracking-widest">
                                     Conta Verificada
                                 </span>
                             </div>

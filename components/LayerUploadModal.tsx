@@ -137,7 +137,7 @@ export const LayerUploadModal: React.FC<LayerUploadModalProps> = ({ open, onClos
                         </div>
                         <div>
                             <h2 className="font-bold text-gray-900 dark:text-white leading-tight">Importar Mapeamento ESG</h2>
-                            <p className="text-[10px] text-gray-500 uppercase tracking-widest mt-0.5">Categorização obrigatória para inteligência de dados</p>
+                            <p className="text-[11px] text-gray-500 uppercase tracking-widest mt-0.5">Categorização obrigatória para inteligência de dados</p>
                         </div>
                     </div>
                     <button onClick={handleClose} className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-white rounded-full hover:bg-gray-100 dark:hover:bg-white/10 transition-colors">
@@ -149,7 +149,7 @@ export const LayerUploadModal: React.FC<LayerUploadModalProps> = ({ open, onClos
                 <div className="p-6 space-y-8 overflow-y-auto">
                     {/* Section 1: File Setup */}
                     <div className="space-y-4">
-                        <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-2">
+                        <span className="text-[11px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-2">
                             <Globe className="w-3.5 h-3.5" /> 1. Arquivo Geoespacial
                         </span>
 
@@ -177,7 +177,7 @@ export const LayerUploadModal: React.FC<LayerUploadModalProps> = ({ open, onClos
                                     <Upload className={`w-8 h-8 ${isDragging ? 'text-happiness-1' : 'text-gray-400'}`} />
                                 </div>
                                 <p className="text-sm font-bold text-gray-700 dark:text-gray-200 mb-1">Arraste e solte ou clique para selecionar</p>
-                                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">KML, GeoJSON, Shapefile (ZIP) ou CSV</p>
+                                <p className="text-[11px] text-gray-400 font-bold uppercase tracking-widest">KML, GeoJSON, Shapefile (ZIP) ou CSV</p>
                             </div>
                         ) : (
                             <div className="bg-green-500/5 dark:bg-green-500/10 rounded-3xl border border-green-500/20 p-5 flex items-center justify-between animate-in zoom-in-95 duration-200">
@@ -187,7 +187,7 @@ export const LayerUploadModal: React.FC<LayerUploadModalProps> = ({ open, onClos
                                     </div>
                                     <div className="truncate">
                                         <p className="text-sm font-black text-gray-800 dark:text-gray-200 truncate">{selectedFile.name}</p>
-                                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">{(selectedFile.size / 1024).toFixed(1)} KB</p>
+                                        <p className="text-[11px] text-gray-500 font-bold uppercase tracking-widest">{(selectedFile.size / 1024).toFixed(1)} KB</p>
                                     </div>
                                 </div>
                                 <button onClick={() => setSelectedFile(null)} className="p-2 text-gray-400 hover:text-red-500 rounded-full hover:bg-red-50 transition-colors">
@@ -199,13 +199,13 @@ export const LayerUploadModal: React.FC<LayerUploadModalProps> = ({ open, onClos
 
                     {/* Section 2: Metadata */}
                     <div className="space-y-6">
-                        <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-2">
+                        <span className="text-[11px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-2">
                             <Tag className="w-3.5 h-3.5" /> 2. Metadados e Categorização
                         </span>
 
                         <div className="space-y-6">
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Nome da Camada Principal</label>
+                                <label className="text-[11px] font-black text-gray-500 uppercase tracking-widest ml-1">Nome da Camada Principal</label>
                                 <input
                                     type="text"
                                     value={layerName}
@@ -216,7 +216,7 @@ export const LayerUploadModal: React.FC<LayerUploadModalProps> = ({ open, onClos
                             </div>
 
                             <div className="p-4 bg-blue-500/5 dark:bg-white/5 rounded-3xl border border-blue-500/20 space-y-3">
-                                <label className="text-[10px] font-black text-blue-600 dark:text-blue-400 uppercase tracking-widest ml-1 flex items-center gap-2">
+                                <label className="text-[11px] font-black text-blue-600 dark:text-blue-400 uppercase tracking-widest ml-1 flex items-center gap-2">
                                     <div className="w-2 h-2 rounded-full" style={{ backgroundColor: selectedColor }} />
                                     3. Definição Visual (Cor no Mapa)
                                 </label>
@@ -231,13 +231,13 @@ export const LayerUploadModal: React.FC<LayerUploadModalProps> = ({ open, onClos
                                     </div>
                                     <div className="flex flex-col">
                                         <span className="text-xs font-mono font-black text-gray-900 dark:text-white uppercase">{selectedColor}</span>
-                                        <span className="text-[9px] text-gray-400 font-medium italic">Clique no círculo para escolher a cor</span>
+                                        <span className="text-[11px] text-gray-400 font-medium italic">Clique no círculo para escolher a cor</span>
                                     </div>
                                 </div>
                             </div>
 
                             <div className="space-y-3">
-                                <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">4. Pilar ESG (Categoria)</label>
+                                <label className="text-[11px] font-black text-gray-500 uppercase tracking-widest ml-1">4. Pilar ESG (Categoria)</label>
                                 <div className="grid grid-cols-2 gap-3">
                                     {PILLAR_OPTIONS.map((opt) => (
                                         <button

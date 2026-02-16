@@ -111,7 +111,7 @@ export const RiskHeatmap: React.FC = () => {
 
                         <div className="w-full max-w-[500px] mx-auto relative p-6">
                             {/* Y-Axis Label */}
-                            <span className="absolute left-0 top-1/2 -translate-y-1/2 -rotate-90 origin-left text-[10px] font-black tracking-[0.2em] text-gray-400 uppercase whitespace-nowrap">
+                            <span className="absolute left-0 top-1/2 -translate-y-1/2 -rotate-90 origin-left text-[11px] font-black tracking-[0.2em] text-gray-400 uppercase whitespace-nowrap">
                                 Probabilidade
                             </span>
 
@@ -127,7 +127,7 @@ export const RiskHeatmap: React.FC = () => {
                                                 <div
                                                     key={r.id}
                                                     onClick={(e) => { e.stopPropagation(); setSelectedRisk(r); }}
-                                                    className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-black shadow-sm transition-transform hover:scale-125 hover:z-10 ${getCategoryColor(r.category)}`}
+                                                    className={`w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-black shadow-sm transition-transform hover:scale-125 hover:z-10 ${getCategoryColor(r.category)}`}
                                                     title={r.name}
                                                 >
                                                     {r.id}
@@ -140,7 +140,7 @@ export const RiskHeatmap: React.FC = () => {
 
                             {/* X-Axis Label */}
                             <div className="text-center mt-4">
-                                <span className="text-[10px] font-black tracking-[0.2em] text-gray-400 uppercase">
+                                <span className="text-[11px] font-black tracking-[0.2em] text-gray-400 uppercase">
                                     Impacto Operacional
                                 </span>
                             </div>
@@ -154,14 +154,14 @@ export const RiskHeatmap: React.FC = () => {
                         {selectedRisk ? (
                             <div className="animate-in fade-in slide-in-from-right-4 duration-300">
                                 <div className="flex justify-between items-start mb-6">
-                                    <span className={`px-3 py-1 rounded-lg text-[10px] font-black uppercase border ${getCategoryPillColor(selectedRisk.category)}`}>
+                                    <span className={`px-3 py-1 rounded-lg text-[11px] font-black uppercase border ${getCategoryPillColor(selectedRisk.category)}`}>
                                         {selectedRisk.category === 'Environmental' ? 'Ambiental' : selectedRisk.category === 'Social' ? 'Social' : 'Governança'}
                                     </span>
                                     <div className="text-right">
                                         <div className="text-4xl font-black text-blue-600 leading-none">
                                             {calculateRiskScore(selectedRisk)}
                                         </div>
-                                        <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Fator ESG</span>
+                                        <span className="text-[11px] font-black text-gray-400 uppercase tracking-widest">Fator ESG</span>
                                     </div>
                                 </div>
 
@@ -208,12 +208,12 @@ export const RiskHeatmap: React.FC = () => {
                                                 : 'hover:bg-gray-50 dark:hover:bg-white/5'
                                             }`}
                                     >
-                                        <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-black text-white shadow-sm shrink-0 ${getCategoryColor(r.category)}`}>
+                                        <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-black text-white shadow-sm shrink-0 ${getCategoryColor(r.category)}`}>
                                             {r.id}
                                         </div>
                                         <div className="flex-1 min-w-0">
                                             <span className="block text-xs font-black text-gray-800 dark:text-gray-200 truncate">{r.name}</span>
-                                            <span className="block text-[10px] font-medium text-gray-500">{r.category}</span>
+                                            <span className="block text-[11px] font-medium text-gray-500">{r.category}</span>
                                         </div>
                                         <span className="text-sm font-black text-gray-900 dark:text-white">{calculateRiskScore(r)}</span>
                                     </button>

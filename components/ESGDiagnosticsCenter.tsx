@@ -83,7 +83,7 @@ export const ESGDiagnosticsCenter: React.FC<ESGDiagnosticsCenterProps> = ({ onSe
                             {m.icon}
                         </div>
 
-                        <span className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-1">
+                        <span className="text-[11px] font-black text-gray-400 uppercase tracking-[0.2em] mb-1">
                             {m.subtitle}
                         </span>
                         <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-3 tracking-tight">

@@ -203,7 +203,7 @@ export const MeteoPredictiveModule: React.FC = () => {
                         <Wind className="text-blue-500" />
                         <TrendingUp className="w-4 h-4 text-green-500" />
                     </div>
-                    <span className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">VENTO ESCALAR</span>
+                    <span className="text-[11px] font-black text-gray-400 uppercase tracking-[0.2em]">VENTO ESCALAR</span>
                     <div className="mt-1 text-3xl font-black text-gray-900 dark:text-white">
                         {data[23]?.windSpeed.toFixed(1)} <span className="text-sm font-normal text-gray-400">m/s</span>
                     </div>
@@ -212,9 +212,9 @@ export const MeteoPredictiveModule: React.FC = () => {
                 <div className="bg-white dark:bg-[#1C1C1C] rounded-[24px] p-6 border border-gray-200 dark:border-white/5 shadow-sm hover:-translate-y-1 transition-transform duration-200">
                     <div className="flex justify-between items-start mb-2">
                         <Cloud className="text-cyan-500" />
-                        <span className="text-[10px] font-black text-red-500 uppercase">ALERTA</span>
+                        <span className="text-[11px] font-black text-red-500 uppercase">ALERTA</span>
                     </div>
-                    <span className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">PRECIPITAÇÃO ACUM.</span>
+                    <span className="text-[11px] font-black text-gray-400 uppercase tracking-[0.2em]">PRECIPITAÇÃO ACUM.</span>
                     <div className="mt-1 text-3xl font-black text-gray-900 dark:text-white">
                         {data.reduce((acc, c) => acc + c.rainMm, 0).toFixed(1)} <span className="text-sm font-normal text-gray-400">mm</span>
                     </div>
@@ -223,9 +223,9 @@ export const MeteoPredictiveModule: React.FC = () => {
                 <div className="bg-white dark:bg-[#1C1C1C] rounded-[24px] p-6 border border-gray-200 dark:border-white/5 shadow-sm hover:-translate-y-1 transition-transform duration-200">
                     <div className="flex justify-between items-start mb-2">
                         <Thermometer className="text-amber-500" />
-                        <span className="text-[10px] font-black text-gray-400 uppercase">ESTÁVEL</span>
+                        <span className="text-[11px] font-black text-gray-400 uppercase">ESTÁVEL</span>
                     </div>
-                    <span className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">TEMPERATURA</span>
+                    <span className="text-[11px] font-black text-gray-400 uppercase tracking-[0.2em]">TEMPERATURA</span>
                     <div className="mt-1 text-3xl font-black text-gray-900 dark:text-white">
                         {data[23]?.temp.toFixed(1)} <span className="text-sm font-normal text-gray-400">°C</span>
                     </div>
@@ -234,9 +234,9 @@ export const MeteoPredictiveModule: React.FC = () => {
                 <div className="bg-white dark:bg-[#1C1C1C] rounded-[24px] p-6 border border-gray-200 dark:border-white/5 shadow-sm hover:-translate-y-1 transition-transform duration-200">
                     <div className="flex justify-between items-start mb-2">
                         <Droplets className="text-purple-500" />
-                        <span className="text-[10px] font-black text-green-500 uppercase">-5%</span>
+                        <span className="text-[11px] font-black text-green-500 uppercase">-5%</span>
                     </div>
-                    <span className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">UMIDADE</span>
+                    <span className="text-[11px] font-black text-gray-400 uppercase tracking-[0.2em]">UMIDADE</span>
                     <div className="mt-1 text-3xl font-black text-gray-900 dark:text-white">
                         {data[23]?.humidity.toFixed(0)} <span className="text-sm font-normal text-gray-400">%</span>
                     </div>
@@ -265,7 +265,7 @@ export const MeteoPredictiveModule: React.FC = () => {
                             <div>
                                 <div className="flex justify-between items-center mb-2">
                                     <span className="text-xs font-black text-gray-500 uppercase">DISPERSÃO DE PARTICULADOS</span>
-                                    <span className="px-2 py-0.5 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 text-[10px] font-black uppercase rounded-lg">ALTO RISCO</span>
+                                    <span className="px-2 py-0.5 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 text-[11px] font-black uppercase rounded-lg">ALTO RISCO</span>
                                 </div>
                                 <p className="text-sm text-gray-500 italic mb-4">
                                     Ventos de Sudeste ({'>'}6m/s) sopram em direção à zona urbana.
@@ -300,11 +300,11 @@ export const MeteoPredictiveModule: React.FC = () => {
                                             }
                                         `}
                                     >
-                                        <span className="text-[10px] font-black">{win.time.split(':')[0]}</span>
+                                        <span className="text-[11px] font-black">{win.time.split(':')[0]}</span>
                                     </div>
 
                                     {/* Custom Tooltip */}
-                                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-white text-[10px] font-bold rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-20 pointer-events-none">
+                                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-white text-[11px] font-bold rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-20 pointer-events-none">
                                         Score: {win.score.toFixed(1)}
                                     </div>
                                 </div>
@@ -312,9 +312,9 @@ export const MeteoPredictiveModule: React.FC = () => {
                         </div>
 
                         <div className="flex justify-between px-2">
-                            <span className="text-[10px] font-bold text-gray-400">00:00</span>
-                            <span className="text-[10px] font-black text-blue-600">AGORA</span>
-                            <span className="text-[10px] font-bold text-gray-400">23:00</span>
+                            <span className="text-[11px] font-bold text-gray-400">00:00</span>
+                            <span className="text-[11px] font-black text-blue-600">AGORA</span>
+                            <span className="text-[11px] font-bold text-gray-400">23:00</span>
                         </div>
                     </div>
 

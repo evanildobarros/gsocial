@@ -62,7 +62,7 @@ export const InnovationFunnel: React.FC = () => {
                             <div className={`${stage.color} text-white w-12 h-12 rounded-3xl flex items-center justify-center mx-auto shadow-lg`}>
                                 {stage.icon}
                             </div>
-                            <h4 className="text-[10px] font-black uppercase text-gray-400 tracking-widest">{stage.name}</h4>
+                            <h4 className="text-[11px] font-black uppercase text-gray-400 tracking-widest">{stage.name}</h4>
                             <p className="text-3xl font-black text-gray-900">{stage.count}</p>
                         </div>
                         {i < 3 && (
@@ -78,7 +78,7 @@ export const InnovationFunnel: React.FC = () => {
             {isLoading ? (
                 <div className="flex flex-col items-center justify-center py-20 space-y-4">
                     <Loader2 className="w-10 h-10 text-happiness-1 animate-spin" />
-                    <p className="text-gray-400 font-black uppercase tracking-widest text-[10px]">Carregando Portfólio de Inovação...</p>
+                    <p className="text-gray-400 font-black uppercase tracking-widest text-[11px]">Carregando Portfólio de Inovação...</p>
                 </div>
             ) : (
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -86,7 +86,7 @@ export const InnovationFunnel: React.FC = () => {
                         <div key={idea.id} className="bg-white p-8 rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/50 hover:border-happiness-1/30 transition-all flex flex-col justify-between">
                             <div className="space-y-4">
                                 <div className="flex justify-between items-start">
-                                    <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest text-white ${idea.impact_area === 'Environmental' ? 'bg-green-500' :
+                                    <span className={`px-4 py-1.5 rounded-full text-[11px] font-black uppercase tracking-widest text-white ${idea.impact_area === 'Environmental' ? 'bg-green-500' :
                                         idea.impact_area === 'Operational' ? 'bg-blue-500' :
                                             idea.impact_area === 'Social' ? 'bg-happiness-1' : 'bg-gray-500'
                                         }`}>
@@ -94,7 +94,7 @@ export const InnovationFunnel: React.FC = () => {
                                     </span>
                                     <div className="flex items-center gap-2 bg-gray-50 px-3 py-1 rounded-full border border-gray-100">
                                         <BarChart3 className="w-3.5 h-3.5 text-happiness-1" />
-                                        <span className="text-[10px] font-black text-gray-900">{idea.alignment_score}% Alinhamento</span>
+                                        <span className="text-[11px] font-black text-gray-900">{idea.alignment_score}% Alinhamento</span>
                                     </div>
                                 </div>
                                 <h3 className="text-xl font-black text-gray-900 leading-tight">{idea.title}</h3>
@@ -105,15 +105,15 @@ export const InnovationFunnel: React.FC = () => {
 
                             <div className="pt-8 border-t border-gray-50 mt-8 flex justify-between items-center">
                                 <div className="flex items-center gap-3">
-                                    <div className="w-8 h-8 rounded-full bg-happiness-3/20 flex items-center justify-center text-happiness-1 font-black text-[10px]">
+                                    <div className="w-8 h-8 rounded-full bg-happiness-3/20 flex items-center justify-center text-happiness-1 font-black text-[11px]">
                                         {idea.author_id.substring(0, 2).toUpperCase()}
                                     </div>
                                     <div>
-                                        <p className="text-[10px] font-black text-gray-900 uppercase">Autor: {idea.author_id.substring(0, 8)}...</p>
-                                        <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">{idea.stage}</p>
+                                        <p className="text-[11px] font-black text-gray-900 uppercase">Autor: {idea.author_id.substring(0, 8)}...</p>
+                                        <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">{idea.stage}</p>
                                     </div>
                                 </div>
-                                <button className="text-[10px] font-black text-happiness-1 uppercase tracking-widest hover:underline flex items-center gap-1">
+                                <button className="text-[11px] font-black text-happiness-1 uppercase tracking-widest hover:underline flex items-center gap-1">
                                     Ver Projeto <ArrowRight className="w-3 h-3" />
                                 </button>
                             </div>

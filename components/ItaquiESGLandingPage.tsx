@@ -484,7 +484,7 @@ const SectionBadge = ({ text }: { text: string }) => (
 
 const ImpactMetric = ({ value, label, sub, trend }: { value: string, label: string, sub: string, trend: string }) => (
     <div className="flex flex-col relative group">
-        <div className="absolute top-0 right-0 text-[10px] font-bold bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full">
+        <div className="absolute top-0 right-0 text-[11px] font-bold bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full">
             {trend}
         </div>
         <div className="text-4xl font-bold text-slate-900 mb-1 group-hover:text-emerald-600 transition-colors">{value}</div>

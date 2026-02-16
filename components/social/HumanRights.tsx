@@ -149,9 +149,9 @@ export const HumanRights: React.FC = () => {
                             <div className="flex justify-between items-start">
                                 <div className="text-left">
                                     <h4 className="font-black text-sm text-gray-900 dark:text-white uppercase tracking-tight">{searchResult.company_name}</h4>
-                                    <p className="text-[10px] text-gray-400 font-bold tracking-widest">{searchResult.cnpj}</p>
+                                    <p className="text-[11px] text-gray-400 font-bold tracking-widest">{searchResult.cnpj}</p>
                                 </div>
-                                <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase ${searchResult.status === 'Active' ? 'bg-green-100 text-green-700' :
+                                <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-black uppercase ${searchResult.status === 'Active' ? 'bg-green-100 text-green-700' :
                                     searchResult.status === 'Blocked' ? 'bg-red-100 text-red-700' : 'bg-yellow-100 text-yellow-700'
                                     }`}>
                                     {searchResult.status === 'Active' ? <CheckCircle2 className="w-3 h-3" /> : <XCircle className="w-3 h-3" />}
@@ -160,7 +160,7 @@ export const HumanRights: React.FC = () => {
                             </div>
                             {searchResult.violation_details && (
                                 <div className="mt-3 text-left p-3 bg-red-50 dark:bg-red-900/20 rounded border border-red-100 dark:border-red-900/10">
-                                    <p className="text-[10px] text-red-700 dark:text-red-400 font-bold italic leading-relaxed">"{searchResult.violation_details}"</p>
+                                    <p className="text-[11px] text-red-700 dark:text-red-400 font-bold italic leading-relaxed">"{searchResult.violation_details}"</p>
                                 </div>
                             )}
                         </div>
@@ -172,12 +172,12 @@ export const HumanRights: React.FC = () => {
                     <div className="space-y-8">
                         <div>
                             <div className="text-4xl font-black tracking-tighter">{stats.total}</div>
-                            <div className="text-[10px] text-gray-400 font-black uppercase tracking-[0.2em] mt-2">Parceiros Monitorados</div>
+                            <div className="text-[11px] text-gray-400 font-black uppercase tracking-[0.2em] mt-2">Parceiros Monitorados</div>
                         </div>
                         <div className="h-px bg-white/10" />
                         <div>
                             <div className="text-4xl font-black text-red-500 tracking-tighter">{stats.blocked}</div>
-                            <div className="text-[10px] text-gray-400 font-black uppercase tracking-[0.2em] mt-2">Restrições Ativas</div>
+                            <div className="text-[11px] text-gray-400 font-black uppercase tracking-[0.2em] mt-2">Restrições Ativas</div>
                         </div>
                     </div>
                 </div>
@@ -300,7 +300,7 @@ export const HumanRights: React.FC = () => {
                         Sistema automatizado de varredura (VRA) analisa diariamente 100+ bases governamentais.
                         Relatórios de conformidade para o TAC de Aratu disponíveis na diretoria.
                     </p>
-                    <button className="mt-4 text-[10px] font-black text-blue-600 uppercase tracking-widest hover:underline">Acessar Arquivo Digital</button>
+                    <button className="mt-4 text-[11px] font-black text-blue-600 uppercase tracking-widest hover:underline">Acessar Arquivo Digital</button>
                 </div>
             </div>
         </div>

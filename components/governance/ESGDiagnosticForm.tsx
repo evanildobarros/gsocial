@@ -237,12 +237,12 @@ export const ESGDiagnosticForm: React.FC<ESGDiagnosticFormProps> = ({ initialTab
                                     {q.question}
                                 </span>
                                 {multiplier > 1 && (
-                                    <span className="px-2 py-0.5 bg-amber-50 text-amber-600 font-bold text-[8px] rounded-lg dark:bg-amber-900/20 flex items-center gap-1 border border-amber-200">
+                                    <span className="px-2 py-0.5 bg-amber-50 text-amber-600 font-bold text-[11px] rounded-lg dark:bg-amber-900/20 flex items-center gap-1 border border-amber-200">
                                         <Anchor size={8} /> Materialidade Setorial ({multiplier}x)
                                     </span>
                                 )}
                                 {q.weight > 1.5 && multiplier === 1 && (
-                                    <span className="px-2 py-0.5 bg-red-50 text-red-600 font-bold text-[8px] rounded-lg dark:bg-red-900/20">
+                                    <span className="px-2 py-0.5 bg-red-50 text-red-600 font-bold text-[11px] rounded-lg dark:bg-red-900/20">
                                         Critério Crítico
                                     </span>
                                 )}
@@ -282,13 +282,13 @@ export const ESGDiagnosticForm: React.FC<ESGDiagnosticFormProps> = ({ initialTab
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-2 text-gray-500">
                                         <Upload size={14} />
-                                        <span className="text-[10px] font-bold uppercase tracking-widest">
+                                        <span className="text-[11px] font-bold uppercase tracking-widest">
                                             Evidência Documental Obrigatória (Evitar Wash)
                                         </span>
                                     </div>
                                     <button
                                         onClick={() => document.getElementById(`upload-${q.id}`)?.click()}
-                                        className="text-[10px] font-black text-happiness-1 uppercase hover:underline"
+                                        className="text-[11px] font-black text-happiness-1 uppercase hover:underline"
                                     >
                                         {evidences[q.id] ? evidences[q.id]?.name : 'Selecionar Relatório'}
                                     </button>
@@ -323,7 +323,7 @@ export const ESGDiagnosticForm: React.FC<ESGDiagnosticFormProps> = ({ initialTab
 
             {/* Operation Selector - Dual Materiality Input */}
             <div className="bg-white dark:bg-[#1C1C1C] p-6 rounded-3xl border border-gray-200 dark:border-white/5">
-                <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                <p className="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2">
                     <Anchor size={14} className="text-happiness-1" />
                     Selecione o Tipo de Operação Portuária (Ajuste de Dupla Materialidade)
                 </p>
