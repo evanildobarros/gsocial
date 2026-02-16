@@ -14,7 +14,8 @@ import {
     ShieldCheck,
     Info,
     ArrowUpRight,
-    ExternalLink
+    ExternalLink,
+    Lightbulb
 } from 'lucide-react';
 import { supabase } from '../../utils/supabase';
 import { showSuccess, showError } from '../../utils/notifications';
