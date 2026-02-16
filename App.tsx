@@ -287,7 +287,7 @@ export default function App() {
                             id: p.id,
                             title: p.name,
                             description: p.description || p.tema,
-                            status: p.status === 'Concluído' ? 'completed' : p.status === 'Planejado' ? 'planning' : 'active',
+                            status: p.status === 'Concluído' ? 'completed' : p.status === 'Pausado' ? 'paused' : p.status === 'Planejado' ? 'planning' : 'active',
                             budget: parseFloat(p.budget || '0'),
                             startDate: p.start_date || '',
                             endDate: p.end_date || '',
@@ -339,7 +339,7 @@ export default function App() {
                                 pilar: 'Social',
                                 materiality_topics: (project as any).materialityTopics,
                                 tema: (project as any).materialityTopics[0] || 'Geral', // Legado
-                                status: project.status === 'completed' ? 'Concluído' : project.status === 'planning' ? 'Planejado' : 'Em andamento',
+                                status: project.status === 'completed' ? 'Concluído' : project.status === 'paused' ? 'Pausado' : project.status === 'planning' ? 'Planejado' : 'Em andamento',
                                 community: project.neighborhoods[0] || 'Vila Bacanga',
                                 budget: project.budget.toString(),
                                 description: project.description,
