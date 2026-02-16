@@ -298,7 +298,7 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
     );
 
     return (
-        <div className={`flex h-[calc(100vh-180px)] md:h-[calc(100vh-220px)] animate-in fade-in duration-500 ${isSidebarOpen ? 'gap-6' : 'gap-0'}`}>
+        <div className={`flex h-[500px] md:h-[calc(100vh-220px)] animate-in fade-in duration-500 ${isSidebarOpen ? 'gap-6' : 'gap-0'}`}>
             <style>{infoWindowStyle}</style>
 
             {/* Sidebar / Layer Manager Container */}
