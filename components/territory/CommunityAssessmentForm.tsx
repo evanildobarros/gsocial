@@ -320,18 +320,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                                 NOVA COMUNIDADE
                             </button>
                         </>
-                    ) : (
-                        <button
-                            onClick={() => {
-                                setViewMode('list');
-                                resetForm();
-                            }}
-                            className="flex items-center gap-2 px-4 py-2 border border-gray-200 dark:border-white/10 text-gray-500 dark:text-gray-400 font-bold rounded-3xl text-xs hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
-                        >
-                            <ArrowLeft size={14} />
-                            VOLTAR À LISTA
-                        </button>
-                    )}
+                    ) : null}
                 </div>
             </header>
 
@@ -604,7 +593,16 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                             </div>
                         </div>
 
-                        <div className="flex justify-end pt-4 pb-12">
+                        <div className="flex justify-end items-center gap-4 pt-4 pb-12">
+                            <button
+                                onClick={() => {
+                                    setViewMode('list');
+                                    resetForm();
+                                }}
+                                className="px-6 py-2.5 text-gray-500 font-bold text-sm tracking-wide hover:text-gray-700 dark:hover:text-white transition-colors"
+                            >
+                                Descartar e Voltar
+                            </button>
                             <button
                                 onClick={handleSave}
                                 disabled={saving}

@@ -160,23 +160,6 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                             </p>
                         </div>
                     </div>
-
-                    <div className="flex gap-3">
-                        <button
-                            type="button"
-                            onClick={onCancel}
-                            className="px-6 py-2.5 text-gray-500 font-bold text-sm tracking-wide hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
-                        >
-                            Descartar
-                        </button>
-                        <button
-                            type="submit"
-                            className="bg-happiness-1 hover:bg-happiness-1/90 text-white px-8 py-2.5 rounded-full font-black text-sm uppercase tracking-widest shadow-lg shadow-happiness-1/20 transition-all hover:scale-105 flex items-center gap-2"
-                        >
-                            <Save className="w-4 h-4" />
-                            {initialData ? 'Salvar Alterações' : 'Registrar Projeto'}
-                        </button>
-                    </div>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-7 gap-10">
@@ -488,6 +471,24 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                             Selecione os Objetivos de Desenvolvimento Sustentável em que este projeto gera impacto direto, conforme as diretrizes da Equipe ESG EMAP.
                         </p>
                     </div>
+                </div>
+
+                {/* Bottom Actions */}
+                <div className="pt-8 border-t border-gray-100 dark:border-white/5 flex justify-end items-center gap-4">
+                    <button
+                        type="button"
+                        onClick={onCancel}
+                        className="px-6 py-2.5 text-gray-500 font-bold text-sm tracking-wide hover:text-gray-700 dark:hover:text-white transition-colors"
+                    >
+                        Descartar Alterações
+                    </button>
+                    <button
+                        type="submit"
+                        className="bg-happiness-1 hover:bg-happiness-1/90 text-white px-10 py-3.5 rounded-full font-black text-sm uppercase tracking-widest shadow-xl shadow-happiness-1/20 transition-all hover:scale-105 flex items-center gap-2"
+                    >
+                        <Save className="w-5 h-5" />
+                        {initialData ? 'Salvar Alterações' : 'Registrar Projeto Social'}
+                    </button>
                 </div>
             </form>
         </div>
