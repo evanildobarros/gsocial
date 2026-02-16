@@ -221,13 +221,14 @@ export const LayerUploadModal: React.FC<LayerUploadModalProps> = ({ open, onClos
                                     3. Definição Visual (Cor no Mapa)
                                 </label>
                                 <div className="flex items-center gap-4 bg-white dark:bg-black/40 p-3 rounded-2xl border border-gray-100 dark:border-white/5 shadow-sm">
-                                    <input
-                                        type="color"
-                                        value={selectedColor}
-                                        onChange={(e) => setSelectedColor(e.target.value)}
-                                        className="w-10 h-10 rounded-full border-none cursor-pointer bg-transparent overflow-hidden"
-                                        style={{ minWidth: '40px' }}
-                                    />
+                                    <div className="relative w-10 h-10 rounded-full border border-gray-200 dark:border-white/10 overflow-hidden shadow-sm" style={{ backgroundColor: selectedColor }}>
+                                        <input
+                                            type="color"
+                                            value={selectedColor}
+                                            onChange={(e) => setSelectedColor(e.target.value)}
+                                            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                        />
+                                    </div>
                                     <div className="flex flex-col">
                                         <span className="text-xs font-mono font-black text-gray-900 dark:text-white uppercase">{selectedColor}</span>
                                         <span className="text-[9px] text-gray-400 font-medium italic">Clique no círculo para escolher a cor</span>
@@ -237,7 +238,6 @@ export const LayerUploadModal: React.FC<LayerUploadModalProps> = ({ open, onClos
 
                             <div className="space-y-3">
                                 <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">4. Pilar ESG (Categoria)</label>
-                                <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Pilar ESG (Categoria)</label>
                                 <div className="grid grid-cols-2 gap-3">
                                     {PILLAR_OPTIONS.map((opt) => (
                                         <button

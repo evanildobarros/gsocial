@@ -206,12 +206,14 @@ export const LayerUploaderInline: React.FC<LayerUploaderInlineProps> = ({ onLaye
                         <div className="space-y-1.5">
                             <label className="text-xs font-semibold text-gray-600 dark:text-gray-400">Cor da Camada no Mapa</label>
                             <div className="flex items-center gap-3 bg-gray-50 dark:bg-white/5 p-2 rounded-2xl border border-gray-100 dark:border-white/5">
-                                <input
-                                    type="color"
-                                    value={selectedColor}
-                                    onChange={(e) => setSelectedColor(e.target.value)}
-                                    className="w-8 h-8 rounded-full border-none cursor-pointer bg-transparent overflow-hidden"
-                                />
+                                <div className="relative w-8 h-8 rounded-full border border-gray-200 dark:border-white/10 overflow-hidden shadow-sm" style={{ backgroundColor: selectedColor }}>
+                                    <input
+                                        type="color"
+                                        value={selectedColor}
+                                        onChange={(e) => setSelectedColor(e.target.value)}
+                                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                    />
+                                </div>
                                 <span className="text-[10px] font-mono font-black text-gray-900 dark:text-white uppercase">{selectedColor}</span>
                             </div>
                         </div>
