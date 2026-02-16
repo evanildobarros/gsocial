@@ -14,7 +14,8 @@ import {
     Info,
     MoreHorizontal,
     Trash2,
-    Check
+    Check,
+    Thermometer
 } from 'lucide-react';
 
 interface Notification {
