@@ -7,9 +7,12 @@ import {
     MapPin,
     BarChart3,
     Calendar,
-    Check
+    Check,
+    ChevronDown,
+    Search
 } from 'lucide-react';
-import { SocialProject, SocialProjectStatus, MATERIALITY_TOPICS } from '../../types';
+import { SocialProject, SocialProjectStatus, MATERIALITY_TOPICS, CommunityAssessment } from '../../types';
+import { supabase } from '../../utils/supabase';
 
 interface SocialProjectFormProps {
     onSubmit: (project: Omit<SocialProject, 'id'>) => void;
@@ -37,6 +40,32 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
 
     const [sroi, setSroi] = useState<number>(0);
     const [currentNeighborhood, setCurrentNeighborhood] = useState('');
+    const [registeredCommunities, setRegisteredCommunities] = useState<string[]>([]);
+    const [showSuggestions, setShowSuggestions] = useState(false);
+    const suggestionRef = React.useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (suggestionRef.current && !suggestionRef.current.contains(event.target as Node)) {
+                setShowSuggestions(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
+    useEffect(() => {
+        const fetchCommunities = async () => {
+            const { data, error } = await supabase
+                .from('community_assessments')
+                .select('community_name');
+            
+            if (data && !error) {
+                setRegisteredCommunities(data.map((c: any) => c.community_name));
+            }
+        };
+        fetchCommunities();
+    }, []);
 
     useEffect(() => {
         if (formData.budget > 0 && formData.estimatedImpactValue > 0) {
@@ -85,6 +114,7 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                 }));
             }
             setCurrentNeighborhood('');
+            setShowSuggestions(false);
         }
     };
 
@@ -305,10 +335,10 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                                 <span className="text-[10px] px-2 py-0.5 bg-gray-100 dark:bg-white/10 rounded-full text-gray-500 italic">Área de Influência Direta</span>
                             </div>
 
-                            <div className="p-2 border border-gray-200 dark:border-white/10 rounded-2xl bg-gray-50 dark:bg-zinc-900/30">
+                            <div className="relative p-2 border border-gray-200 dark:border-white/10 rounded-2xl bg-gray-50 dark:bg-zinc-900/30">
                                 <div className="flex flex-wrap gap-2 mb-2 p-2">
                                     {formData.neighborhoods.map(neighborhood => (
-                                        <span key={neighborhood} className="inline-flex items-center gap-1 bg-happiness-1/10 text-happiness-1 text-xs font-bold px-2.5 py-1 rounded-lg">
+                                        <span key={neighborhood} className="inline-flex items-center gap-1 bg-happiness-1/10 text-happiness-1 text-xs font-bold px-2.5 py-1 rounded-lg animate-in zoom-in-95">
                                             {neighborhood}
                                             <button
                                                 type="button"
@@ -320,15 +350,78 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                                         </span>
                                     ))}
                                 </div>
-                                <input
-                                    type="text"
-                                    value={currentNeighborhood}
-                                    onChange={(e) => setCurrentNeighborhood(e.target.value)}
-                                    onKeyDown={handleNeighborhoodKeyDown}
-                                    placeholder="Digite e aperte Enter..."
-                                    className="w-full px-4 py-2 bg-transparent text-sm focus:outline-none placeholder:text-gray-400 font-medium"
-                                />
+                                <div className="relative group">
+                                    <input
+                                        type="text"
+                                        value={currentNeighborhood}
+                                        onChange={(e) => {
+                                            setCurrentNeighborhood(e.target.value);
+                                            setShowSuggestions(true);
+                                        }}
+                                        onFocus={() => setShowSuggestions(true)}
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Escape') setShowSuggestions(false);
+                                            handleNeighborhoodKeyDown(e);
+                                        }}
+                                        placeholder="Selecione ou digite uma comunidade..."
+                                        className="w-full px-4 py-2 bg-transparent text-sm focus:outline-none placeholder:text-gray-400 font-medium"
+                                    />
+                                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none group-focus-within:rotate-180 transition-transform" />
+                                </div>
+
+                                {/* Suggestions Dropdown */}
+                                {showSuggestions && (
+                                    <div ref={suggestionRef} className="absolute left-0 right-0 top-full mt-2 bg-white dark:bg-[#252525] border border-gray-100 dark:border-white/10 rounded-2xl shadow-2xl z-50 max-h-48 overflow-y-auto animate-in slide-in-from-top-2 duration-200 custom-scrollbar">
+                                        <div className="p-2 border-b border-gray-50 dark:border-white/5 bg-gray-50/50 dark:bg-white/5 flex items-center justify-between">
+                                            <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest px-2 flex items-center gap-1.5">
+                                                <Search size={10} /> Diagnósticos Registrados
+                                            </span>
+                                            <button 
+                                                type="button" 
+                                                onClick={() => setShowSuggestions(false)}
+                                                className="text-[9px] font-bold text-happiness-1 hover:underline px-2"
+                                            >
+                                                Fechar
+                                            </button>
+                                        </div>
+                                        {registeredCommunities
+                                            .filter(c => !formData.neighborhoods.includes(c))
+                                            .filter(c => c.toLowerCase().includes(currentNeighborhood.toLowerCase()))
+                                            .length > 0 ? (
+                                                registeredCommunities
+                                                    .filter(c => !formData.neighborhoods.includes(c))
+                                                    .filter(c => c.toLowerCase().includes(currentNeighborhood.toLowerCase()))
+                                                    .map((comm) => (
+                                                        <button
+                                                            key={comm}
+                                                            type="button"
+                                                            onClick={() => {
+                                                                setFormData(prev => ({
+                                                                    ...prev,
+                                                                    neighborhoods: [...prev.neighborhoods, comm]
+                                                                }));
+                                                                setCurrentNeighborhood('');
+                                                                setShowSuggestions(false);
+                                                            }}
+                                                            className="w-full text-left px-4 py-2.5 text-xs font-bold text-gray-700 dark:text-gray-300 hover:bg-happiness-1 hover:text-white transition-colors flex items-center gap-2 border-b border-gray-50 dark:border-white/5 last:border-0"
+                                                        >
+                                                            <div className="w-1.5 h-1.5 rounded-full bg-happiness-1 group-hover:bg-white" />
+                                                            {comm}
+                                                        </button>
+                                                    ))
+                                            ) : (
+                                                <div className="p-4 text-center">
+                                                    <p className="text-[10px] font-medium text-gray-400 italic">Nenhuma comunidade encontrada ou já selecionada.</p>
+                                                    <p className="text-[9px] text-gray-500 mt-1">Dica: Aperte Enter para adicionar "{currentNeighborhood}" como nova.</p>
+                                                </div>
+                                            )
+                                        }
+                                    </div>
+                                )}
                             </div>
+                            <p className="text-[9px] font-medium text-gray-400 px-2 italic">
+                                Vincule o projeto a uma comunidade já diagnosticada para melhor integração de dados.
+                            </p>
                         </div>
 
                         <div className="space-y-4">
