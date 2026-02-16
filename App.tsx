@@ -129,7 +129,7 @@ const SectionHeader: React.FC<{
             
             {/* Texto do Label - Padronizado para text-sm font-bold */}
             {!collapsed && (
-                <span className="text-sm font-bold text-black dark:text-white group-hover:text-happiness-1 transition-colors antialiased whitespace-nowrap ml-0 uppercase tracking-tight">
+                <span className="text-sm font-bold text-black dark:text-white group-hover:text-happiness-1 transition-colors antialiased whitespace-nowrap ml-0 tracking-tight">
                     {label}
                 </span>
             )}
