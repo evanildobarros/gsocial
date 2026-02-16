@@ -7,22 +7,20 @@ import {
     HelpCircle,
     Save,
     AlertCircle,
-    ChevronRight
+    ChevronRight,
+    Users,
+    Anchor,
+    Box,
+    Droplets,
+    Users2
 } from 'lucide-react';
-import {
-    Radar,
-    RadarChart,
-    PolarGrid,
-    PolarAngleAxis,
-    PolarRadiusAxis,
-    ResponsiveContainer,
-} from 'recharts';
 
 import { supabase } from '../../utils/supabase';
 import { showSuccess, showError } from '../../utils/notifications';
 import { LayerUploaderInline } from '../LayerUploaderInline';
 import { EnvironmentalSummaryCard } from '../environmental/EnvironmentalSummaryCard';
 import { GovernanceSummaryCard } from './GovernanceSummaryCard';
+import { SocialSummaryCard } from '../social/SocialSummaryCard';
 
 // --- Types & Config ---
 const MATURITY_LEVELS = {
@@ -32,6 +30,13 @@ const MATURITY_LEVELS = {
     4: { label: "Estratégico", desc: "Metas e KPIs", color: "text-blue-500", bg: "bg-blue-50" },
     5: { label: "Transformador", desc: "Influencia a cadeia", color: "text-green-500", bg: "bg-green-50" }
 };
+
+const OPERATION_TYPES = [
+    { id: 'liquid', label: 'Granéis Líquidos', icon: Droplets },
+    { id: 'solid', label: 'Granéis Sólidos', icon: Box },
+    { id: 'general', label: 'Carga Geral', icon: Anchor },
+    { id: 'passengers', label: 'Passageiros', icon: Users2 },
+];
 
 interface Question {
     id: string;
@@ -70,6 +75,40 @@ const ENVIRONMENTAL_QUESTIONS: Question[] = [
             { value: 1, label: "Sem plano formal" },
             { value: 3, label: "Plano básico individual" },
             { value: 5, label: "Integração total ao PAM e simulados frequentes" }
+        ],
+        weight: 2.0
+    }
+];
+
+const SOCIAL_QUESTIONS: Question[] = [
+    {
+        id: "s_diversity",
+        question: "Percentual de mulheres/minorias na liderança estratégica?",
+        options: [
+            { value: 1, label: "Abaixo de 10%" },
+            { value: 3, label: "Entre 10% e 30%" },
+            { value: 5, label: "Acima de 30% com metas afirmativas" }
+        ],
+        weight: 2.0,
+        evidenceRequired: true
+    },
+    {
+        id: "s_training",
+        question: "Investimento em capacitação para comunidades locais?",
+        options: [
+            { value: 1, label: "Nenhum investimento formal" },
+            { value: 3, label: "Cursos pontuais sem métrica" },
+            { value: 5, label: "Programa estruturado com medição de S-ROI" }
+        ],
+        weight: 1.5
+    },
+    {
+        id: "s_human_rights",
+        question: "Due Diligence em Direitos Humanos na cadeia de suprimentos?",
+        options: [
+            { value: 1, label: "Não realiza" },
+            { value: 3, label: "Cláusulas contratuais básicas" },
+            { value: 5, label: "Auditoria in-loco e monitoramento contínuo" }
         ],
         weight: 2.0
     }
@@ -114,6 +153,7 @@ interface ESGDiagnosticFormProps {
 
 export const ESGDiagnosticForm: React.FC<ESGDiagnosticFormProps> = ({ initialTab = 0 }) => {
     const [tabIndex, setTabIndex] = useState(initialTab);
+    const [operationType, setOperationType] = useState('liquid');
     const [answers, setAnswers] = useState<Record<string, number>>({});
     const [evidences, setEvidences] = useState<Record<string, File | null>>({});
 
@@ -126,30 +166,41 @@ export const ESGDiagnosticForm: React.FC<ESGDiagnosticFormProps> = ({ initialTab
         setEvidences(prev => ({ ...prev, [id]: file }));
     };
 
-    // --- Scoring Logic ---
+    // --- Scoring Logic with Double Materiality ---
     const scores = useMemo(() => {
+        const getMultiplier = (qId: string) => {
+            // Lógica de Dupla Materialidade: ajusta peso conforme operação
+            if (operationType === 'liquid' && qId === 'e_spill') return 2.0; // Vazamento é crítico para líquidos
+            if (operationType === 'solid' && qId === 'e_waste') return 1.5; // Resíduos críticos para sólidos
+            if (operationType === 'passengers' && qId === 's_diversity') return 1.5; // Interface social forte
+            return 1.0;
+        };
+
         const calculateCategoryScore = (questions: Question[]) => {
             let totalWeight = 0;
             let weightedSum = 0;
 
             questions.forEach(q => {
                 const answer = answers[q.id] || 1;
-                weightedSum += answer * q.weight;
-                totalWeight += q.weight;
+                const m = getMultiplier(q.id);
+                weightedSum += answer * (q.weight * m);
+                totalWeight += (q.weight * m);
             });
 
             return totalWeight > 0 ? weightedSum / totalWeight : 1;
         };
 
         const environmentalScore = calculateCategoryScore(ENVIRONMENTAL_QUESTIONS);
+        const socialScore = calculateCategoryScore(SOCIAL_QUESTIONS);
         const governanceScore = calculateCategoryScore(GOVERNANCE_QUESTIONS);
 
         return {
             environmental: environmentalScore,
+            social: socialScore,
             governance: governanceScore,
-            global: (environmentalScore + governanceScore) / 2
+            global: (environmentalScore + socialScore + governanceScore) / 3
         };
-    }, [answers]);
+    }, [answers, operationType]);
 
     const getMaturityInfo = (score: number) => {
         const level = Math.round(score) as keyof typeof MATURITY_LEVELS;
@@ -160,89 +211,129 @@ export const ESGDiagnosticForm: React.FC<ESGDiagnosticFormProps> = ({ initialTab
 
     const renderQuestions = (questions: Question[]) => (
         <div className="space-y-8">
-            {questions.map(q => (
-                <div key={q.id} className="space-y-4">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                            <span className="text-sm font-black text-gray-800 dark:text-gray-200 uppercase tracking-tight">
-                                {q.question}
-                            </span>
-                            {q.weight > 1 && (
-                                <span className="px-2 py-0.5 bg-red-50 text-red-500 font-bold text-[8px] rounded-lg dark:bg-red-900/20">
-                                    Crítico (2x Peso)
+            {questions.map(q => {
+                // Check for materiality multiplier
+                let multiplier = 1;
+                if (operationType === 'liquid' && q.id === 'e_spill') multiplier = 2;
+                if (operationType === 'solid' && q.id === 'e_waste') multiplier = 1.5;
+
+                return (
+                    <div key={q.id} className="space-y-4">
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                                <span className="text-sm font-black text-gray-800 dark:text-gray-200 uppercase tracking-tight">
+                                    {q.question}
                                 </span>
-                            )}
-                        </div>
-                        <button className="p-1.5 text-gray-400 hover:text-gray-600 transition-colors" title="Saiba mais">
-                            <HelpCircle size={14} />
-                        </button>
-                    </div>
-
-                    <div className="space-y-2">
-                        {q.options.map(opt => (
-                            <div
-                                key={opt.value}
-                                onClick={() => handleAnswerChange(q.id, opt.value)}
-                                className={`p-4 rounded-3xl border cursor-pointer transition-all hover:border-happiness-1 ${answers[q.id] === opt.value
-                                        ? 'bg-happiness-1/5 border-happiness-1'
-                                        : 'bg-transparent border-gray-100 dark:border-white/5'
-                                    }`}
-                            >
-                                <label className="flex items-center gap-3 cursor-pointer">
-                                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${answers[q.id] === opt.value
-                                            ? 'border-happiness-1 bg-happiness-1'
-                                            : 'border-gray-300 dark:border-gray-600'
-                                        }`}>
-                                        {answers[q.id] === opt.value && (
-                                            <div className="w-2 h-2 rounded-full bg-white" />
-                                        )}
-                                    </div>
-                                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{opt.label}</span>
-                                </label>
+                                {multiplier > 1 && (
+                                    <span className="px-2 py-0.5 bg-amber-50 text-amber-600 font-bold text-[8px] rounded-lg dark:bg-amber-900/20 flex items-center gap-1 border border-amber-200">
+                                        <Anchor size={8} /> Materialidade Setorial ({multiplier}x)
+                                    </span>
+                                )}
+                                {q.weight > 1.5 && multiplier === 1 && (
+                                    <span className="px-2 py-0.5 bg-red-50 text-red-500 font-bold text-[8px] rounded-lg dark:bg-red-900/20">
+                                        Critério Crítico
+                                    </span>
+                                )}
                             </div>
-                        ))}
-                    </div>
+                            <button className="p-1.5 text-gray-400 hover:text-gray-600 transition-colors" title="Saiba mais">
+                                <HelpCircle size={14} />
+                            </button>
+                        </div>
 
-                    {q.evidenceRequired && (
-                        <div className="mt-4 p-4 rounded-3xl border border-dashed border-gray-200 dark:border-white/10 bg-gray-50/50 dark:bg-white/5">
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-2 text-gray-500">
-                                    <Upload size={14} />
-                                    <span className="text-[10px] font-bold uppercase tracking-widest">Evidência Obrigatória</span>
-                                </div>
-                                <button
-                                    onClick={() => document.getElementById(`upload-${q.id}`)?.click()}
-                                    className="text-[10px] font-black text-happiness-1 uppercase hover:underline"
+                        <div className="space-y-2">
+                            {q.options.map(opt => (
+                                <div
+                                    key={opt.value}
+                                    onClick={() => handleAnswerChange(q.id, opt.value)}
+                                    className={`p-4 rounded-3xl border cursor-pointer transition-all hover:border-happiness-1 ${answers[q.id] === opt.value
+                                            ? 'bg-happiness-1/5 border-happiness-1'
+                                            : 'bg-transparent border-gray-100 dark:border-white/5'
+                                        }`}
                                 >
-                                    {evidences[q.id] ? evidences[q.id]?.name : 'Selecionar Arquivo'}
-                                </button>
-                                <input
-                                    id={`upload-${q.id}`}
-                                    type="file"
-                                    className="hidden"
-                                    onChange={(e) => handleFileUpload(q.id, e)}
-                                />
-                            </div>
+                                    <label className="flex items-center gap-3 cursor-pointer">
+                                        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${answers[q.id] === opt.value
+                                                ? 'border-happiness-1 bg-happiness-1'
+                                                : 'border-gray-300 dark:border-gray-600'
+                                            }`}>
+                                            {answers[q.id] === opt.value && (
+                                                <div className="w-2 h-2 rounded-full bg-white" />
+                                            )}
+                                        </div>
+                                        <span className="text-sm font-bold text-gray-700 dark:text-gray-300">{opt.label}</span>
+                                    </label>
+                                </div>
+                            ))}
                         </div>
-                    )}
-                </div>
-            ))}
+
+                        {q.evidenceRequired && (
+                            <div className="mt-4 p-4 rounded-3xl border border-dashed border-gray-200 dark:border-white/10 bg-gray-50/50 dark:bg-white/5">
+                                <div className="flex items-center justify-between">
+                                    <div className="flex items-center gap-2 text-gray-500">
+                                        <Upload size={14} />
+                                        <span className="text-[10px] font-bold uppercase tracking-widest">
+                                            Evidência Documental Obrigatória (Evitar Wash)
+                                        </span>
+                                    </div>
+                                    <button
+                                        onClick={() => document.getElementById(`upload-${q.id}`)?.click()}
+                                        className="text-[10px] font-black text-happiness-1 uppercase hover:underline"
+                                    >
+                                        {evidences[q.id] ? evidences[q.id]?.name : 'Selecionar Relatório'}
+                                    </button>
+                                    <input
+                                        id={`upload-${q.id}`}
+                                        type="file"
+                                        className="hidden"
+                                        onChange={(e) => handleFileUpload(q.id, e)}
+                                    />
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                );
+            })}
         </div>
     );
 
     return (
-        <div className="space-y-8 animate-in fade-in duration-700">
+        <div className="space-y-8 animate-in fade-in duration-700 pb-20">
             {/* Header */}
             <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
                     <h1 className="text-2xl font-black text-gray-900 dark:text-white tracking-tighter flex items-center gap-3">
-                        Diagnóstico de Maturidade ESG porto
+                        Autoavaliação de Maturidade ESG porto (ABNT PR 2030)
                     </h1>
                     <p className="text-gray-500 font-medium italic mt-1">
-                        Autoavaliação baseada na ABNT PR 2030 (Vol. II) e Materialidade (Vol. III)
+                        Mapeamento de materialidade setorial e conformidade normativa.
                     </p>
                 </div>
             </header>
+
+            {/* Operation Selector - Dual Materiality Input */}
+            <div className="bg-white dark:bg-[#1C1C1C] p-6 rounded-3xl border border-gray-200 dark:border-white/5">
+                <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                    <Anchor size={14} className="text-happiness-1" />
+                    Selecione o Tipo de Operação Portuária (Ajuste de Dupla Materialidade)
+                </p>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    {OPERATION_TYPES.map((type) => {
+                        const Icon = type.icon;
+                        return (
+                            <button
+                                key={type.id}
+                                onClick={() => setOperationType(type.id)}
+                                className={`flex items-center gap-3 p-4 rounded-2xl border transition-all text-left ${operationType === type.id
+                                        ? 'bg-happiness-1 border-happiness-1 text-white shadow-lg scale-[1.02]'
+                                        : 'border-gray-100 dark:border-white/5 hover:border-gray-300 dark:hover:border-white/10'
+                                    }`}
+                            >
+                                <Icon size={20} className={operationType === type.id ? 'text-white' : 'text-happiness-1'} />
+                                <span className="text-xs font-black uppercase tracking-tight">{type.label}</span>
+                            </button>
+                        );
+                    })}
+                </div>
+            </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
                 {/* Form Section */}
@@ -267,6 +358,16 @@ export const ESGDiagnosticForm: React.FC<ESGDiagnosticFormProps> = ({ initialTab
                                         : 'text-gray-500 hover:text-gray-700'
                                     }`}
                             >
+                                <Users size={18} />
+                                Social (S)
+                            </button>
+                            <button
+                                onClick={() => setTabIndex(2)}
+                                className={`flex-1 py-4 px-6 flex items-center justify-center gap-2 text-sm font-bold transition-colors ${tabIndex === 2
+                                        ? 'text-happiness-1 border-b-2 border-happiness-1 bg-white dark:bg-[#1C1C1C]'
+                                        : 'text-gray-500 hover:text-gray-700'
+                                    }`}
+                            >
                                 <ShieldCheck size={18} />
                                 Governança (G)
                             </button>
@@ -275,7 +376,8 @@ export const ESGDiagnosticForm: React.FC<ESGDiagnosticFormProps> = ({ initialTab
                         {/* Tab Content */}
                         <div className="p-8">
                             {tabIndex === 0 && renderQuestions(ENVIRONMENTAL_QUESTIONS)}
-                            {tabIndex === 1 && renderQuestions(GOVERNANCE_QUESTIONS)}
+                            {tabIndex === 1 && renderQuestions(SOCIAL_QUESTIONS)}
+                            {tabIndex === 2 && renderQuestions(GOVERNANCE_QUESTIONS)}
                         </div>
 
                         {/* Footer */}
@@ -290,11 +392,9 @@ export const ESGDiagnosticForm: React.FC<ESGDiagnosticFormProps> = ({ initialTab
 
                 {/* Results & Chart Section */}
                 <div className="space-y-6 sticky top-24">
-                    {tabIndex === 0 ? (
-                        <EnvironmentalSummaryCard answers={answers} />
-                    ) : (
-                        <GovernanceSummaryCard answers={answers} />
-                    )}
+                    {tabIndex === 0 && <EnvironmentalSummaryCard answers={answers} />}
+                    {tabIndex === 1 && <SocialSummaryCard answers={answers} />}
+                    {tabIndex === 2 && <GovernanceSummaryCard answers={answers} />}
 
                     {/* Geospatial Upload - Bloco Inline ESG */}
                     <LayerUploaderInline onLayersLoaded={async (newLayers) => {
@@ -307,7 +407,7 @@ export const ESGDiagnosticForm: React.FC<ESGDiagnosticFormProps> = ({ initialTab
                                 visible: l.visible ?? true,
                                 color: l.color,
                                 data: l.data,
-                                details: l.details || {},
+                                details: { ...l.details, op_type: operationType } || { op_type: operationType },
                                 pillar: l.pillar,
                                 group: l.group || 'Diagnóstico ESG',
                                 created_by: user?.id || null

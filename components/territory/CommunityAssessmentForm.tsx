@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
     MapPin,
     Hammer,
@@ -19,7 +19,12 @@ import {
     Star,
     AlertTriangle,
     Info,
-    Droplets
+    Droplets,
+    ShieldAlert,
+    FileCheck,
+    Lightbulb,
+    FileText,
+    Upload
 } from 'lucide-react';
 
 import { CommunityAssessment } from '../../types';
@@ -105,6 +110,8 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
     const [negativeImpacts, setNegativeImpacts] = useState<string[]>([]);
     const [priorityNeeds, setPriorityNeeds] = useState<string[]>([]);
     const [relationshipLevel, setRelationshipLevel] = useState<number>(3);
+    const [dueDiligence, setDueDiligence] = useState('');
+    const [sroiEvidence, setSroiEvidence] = useState<File | null>(null);
 
     // Static Data
     const [loading, setLoading] = useState(true);
@@ -143,6 +150,40 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
         }
     };
 
+    // --- Risk Heatmap Logic ---
+    const riskData = useMemo(() => {
+        let score = 0;
+        
+        // 1. Impactos Negativos (Mais que 3 é crítico)
+        if (negativeImpacts.length >= 3) score += 40;
+        else if (negativeImpacts.length > 0) score += 20;
+
+        // 2. Acesso à Água (Precário é crítico)
+        if (waterAccess === 'Precário') score += 30;
+
+        // 3. Relacionamento (Abaixo de 2 é crítico)
+        if (relationshipLevel <= 2) score += 30;
+
+        let level: 'Critical' | 'Moderate' | 'Full' = 'Full';
+        let label = 'Licença Social Plena';
+        let color = 'text-green-500';
+        let bg = 'bg-green-50';
+
+        if (score >= 60) {
+            level = 'Critical';
+            label = 'Risco Crítico (Instabilidade)';
+            color = 'text-red-600';
+            bg = 'bg-red-50';
+        } else if (score >= 30) {
+            level = 'Moderate';
+            label = 'Risco Moderado';
+            color = 'text-amber-600';
+            bg = 'bg-amber-50';
+        }
+
+        return { level, label, color, bg, score };
+    }, [negativeImpacts, waterAccess, relationshipLevel]);
+
     const handleEdit = (assessment: CommunityAssessment) => {
         setEditingId(assessment.id);
         setCommunityName(assessment.community_name);
@@ -153,6 +194,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
         setNegativeImpacts(assessment.negative_impacts || []);
         setPriorityNeeds(assessment.priority_needs || []);
         setRelationshipLevel(assessment.relationship_level || 3);
+        setDueDiligence(assessment.due_diligence_audit || '');
         setViewMode('create');
     };
 
@@ -163,7 +205,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
             await supabase
                 .from('map_layers')
                 .delete()
-                .or(`name.eq.${name},group.eq.${name}`);
+                .or(`name.eq."${name}",group.eq."${name}"`);
 
             const { error: communityError } = await supabase
                 .from('community_assessments')
@@ -190,7 +232,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
         try {
             const { data: { user } } = await supabase.auth.getUser();
 
-            const assessmentData = {
+            const assessmentData: Partial<CommunityAssessment> = {
                 community_name: communityName,
                 settlement_type: settlementType,
                 estimated_families: estimatedFamilies === '' ? 0 : estimatedFamilies,
@@ -199,9 +241,10 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                 negative_impacts: negativeImpacts,
                 priority_needs: priorityNeeds,
                 relationship_level: relationshipLevel,
+                due_diligence_audit: dueDiligence,
+                risk_level: riskData.level,
                 assessment_date: new Date().toISOString(),
                 coordinates: [0, 0],
-                geometry: null,
                 created_by: user?.id
             };
 
@@ -212,7 +255,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                     .eq('id', editingId);
 
                 if (updateError) throw updateError;
-                showSuccess('Diagnóstico atualizado com sucesso!');
+                showSuccess('Diagnóstico e Matriz de Risco atualizados!');
             } else {
                 const { error: insertError } = await supabase
                     .from('community_assessments')
@@ -222,13 +265,14 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                 showSuccess('Diagnóstico salvo com sucesso!');
             }
 
-            // Sync metadata
+            // Sync metadata for GIS
             const detailsToSync = {
                 familias: assessmentData.estimated_families,
                 tipo: assessmentData.settlement_type,
                 relacionamento: assessmentData.relationship_level,
                 community_name: communityName,
-                demandas: assessmentData.priority_needs.length
+                risk_level: riskData.label,
+                demandas: assessmentData.priority_needs?.length || 0
             };
 
             const { data: layersToSync } = await supabase
@@ -268,6 +312,8 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
         setNegativeImpacts([]);
         setPriorityNeeds([]);
         setRelationshipLevel(3);
+        setDueDiligence('');
+        setSroiEvidence(null);
         setEditingId(null);
     };
 
@@ -286,20 +332,20 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
     }
 
     return (
-        <div className="w-full p-4 space-y-8 animate-in fade-in duration-700">
+        <div className="w-full p-4 space-y-8 animate-in fade-in duration-700 pb-20">
             {/* Header Section */}
             <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
                     <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">
-                        Inventário & Território
+                        Licença Social para Operar (LSO)
                     </div>
                     <h1 className="text-2xl font-black text-gray-900 dark:text-white tracking-tighter flex items-center gap-2">
-                        {viewMode === 'list' ? 'Diagnóstico Social' : 'Novo Diagnóstico Comunidade'}
+                        {viewMode === 'list' ? 'Gestão de Territórios & Risco' : 'Calculadora de Impacto Social'}
                     </h1>
                     <p className="text-sm text-gray-500 font-medium italic mt-1">
                         {viewMode === 'list'
-                            ? 'Levantamento socioeconômico das comunidades do entorno e materialidade social.'
-                            : 'Preencha os campos para registrar o perfil e necessidades da localidade.'}
+                            ? 'Mapeamento de riscos e materialidade das comunidades do entorno portuário.'
+                            : 'Analise os vetores de risco e gere recomendações automáticas para o plano de ação.'}
                     </p>
                 </div>
                 <div className="flex gap-3">
@@ -339,7 +385,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                             <Search className="absolute left-3 w-4 h-4 text-gray-400" />
                             <input
                                 type="text"
-                                placeholder="Buscar comunidade por nome ou perfil..."
+                                placeholder="Buscar por comunidade ou nível de risco..."
                                 className="w-full pl-10 pr-4 py-2 bg-gray-50 dark:bg-zinc-900 border border-gray-100 dark:border-white/10 rounded-3xl outline-none focus:border-happiness-1 transition-all text-sm font-medium"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -359,16 +405,28 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {filteredAssessments.map((assessment) => (
                             <div key={assessment.id} className="bg-white dark:bg-[#1C1C1C] rounded-3xl border border-gray-200 dark:border-white/5 shadow-sm hover:border-happiness-1 transition-all group overflow-hidden">
-                                <div className="h-1.5 bg-gradient-to-r from-happiness-1 to-happiness-3 w-full" />
+                                <div className={`h-1.5 w-full ${
+                                    assessment.risk_level === 'Critical' ? 'bg-red-500' : 
+                                    assessment.risk_level === 'Moderate' ? 'bg-amber-500' : 'bg-green-500'
+                                }`} />
                                 <div className="p-6">
                                     <div className="flex justify-between items-start mb-4">
                                         <div>
                                             <h3 className="text-lg font-black text-gray-900 dark:text-white tracking-tight group-hover:text-happiness-1 transition-colors">
                                                 {assessment.community_name}
                                             </h3>
-                                            <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest mt-1 block">
-                                                {assessment.settlement_type}
-                                            </span>
+                                            <div className="flex items-center gap-2 mt-1">
+                                                <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest">
+                                                    {assessment.settlement_type}
+                                                </span>
+                                                <span className={`text-[8px] font-black uppercase px-2 py-0.5 rounded-full ${
+                                                    assessment.risk_level === 'Critical' ? 'bg-red-100 text-red-600' : 
+                                                    assessment.risk_level === 'Moderate' ? 'bg-amber-100 text-amber-600' : 'bg-green-100 text-green-600'
+                                                }`}>
+                                                    {assessment.risk_level === 'Critical' ? 'CRÍTICO' : 
+                                                     assessment.risk_level === 'Moderate' ? 'MODERADO' : 'ESTÁVEL'}
+                                                </span>
+                                            </div>
                                         </div>
                                         <div className="p-2 bg-happiness-1/10 rounded-2xl">
                                             <MapPin className="text-happiness-1 w-4 h-4" />
@@ -488,12 +546,12 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                             </div>
                         </div>
 
-                        {/* 🏗️ Infraestrutura Crítica (Vol. I) */}
+                        {/* 🏗️ Infraestrutura Crítica & Due Diligence */}
                         <div className="bg-white dark:bg-[#1C1C1C] rounded-3xl border border-gray-200 dark:border-white/5 overflow-hidden">
                             <div className="p-8">
                                 <div className="flex items-center gap-2 mb-6 border-b border-gray-100 dark:border-white/5 pb-4">
                                     <Hammer className="text-happiness-1 w-5 h-5" />
-                                    <h3 className="font-bold text-gray-900 dark:text-white uppercase tracking-wider text-sm">🏗️ Infraestrutura Crítica (Vol. I)</h3>
+                                    <h3 className="font-bold text-gray-900 dark:text-white uppercase tracking-wider text-sm">🏗️ Infraestrutura & Conformidade (Vol. I)</h3>
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
@@ -519,25 +577,40 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                                         </div>
                                     </div>
 
-                                    <div>
-                                        <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3">Esgotamento Sanitário</p>
-                                        <div className="space-y-2">
-                                            {SANITATION_OPTIONS.map(opt => (
-                                                <label key={opt} className="flex items-center gap-3 p-3 rounded-2xl border border-gray-100 dark:border-white/5 hover:bg-gray-50 dark:hover:bg-white/5 cursor-pointer transition-colors">
-                                                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${sanitationStatus === opt ? 'border-happiness-1' : 'border-gray-300 dark:border-white/20'}`}>
-                                                        {sanitationStatus === opt && <div className="w-2.5 h-2.5 bg-happiness-1 rounded-full" />}
-                                                    </div>
-                                                    <input
-                                                        type="radio"
-                                                        name="sanitationStatus"
-                                                        value={opt}
-                                                        checked={sanitationStatus === opt}
-                                                        onChange={(e) => setSanitationStatus(e.target.value)}
-                                                        className="hidden"
-                                                    />
-                                                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{opt}</span>
-                                                </label>
-                                            ))}
+                                    <div className="space-y-6">
+                                        <div>
+                                            <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3">Esgotamento Sanitário</p>
+                                            <div className="space-y-2">
+                                                {SANITATION_OPTIONS.map(opt => (
+                                                    <label key={opt} className="flex items-center gap-3 p-3 rounded-2xl border border-gray-100 dark:border-white/5 hover:bg-gray-50 dark:hover:bg-white/5 cursor-pointer transition-colors">
+                                                        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${sanitationStatus === opt ? 'border-happiness-1' : 'border-gray-300 dark:border-white/20'}`}>
+                                                            {sanitationStatus === opt && <div className="w-2.5 h-2.5 bg-happiness-1 rounded-full" />}
+                                                        </div>
+                                                        <input
+                                                            type="radio"
+                                                            name="sanitationStatus"
+                                                            value={opt}
+                                                            checked={sanitationStatus === opt}
+                                                            onChange={(e) => setSanitationStatus(e.target.value)}
+                                                            className="hidden"
+                                                        />
+                                                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{opt}</span>
+                                                    </label>
+                                                ))}
+                                            </div>
+                                        </div>
+
+                                        <div className="p-4 bg-purple-50 dark:bg-purple-900/10 rounded-2xl border border-purple-100 dark:border-purple-900/30">
+                                            <label className="text-[10px] font-black text-purple-600 uppercase tracking-widest flex items-center gap-2 mb-2">
+                                                <ShieldAlert size={12} /> Auditoria de Due Diligence
+                                            </label>
+                                            <textarea
+                                                placeholder="Descreva o status da Due Diligence na Cadeia de Transporte (Diretiva Europeia)..."
+                                                value={dueDiligence}
+                                                onChange={(e) => setDueDiligence(e.target.value)}
+                                                className="w-full bg-white dark:bg-black/20 border border-purple-100 dark:border-white/10 rounded-xl p-3 text-xs focus:outline-none focus:border-purple-400"
+                                                rows={3}
+                                            />
                                         </div>
                                     </div>
                                 </div>
@@ -564,13 +637,36 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                                     </div>
 
                                     <div className="space-y-3">
-                                        <label className="text-xs font-bold text-gray-500 uppercase ml-1 block">Demandas Prioritárias da Liderança</label>
+                                        <label className="text-xs font-bold text-gray-500 uppercase ml-1 block">Ações Sociais & S-ROI</label>
                                         <MultiSelectChips
                                             options={PRIORITY_NEEDS_OPTIONS}
                                             selected={priorityNeeds}
                                             onChange={setPriorityNeeds}
                                             colorClass="bg-happiness-1/10 text-happiness-1 border-happiness-1/20"
                                         />
+                                        
+                                        {priorityNeeds.length > 0 && (
+                                            <div className="mt-4 p-4 rounded-3xl border border-dashed border-gray-200 dark:border-white/10 bg-blue-50/50 dark:bg-white/5 flex items-center justify-between">
+                                                <div className="flex items-center gap-3">
+                                                    <div className="w-10 h-10 bg-white dark:bg-zinc-800 rounded-full flex items-center justify-center shadow-sm">
+                                                        <FileCheck className="w-5 h-5 text-happiness-1" />
+                                                    </div>
+                                                    <div>
+                                                        <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest block">Comprovante de S-ROI</span>
+                                                        <span className="text-xs font-bold text-gray-700 dark:text-gray-300">
+                                                            {sroiEvidence ? sroiEvidence.name : 'Upload obrigatório para ações sociais'}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <button 
+                                                    onClick={() => document.getElementById('sroi-upload')?.click()}
+                                                    className="text-[10px] font-black text-happiness-1 uppercase hover:underline"
+                                                >
+                                                    {sroiEvidence ? 'Trocar' : 'Selecionar'}
+                                                </button>
+                                                <input id="sroi-upload" type="file" className="hidden" onChange={(e) => setSroiEvidence(e.target.files?.[0] || null)} />
+                                            </div>
+                                        )}
                                     </div>
 
                                     <div className="bg-gray-50 dark:bg-white/5 p-6 rounded-3xl border border-gray-100 dark:border-white/10">
@@ -593,6 +689,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                             </div>
                         </div>
 
+                        {/* Botões de Ação Inferiores */}
                         <div className="flex justify-end items-center gap-4 pt-4 pb-12">
                             <button
                                 onClick={() => {
@@ -616,32 +713,64 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
 
                     {/* Sidebar */}
                     <div className="space-y-6 sticky top-24 h-fit">
-                        {/* Resumo do Diagnóstico */}
-                        <div className="bg-white dark:bg-[#1C1C1C] rounded-3xl border border-gray-200 dark:border-white/5 shadow-sm p-6">
-                            <div className="text-xs font-black text-gray-400 uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
-                                <Users className="w-4 h-4 text-orange-500" />
-                                Resumo do Diagnóstico
+                        {/* Heatmap de Risco LSO */}
+                        <div className={`p-6 rounded-3xl border shadow-xl animate-in zoom-in-95 duration-500 ${riskData.bg} border-current border-opacity-20`}>
+                            <div className="flex items-center gap-2 mb-4">
+                                <ShieldAlert className={riskData.color} size={18} />
+                                <span className={`text-[10px] font-black uppercase tracking-widest ${riskData.color}`}>
+                                    Matriz de Risco LSO
+                                </span>
                             </div>
 
-                            <div className="space-y-3">
-                                <div className="flex justify-between items-center text-xs">
-                                    <span className="font-bold text-gray-500">Comunidade</span>
-                                    <span className="font-black text-gray-800 dark:text-gray-200 truncate max-w-[150px]">{communityName || '-'}</span>
+                            <div className="space-y-4">
+                                <div>
+                                    <h4 className={`text-xl font-black leading-tight ${riskData.color}`}>
+                                        {riskData.label}
+                                    </h4>
+                                    <p className="text-[10px] text-gray-500 font-bold mt-1 uppercase tracking-tight">
+                                        Licença Social para Operar
+                                    </p>
                                 </div>
-                                <div className="flex justify-between items-center text-xs">
-                                    <span className="font-bold text-gray-500">Famílias</span>
-                                    <span className="font-black text-happiness-1">{estimatedFamilies || 0}</span>
+
+                                <div className="h-2 bg-gray-200 dark:bg-white/10 rounded-full overflow-hidden">
+                                    <div 
+                                        className={`h-full transition-all duration-1000 ${
+                                            riskData.level === 'Critical' ? 'bg-red-500' : 
+                                            riskData.level === 'Moderate' ? 'bg-amber-500' : 'bg-green-500'
+                                        }`}
+                                        style={{ width: `${riskData.score}%` }}
+                                    />
                                 </div>
-                                <div className="flex justify-between items-center text-xs">
-                                    <span className="font-bold text-gray-500">Perfil</span>
-                                    <span className="font-black text-gray-800 dark:text-gray-200">{settlementType || '-'}</span>
-                                </div>
-                                <div className="flex justify-between items-center text-xs">
-                                    <span className="font-bold text-gray-500">Relacionamento</span>
-                                    <span className="font-black text-amber-500">{relationshipLevel}/5</span>
+
+                                <div className="space-y-2 pt-2">
+                                    <div className="flex justify-between text-[10px] font-bold text-gray-400">
+                                        <span>Severidade do Impacto</span>
+                                        <span className="text-gray-600 dark:text-gray-300">{negativeImpacts.length}/5</span>
+                                    </div>
+                                    <div className="flex justify-between text-[10px] font-bold text-gray-400">
+                                        <span>Conflito Territorial</span>
+                                        <span className="text-gray-600 dark:text-gray-300">{relationshipLevel < 3 ? 'ALTO' : 'BAIXO'}</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
+                        {/* Automatic Recommendation - Critical Case */}
+                        {riskData.level === 'Critical' && (
+                            <div className="bg-zinc-900 dark:bg-white rounded-3xl p-6 shadow-2xl relative overflow-hidden group">
+                                <div className="absolute top-0 right-0 p-4 opacity-10">
+                                    <Lightbulb className="w-16 h-16 text-happiness-1" />
+                                </div>
+                                <h4 className="text-white dark:text-zinc-900 font-black text-xs uppercase tracking-widest mb-3 flex items-center gap-2">
+                                    <Lightbulb size={14} className="text-happiness-3" />
+                                    Recomendação Consultiva
+                                </h4>
+                                <p className="text-happiness-3 dark:text-happiness-4 text-xs font-black mb-2">AÇÃO RECOMENDADA:</p>
+                                <p className="text-gray-300 dark:text-zinc-600 text-sm font-medium leading-relaxed italic">
+                                    "Criação de Fundação Portuária compartilhada para mitigação de impactos locais e gestão centralizada de investimentos sociais."
+                                </p>
+                            </div>
+                        )}
 
                         {/* Geospatial Upload - Bloco Inline ESG */}
                         <LayerUploaderInline onLayersLoaded={async (layers) => {
@@ -658,6 +787,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                                         ...l.details,
                                         community_name: communityName,
                                         sync_id: editingId,
+                                        risk_level: riskData.label,
                                         familias: estimatedFamilies === '' ? 0 : estimatedFamilies,
                                         tipo: settlementType,
                                         relacionamento: relationshipLevel,
@@ -669,7 +799,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                                 }));
                                 const { error } = await supabase.from('map_layers').upsert(layersToInsert);
                                 if (error) throw error;
-                                showSuccess(`${layers.length} camada(s) geoespacial(is) vinculada(s) à comunidade "${communityName}".`);
+                                showSuccess(`${layers.length} camada(s) vinculada(s) à matriz de risco.`);
                             } catch (err: any) {
                                 showError('Erro ao salvar camadas: ' + err.message);
                             }

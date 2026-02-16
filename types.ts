@@ -166,6 +166,12 @@ export interface CommunityAssessment {
   assessment_date: string;
   coordinates: number[]; // [lng, lat]
   geometry?: { type: string; data: any };
+  
+  // Novos campos para Refatoração ESG
+  due_diligence_audit?: string; // Auditoria de Due Diligence na Cadeia de Transporte
+  sroi_evidence_url?: string; // URL da evidência de S-ROI
+  risk_level?: 'Critical' | 'Moderate' | 'Full';
+  
   created_at?: string;
   created_by?: string;
 }
