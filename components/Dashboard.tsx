@@ -26,7 +26,7 @@ const KPICard = ({ title, value, subtext, icon: Icon, trend, trendValue, color, 
   };
 
   const trendColor = trend === 'up' ? 'text-emerald-600 dark:text-emerald-400' :
-    trend === 'down' ? 'text-red-600 dark:text-red-400' : 'text-black';
+    trend === 'down' ? 'text-red-600 dark:text-red-400' : 'text-black dark:text-white';
 
   return (
     <div className={`
@@ -35,10 +35,10 @@ const KPICard = ({ title, value, subtext, icon: Icon, trend, trendValue, color, 
     `}>
       <div className="flex justify-between mb-4">
         <div>
-          <p className="text-[10px] font-black uppercase tracking-widest text-black dark:text-black">{title}</p>
+          <p className="text-[10px] font-black uppercase tracking-widest text-black dark:text-white">{title}</p>
           <h4 className="text-3xl font-black mt-1 text-black dark:text-white tracking-tight">{value}</h4>
         </div>
-        <div className={`p-3 rounded-xl flex items-center justify-center h-12 w-12 ${colorMap[color] || 'bg-gray-100 text-black'}`}>
+        <div className={`p-3 rounded-xl flex items-center justify-center h-12 w-12 ${colorMap[color] || 'bg-gray-100 text-black dark:text-white'}`}>
           <Icon />
         </div>
       </div>
@@ -50,7 +50,7 @@ const KPICard = ({ title, value, subtext, icon: Icon, trend, trendValue, color, 
             {trendValue}
           </span>
         )}
-        <span className="text-xs font-medium text-black dark:text-black">{subtext}</span>
+        <span className="text-xs font-medium text-black dark:text-white">{subtext}</span>
       </div>
 
       {isWarning && (
@@ -170,7 +170,7 @@ export const Dashboard: React.FC = () => {
           <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-50 border border-emerald-200 dark:bg-emerald-900/20 dark:border-emerald-500/30">
             <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
             <span className="text-[10px] font-black uppercase tracking-widest text-emerald-700 dark:text-emerald-400">
-              Maturidade 5.0 Live
+              Maturidade Nível 5 (ABNT PR 2030)
             </span>
           </div>
           <button className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary hover:bg-primary-hover text-white font-bold text-sm transition-colors shadow-lg shadow-primary/20">
@@ -184,11 +184,11 @@ export const Dashboard: React.FC = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <KPICard
           title="Emissões Escopo 3"
-          value="12,450 tCO2e"
-          subtext="vs meta anual (85%)"
+          value="189,225 tCO2e"
+          subtext="Base 2022 (99.6% do Total)"
           icon={LeafIcon}
           trend="up"
-          trendValue="2.4%"
+          trendValue="Ref"
           color="success"
         />
         <KPICard
@@ -228,10 +228,10 @@ export const Dashboard: React.FC = () => {
           icon={LeafIcon}
           color="success"
           items={[
-            { label: 'Eficiência Energética', sub: 'Terminals A/B', value: '94%', status: 'success' },
-            { label: 'Monitoramento de Ruído', sub: 'Sensor Vila Maranhão', value: 'ALERT', status: 'warning' },
+            { label: 'Eficiência Energética', sub: 'Ref: 100% LED 2025', value: 'ATIVO', status: 'success' },
+            { label: 'Monitoramento de Ruído', sub: 'Sensor Vila Maranhão', value: 'Normal', status: 'success' },
             { label: 'Matriz LAIA (Digital)', sub: 'PC-56 Compliance', value: 'LIVE', status: 'success' },
-            { label: 'Qualidade da Água', sub: 'Ponto de Controle 04', value: 'Normal', status: 'neutral' },
+            { label: 'Descarbonização', sub: 'Plano VF03 Ativo', value: 'Meta 2030', status: 'neutral' },
           ]}
         />
         <ModuleSummary
@@ -240,9 +240,9 @@ export const Dashboard: React.FC = () => {
           color="primary"
           items={[
             { label: 'SROI Global', sub: 'Base em Projetos', value: `R$ ${stats.avgSroi.toFixed(2)}`, status: 'success' },
-            { label: 'Wage Gap (Liderança)', sub: 'Gender Pay Gap', value: '5.2%', status: 'danger' },
-            { label: 'Beneficiários Diretos', sub: 'Total Base', value: '450', status: 'neutral' },
-            { label: 'Iniciativas de Inovação', sub: 'Funil CRIARE', value: stats.totalInnovation.toString(), status: 'success' },
+            { label: 'População Itaqui-Bacanga', sub: 'Censo 2022/Ref 2024', value: '155.289', status: 'neutral' },
+            { label: 'Desertific. Educacional', sub: '44% dos Bairros', value: 'CRÍTICO', status: 'danger' },
+            { label: 'Engajamento ACIB', sub: 'Gestão de Crise', value: 'MÉDIO', status: 'warning' },
           ]}
         />
         <ModuleSummary
@@ -250,10 +250,10 @@ export const Dashboard: React.FC = () => {
           icon={ShieldIcon}
           color="secondary"
           items={[
-            { label: 'Status Regulatório ANTAQ', sub: 'Pendências PC-112', value: `${stats.wasteActive} ATIVAS`, status: stats.wasteActive > 0 ? 'warning' : 'success' },
-            { label: 'Report GRI/SASB', sub: 'Data Completeness', value: '92%', status: 'success' },
-            { label: 'Matriz de Riscos', sub: 'Amplificados p/ Clima', value: stats.criticalRisks > 3 ? 'High' : 'Moderate', status: stats.criticalRisks > 3 ? 'danger' : 'warning' },
-            { label: 'Transparência', sub: 'Portal Público', value: 'Live', status: 'success' },
+            { label: 'Código de Compliance', sub: 'Edição 2024 Ativa', value: 'OK', status: 'success' },
+            { label: 'Maturidade ABNT', sub: 'PR 2030 (Estágio 5)', value: 'LIDERANÇA', status: 'success' },
+            { label: 'Remuneração ESG', sub: 'Bônus vs Metas', value: 'VINCULADO', status: 'success' },
+            { label: 'Audit. Transparência', sub: 'ODS Internalizados', value: 'Live', status: 'success' },
           ]}
         />
       </div>

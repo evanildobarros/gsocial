@@ -54,22 +54,33 @@ const OPERATION_TYPES = [
 const ENVIRONMENTAL_QUESTIONS: Question[] = [
     {
         id: "e_ghg",
-        question: "Qual o nível de gestão das emissões de GEE?",
+        question: "Gestão de Emissões de GEE (Inventário de Carbono)?",
         options: [
-            { value: 1, label: "Não monitora" },
-            { value: 3, label: "Inventário Escopo 1 e 2" },
-            { value: 5, label: "Inventário Escopo 1, 2 e 3 validado + Metas de Redução" }
+            { value: 1, label: "Não monitora / Sem inventário" },
+            { value: 2, label: "Inventário parcial (Escopo 1 e 2)" },
+            { value: 4, label: "Inventário completo (Escopo 1, 2 e 3) — Ref: 189k tCO2eq" },
+            { value: 5, label: "Escopo 1, 2 e 3 + Plano de Descarbonização 2025 ativo" }
         ],
-        weight: 2.0,
+        weight: 2.5,
         evidenceRequired: true
+    },
+    {
+        id: "e_energy_efficiency",
+        question: "Eficiência Energética e Matriz?",
+        options: [
+            { value: 1, label: "Sem iniciativas de eficiência" },
+            { value: 3, label: "Troca parcial de iluminação para LED" },
+            { value: 5, label: "100% LED + Sensores Inteligentes + Cláusulas de Eficiência em Contratos" }
+        ],
+        weight: 1.5
     },
     {
         id: "e_waste",
         question: "Como é feita a gestão de resíduos sólidos?",
         options: [
-            { value: 1, label: "Apenas remoção básica" },
-            { value: 3, label: "Segregação e PGRS implantado" },
-            { value: 5, label: "Economia Circular e Rastreabilidade Total" }
+            { value: 1, label: "Apenas remoção básica / Risco de vetores" },
+            { value: 3, label: "Segregação e PGRS (ISO 14001) implantado" },
+            { value: 5, label: "Economia Circular, Rastreabilidade (MTR/CDF) e Aterro Zero" }
         ],
         weight: 2.0
     },

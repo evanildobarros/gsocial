@@ -172,6 +172,11 @@ export interface CommunityAssessment {
   due_diligence_audit?: string; // Auditoria de Due Diligence na Cadeia de Transporte
   sroi_evidence_url?: string; // URL da evidência de S-ROI
   risk_level?: 'Critical' | 'Moderate' | 'Full';
+
+  // Novos campos Diagnóstico Socioeconômico 2024
+  income_level?: number;
+  is_edu_desert?: boolean;
+  hanseniase_cases?: number;
   
   created_at?: string;
   created_by?: string;

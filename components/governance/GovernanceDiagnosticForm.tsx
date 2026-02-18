@@ -54,10 +54,30 @@ const GOVERNANCE_QUESTIONS: Question[] = [
         options: [
             { value: 1, label: "Inexistente" },
             { value: 3, label: "Código de Conduta publicado" },
-            { value: 5, label: "Programa de Integridade completo com Canal de Denúncia e Due Diligence" }
+            { value: 5, label: "Código de Compliance 2024 (ESG como Pilar) + Canal de Denúncia" }
         ],
         weight: 2.0,
         evidenceRequired: true // Exige Política Anticorrupção
+    },
+    {
+        id: "g_compensation",
+        question: "Incentivos e Remuneração Executiva?",
+        options: [
+            { value: 1, label: "Apenas metas financeiras" },
+            { value: 3, label: "Metas ESG mencionadas, sem peso na remuneração" },
+            { value: 5, label: "Remuneração variável vinculada a metas ambientais e sociais (SROI)" }
+        ],
+        weight: 1.5
+    },
+    {
+        id: "g_sdg",
+        question: "Alinhamento com Objetivos Globais (ODS ONU)?",
+        options: [
+            { value: 1, label: "Não monitora ODS" },
+            { value: 3, label: "Mapeamento genérico de ODS" },
+            { value: 5, label: "ODS internalizados no Planejamento Estratégico e Orçamento" }
+        ],
+        weight: 1.0
     },
     {
         id: "g_risks",

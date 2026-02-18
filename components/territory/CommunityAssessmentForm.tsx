@@ -40,7 +40,7 @@ const SETTLEMENT_TYPES = ["Urbano", "Rural", "Ribeirinho", "Quilombola"];
 const WATER_ACCESS_OPTIONS = ["Rede CAEMA", "Poço Artesiano", "Carro Pipa", "Precário"];
 const SANITATION_OPTIONS = ["Rede Coletora", "Fossa Séptica", "Esgoto a Céu Aberto"];
 const NEGATIVE_IMPACTS_OPTIONS = ["Poeira/Particulados", "Ruído Noturno", "Tráfego de Caminhões", "Odor Forte", "Resíduos na Praia"];
-const PRIORITY_NEEDS_OPTIONS = ["Empregabilidade", "Cursos Profissionalizantes", "Reforma de Equipamentos Públicos", "Acesso à Internet", "Segurança Alimentar"];
+const PRIORITY_NEEDS_OPTIONS = ["Empregabilidade", "Cursos Profissionalizantes", "Reforma de Equipamentos Públicos", "Acesso à Internet", "Segurança Alimentar", "Emergência Pediátrica", "Alfabetização Funcional"];
 
 // Motor de Cálculo de Risco Socioambiental (Licença Social para Operar)
 const calculateRiskHeatmap = (
@@ -48,13 +48,19 @@ const calculateRiskHeatmap = (
     sanitationStatus: string,
     negativeImpacts: string[],
     priorityNeeds: string[],
-    relationshipLevel: number
+    relationshipLevel: number,
+    incomeLevel?: number,
+    isEduDesert?: boolean
 ) => {
     let riskScore = 0;
 
     // 1. Fator de Vulnerabilidade Estrutural (Índices Negativos)
     if (waterAccess === 'Precário' || waterAccess === 'Carro Pipa') riskScore += 2;
     if (sanitationStatus === 'Esgoto a Céu Aberto') riskScore += 2;
+    
+    // 1.1 Vulnerabilidade Socioeconômica (Novos Indicadores 2024)
+    if (incomeLevel && incomeLevel < 1000) riskScore += 2; // Renda extrema (Ref: Tauá-Mirim R$ 977)
+    if (isEduDesert) riskScore += 3; // Deserto Educacional é crítico para o futuro social
 
     // 2. Fator de Impacto Portuário (Materialidade de Impacto)
     riskScore += negativeImpacts.length * 1.5;
@@ -163,6 +169,9 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
     const [priorityNeeds, setPriorityNeeds] = useState<string[]>([]);
     const [relationshipLevel, setRelationshipLevel] = useState<number>(3);
     const [dueDiligence, setDueDiligence] = useState('');
+    const [incomeLevel, setIncomeLevel] = useState<number | ''>('');
+    const [isEduDesert, setIsEduDesert] = useState(false);
+    const [hanseniaseCases, setHanseniaseCases] = useState<number | ''>('');
     const [sroiEvidence, setSroiEvidence] = useState<File | null>(null);
 
     // Static Data
@@ -204,8 +213,16 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
 
     // --- Real-time Risk Heatmap ---
     const currentRisk = useMemo(() => {
-        return calculateRiskHeatmap(waterAccess, sanitationStatus, negativeImpacts, priorityNeeds, relationshipLevel);
-    }, [waterAccess, sanitationStatus, negativeImpacts, priorityNeeds, relationshipLevel]);
+        return calculateRiskHeatmap(
+            waterAccess, 
+            sanitationStatus, 
+            negativeImpacts, 
+            priorityNeeds, 
+            relationshipLevel,
+            incomeLevel === '' ? undefined : incomeLevel,
+            isEduDesert
+        );
+    }, [waterAccess, sanitationStatus, negativeImpacts, priorityNeeds, relationshipLevel, incomeLevel, isEduDesert]);
 
     const handleEdit = (assessment: CommunityAssessment) => {
         setEditingId(assessment.id);
@@ -547,11 +564,43 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                                             />
                                         </div>
                                         <div className="space-y-1">
+                                            <label className="text-xs font-bold text-black uppercase ml-1">Renda Per Capita Média (R$)</label>
+                                            <input
+                                                type="number"
+                                                placeholder="Ex: 977"
+                                                value={incomeLevel}
+                                                onChange={(e) => setIncomeLevel(e.target.value === '' ? '' : Number(e.target.value))}
+                                                className="w-full px-4 py-3 bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-white/10 rounded-2xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-happiness-1/20 focus:border-happiness-1"
+                                            />
+                                        </div>
+                                        <div className="flex items-center gap-4 p-4 bg-amber-50 rounded-2xl border border-amber-100">
+                                            <input 
+                                                type="checkbox" 
+                                                id="eduDesert" 
+                                                checked={isEduDesert} 
+                                                onChange={(e) => setIsEduDesert(e.target.checked)}
+                                                className="w-5 h-5 accent-happiness-1"
+                                            />
+                                            <label htmlFor="eduDesert" className="text-xs font-black text-amber-800 uppercase cursor-pointer">Deserto Educacional (Sem escolas num raio de 2km)</label>
+                                        </div>
+                                    </div>
+                                    <div className="space-y-6">
+                                        <div className="space-y-1">
                                             <label className="text-xs font-bold text-black uppercase ml-1">Nº Estimado de Famílias</label>
                                             <input
                                                 type="number"
                                                 value={estimatedFamilies}
                                                 onChange={(e) => setEstimatedFamilies(e.target.value === '' ? '' : Number(e.target.value))}
+                                                className="w-full px-4 py-3 bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-white/10 rounded-2xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-happiness-1/20 focus:border-happiness-1"
+                                            />
+                                        </div>
+                                        <div className="space-y-1">
+                                            <label className="text-xs font-bold text-black uppercase ml-1">Casos de Hanseníase (Últimos 2 anos)</label>
+                                            <input
+                                                type="number"
+                                                placeholder="Ex: 5"
+                                                value={hanseniaseCases}
+                                                onChange={(e) => setHanseniaseCases(e.target.value === '' ? '' : Number(e.target.value))}
                                                 className="w-full px-4 py-3 bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-white/10 rounded-2xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-happiness-1/20 focus:border-happiness-1"
                                             />
                                         </div>

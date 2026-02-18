@@ -156,7 +156,7 @@ export const ItaquiESGLandingPage: React.FC<ItaquiESGLandingPageProps> = ({ onLo
                     <div className="text-center lg:text-left">
                         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-6 animate-fade-in-up">
                             <Award className="w-3.5 h-3.5" />
-                            Maturidade ESG Nível 5
+                            Maturidade ESG Nível 5 (ABNT PR 2030)
                         </div>
 
                         <h1 className="text-5xl lg:text-7xl font-bold text-white leading-[1.1] mb-6 animate-fade-in-up delay-[100ms] tracking-tight">
@@ -196,10 +196,10 @@ export const ItaquiESGLandingPage: React.FC<ItaquiESGLandingPageProps> = ({ onLo
             {/* Impact Strip - Floating */}
             <div className="relative -mt-16 z-20 container mx-auto px-6 mb-24">
                 <div className="bg-white rounded-2xl shadow-xl shadow-slate-200/50 p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 border border-slate-100">
-                    <ImpactMetric value="1.2 mi" label="tCO2eq Evitadas" sub="Emissões compensadas em 2024" trend="+12%" />
-                    <ImpactMetric value="45" label="Projetos Sociais" sub="Ativos na comunidade Itaqui-Bacanga" trend="New" />
-                    <ImpactMetric value="98%" label="Reuso de Água" sub="Eficiência hídrica nas operações" trend="+5%" />
-                    <ImpactMetric value="100%" label="Transparência" sub="Índice de governança corporativa" trend="Top" />
+                    <ImpactMetric value="189k" label="tCO2eq (Escopo 3)" sub="Ref: Inventário Base 2022" trend="Ref" />
+                    <ImpactMetric value="155k" label="Residentes Impactados" sub="Território Itaqui-Bacanga" trend="+31%" />
+                    <ImpactMetric value="100%" label="Iluminação LED" sub="Eficiência hídrica e energética" trend="2025" />
+                    <ImpactMetric value="Level 5" label="Maturidade ABNT" sub="Liderança em Gestão ESG" trend="Top" />
                 </div>
             </div>
 
@@ -365,7 +365,7 @@ export const ItaquiESGLandingPage: React.FC<ItaquiESGLandingPageProps> = ({ onLo
                     </div>
 
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <ReportCard year="2024" title="Relatório de Sustentabilidade" size="PDF • 12MB" />
+                        <ReportCard year="2024" title="Relatório de Sustentabilidade" size="PDF • 4.4MB" />
                         <ReportCard year="2024" title="Demonstrações Financeiras" size="PDF • 4.5MB" />
                         <ReportCard year="2023" title="Inventário de Emissões GEE" size="PDF • 8MB" />
                         <ReportCard year="2024" title="Código de Conduta e Ética" size="PDF • 2MB" />

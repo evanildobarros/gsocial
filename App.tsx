@@ -152,7 +152,19 @@ export default function App() {
     const [isLoading, setIsLoading] = useState(true);
     const [mode, setMode] = useState<AppMode>(AppMode.DASHBOARD);
     const [searchTerm, setSearchTerm] = useState('');
-    const [sidebarOpen, setSidebarOpen] = useState(true);
+    const [sidebarOpen, setSidebarOpen] = useState(window.innerWidth > 1024);
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth <= 1024) {
+                setSidebarOpen(false);
+            } else {
+                setSidebarOpen(true);
+            }
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
     const [settingsOpen, setSettingsOpen] = useState(false);
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
     const [kmlLayers, setKmlLayers] = useState<Layer[]>([]);
@@ -535,11 +547,19 @@ export default function App() {
         <div className="flex h-screen overflow-hidden bg-gray-50 dark:bg-zinc-950 font-sans transition-colors duration-300 relative">
             <div className="absolute inset-0 bg-happiness-bg-tint/30 pointer-events-none" />
             <ToastContainer />
+            {/* Sidebar Overlay for Mobile */}
+            {sidebarOpen && (
+                <div 
+                    className="fixed inset-0 bg-black/50 z-40 lg:hidden" 
+                    onClick={() => setSidebarOpen(false)}
+                />
+            )}
+
             {/* Sidebar */}
             <aside
                 className={`
                     fixed left-0 top-0 h-full bg-white dark:bg-[#1C1C1C] text-black dark:text-white transition-all duration-300 ease-in-out z-50 flex flex-col border-r border-gray-200 dark:border-white/5
-                    ${sidebarOpen ? 'w-80' : 'w-24'}
+                    ${sidebarOpen ? 'w-80 translate-x-0' : 'w-24 -translate-x-full lg:translate-x-0'}
                 `}
             >
                 {/* Header */}
@@ -553,7 +573,7 @@ export default function App() {
                                 <img src="/logo_itaqui.png" alt="Porto do Itaqui" className="h-10 w-auto object-contain" />
                                 <div className="animate-in fade-in duration-300">
                                     <h1 className="text-lg font-black tracking-tighter leading-none text-black dark:text-white">ESGporto</h1>
-                                    <p className="text-[11px] font-black text-black dark:text-happiness-3 uppercase tracking-widest mt-1">Dash Intelligence</p>
+                                    <p className="text-[11px] font-black text-black dark:text-white uppercase tracking-widest mt-1">Dash Intelligence</p>
                                 </div>
                             </div>
                             <button
@@ -752,13 +772,19 @@ export default function App() {
             <main
                 className={`
                     flex-1 flex flex-col h-screen overflow-y-auto transition-all duration-300 ease-in-out
-                    ${sidebarOpen ? 'ml-80' : 'ml-24'}
+                    ${sidebarOpen ? 'lg:ml-80' : 'lg:ml-24'} ml-0
                 `}
             >
                 {/* Topbar/Header */}
-                < header className="h-24 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md sticky top-0 z-40 border-b border-gray-100 dark:border-white/5 px-12 flex items-center justify-between transition-colors duration-300" >
-                    <div className="flex items-center gap-6">
-                        {/* Toggle Removed from Header */}
+                < header className="h-20 md:h-24 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md sticky top-0 z-40 border-b border-gray-100 dark:border-white/5 px-4 md:px-12 flex items-center justify-between transition-colors duration-300" >
+                    <div className="flex items-center gap-4 md:gap-6">
+                        {/* Mobile Toggle */}
+                        <button 
+                            onClick={() => setSidebarOpen(true)}
+                            className="lg:hidden p-2 text-black dark:text-white"
+                        >
+                            <MenuIcon />
+                        </button>
                         <div className="h-6 w-px bg-gray-200 dark:bg-white/10 hidden sm:block"></div>
                         <h2 className="hidden sm:block text-sm font-black text-black dark:text-gray-100 uppercase tracking-[0.2em] antialiased">
                             {getPageTitle()}
@@ -821,7 +847,7 @@ export default function App() {
 
                                     {/* Gestor de Temas */}
                                     <div className="px-4 py-4 border-t border-gray-100 dark:border-white/5 bg-gray-50/30 dark:bg-white/[0.02]">
-                                        <p className="text-[11px] font-black text-black dark:text-gray-500 uppercase tracking-widest mb-3 flex items-center gap-2">
+                                        <p className="text-[11px] font-black text-black dark:text-white uppercase tracking-widest mb-3 flex items-center gap-2">
                                             <ZapIcon sx={{ fontSize: 14 }} />
                                             Ambiente de Cores
                                         </p>

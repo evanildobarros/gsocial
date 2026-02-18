@@ -6,7 +6,11 @@ O **ESGporto** é uma plataforma integrada de gestão e inteligência de dados f
 
 ## 🚀 Funcionalidades Principais
 
-### 🌱 Ambiental (Environmental)
+### 📂 Documentação e Relatórios
+- **Relatório de Sustentabilidade 2024:** Análise detalhada dos indicadores ESG (Porto do Itaqui). [Local: `docs/Relatorio_Sustentabilidade_2024.pdf`]
+- **Inventário ESG Vol. I, II e III:** Diagnósticos socioeconômicos e de materialidade.
+
+## 🌱 Ambiental (Environmental)
 - **Gestão de Carbono:** Monitoramento de emissões e estratégias de descarbonização.
 - **Eficiência de Recursos:** Controle de consumo de energia e recursos hídricos.
 - **Controle de Poluição:** Monitoramento da qualidade do ar, água e gestão de resíduos sólidos e efluentes.

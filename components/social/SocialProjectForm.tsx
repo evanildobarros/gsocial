@@ -165,10 +165,10 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                             <Target className="w-8 h-8 text-white" />
                         </div>
                         <div>
-                            <h2 className="text-3xl font-black text-gray-900 dark:text-white tracking-tighter">
+                            <h2 className="text-3xl font-black text-black dark:text-white tracking-tighter">
                                 {initialData ? 'Editar Projeto' : 'Novo Projeto Social'}
                             </h2>
-                            <p className="text-sm font-medium text-gray-500 italic">
+                            <p className="text-sm font-medium text-black italic">
                                 Alinhado ao Plano de Investimento Social da EMAP (Vol. I & III)
                             </p>
                         </div>
@@ -184,7 +184,7 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                             </span>
                             <div className="space-y-6">
                                 <div className="space-y-1">
-                                    <label className="text-xs font-bold text-gray-500 uppercase ml-1">Título do Projeto Social</label>
+                                    <label className="text-xs font-bold text-black uppercase ml-1">Título do Projeto Social</label>
                                     <input
                                         type="text"
                                         name="title"
@@ -192,12 +192,12 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                                         value={formData.title}
                                         onChange={handleChange}
                                         placeholder="Ex: Capacita Itaqui — Solda Industrial"
-                                        className="w-full px-4 py-3 bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-white/10 rounded-2xl text-lg font-black focus:outline-none focus:ring-2 focus:ring-happiness-1/20 focus:border-happiness-1 transition-all placeholder:font-medium placeholder:text-gray-400"
+                                        className="w-full px-4 py-3 bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-white/10 rounded-2xl text-lg font-black focus:outline-none focus:ring-2 focus:ring-happiness-1/20 focus:border-happiness-1 transition-all placeholder:font-medium placeholder:text-black/50"
                                     />
                                 </div>
 
                                 <div className="space-y-1">
-                                    <label className="text-xs font-bold text-gray-500 uppercase ml-1">Descrição & Justificativa Estratégica</label>
+                                    <label className="text-xs font-bold text-black uppercase ml-1">Descrição & Justificativa Estratégica</label>
                                     <textarea
                                         name="description"
                                         required
@@ -210,9 +210,9 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="space-y-1">
-                                        <label className="text-xs font-bold text-gray-500 uppercase ml-1">Orçamento Estimado</label>
+                                        <label className="text-xs font-bold text-black uppercase ml-1">Orçamento Estimado</label>
                                         <div className="relative">
-                                            <span className="absolute left-4 top-1/2 -translate-y-1/2 font-black text-gray-400">R$</span>
+                                            <span className="absolute left-4 top-1/2 -translate-y-1/2 font-black text-black">R$</span>
                                             <input
                                                 type="text"
                                                 name="budget"
@@ -224,7 +224,7 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                                         </div>
                                     </div>
                                 <div className="space-y-1">
-                                    <label className="text-xs font-bold text-gray-500 uppercase ml-1">Status Atual</label>
+                                    <label className="text-xs font-bold text-black uppercase ml-1">Status Atual</label>
                                     <select
                                         name="status"
                                         value={formData.status}
