@@ -140,30 +140,30 @@ export const Efficiency: React.FC = () => {
     }
 
     return (
-        <div className="space-y-8 animate-in fade-in duration-700">
+        <div className="space-y-8 animate-in fade-in duration-700 px-2 md:px-0">
             {/* Header */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
-                <div>
-                    <h2 className="text-3xl font-black text-black dark:text-white tracking-tighter italic">Eficiência de Recursos</h2>
-                    <p className="text-black font-medium italic">Gestão hídrica e energética para operações portuárias sustentáveis.</p>
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+                <div className="max-w-full">
+                    <h2 className="text-2xl md:text-3xl font-black text-black dark:text-white tracking-tighter italic leading-tight">Eficiência de Recursos</h2>
+                    <p className="text-black dark:text-white text-xs md:text-sm font-medium italic opacity-80 mt-1">Gestão hídrica e energética para operações portuárias sustentáveis.</p>
                 </div>
-                <div className="flex gap-3">
+                <div className="flex flex-wrap gap-2 w-full md:w-auto">
                     <button
                         onClick={generatePDF}
-                        className="px-4 py-2 rounded-lg border border-gray-300 dark:border-white/10 text-black dark:text-white font-black text-[11px] hover:bg-gray-50 dark:hover:bg-white/5 transition-colors flex items-center gap-2"
+                        className="flex-1 md:flex-none px-4 py-2.5 rounded-xl border border-gray-300 dark:border-white/10 text-black dark:text-white font-black text-[10px] hover:bg-gray-50 dark:hover:bg-white/5 transition-colors flex items-center justify-center gap-2"
                     >
-                        <Download className="w-4 h-4" /> EXPORTAR
+                        <Download className="w-3.5 h-3.5" /> EXPORTAR
                     </button>
                     <button
                         onClick={() => setIsModalOpen(true)}
-                        className="px-4 py-2 rounded-lg bg-[#1C1C1C] hover:bg-[#333] text-white font-black text-[11px] transition-colors flex items-center gap-2"
+                        className="flex-1 md:flex-none px-4 py-2.5 rounded-xl bg-black dark:bg-white text-white dark:text-black font-black text-[10px] transition-colors flex items-center justify-center gap-2 shadow-lg"
                     >
-                        <History className="w-4 h-4" /> LANÇAR MEDIÇÃO
+                        <History className="w-3.5 h-3.5" /> LANÇAR MEDIÇÃO
                     </button>
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {/* Real KPIs */}
                 <EfficiencyCard
                     label="Intensidade Hídrica"
