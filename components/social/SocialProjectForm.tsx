@@ -75,10 +75,18 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
         if (formData.budget > 0 && formData.beneficiariesTarget > 0) {
             // Detect project type based on selected materiality topics
             const isSanitation = formData.materialityTopics.some(t => 
-                t.includes('Saúde') || t.includes('Saneamento') || t.includes('Infraestrutura')
+                t.includes('Saúde') || t.includes('Saneamento') || t.includes('Água')
+            );
+
+            const isFoodSecurityOrTraditional = formData.materialityTopics.some(t => 
+                t.includes('Segurança Alimentar') || t.includes('Tradicionais')
             );
             
-            const type = isSanitation ? 'saneamento_basico' : 'empregabilidade';
+            // Refinamento do tipo de projeto para o motor de proxy
+            let type = 'empregabilidade';
+            if (isSanitation) type = 'saneamento_basico';
+            if (isFoodSecurityOrTraditional) type = 'desenvolvimento_comunitario';
+
             const sroiData = calculateProjectSROI(formData.budget, formData.beneficiariesTarget, type);
             
             setFormData(prev => ({

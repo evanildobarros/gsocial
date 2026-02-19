@@ -56,10 +56,10 @@ const ENVIRONMENTAL_QUESTIONS: Question[] = [
         id: "e_ghg",
         question: "Gestão de Emissões de GEE (Inventário de Carbono)?",
         options: [
-            { value: 1, label: "Não monitora / Sem inventário" },
-            { value: 2, label: "Inventário parcial (Escopo 1 e 2)" },
-            { value: 4, label: "Inventário completo (Escopo 1, 2 e 3) — Ref: 189k tCO2eq" },
-            { value: 5, label: "Escopo 1, 2 e 3 + Plano de Descarbonização 2025 ativo" }
+            { value: 1, label: "Elementar: Não monitora / Sem inventário" },
+            { value: 2, label: "Em Evolução: Inventário parcial (Escopo 1 e 2)" },
+            { value: 4, label: "Em Evolução: Inventário completo (Escopo 1, 2 e 3) — Ref: 189k tCO2eq" },
+            { value: 5, label: "Transformador: Escopo 1, 2 e 3 + Plano de Descarbonização 2025 ativo" }
         ],
         weight: 2.5,
         evidenceRequired: true
@@ -68,9 +68,9 @@ const ENVIRONMENTAL_QUESTIONS: Question[] = [
         id: "e_energy_efficiency",
         question: "Eficiência Energética e Matriz?",
         options: [
-            { value: 1, label: "Sem iniciativas de eficiência" },
-            { value: 3, label: "Troca parcial de iluminação para LED" },
-            { value: 5, label: "100% LED + Sensores Inteligentes + Cláusulas de Eficiência em Contratos" }
+            { value: 1, label: "Elementar: Sem iniciativas de eficiência" },
+            { value: 3, label: "Em Evolução: Troca parcial de iluminação para LED" },
+            { value: 5, label: "Transformador: 100% LED + Sensores Inteligentes + Cláusulas em Contratos" }
         ],
         weight: 1.5
     },
@@ -78,19 +78,30 @@ const ENVIRONMENTAL_QUESTIONS: Question[] = [
         id: "e_waste",
         question: "Como é feita a gestão de resíduos sólidos?",
         options: [
-            { value: 1, label: "Apenas remoção básica / Risco de vetores" },
-            { value: 3, label: "Segregação e PGRS (ISO 14001) implantado" },
-            { value: 5, label: "Economia Circular, Rastreabilidade (MTR/CDF) e Aterro Zero" }
+            { value: 1, label: "Elementar: Apenas remoção básica / Risco de vetores" },
+            { value: 3, label: "Em Evolução: Segregação e PGRS (ISO 14001) implantado" },
+            { value: 5, label: "Transformador: Economia Circular, Rastreabilidade (MTR/CDF) e Aterro Zero" }
         ],
         weight: 2.0
+    },
+    {
+        id: "e_climate_adaptation",
+        question: "Adaptação Climática e Resiliência de Infraestrutura (TCFD)?",
+        options: [
+            { value: 1, label: "Elementar: Sem estudos de vulnerabilidade climática" },
+            { value: 3, label: "Em Evolução: Mapeamento de riscos físicos (eventos extremos) iniciado" },
+            { value: 5, label: "Transformador: Plano de adaptação ativo (elevação do mar) e infraestrutura resiliente" }
+        ],
+        weight: 2.5,
+        evidenceRequired: true // Exige Estudo de Vulnerabilidade Climática
     },
     {
         id: "e_spill",
         question: "Prontidão para emergências ambientais (Óleo/Químicos)?",
         options: [
-            { value: 1, label: "Sem plano formal" },
-            { value: 3, label: "Plano básico individual" },
-            { value: 5, label: "Integração total ao PAM e simulados frequentes" }
+            { value: 1, label: "Elementar: Sem plano formal" },
+            { value: 3, label: "Em Evolução: Plano básico individual" },
+            { value: 5, label: "Transformador: Integração total ao PAM e simulados frequentes" }
         ],
         weight: 2.0
     },
@@ -98,9 +109,9 @@ const ENVIRONMENTAL_QUESTIONS: Question[] = [
         id: "e_water",
         question: "Gestão de Efluentes e Qualidade da Água?",
         options: [
-            { value: 1, label: "Sem monitoramento" },
-            { value: 3, label: "Monitoramento pontual" },
-            { value: 5, label: "Tratamento avançado e monitoramento contínuo" }
+            { value: 1, label: "Elementar: Sem monitoramento" },
+            { value: 3, label: "Em Evolução: Monitoramento pontual" },
+            { value: 5, label: "Transformador: Tratamento avançado e monitoramento contínuo" }
         ],
         weight: 1.5
     },
@@ -108,9 +119,9 @@ const ENVIRONMENTAL_QUESTIONS: Question[] = [
         id: "e_biodiversity",
         question: "Práticas de Conservação da Biodiversidade?",
         options: [
-            { value: 1, label: "Nenhuma ação formal" },
-            { value: 3, label: "Estudos de impacto realizados" },
-            { value: 5, label: "Programa de compensação e monitoramento ativo" }
+            { value: 1, label: "Elementar: Nenhuma ação formal" },
+            { value: 3, label: "Em Evolução: Estudos de impacto realizados" },
+            { value: 5, label: "Transformador: Programa de compensação e monitoramento ativo" }
         ],
         weight: 1.0
     }

@@ -50,14 +50,14 @@ const CRITICALITY_LEVELS = [
 const GOVERNANCE_QUESTIONS: Question[] = [
     {
         id: "g_compliance",
-        question: "Estrutura de Integridade e Compliance?",
+        question: "Estrutura de Integridade, Compliance e Diversidade?",
         options: [
-            { value: 1, label: "Inexistente" },
-            { value: 3, label: "Código de Conduta publicado" },
-            { value: 5, label: "Código de Compliance 2024 (ESG como Pilar) + Canal de Denúncia" }
+            { value: 1, label: "Elementar: Inexistente" },
+            { value: 3, label: "Em Evolução: Código de Conduta (Foco apenas em corrupção)" },
+            { value: 5, label: "Transformador: Código atualizado + Canal de Denúncia (Foco em assédio, discriminação e corrupção)" }
         ],
         weight: 2.0,
-        evidenceRequired: true // Exige Política Anticorrupção
+        evidenceRequired: true
     },
     {
         id: "g_compensation",
@@ -81,11 +81,11 @@ const GOVERNANCE_QUESTIONS: Question[] = [
     },
     {
         id: "g_risks",
-        question: "Maturidade na Gestão de Riscos?",
+        question: "Maturidade na Gestão de Riscos (Ambientais, Sociais e Cibernéticos)?",
         options: [
-            { value: 1, label: "Reativa" },
-            { value: 3, label: "Matriz de Riscos Corporativos" },
-            { value: 5, label: "Riscos ESG integrados à estratégia e auditados" }
+            { value: 1, label: "Elementar: Reativa e focada apenas no financeiro" },
+            { value: 3, label: "Em Evolução: Matriz de Riscos Corporativos básica" },
+            { value: 5, label: "Transformador: Riscos Climáticos, Sociais e de Segurança da Informação (LGPD) mapeados e auditados" }
         ],
         weight: 1.5
     },
@@ -93,9 +93,9 @@ const GOVERNANCE_QUESTIONS: Question[] = [
         id: "g_transparency",
         question: "Nível de Transparência e Reporte?",
         options: [
-            { value: 1, label: "Sem relatórios" },
-            { value: 3, label: "Relatório anual simples" },
-            { value: 5, label: "Relatório GRI/Relato Integrado com verificação externa" }
+            { value: 1, label: "Elementar: Sem relatórios públicos" },
+            { value: 3, label: "Em Evolução: Relatório anual sem framework definido" },
+            { value: 5, label: "Transformador: Relatório verificado (GRI, SASB e/ou TCFD)" }
         ],
         weight: 1.5,
         evidenceRequired: true // Exige Relatório de Sustentabilidade

@@ -206,12 +206,15 @@ export interface SocialProject {
 }
 
 export const MATERIALITY_TOPICS = [
-  "Geração de Emprego e Renda",
+  "Geração de Emprego e Renda Local",
   "Educação e Capacitação Técnica",
-  "Infraestrutura Urbana",
-  "Saúde e Saneamento Básico",
+  "Infraestrutura Urbana e Mobilidade",
+  "Saúde, Água Tratada e Saneamento Básico",
   "Segurança Alimentar",
-  "Proteção Ambiental e Manguezais"
+  "Proteção Ambiental e Manguezais",
+  "Apoio a Populações Tradicionais (Quilombolas e Pescadores)",
+  "Direitos Humanos e Combate ao Trabalho Infantil/Forçado na Cadeia",
+  "Diversidade, Equidade e Inclusão (Combate ao Washing)"
 ];
 
 
