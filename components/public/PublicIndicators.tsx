@@ -73,12 +73,12 @@ export const PublicIndicators: React.FC<PublicPageProps> = ({ onBack }) => {
 };
 
 const KpiCard = ({ title, value, unit, trend, color }: any) => (
-    <div className=\"p-6 rounded-[32px] border border-gray-100 bg-white shadow-lg shadow-gray-200/50 flex flex-col items-center text-center hover:border-gray-200 transition-colors\">
-        <p className=\"text-[10px] font-black uppercase tracking-widest text-black/40 mb-2\">{title}</p>
+    <div className="p-6 rounded-[32px] border border-gray-100 bg-white shadow-lg shadow-gray-200/50 flex flex-col items-center text-center hover:border-gray-200 transition-colors">
+        <p className="text-[10px] font-black uppercase tracking-widest text-black/40 mb-2">{title}</p>
         <div className={`text-5xl font-black tracking-tighter mb-1 ${color}`}>{value}</div>
-        <div className=\"flex items-center gap-2\">
-            <span className=\"text-sm font-bold text-black\">{unit}</span>
-            <span className=\"px-2 py-0.5 rounded-full bg-green-100 text-green-700 text-[10px] font-bold\">{trend}</span>
+        <div className="flex items-center gap-2">
+            <span className="text-sm font-bold text-black">{unit}</span>
+            <span className="px-2 py-0.5 rounded-full bg-green-100 text-green-700 text-[10px] font-bold">{trend}</span>
         </div>
     </div>
 );

@@ -52,7 +52,7 @@ export const PublicSocial: React.FC<PublicPageProps> = ({ onBack }) => {
                             desc="Iniciativas de educação, qualificação profissional e cultura."
                         />
                         <StatCard 
-                            icon={<Heart className=\"w-6 h-6 text-red-500\" />} 
+                            icon={<Heart className="w-6 h-6 text-red-500" />} 
                             value="R$ 54mi"
                             label="Investimento Social"
                             desc="Recursos aplicados em infraestrutura e bem-estar comunitário."
