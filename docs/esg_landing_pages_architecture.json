@@ -1,0 +1,100 @@
+{
+  "esg_landing_pages_architecture": {
+    "meio_ambiente": {
+      "title": "Resiliência Climática e Biodiversidade",
+      "framework_alignment": [
+        "TCFD",
+        "ABNT PR 2030 (Pilar E)"
+      ],
+      "components": [
+        {
+          "type": "live_map",
+          "data": "sea_level_vulnerability",
+          "label": "Adaptação Costeira (TCFD)"
+        },
+        {
+          "type": "chart_emissions",
+          "data": "ghg_inventory_scope_1_2_3",
+          "label": "Rastreio de Descarbonização"
+        },
+        {
+          "type": "badge_grid",
+          "items": [
+            "Água de Lastro Controlada",
+            "Economia Circular Integrada"
+          ]
+        }
+      ]
+    },
+    "responsabilidade_social": {
+      "title": "Relação Porto-Cidade e Direitos Humanos",
+      "framework_alignment": [
+        "GRI 400",
+        "ABNT PR 2030 (Pilar S)"
+      ],
+      "components": [
+        {
+          "type": "sroi_calculator_widget",
+          "label": "Retorno Social sobre o Investimento (S-ROI)"
+        },
+        {
+          "type": "community_impact_map",
+          "filters": [
+            "Quilombolas",
+            "Pescadores Artesanais",
+            "Segurança Alimentar"
+          ]
+        },
+        {
+          "type": "supply_chain_alert",
+          "status": "Due Diligence Ativa: 0 Violações de Direitos Humanos"
+        }
+      ]
+    },
+    "relatorios": {
+      "title": "Central de Transparência e Governança",
+      "framework_alignment": [
+        "SASB",
+        "GRI",
+        "IIRC"
+      ],
+      "components": [
+        {
+          "type": "document_hub",
+          "categories": [
+            "Relatório Integrado",
+            "Inventário GEE",
+            "Auditoria Independente"
+          ]
+        },
+        {
+          "type": "compliance_seal",
+          "issuer": "Big Four Audit",
+          "year": "2025/2026"
+        }
+      ]
+    },
+    "indicadores": {
+      "title": "Painel de Materialidade Dupla",
+      "framework_alignment": [
+        "ESRS",
+        "GRI 3"
+      ],
+      "components": [
+        {
+          "type": "dual_materiality_matrix",
+          "x_axis": "Impacto Financeiro",
+          "y_axis": "Impacto Socioambiental"
+        },
+        {
+          "type": "real_time_kpi_grid",
+          "metrics": [
+            "Consumo de Energia Limpa (%)",
+            "Taxa de Frequência de Acidentes (TFA)",
+            "Investimento Social Direto (R$)"
+          ]
+        }
+      ]
+    }
+  }
+}
