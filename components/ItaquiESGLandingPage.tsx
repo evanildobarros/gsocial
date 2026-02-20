@@ -22,11 +22,14 @@ import {
     ExternalLink
 } from 'lucide-react';
 
+import { AppMode } from '../types';
+
 interface ItaquiESGLandingPageProps {
     onLoginClick?: () => void;
+    onNavigate?: (mode: AppMode) => void;
 }
 
-export const ItaquiESGLandingPage: React.FC<ItaquiESGLandingPageProps> = ({ onLoginClick }) => {
+export const ItaquiESGLandingPage: React.FC<ItaquiESGLandingPageProps> = ({ onLoginClick, onNavigate }) => {
     const [scrolled, setScrolled] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [activeSection, setActiveSection] = useState('home');
@@ -431,11 +434,11 @@ export const ItaquiESGLandingPage: React.FC<ItaquiESGLandingPageProps> = ({ onLo
 
                         <div>
                             <h4 className="text-white font-bold mb-6">ESG</h4>
-                            <ul className="space-y-3">
-                                <li><a href="#" className="hover:text-emerald-400 transition-colors">Meio Ambiente</a></li>
-                                <li><a href="#" className="hover:text-emerald-400 transition-colors">Responsabilidade Social</a></li>
-                                <li><a href="#" className="hover:text-emerald-400 transition-colors">Relatórios</a></li>
-                                <li><a href="#" className="hover:text-emerald-400 transition-colors">Indicadores</a></li>
+                            <ul className="space-y-3 text-left">
+                                <li><button onClick={() => onNavigate?.(AppMode.PUBLIC_ENVIRONMENT)} className="hover:text-emerald-400 transition-colors">Meio Ambiente</button></li>
+                                <li><button onClick={() => onNavigate?.(AppMode.PUBLIC_SOCIAL)} className="hover:text-emerald-400 transition-colors">Responsabilidade Social</button></li>
+                                <li><button onClick={() => onNavigate?.(AppMode.PUBLIC_REPORTS)} className="hover:text-emerald-400 transition-colors">Relatórios</button></li>
+                                <li><button onClick={() => onNavigate?.(AppMode.PUBLIC_INDICATORS)} className="hover:text-emerald-400 transition-colors">Indicadores</button></li>
                             </ul>
                         </div>
 
