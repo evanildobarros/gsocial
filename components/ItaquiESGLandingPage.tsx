@@ -33,7 +33,21 @@ export const ItaquiESGLandingPage: React.FC<ItaquiESGLandingPageProps> = ({ onLo
     const [scrolled, setScrolled] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [activeSection, setActiveSection] = useState('home');
+    const [contrast, setContrast] = useState(false);
+    const [fontSize, setFontSize] = useState(100);
     const containerRef = React.useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (contrast) {
+            document.documentElement.classList.add('high-contrast');
+        } else {
+            document.documentElement.classList.remove('high-contrast');
+        }
+    }, [contrast]);
+
+    useEffect(() => {
+        document.documentElement.style.fontSize = `${fontSize}%`;
+    }, [fontSize]);
 
     useEffect(() => {
         const container = containerRef.current;
@@ -87,6 +101,15 @@ export const ItaquiESGLandingPage: React.FC<ItaquiESGLandingPageProps> = ({ onLo
                 className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/90 backdrop-blur-md shadow-sm border-b border-slate-100 py-4' : 'bg-transparent py-6'
                     }`}
             >
+                {/* Accessibility Bar (Vale Inspired) */}
+                <div className={`w-full py-1 bg-slate-900 text-white text-[9px] font-bold uppercase tracking-widest px-6 flex justify-end gap-4 transition-all ${scrolled ? 'opacity-0 h-0 overflow-hidden' : 'opacity-100 h-auto'}`}>
+                    <button onClick={() => setFontSize(prev => Math.min(prev + 10, 150))} className="hover:text-emerald-400 transition-colors">A+</button>
+                    <button onClick={() => setFontSize(prev => Math.max(prev - 10, 80))} className="hover:text-emerald-400 transition-colors">A-</button>
+                    <button onClick={() => setContrast(!contrast)} className="flex items-center gap-1 hover:text-emerald-400 transition-colors">
+                        <div className="w-2 h-2 rounded-full border border-white bg-black"></div>
+                        Alto Contraste
+                    </button>
+                </div>
                 <div className="container mx-auto px-6 h-full flex items-center justify-between">
                     <div className="flex items-center gap-3 cursor-pointer" onClick={() => scrollToSection('home')}>
                         <img 
@@ -252,6 +275,48 @@ export const ItaquiESGLandingPage: React.FC<ItaquiESGLandingPageProps> = ({ onLo
                 </div>
             </section>
 
+            {/* Compromissos 2030 (Bento Grid) */}
+            <section className="py-24 bg-slate-900 text-white snap-start overflow-hidden">
+                <div className="container mx-auto px-6">
+                    <div className="max-w-2xl mb-16">
+                        <SectionBadge text="Visão de Futuro" />
+                        <h2 className="text-4xl font-black mb-4 tracking-tight">Nossos Compromissos 2030</h2>
+                        <p className="text-slate-400 font-medium italic">Metas quantitativas e auditáveis para a próxima década.</p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <CommitmentCard 
+                            title="Clima"
+                            goal="-50% Emissões"
+                            desc="Redução absoluta de gases de efeito estufa nos Escopos 1 e 2."
+                            progress={68}
+                            color="bg-emerald-500"
+                        />
+                        <CommitmentCard 
+                            title="Social"
+                            goal="+20k Qualificados"
+                            desc="Pessoas treinadas pelo programa Porto do Futuro até 2028."
+                            progress={45}
+                            color="bg-sky-500"
+                        />
+                        <CommitmentCard 
+                            title="Energia"
+                            goal="100% Renovável"
+                            desc="Uso total de matriz energética limpa em todas as instalações."
+                            progress={92}
+                            color="bg-yellow-500"
+                        />
+                        <CommitmentCard 
+                            title="Educação"
+                            goal="Fim dos Desertos"
+                            desc="Erradicação de áreas sem acesso escolar no Itaqui-Bacanga."
+                            progress={30}
+                            color="bg-orange-500"
+                        />
+                    </div>
+                </div>
+            </section>
+
             {/* Pillars Section */}
             <section id="pilares" className="scroll-mt-28 py-24 bg-slate-50 relative overflow-hidden snap-start">
                 <div className="absolute top-0 right-0 w-1/3 h-full bg-slate-100/50 skew-x-12 translate-x-32 z-0"></div>
@@ -380,6 +445,37 @@ export const ItaquiESGLandingPage: React.FC<ItaquiESGLandingPageProps> = ({ onLo
                         <button className="text-emerald-600 font-bold hover:text-emerald-700 underline decoration-2 underline-offset-4">
                             Ver arquivo completo de documentos
                         </button>
+                    </div>
+                </div>
+            </section>
+
+            {/* Mural ESG - Últimas Notícias (Vale Inspired) */}
+            <section className="py-24 bg-slate-50 snap-start">
+                <div className="container mx-auto px-6">
+                    <div className="flex justify-between items-end mb-16">
+                        <div>
+                            <SectionBadge text="Atualizações" />
+                            <h2 className="text-4xl font-black text-slate-900 tracking-tight">Mural ESGporto</h2>
+                        </div>
+                        <button className="text-sm font-bold text-emerald-600 hover:underline">Todas as notícias</button>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <NewsCard 
+                            date="19 Fev 2026"
+                            title="Porto do Itaqui atinge meta de 100% de iluminação LED em áreas operacionais."
+                            image="/news-1.jpg"
+                        />
+                        <NewsCard 
+                            date="15 Fev 2026"
+                            title="Programa Porto do Futuro abre inscrições para novas bolsas de pesquisa e inovação."
+                            image="/news-2.jpg"
+                        />
+                        <NewsCard 
+                            date="10 Fev 2026"
+                            title="Relatório de Emissões 2025 confirma redução de 24% no Escopo 1."
+                            image="/news-3.jpg"
+                        />
                     </div>
                 </div>
             </section>
@@ -551,5 +647,35 @@ const ReportCard = ({ year, title, size }: { year: string, title: string, size: 
             </div>
         </div>
         <Download className="w-5 h-5 text-slate-300 group-hover:text-emerald-500 transition-colors" />
+    </div>
+);
+
+const CommitmentCard = ({ title, goal, desc, progress, color }: any) => (
+    <div className="bg-white/5 border border-white/10 p-8 rounded-[32px] hover:bg-white/10 transition-all group">
+        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-400 mb-2 block">{title}</span>
+        <h4 className="text-2xl font-black mb-2 tracking-tight leading-none">{goal}</h4>
+        <p className="text-xs text-slate-400 font-medium mb-6 leading-relaxed">{desc}</p>
+        <div className="space-y-2">
+            <div className="flex justify-between items-end">
+                <span className="text-[10px] font-bold uppercase text-slate-500">Progresso</span>
+                <span className="text-xs font-black text-white">{progress}%</span>
+            </div>
+            <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+                <div className={`h-full ${color} transition-all duration-1000`} style={{ width: `${progress}%` }} />
+            </div>
+        </div>
+    </div>
+);
+
+const NewsCard = ({ date, title, image }: any) => (
+    <div className="bg-white rounded-3xl border border-slate-100 overflow-hidden hover:shadow-xl transition-all group cursor-pointer">
+        <div className="h-48 bg-slate-200 relative">
+            <div className="absolute inset-0 bg-slate-900/20 group-hover:bg-transparent transition-colors" />
+            <img src={image} alt={title} className="w-full h-full object-cover" />
+        </div>
+        <div className="p-6">
+            <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3 block">{date}</span>
+            <h4 className="text-lg font-bold text-slate-900 leading-snug group-hover:text-emerald-600 transition-colors">{title}</h4>
+        </div>
     </div>
 );

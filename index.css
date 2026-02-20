@@ -295,11 +295,35 @@ textarea.bg-white {
 
 /* Global override for rounded corners as per user request */
 .rounded-3xl {
-  border-radius: 0.5rem !important;
+  border-radius: 2rem !important;
 }
 
 /* Also ensure other card-like rounded classes follow suit if needed for consistency */
-.rounded-\[32px\],
+.rounded-\[32px\] {
+  border-radius: 2rem !important;
+}
+
 .rounded-\[40px\] {
-  border-radius: 0.5rem !important;
+  border-radius: 2.5rem !important;
+}
+
+/* Bento Grid Helper */
+.bento-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 240px;
+    gap: 1.5rem;
+}
+
+@media (max-width: 1024px) {
+    .bento-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .bento-grid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: auto;
+    }
 }
