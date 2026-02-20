@@ -279,7 +279,7 @@ export default function App() {
             .toUpperCase();
     };
 
-    const renderContent = () => {
+    function renderContent() {
         switch (mode) {
             case AppMode.DASHBOARD: return <Dashboard />;
             case AppMode.PUBLIC_ENVIRONMENT: return <PublicEnvironment onBack={() => setMode(AppMode.DASHBOARD)} />;
@@ -386,7 +386,7 @@ export default function App() {
             );
             default: return <Dashboard />;
         }
-    };
+    }
 
     if (isLoading) {
         return (
