@@ -45,6 +45,12 @@ import { CreateUser } from './components/CreateUser';
 import { LandingPage } from './components/LandingPage';
 import { KimiLandingPage } from './components/KimiLandingPage';
 import { ItaquiESGLandingPage } from './components/ItaquiESGLandingPage';
+// Páginas Públicas
+import { PublicEnvironment } from './components/public/PublicEnvironment';
+import { PublicSocial } from './components/public/PublicSocial';
+import { PublicReports } from './components/public/PublicReports';
+import { PublicIndicators } from './components/public/PublicIndicators';
+
 import { Decarbonization } from './components/environmental/Decarbonization';
 import { Efficiency } from './components/environmental/Efficiency';
 import { PollutionControl } from './components/environmental/PollutionControl';
@@ -273,34 +279,6 @@ export default function App() {
             .toUpperCase();
     };
 
-    if (isLoading) {
-        return (
-            <div className="flex justify-center items-center h-screen bg-gray-50 dark:bg-zinc-950">
-                <span className="text-black dark:text-gray-50 font-bold animate-pulse">Carregando ESGporto...</span>
-            </div>
-        );
-    }
-
-    if (!isAuthenticated) {
-        if (showLogin) {
-            return <Login onLogin={() => setIsAuthenticated(true)} onBack={() => setShowLogin(false)} />;
-        }
-
-        // Permitir visualização de páginas públicas sem login
-        const isPublicMode = [
-            AppMode.PUBLIC_ENVIRONMENT,
-            AppMode.PUBLIC_SOCIAL,
-            AppMode.PUBLIC_REPORTS,
-            AppMode.PUBLIC_INDICATORS
-        ].includes(mode);
-
-        if (isPublicMode) {
-            return renderContent();
-        }
-
-        return <ItaquiESGLandingPage onLoginClick={() => setShowLogin(true)} onNavigate={(m) => setMode(m)} />;
-    }
-
     const renderContent = () => {
         switch (mode) {
             case AppMode.DASHBOARD: return <Dashboard />;
@@ -409,6 +387,34 @@ export default function App() {
             default: return <Dashboard />;
         }
     };
+
+    if (isLoading) {
+        return (
+            <div className="flex justify-center items-center h-screen bg-gray-50 dark:bg-zinc-950">
+                <span className="text-black dark:text-gray-50 font-bold animate-pulse">Carregando ESGporto...</span>
+            </div>
+        );
+    }
+
+    if (!isAuthenticated) {
+        if (showLogin) {
+            return <Login onLogin={() => setIsAuthenticated(true)} onBack={() => setShowLogin(false)} />;
+        }
+
+        // Permitir visualização de páginas públicas sem login
+        const isPublicMode = [
+            AppMode.PUBLIC_ENVIRONMENT,
+            AppMode.PUBLIC_SOCIAL,
+            AppMode.PUBLIC_REPORTS,
+            AppMode.PUBLIC_INDICATORS
+        ].includes(mode);
+
+        if (isPublicMode) {
+            return renderContent();
+        }
+
+        return <ItaquiESGLandingPage onLoginClick={() => setShowLogin(true)} onNavigate={(m) => setMode(m)} />;
+    }
 
     const getPageTitle = () => {
         switch (mode) {
