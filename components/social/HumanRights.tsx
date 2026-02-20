@@ -168,16 +168,16 @@ export const HumanRights: React.FC = () => {
                 </div>
 
                 {/* Counter Stats */}
-                <div className="bg-primary text-white p-8 rounded-3xl shadow-xl flex flex-col justify-between border border-white/5 transition-all duration-300">
+                <div className="bg-happiness-1 text-white p-8 rounded-3xl shadow-xl flex flex-col justify-between border border-white/5 transition-all duration-300">
                     <div className="space-y-8">
                         <div>
                             <div className="text-4xl font-black tracking-tighter">{stats.total}</div>
-                            <div className="text-[10px] text-white/70 font-black uppercase tracking-[0.2em] mt-2">Parceiros Monitorados</div>
+                            <div className="text-[10px] text-white font-black uppercase tracking-[0.2em] mt-2 opacity-80">Parceiros Monitorados</div>
                         </div>
-                        <div className="h-px bg-white/10" />
+                        <div className="h-px bg-white/20" />
                         <div>
-                            <div className="text-4xl font-black text-red-400 tracking-tighter">{stats.blocked}</div>
-                            <div className="text-[10px] text-white/70 font-black uppercase tracking-[0.2em] mt-2">Restrições Ativas</div>
+                            <div className="text-4xl font-black text-red-100 tracking-tighter">{stats.blocked}</div>
+                            <div className="text-[10px] text-white font-black uppercase tracking-[0.2em] mt-2 opacity-80">Restrições Ativas</div>
                         </div>
                     </div>
                 </div>
