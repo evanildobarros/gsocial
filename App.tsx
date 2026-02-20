@@ -279,115 +279,6 @@ export default function App() {
             .toUpperCase();
     };
 
-    function renderContent() {
-        switch (mode) {
-            case AppMode.DASHBOARD: return <Dashboard />;
-            case AppMode.PUBLIC_ENVIRONMENT: return <PublicEnvironment onBack={() => setMode(AppMode.DASHBOARD)} />;
-            case AppMode.PUBLIC_SOCIAL: return <PublicSocial onBack={() => setMode(AppMode.DASHBOARD)} />;
-            case AppMode.PUBLIC_REPORTS: return <PublicReports onBack={() => setMode(AppMode.DASHBOARD)} />;
-            case AppMode.PUBLIC_INDICATORS: return <PublicIndicators onBack={() => setMode(AppMode.DASHBOARD)} />;
-            case AppMode.PROJECTS: return (
-                <ProjectList
-                    onAddNew={() => { setSelectedProject(null); setMode(AppMode.NEW_SOCIAL_PROJECT); }}
-                    onEdit={(p) => {
-                        // Mapeia os dados do banco para o formato do formulário SocialProject
-                        setSelectedProject({
-                            id: p.id,
-                            title: p.name,
-                            description: p.description || p.tema,
-                            status: p.status === 'Concluído' ? 'completed' : p.status === 'Pausado' ? 'paused' : p.status === 'Planejado' ? 'planning' : 'active',
-                            budget: parseFloat(p.budget || '0'),
-                            startDate: p.start_date || '',
-                            endDate: p.end_date || '',
-                            beneficiariesTarget: p.beneficiaries_target || 0,
-                            neighborhoods: p.neighborhoods || (p.community ? [p.community] : []),
-                            materialityTopics: p.materiality_topics || (p.tema ? [p.tema] : []),
-                            sdgTargets: p.sdg_targets || [],
-                            estimatedImpactValue: parseFloat(p.estimated_impact_value as any || '0'),
-                            projectedSroi: parseFloat(p.projected_sroi as any || '0')
-                        });
-                        setMode(AppMode.NEW_SOCIAL_PROJECT);
-                    }}
-                />
-            );
-            case AppMode.NEW_PROJECT: return <NewProject onBack={() => setMode(AppMode.PROJECTS)} />;
-            case AppMode.USERS: return <UserManagement onAddUser={() => setMode(AppMode.CREATE_USER)} />;
-            case AppMode.CREATE_USER: return <CreateUser onBack={() => setMode(AppMode.USERS)} />;
-            case AppMode.PROFILE: return <UserProfilePage />;
-            case AppMode.ENV_DECARBONIZATION: return <Decarbonization />;
-            case AppMode.ENV_EFFICIENCY: return <Efficiency />;
-            case AppMode.ENV_POLLUTION: return <PollutionControl />;
-            case AppMode.ENV_COMPLIANCE: return <Compliance />;
-            case AppMode.SOCIAL_SROI: return <SROICalculator />;
-            case AppMode.SOCIAL_TERRITORY: return <CommunityRelations />;
-            case AppMode.SOCIAL_DIVERSITY: return <DiversityDashboard />;
-            case AppMode.SOCIAL_HUMAN_RIGHTS: return <HumanRights />;
-            case AppMode.GOV_RISK_MATRIX: return <RiskHeatmap />;
-            case AppMode.GOV_REPORTING: return <ReportingHub />;
-            case AppMode.GOV_SUPPLY_CHAIN: return <SupplyChainAudit />;
-            case AppMode.GOV_INNOVATION_FUNNEL: return <InnovationFunnel />;
-            case AppMode.STRATEGIC_PREDICTIVE: return <PredictiveAnalysis />;
-            case AppMode.SOCIAL_GIS: return <GeoSpatialModule additionalLayers={kmlLayers} />;
-            case AppMode.ENV_LAIA: return <LAIA />;
-            case AppMode.ENV_WASTE_SHIP: return <ShipWaste />;
-            case AppMode.ENV_METEO: return <MeteoPredictiveModule />;
-            case AppMode.SOCIAL_ASSESSMENT: return <CommunityAssessmentForm />;
-            case AppMode.GOV_DIAGNOSTIC: return <ESGDiagnosticForm initialTab={diagnosticTab} />;
-            case AppMode.ESG_CENTER: return <ESGDiagnosticsCenter onSelectMode={(m, t) => { setDiagnosticTab(t || 0); setMode(m); }} />;
-            case AppMode.ENV_DIAGNOSTIC: return <EnvironmentalDiagnosticForm />;
-            case AppMode.GOV_ESG_DIAGNOSTIC: return <GovernanceDiagnosticForm />;
-            case AppMode.STRATEGIC_NOTIFICATIONS: return <NotificationCenter />;
-            case AppMode.NEW_SOCIAL_PROJECT: return (
-                <SocialProjectForm
-                    key={selectedProject?.id || 'new'}
-                    initialData={selectedProject}
-                    onSubmit={async (project) => {
-                        try {
-                            const projectData = {
-                                name: project.title,
-                                pilar: 'Social',
-                                materiality_topics: (project as any).materialityTopics,
-                                tema: (project as any).materialityTopics[0] || 'Geral', // Legado
-                                status: project.status === 'completed' ? 'Concluído' : project.status === 'paused' ? 'Pausado' : project.status === 'planning' ? 'Planejado' : 'Em andamento',
-                                community: project.neighborhoods[0] || 'Vila Bacanga',
-                                budget: project.budget.toString(),
-                                description: project.description,
-                                start_date: project.startDate || null,
-                                end_date: project.endDate || null,
-                                beneficiaries_target: project.beneficiariesTarget,
-                                neighborhoods: project.neighborhoods,
-                                sdg_targets: project.sdgTargets,
-                                projected_sroi: project.projectedSroi,
-                                estimated_impact_value: project.estimatedImpactValue
-                            };
-
-                            if (selectedProject?.id) {
-                                const { error } = await supabase
-                                    .from('projects')
-                                    .update(projectData)
-                                    .eq('id', selectedProject.id);
-                                if (error) throw error;
-                                showSuccess('Projeto atualizado com sucesso!');
-                            } else {
-                                const { error } = await supabase
-                                    .from('projects')
-                                    .insert(projectData);
-                                if (error) throw error;
-                                showSuccess('Projeto criado com sucesso!');
-                            }
-                            setMode(AppMode.PROJECTS);
-                        } catch (error: any) {
-                            console.error('Erro detalhado ao salvar:', error);
-                            showError(`Falha ao salvar: ${error.message || 'Erro desconhecido'}`);
-                        }
-                    }}
-                    onCancel={() => setMode(AppMode.PROJECTS)}
-                />
-            );
-            default: return <Dashboard />;
-        }
-    }
-
     if (isLoading) {
         return (
             <div className="flex justify-center items-center h-screen bg-gray-50 dark:bg-zinc-950">
@@ -396,23 +287,123 @@ export default function App() {
         );
     }
 
+    // Identificar modos públicos
+    const isPublicMode = [
+        AppMode.PUBLIC_ENVIRONMENT,
+        AppMode.PUBLIC_SOCIAL,
+        AppMode.PUBLIC_REPORTS,
+        AppMode.PUBLIC_INDICATORS
+    ].includes(mode);
+
+    // Seleção de conteúdo (definida aqui para evitar TDZ)
+    let content;
+    switch (mode) {
+        case AppMode.DASHBOARD: content = <Dashboard />; break;
+        case AppMode.PUBLIC_ENVIRONMENT: content = <PublicEnvironment onBack={() => setMode(AppMode.DASHBOARD)} />; break;
+        case AppMode.PUBLIC_SOCIAL: content = <PublicSocial onBack={() => setMode(AppMode.DASHBOARD)} />; break;
+        case AppMode.PUBLIC_REPORTS: content = <PublicReports onBack={() => setMode(AppMode.DASHBOARD)} />; break;
+        case AppMode.PUBLIC_INDICATORS: content = <PublicIndicators onBack={() => setMode(AppMode.DASHBOARD)} />; break;
+        case AppMode.PROJECTS: content = (
+            <ProjectList
+                onAddNew={() => { setSelectedProject(null); setMode(AppMode.NEW_SOCIAL_PROJECT); }}
+                onEdit={(p) => {
+                    setSelectedProject({
+                        id: p.id,
+                        title: p.name,
+                        description: p.description || p.tema,
+                        status: p.status === 'Concluído' ? 'completed' : p.status === 'Pausado' ? 'paused' : p.status === 'Planejado' ? 'planning' : 'active',
+                        budget: parseFloat(p.budget || '0'),
+                        startDate: p.start_date || '',
+                        endDate: p.end_date || '',
+                        beneficiariesTarget: p.beneficiaries_target || 0,
+                        neighborhoods: p.neighborhoods || (p.community ? [p.community] : []),
+                        materialityTopics: p.materiality_topics || (p.tema ? [p.tema] : []),
+                        sdgTargets: p.sdg_targets || [],
+                        estimatedImpactValue: parseFloat(p.estimated_impact_value as any || '0'),
+                        projectedSroi: parseFloat(p.projected_sroi as any || '0')
+                    });
+                    setMode(AppMode.NEW_SOCIAL_PROJECT);
+                }}
+            />
+        ); break;
+        case AppMode.NEW_PROJECT: content = <NewProject onBack={() => setMode(AppMode.PROJECTS)} />; break;
+        case AppMode.USERS: content = <UserManagement onAddUser={() => setMode(AppMode.CREATE_USER)} />; break;
+        case AppMode.CREATE_USER: content = <CreateUser onBack={() => setMode(AppMode.USERS)} />; break;
+        case AppMode.PROFILE: content = <UserProfilePage />; break;
+        case AppMode.ENV_DECARBONIZATION: content = <Decarbonization />; break;
+        case AppMode.ENV_EFFICIENCY: content = <Efficiency />; break;
+        case AppMode.ENV_POLLUTION: content = <PollutionControl />; break;
+        case AppMode.ENV_COMPLIANCE: content = <Compliance />; break;
+        case AppMode.SOCIAL_SROI: content = <SROICalculator />; break;
+        case AppMode.SOCIAL_TERRITORY: content = <CommunityRelations />; break;
+        case AppMode.SOCIAL_DIVERSITY: content = <DiversityDashboard />; break;
+        case AppMode.SOCIAL_HUMAN_RIGHTS: content = <HumanRights />; break;
+        case AppMode.GOV_RISK_MATRIX: content = <RiskHeatmap />; break;
+        case AppMode.GOV_REPORTING: content = <ReportingHub />; break;
+        case AppMode.GOV_SUPPLY_CHAIN: content = <SupplyChainAudit />; break;
+        case AppMode.GOV_INNOVATION_FUNNEL: content = <InnovationFunnel />; break;
+        case AppMode.STRATEGIC_PREDICTIVE: content = <PredictiveAnalysis />; break;
+        case AppMode.SOCIAL_GIS: content = <GeoSpatialModule additionalLayers={kmlLayers} />; break;
+        case AppMode.ENV_LAIA: content = <LAIA />; break;
+        case AppMode.ENV_WASTE_SHIP: content = <ShipWaste />; break;
+        case AppMode.ENV_METEO: content = <MeteoPredictiveModule />; break;
+        case AppMode.SOCIAL_ASSESSMENT: content = <CommunityAssessmentForm />; break;
+        case AppMode.GOV_DIAGNOSTIC: content = <ESGDiagnosticForm initialTab={diagnosticTab} />; break;
+        case AppMode.ESG_CENTER: content = <ESGDiagnosticsCenter onSelectMode={(m, t) => { setDiagnosticTab(t || 0); setMode(m); }} />; break;
+        case AppMode.ENV_DIAGNOSTIC: content = <EnvironmentalDiagnosticForm />; break;
+        case AppMode.GOV_ESG_DIAGNOSTIC: content = <GovernanceDiagnosticForm />; break;
+        case AppMode.STRATEGIC_NOTIFICATIONS: content = <NotificationCenter />; break;
+        case AppMode.NEW_SOCIAL_PROJECT: content = (
+            <SocialProjectForm
+                key={selectedProject?.id || 'new'}
+                initialData={selectedProject}
+                onSubmit={async (project) => {
+                    try {
+                        const projectData = {
+                            name: project.title,
+                            pilar: 'Social',
+                            materiality_topics: (project as any).materialityTopics,
+                            tema: (project as any).materialityTopics[0] || 'Geral',
+                            status: project.status === 'completed' ? 'Concluído' : project.status === 'paused' ? 'Pausado' : project.status === 'planning' ? 'Planejado' : 'Em andamento',
+                            community: project.neighborhoods[0] || 'Vila Bacanga',
+                            budget: project.budget.toString(),
+                            description: project.description,
+                            start_date: project.startDate || null,
+                            end_date: project.endDate || null,
+                            beneficiaries_target: project.beneficiariesTarget,
+                            neighborhoods: project.neighborhoods,
+                            sdg_targets: project.sdgTargets,
+                            projected_sroi: project.projectedSroi,
+                            estimated_impact_value: project.estimatedImpactValue
+                        };
+
+                        if (selectedProject?.id) {
+                            const { error } = await supabase.from('projects').update(projectData).eq('id', selectedProject.id);
+                            if (error) throw error;
+                            showSuccess('Projeto atualizado!');
+                        } else {
+                            const { error } = await supabase.from('projects').insert(projectData);
+                            if (error) throw error;
+                            showSuccess('Projeto criado!');
+                        }
+                        setMode(AppMode.PROJECTS);
+                    } catch (error: any) {
+                        showError(`Falha ao salvar: ${error.message}`);
+                    }
+                }}
+                onCancel={() => setMode(AppMode.PROJECTS)}
+            />
+        ); break;
+        default: content = <Dashboard />;
+    }
+
     if (!isAuthenticated) {
         if (showLogin) {
             return <Login onLogin={() => setIsAuthenticated(true)} onBack={() => setShowLogin(false)} />;
         }
-
-        // Permitir visualização de páginas públicas sem login
-        const isPublicMode = [
-            AppMode.PUBLIC_ENVIRONMENT,
-            AppMode.PUBLIC_SOCIAL,
-            AppMode.PUBLIC_REPORTS,
-            AppMode.PUBLIC_INDICATORS
-        ].includes(mode);
-
         if (isPublicMode) {
-            return renderContent();
+            return content;
         }
-
         return <ItaquiESGLandingPage onLoginClick={() => setShowLogin(true)} onNavigate={(m) => setMode(m)} />;
     }
 
