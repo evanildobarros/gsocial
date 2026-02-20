@@ -285,12 +285,16 @@ export default function App() {
         if (showLogin) {
             return <Login onLogin={() => setIsAuthenticated(true)} onBack={() => setShowLogin(false)} />;
         }
-        return <ItaquiESGLandingPage onLoginClick={() => setShowLogin(true)} />;
+        return <ItaquiESGLandingPage onLoginClick={() => setShowLogin(true)} onNavigate={(m) => setMode(m)} />;
     }
 
     const renderContent = () => {
         switch (mode) {
             case AppMode.DASHBOARD: return <Dashboard />;
+            case AppMode.PUBLIC_ENVIRONMENT: return <PublicEnvironment onBack={() => setMode(AppMode.DASHBOARD)} />;
+            case AppMode.PUBLIC_SOCIAL: return <PublicSocial onBack={() => setMode(AppMode.DASHBOARD)} />;
+            case AppMode.PUBLIC_REPORTS: return <PublicReports onBack={() => setMode(AppMode.DASHBOARD)} />;
+            case AppMode.PUBLIC_INDICATORS: return <PublicIndicators onBack={() => setMode(AppMode.DASHBOARD)} />;
             case AppMode.PROJECTS: return (
                 <ProjectList
                     onAddNew={() => { setSelectedProject(null); setMode(AppMode.NEW_SOCIAL_PROJECT); }}
