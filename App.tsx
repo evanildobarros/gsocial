@@ -285,6 +285,19 @@ export default function App() {
         if (showLogin) {
             return <Login onLogin={() => setIsAuthenticated(true)} onBack={() => setShowLogin(false)} />;
         }
+
+        // Permitir visualização de páginas públicas sem login
+        const isPublicMode = [
+            AppMode.PUBLIC_ENVIRONMENT,
+            AppMode.PUBLIC_SOCIAL,
+            AppMode.PUBLIC_REPORTS,
+            AppMode.PUBLIC_INDICATORS
+        ].includes(mode);
+
+        if (isPublicMode) {
+            return renderContent();
+        }
+
         return <ItaquiESGLandingPage onLoginClick={() => setShowLogin(true)} onNavigate={(m) => setMode(m)} />;
     }
 
