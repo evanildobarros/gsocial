@@ -36,11 +36,11 @@ export const PublicEnvironment: React.FC<PublicPageProps> = ({ onBack }) => {
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/20 border border-green-500/30 text-green-400 text-[10px] font-black uppercase tracking-widest mb-8">
                         <Leaf size={14} /> Resiliência Climática
                     </div>
-                    <h1 className="text-6xl md:text-9xl font-black tracking-tighter leading-[0.9] mb-8 animate-fade-in-up">
+                    <h1 className="text-4xl sm:text-6xl md:text-9xl font-black tracking-tighter leading-[0.9] mb-8 animate-fade-in-up">
                         PROTEGENDO O <br/>
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-300">NOSSO ECOSSISTEMA.</span>
                     </h1>
-                    <p className="text-xl md:text-2xl font-medium text-white/70 max-w-3xl mx-auto leading-relaxed mb-12">
+                    <p className="text-lg md:text-2xl font-medium text-white/70 max-w-3xl mx-auto leading-relaxed mb-12">
                         Compromisso com a descarbonização acelerada e a preservação da Baía de São Marcos.
                     </p>
                 </div>

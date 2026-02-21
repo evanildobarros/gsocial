@@ -36,11 +36,11 @@ export const PublicSocial: React.FC<PublicPageProps> = ({ onBack }) => {
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-500/20 border border-orange-500/30 text-orange-400 text-[10px] font-black uppercase tracking-widest mb-8">
                         <Heart size={14} /> Impacto Humano
                     </div>
-                    <h1 className="text-6xl md:text-9xl font-black tracking-tighter leading-[0.9] mb-8 animate-fade-in-up">
+                    <h1 className="text-4xl sm:text-6xl md:text-9xl font-black tracking-tighter leading-[0.9] mb-8 animate-fade-in-up">
                         CRESCER JUNTO <br/>
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-300">COM A CIDADE.</span>
                     </h1>
-                    <p className="text-xl md:text-2xl font-medium text-white/70 max-w-3xl mx-auto leading-relaxed mb-12">
+                    <p className="text-lg md:text-2xl font-medium text-white/70 max-w-3xl mx-auto leading-relaxed mb-12">
                         Transformando a força logística do Porto do Itaqui em desenvolvimento para 155 mil pessoas do Itaqui-Bacanga.
                     </p>
                 </div>

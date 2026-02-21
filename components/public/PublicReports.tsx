@@ -32,18 +32,18 @@ export const PublicReports: React.FC<PublicPageProps> = ({ onBack }) => {
             </nav>
 
             {/* Hero */}
-            <section className="relative pt-40 pb-24 px-6 bg-slate-50 overflow-hidden">
+            <section className="relative pt-32 md:pt-40 pb-20 px-6 bg-slate-50 overflow-hidden">
                 <div className="container mx-auto">
-                    <div className="flex flex-col lg:flex-row gap-16 items-center">
-                        <div className="flex-1 space-y-8 text-left">
-                            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-[10px] font-black uppercase tracking-widest">
+                    <div className="flex flex-col lg:flex-row gap-12 md:gap-16 items-center text-center lg:text-left">
+                        <div className="flex-1 space-y-6 md:space-y-8">
+                            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-[10px] font-black uppercase tracking-widest mx-auto lg:mx-0">
                                 <ShieldCheck size={14} /> Governança & Reporte
                             </div>
-                            <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.9]">
+                            <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[1.0] text-black">
                                 ÉTICA E <br/>
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-500 text-black">TRANSPARÊNCIA.</span>
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-500">TRANSPARÊNCIA.</span>
                             </h1>
-                            <p className="text-xl font-medium text-black/60 max-w-xl leading-relaxed">
+                            <p className="text-lg md:text-xl font-medium text-black/60 max-w-xl leading-relaxed mx-auto lg:mx-0">
                                 Biblioteca centralizada de documentos oficiais, auditorias independentes e políticas corporativas.
                             </p>
                         </div>

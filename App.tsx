@@ -45,6 +45,7 @@ import { CreateUser } from './components/CreateUser';
 import { LandingPage } from './components/LandingPage';
 import { KimiLandingPage } from './components/KimiLandingPage';
 import { ItaquiESGLandingPage } from './components/ItaquiESGLandingPage';
+
 // Páginas Públicas
 import { PublicEnvironment } from './components/public/PublicEnvironment';
 import { PublicSocial } from './components/public/PublicSocial';
@@ -114,7 +115,6 @@ const NavItem: React.FC<NavItemProps> = ({ icon, label, active, onClick, collaps
     </div>
 );
 
-// Adicionada prop 'icon' ao SectionHeader
 const SectionHeader: React.FC<{
     label: string;
     icon?: React.ReactNode;
@@ -127,23 +127,18 @@ const SectionHeader: React.FC<{
         className={`px-4 py-[0.875rem] mt-6 flex items-center justify-between group transition-colors ${!collapsed && onToggle ? 'cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5 rounded-[0.125rem] mx-2' : ''} ${collapsed ? 'text-center' : 'text-left'}`}
     >
         <div className="flex items-center w-full">
-             {/* Container do ícone com mesma largura mínima do NavItem (40px) */}
              {icon && !collapsed && (
                 <div className="flex items-center justify-center min-w-[40px] text-black dark:text-white group-hover:text-happiness-1 transition-colors">
                     {React.cloneElement(icon as React.ReactElement<any>, { sx: { fontSize: 22 } })}
                 </div>
              )}
-            
-            {/* Texto do Label - Padronizado para text-sm font-bold */}
             {!collapsed && (
                 <span className="text-sm font-bold text-black dark:text-white group-hover:text-happiness-1 transition-colors antialiased whitespace-nowrap ml-0 tracking-tight">
                     {label}
                 </span>
             )}
-
             {collapsed && <span className="text-[11px] font-black uppercase tracking-[0.25em] text-black dark:text-white">•••</span>}
         </div>
-
         {!collapsed && onToggle && (
             <div className="text-black dark:text-white group-hover:text-happiness-1 transition-colors ml-2">
                 {open ? <ExpandLess sx={{ fontSize: 20 }} /> : <ExpandMore sx={{ fontSize: 20 }} />}
@@ -151,6 +146,11 @@ const SectionHeader: React.FC<{
         )}
     </div>
 );
+
+const getInitials = (name?: string) => {
+    if (!name) return 'GS';
+    return name.split(' ').map((n) => n[0]).join('').substring(0, 2).toUpperCase();
+};
 
 export default function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -162,21 +162,18 @@ export default function App() {
 
     useEffect(() => {
         const handleResize = () => {
-            if (window.innerWidth <= 1024) {
-                setSidebarOpen(false);
-            } else {
-                setSidebarOpen(true);
-            }
+            if (window.innerWidth <= 1024) setSidebarOpen(false);
+            else setSidebarOpen(true);
         };
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
+
     const [settingsOpen, setSettingsOpen] = useState(false);
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
     const [kmlLayers, setKmlLayers] = useState<Layer[]>([]);
     const [selectedProject, setSelectedProject] = useState<any | null>(null);
     const [currentTheme, setCurrentTheme] = useState(localStorage.getItem('gsocial-theme') || 'azure');
-
 
     useEffect(() => {
         document.documentElement.setAttribute('data-theme', currentTheme);
@@ -190,19 +187,10 @@ export default function App() {
     const [overviewOpen, setOverviewOpen] = useState(true);
     const [strategicOpen, setStrategicOpen] = useState(false);
 
-    // KML auto-loading removed per user request
-
     const fetchUserProfile = async (userId: string) => {
         try {
-            const { data, error } = await supabase
-                .from('profiles')
-                .select('*')
-                .eq('id', userId)
-                .single();
-
-            if (data && !error) {
-                setUserProfile(data as UserProfile);
-            }
+            const { data, error } = await supabase.from('profiles').select('*').eq('id', userId).single();
+            if (data && !error) setUserProfile(data as UserProfile);
         } catch (error) {
             console.error('Error fetching profile:', error);
         }
@@ -211,8 +199,7 @@ export default function App() {
     useEffect(() => {
         supabase.auth.getSession().then(async ({ data: { session }, error }) => {
             if (error) {
-                console.warn('Sessão inválida ou expirada:', error.message);
-                // Limpa tokens corrompidos/expirados do localStorage
+                console.warn('Sessão inválida:', error.message);
                 await supabase.auth.signOut({ scope: 'local' });
                 setIsAuthenticated(false);
                 setUserProfile(null);
@@ -224,40 +211,27 @@ export default function App() {
         });
 
         const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-            if (event === 'TOKEN_REFRESHED' && !session) {
-                // Refresh token falhou - limpa sessão local
-                console.warn('Falha ao renovar token. Fazendo logout local.');
-                await supabase.auth.signOut({ scope: 'local' });
-                setIsAuthenticated(false);
-                setUserProfile(null);
-            } else if (event === 'SIGNED_OUT') {
+            if (event === 'SIGNED_OUT') {
                 setIsAuthenticated(false);
                 setUserProfile(null);
             } else if (session) {
                 setIsAuthenticated(true);
-                if (!userProfile || userProfile.id !== session.user.id) {
-                    fetchUserProfile(session.user.id);
-                }
+                if (!userProfile || userProfile.id !== session.user.id) fetchUserProfile(session.user.id);
             } else {
                 setIsAuthenticated(false);
                 setUserProfile(null);
             }
             setIsLoading(false);
         });
-
         return () => subscription.unsubscribe();
     }, []);
 
-    // Estados do Menu de Perfil (Header)
-    // Estados do Menu de Perfil (Header)
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const profileMenuRef = React.useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            if (profileMenuRef.current && !profileMenuRef.current.contains(event.target as Node)) {
-                setIsProfileOpen(false);
-            }
+            if (profileMenuRef.current && !profileMenuRef.current.contains(event.target as Node)) setIsProfileOpen(false);
         };
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
@@ -269,14 +243,106 @@ export default function App() {
         setUserProfile(null);
     };
 
-    const getInitials = (name?: string) => {
-        if (!name) return 'GS';
-        return name
-            .split(' ')
-            .map((n) => n[0])
-            .join('')
-            .substring(0, 2)
-            .toUpperCase();
+    // Component Content Selector
+    const getComponent = () => {
+        switch (mode) {
+            case AppMode.DASHBOARD: return <Dashboard />;
+            case AppMode.PUBLIC_ENVIRONMENT: return <PublicEnvironment onBack={() => setMode(AppMode.DASHBOARD)} />;
+            case AppMode.PUBLIC_SOCIAL: return <PublicSocial onBack={() => setMode(AppMode.DASHBOARD)} />;
+            case AppMode.PUBLIC_REPORTS: return <PublicReports onBack={() => setMode(AppMode.DASHBOARD)} />;
+            case AppMode.PUBLIC_INDICATORS: return <PublicIndicators onBack={() => setMode(AppMode.DASHBOARD)} />;
+            case AppMode.PROJECTS: return (
+                <ProjectList
+                    onAddNew={() => { setSelectedProject(null); setMode(AppMode.NEW_SOCIAL_PROJECT); }}
+                    onEdit={(p) => {
+                        setSelectedProject({
+                            id: p.id, title: p.name, description: p.description || p.tema,
+                            status: p.status === 'Concluído' ? 'completed' : p.status === 'Pausado' ? 'paused' : p.status === 'Planejado' ? 'planning' : 'active',
+                            budget: parseFloat(p.budget || '0'), startDate: p.start_date || '', endDate: p.end_date || '',
+                            beneficiariesTarget: p.beneficiaries_target || 0, neighborhoods: p.neighborhoods || (p.community ? [p.community] : []),
+                            materialityTopics: p.materiality_topics || (p.tema ? [p.tema] : []), sdgTargets: p.sdg_targets || [],
+                            estimatedImpactValue: parseFloat(p.estimated_impact_value as any || '0'),
+                            projectedSroi: parseFloat(p.projected_sroi as any || '0')
+                        });
+                        setMode(AppMode.NEW_SOCIAL_PROJECT);
+                    }}
+                />
+            );
+            case AppMode.NEW_PROJECT: return <NewProject onBack={() => setMode(AppMode.PROJECTS)} />;
+            case AppMode.USERS: return <UserManagement onAddUser={() => setMode(AppMode.CREATE_USER)} />;
+            case AppMode.CREATE_USER: return <CreateUser onBack={() => setMode(AppMode.USERS)} />;
+            case AppMode.PROFILE: return <UserProfilePage />;
+            case AppMode.ENV_DECARBONIZATION: return <Decarbonization />;
+            case AppMode.ENV_EFFICIENCY: return <Efficiency />;
+            case AppMode.ENV_POLLUTION: return <PollutionControl />;
+            case AppMode.ENV_COMPLIANCE: return <Compliance />;
+            case AppMode.SOCIAL_SROI: return <SROICalculator />;
+            case AppMode.SOCIAL_TERRITORY: return <CommunityRelations />;
+            case AppMode.SOCIAL_DIVERSITY: return <DiversityDashboard />;
+            case AppMode.SOCIAL_HUMAN_RIGHTS: return <HumanRights />;
+            case AppMode.GOV_RISK_MATRIX: return <RiskHeatmap />;
+            case AppMode.GOV_REPORTING: return <ReportingHub />;
+            case AppMode.GOV_SUPPLY_CHAIN: return <SupplyChainAudit />;
+            case AppMode.GOV_INNOVATION_FUNNEL: return <InnovationFunnel />;
+            case AppMode.STRATEGIC_PREDICTIVE: return <PredictiveAnalysis />;
+            case AppMode.SOCIAL_GIS: return <GeoSpatialModule additionalLayers={kmlLayers} />;
+            case AppMode.ENV_LAIA: return <LAIA />;
+            case AppMode.ENV_WASTE_SHIP: return <ShipWaste />;
+            case AppMode.ENV_METEO: return <MeteoPredictiveModule />;
+            case AppMode.SOCIAL_ASSESSMENT: return <CommunityAssessmentForm />;
+            case AppMode.GOV_DIAGNOSTIC: return <ESGDiagnosticForm initialTab={diagnosticTab} />;
+            case AppMode.ESG_CENTER: return <ESGDiagnosticsCenter onSelectMode={(m, t) => { setDiagnosticTab(t || 0); setMode(m); }} />;
+            case AppMode.ENV_DIAGNOSTIC: return <EnvironmentalDiagnosticForm />;
+            case AppMode.GOV_ESG_DIAGNOSTIC: return <GovernanceDiagnosticForm />;
+            case AppMode.STRATEGIC_NOTIFICATIONS: return <NotificationCenter />;
+            case AppMode.NEW_SOCIAL_PROJECT: return (
+                <SocialProjectForm
+                    key={selectedProject?.id || 'new'} initialData={selectedProject}
+                    onSubmit={async (project) => {
+                        try {
+                            const projectData = {
+                                name: project.title, pilar: 'Social', materiality_topics: (project as any).materialityTopics,
+                                tema: (project as any).materialityTopics[0] || 'Geral',
+                                status: project.status === 'completed' ? 'Concluído' : project.status === 'paused' ? 'Pausado' : project.status === 'planning' ? 'Planejado' : 'Em andamento',
+                                community: project.neighborhoods[0] || 'Vila Bacanga', budget: project.budget.toString(),
+                                description: project.description, start_date: project.startDate || null, end_date: project.endDate || null,
+                                beneficiaries_target: project.beneficiariesTarget, neighborhoods: project.neighborhoods,
+                                sdg_targets: project.sdgTargets, projected_sroi: project.projectedSroi, estimated_impact_value: project.estimatedImpactValue
+                            };
+                            if (selectedProject?.id) {
+                                const { error } = await supabase.from('projects').update(projectData).eq('id', selectedProject.id);
+                                if (error) throw error;
+                                showSuccess('Projeto atualizado!');
+                            } else {
+                                const { error } = await supabase.from('projects').insert(projectData);
+                                if (error) throw error;
+                                showSuccess('Projeto criado!');
+                            }
+                            setMode(AppMode.PROJECTS);
+                        } catch (error: any) { showError(`Falha ao salvar: ${error.message}`); }
+                    }}
+                    onCancel={() => setMode(AppMode.PROJECTS)}
+                />
+            );
+            default: return <Dashboard />;
+        }
+    };
+
+    const getPageTitle = () => {
+        switch (mode) {
+            case AppMode.DASHBOARD: return 'Dashboard de Diagnóstico';
+            case AppMode.PROJECTS: return 'Gestão de Portfólio';
+            case AppMode.USERS: return 'Gestão de Membros';
+            case AppMode.PROFILE: return 'Seu Perfil';
+            case AppMode.ESG_CENTER: return 'Central de Diagnósticos ESG';
+            case AppMode.STRATEGIC_NOTIFICATIONS: return 'Central de Alertas & Notificações';
+            default: return 'ESGporto';
+        }
+    };
+
+    const getBreadcrumbs = () => {
+        const home = { label: 'Home', onClick: () => setMode(AppMode.DASHBOARD) };
+        return [home, { label: getPageTitle() }];
     };
 
     if (isLoading) {
@@ -287,626 +353,46 @@ export default function App() {
         );
     }
 
-    // Identificar modos públicos
     const isPublicMode = [
-        AppMode.PUBLIC_ENVIRONMENT,
-        AppMode.PUBLIC_SOCIAL,
-        AppMode.PUBLIC_REPORTS,
-        AppMode.PUBLIC_INDICATORS
+        AppMode.PUBLIC_ENVIRONMENT, AppMode.PUBLIC_SOCIAL,
+        AppMode.PUBLIC_REPORTS, AppMode.PUBLIC_INDICATORS
     ].includes(mode);
 
-    // Seleção de conteúdo (definida aqui para evitar TDZ)
-    let content;
-    switch (mode) {
-        case AppMode.DASHBOARD: content = <Dashboard />; break;
-        case AppMode.PUBLIC_ENVIRONMENT: content = <PublicEnvironment onBack={() => setMode(AppMode.DASHBOARD)} />; break;
-        case AppMode.PUBLIC_SOCIAL: content = <PublicSocial onBack={() => setMode(AppMode.DASHBOARD)} />; break;
-        case AppMode.PUBLIC_REPORTS: content = <PublicReports onBack={() => setMode(AppMode.DASHBOARD)} />; break;
-        case AppMode.PUBLIC_INDICATORS: content = <PublicIndicators onBack={() => setMode(AppMode.DASHBOARD)} />; break;
-        case AppMode.PROJECTS: content = (
-            <ProjectList
-                onAddNew={() => { setSelectedProject(null); setMode(AppMode.NEW_SOCIAL_PROJECT); }}
-                onEdit={(p) => {
-                    setSelectedProject({
-                        id: p.id,
-                        title: p.name,
-                        description: p.description || p.tema,
-                        status: p.status === 'Concluído' ? 'completed' : p.status === 'Pausado' ? 'paused' : p.status === 'Planejado' ? 'planning' : 'active',
-                        budget: parseFloat(p.budget || '0'),
-                        startDate: p.start_date || '',
-                        endDate: p.end_date || '',
-                        beneficiariesTarget: p.beneficiaries_target || 0,
-                        neighborhoods: p.neighborhoods || (p.community ? [p.community] : []),
-                        materialityTopics: p.materiality_topics || (p.tema ? [p.tema] : []),
-                        sdgTargets: p.sdg_targets || [],
-                        estimatedImpactValue: parseFloat(p.estimated_impact_value as any || '0'),
-                        projectedSroi: parseFloat(p.projected_sroi as any || '0')
-                    });
-                    setMode(AppMode.NEW_SOCIAL_PROJECT);
-                }}
-            />
-        ); break;
-        case AppMode.NEW_PROJECT: content = <NewProject onBack={() => setMode(AppMode.PROJECTS)} />; break;
-        case AppMode.USERS: content = <UserManagement onAddUser={() => setMode(AppMode.CREATE_USER)} />; break;
-        case AppMode.CREATE_USER: content = <CreateUser onBack={() => setMode(AppMode.USERS)} />; break;
-        case AppMode.PROFILE: content = <UserProfilePage />; break;
-        case AppMode.ENV_DECARBONIZATION: content = <Decarbonization />; break;
-        case AppMode.ENV_EFFICIENCY: content = <Efficiency />; break;
-        case AppMode.ENV_POLLUTION: content = <PollutionControl />; break;
-        case AppMode.ENV_COMPLIANCE: content = <Compliance />; break;
-        case AppMode.SOCIAL_SROI: content = <SROICalculator />; break;
-        case AppMode.SOCIAL_TERRITORY: content = <CommunityRelations />; break;
-        case AppMode.SOCIAL_DIVERSITY: content = <DiversityDashboard />; break;
-        case AppMode.SOCIAL_HUMAN_RIGHTS: content = <HumanRights />; break;
-        case AppMode.GOV_RISK_MATRIX: content = <RiskHeatmap />; break;
-        case AppMode.GOV_REPORTING: content = <ReportingHub />; break;
-        case AppMode.GOV_SUPPLY_CHAIN: content = <SupplyChainAudit />; break;
-        case AppMode.GOV_INNOVATION_FUNNEL: content = <InnovationFunnel />; break;
-        case AppMode.STRATEGIC_PREDICTIVE: content = <PredictiveAnalysis />; break;
-        case AppMode.SOCIAL_GIS: content = <GeoSpatialModule additionalLayers={kmlLayers} />; break;
-        case AppMode.ENV_LAIA: content = <LAIA />; break;
-        case AppMode.ENV_WASTE_SHIP: content = <ShipWaste />; break;
-        case AppMode.ENV_METEO: content = <MeteoPredictiveModule />; break;
-        case AppMode.SOCIAL_ASSESSMENT: content = <CommunityAssessmentForm />; break;
-        case AppMode.GOV_DIAGNOSTIC: content = <ESGDiagnosticForm initialTab={diagnosticTab} />; break;
-        case AppMode.ESG_CENTER: content = <ESGDiagnosticsCenter onSelectMode={(m, t) => { setDiagnosticTab(t || 0); setMode(m); }} />; break;
-        case AppMode.ENV_DIAGNOSTIC: content = <EnvironmentalDiagnosticForm />; break;
-        case AppMode.GOV_ESG_DIAGNOSTIC: content = <GovernanceDiagnosticForm />; break;
-        case AppMode.STRATEGIC_NOTIFICATIONS: content = <NotificationCenter />; break;
-        case AppMode.NEW_SOCIAL_PROJECT: content = (
-            <SocialProjectForm
-                key={selectedProject?.id || 'new'}
-                initialData={selectedProject}
-                onSubmit={async (project) => {
-                    try {
-                        const projectData = {
-                            name: project.title,
-                            pilar: 'Social',
-                            materiality_topics: (project as any).materialityTopics,
-                            tema: (project as any).materialityTopics[0] || 'Geral',
-                            status: project.status === 'completed' ? 'Concluído' : project.status === 'paused' ? 'Pausado' : project.status === 'planning' ? 'Planejado' : 'Em andamento',
-                            community: project.neighborhoods[0] || 'Vila Bacanga',
-                            budget: project.budget.toString(),
-                            description: project.description,
-                            start_date: project.startDate || null,
-                            end_date: project.endDate || null,
-                            beneficiaries_target: project.beneficiariesTarget,
-                            neighborhoods: project.neighborhoods,
-                            sdg_targets: project.sdgTargets,
-                            projected_sroi: project.projectedSroi,
-                            estimated_impact_value: project.estimatedImpactValue
-                        };
-
-                        if (selectedProject?.id) {
-                            const { error } = await supabase.from('projects').update(projectData).eq('id', selectedProject.id);
-                            if (error) throw error;
-                            showSuccess('Projeto atualizado!');
-                        } else {
-                            const { error } = await supabase.from('projects').insert(projectData);
-                            if (error) throw error;
-                            showSuccess('Projeto criado!');
-                        }
-                        setMode(AppMode.PROJECTS);
-                    } catch (error: any) {
-                        showError(`Falha ao salvar: ${error.message}`);
-                    }
-                }}
-                onCancel={() => setMode(AppMode.PROJECTS)}
-            />
-        ); break;
-        default: content = <Dashboard />;
-    }
-
-    if (!isAuthenticated) {
-        if (showLogin) {
-            return <Login onLogin={() => setIsAuthenticated(true)} onBack={() => setShowLogin(false)} />;
-        }
-        if (isPublicMode) {
-            return content;
-        }
+    if (!isAuthenticated && !isPublicMode) {
+        if (showLogin) return <Login onLogin={() => setIsAuthenticated(true)} onBack={() => setShowLogin(false)} />;
         return <ItaquiESGLandingPage onLoginClick={() => setShowLogin(true)} onNavigate={(m) => setMode(m)} />;
     }
 
-    const getPageTitle = () => {
-        switch (mode) {
-            case AppMode.DASHBOARD: return 'Dashboard de Diagnóstico';
-            case AppMode.PROJECTS: return 'Gestão de Portfólio';
-            case AppMode.NEW_PROJECT: return 'Nova Iniciativa';
-            case AppMode.USERS: return 'Gestão de Membros';
-            case AppMode.PROFILE: return 'Seu Perfil';
-            case AppMode.ENV_DECARBONIZATION: return 'Módulo Clima & Carbono';
-            case AppMode.ENV_EFFICIENCY: return 'Eficiência Hídrica/Energética';
-            case AppMode.ENV_POLLUTION: return 'Monitoramento de Poluição & PAM';
-            case AppMode.ENV_COMPLIANCE: return 'Conformidade Ambiental';
-            case AppMode.ENV_LAIA: return 'Levantamento LAIA (PC-56)';
-            case AppMode.ENV_WASTE_SHIP: return 'Resíduos de Navios (PC-112)';
-            case AppMode.ENV_METEO: return 'Inteligência Climática & Preditiva';
-            case AppMode.SOCIAL_SROI: return 'Impacto & SROI';
-            case AppMode.SOCIAL_TERRITORY: return 'Relacionamento & Território';
-            case AppMode.SOCIAL_DIVERSITY: return 'Diversidade & Inclusão';
-            case AppMode.SOCIAL_HUMAN_RIGHTS: return 'Direitos Humanos & Supply Chain';
-            case AppMode.GOV_RISK_MATRIX: return 'Matriz de Riscos GRC';
-            case AppMode.GOV_REPORTING: return 'Relatórios & Transparência';
-            case AppMode.GOV_SUPPLY_CHAIN: return 'Auditoria de Fornecedores';
-            case AppMode.GOV_INNOVATION_FUNNEL: return 'Funil de Inovação (CRIARE)';
-            case AppMode.STRATEGIC_PREDICTIVE: return 'Inteligência Preditiva';
-            case AppMode.SOCIAL_GIS: return 'Mapeamento Territorial Geoespacial';
-            case AppMode.SOCIAL_ASSESSMENT: return 'Cadastro de Comunidade Local';
-            case AppMode.GOV_DIAGNOSTIC: return 'Autoavaliação de Maturidade ESG porto (ABNT PR 2030)';
-            case AppMode.ESG_CENTER: return 'Central de Diagnósticos ESG';
-            case AppMode.ENV_DIAGNOSTIC: return 'Diagnóstico Ambiental (ABNT PR 2030)';
-            case AppMode.GOV_ESG_DIAGNOSTIC: return 'Diagnóstico de Governança (ABNT PR 2030)';
-            case AppMode.STRATEGIC_NOTIFICATIONS: return 'Central de Alertas & Notificações';
-            case AppMode.NEW_SOCIAL_PROJECT: return 'Novo Projeto Social Estratégico';
-            default: return 'ESGporto';
-        }
-    };
-
-    const getBreadcrumbs = () => {
-        const home = { label: 'Home', onClick: () => setMode(AppMode.DASHBOARD) };
-
-        switch (mode) {
-            case AppMode.DASHBOARD:
-                return [home];
-
-            // Diagnósticos
-            case AppMode.ESG_CENTER:
-                return [home, { label: 'Diagnósticos', onClick: () => setMode(AppMode.ESG_CENTER) }, { label: 'Central' }];
-            case AppMode.SOCIAL_ASSESSMENT:
-                return [home, { label: 'Diagnósticos', onClick: () => setMode(AppMode.ESG_CENTER) }, { label: 'Social' }];
-            case AppMode.ENV_DIAGNOSTIC:
-                return [home, { label: 'Diagnósticos', onClick: () => setMode(AppMode.ESG_CENTER) }, { label: 'Ambiental' }];
-            case AppMode.GOV_ESG_DIAGNOSTIC:
-                return [home, { label: 'Diagnósticos', onClick: () => setMode(AppMode.ESG_CENTER) }, { label: 'Governança' }];
-            case AppMode.GOV_DIAGNOSTIC:
-                return [home, { label: 'Diagnósticos', onClick: () => setMode(AppMode.ESG_CENTER) }, { label: 'Consolidado ABNT' }];
-            case AppMode.SOCIAL_GIS:
-                return [home, { label: 'Diagnósticos', onClick: () => setMode(AppMode.ESG_CENTER) }, { label: 'Mapa ESG (GIS)' }];
-
-            // Ambiental
-            case AppMode.ENV_DECARBONIZATION:
-                return [home, { label: 'Gestão Ambiental' }, { label: 'Clima & Carbono' }];
-            case AppMode.ENV_EFFICIENCY:
-                return [home, { label: 'Gestão Ambiental' }, { label: 'Recursos' }];
-            case AppMode.ENV_POLLUTION:
-                return [home, { label: 'Gestão Ambiental' }, { label: 'Poluição & PAM' }];
-            case AppMode.ENV_COMPLIANCE:
-                return [home, { label: 'Gestão Ambiental' }, { label: 'Conformidade' }];
-            case AppMode.ENV_LAIA:
-                return [home, { label: 'Gestão Ambiental' }, { label: 'LAIA (PC-56)' }];
-            case AppMode.ENV_WASTE_SHIP:
-                return [home, { label: 'Gestão Ambiental' }, { label: 'Resíduos (PC-112)' }];
-            case AppMode.ENV_METEO:
-                return [home, { label: 'Gestão Ambiental' }, { label: 'Inteligência Climática' }];
-
-            // Social
-            case AppMode.PROJECTS:
-                return [home, { label: 'Social & Resp.' }, { label: 'Projetos' }];
-            case AppMode.NEW_SOCIAL_PROJECT:
-                return [home, { label: 'Social & Resp.' }, { label: 'Projetos', onClick: () => setMode(AppMode.PROJECTS) }, { label: 'Novo Projeto' }];
-            case AppMode.SOCIAL_SROI:
-                return [home, { label: 'Social & Resp.' }, { label: 'Impacto & SROI' }];
-            case AppMode.SOCIAL_DIVERSITY:
-                return [home, { label: 'Social & Resp.' }, { label: 'Diversidade' }];
-            case AppMode.SOCIAL_HUMAN_RIGHTS:
-                return [home, { label: 'Social & Resp.' }, { label: 'Direitos Humanos' }];
-            case AppMode.SOCIAL_TERRITORY:
-                return [home, { label: 'Social & Resp.' }, { label: 'Relacionamento' }];
-
-            // Governança
-            case AppMode.GOV_RISK_MATRIX:
-                return [home, { label: 'Governança' }, { label: 'Matriz de Riscos' }];
-            case AppMode.GOV_REPORTING:
-                return [home, { label: 'Governança' }, { label: 'Relatórios' }];
-            case AppMode.GOV_SUPPLY_CHAIN:
-                return [home, { label: 'Governança' }, { label: 'Cadeia de Valor' }];
-            case AppMode.GOV_INNOVATION_FUNNEL:
-                return [home, { label: 'Governança' }, { label: 'Inovação' }];
-
-            // Estratégico
-            case AppMode.STRATEGIC_PREDICTIVE:
-                return [home, { label: 'Estratégico' }, { label: 'Preditivo' }];
-            case AppMode.STRATEGIC_NOTIFICATIONS:
-                return [home, { label: 'Estratégico' }, { label: 'Notificações' }];
-
-            // Usuários
-            case AppMode.USERS:
-                return [home, { label: 'Administração' }, { label: 'Usuários' }];
-            case AppMode.CREATE_USER:
-                return [home, { label: 'Administração' }, { label: 'Usuários', onClick: () => setMode(AppMode.USERS) }, { label: 'Novo Usuário' }];
-            case AppMode.PROFILE:
-                return [home, { label: 'Conta' }, { label: 'Perfil' }];
-            case AppMode.NEW_PROJECT:
-                return [home, { label: 'Novos Projetos' }, { label: 'Cadastro' }];
-
-            default:
-                return [home, { label: getPageTitle() }];
-        }
-    };
-
-    const navItems = [
-        { icon: <DashboardIcon />, label: "Home", mode: AppMode.DASHBOARD },
-    ];
-
-    const envItems = [
-        { icon: <ZapIcon />, label: "Clima & Carbono", mode: AppMode.ENV_DECARBONIZATION },
-        { icon: <DropletsIcon />, label: "Recursos (Energia/H2O)", mode: AppMode.ENV_EFFICIENCY },
-        { icon: <ShieldIcon />, label: "Poluição & PAM", mode: AppMode.ENV_POLLUTION },
-        { icon: <ComplianceIcon />, label: "Conformidade & Licenças", mode: AppMode.ENV_COMPLIANCE },
-        { icon: <ComplianceIcon />, label: "Digital LAIA (PC-56)", mode: AppMode.ENV_LAIA },
-        { icon: <AnchorIcon />, label: "Resíduos (PC-112)", mode: AppMode.ENV_WASTE_SHIP },
-        { icon: <AnalyticsIcon />, label: "Inteligência Climática", mode: AppMode.ENV_METEO },
-    ];
-
-    const socialItems = [
-        { icon: <ProjectsIcon />, label: "Projetos & Ações", mode: AppMode.PROJECTS },
-        { icon: <SroiIcon />, label: "Impacto & SROI", mode: AppMode.SOCIAL_SROI },
-        { icon: <DiversityIcon />, label: "Diversidade & Inclusão", mode: AppMode.SOCIAL_DIVERSITY },
-        { icon: <HumanRightsIcon />, label: "Direitos Humanos", mode: AppMode.SOCIAL_HUMAN_RIGHTS },
-    ];
-
-    const govItems = [
-        { icon: <RiskIcon />, label: "Matriz de Riscos", mode: AppMode.GOV_RISK_MATRIX },
-        { icon: <ReportingIcon />, label: "Relatórios & Padrões", mode: AppMode.GOV_REPORTING },
-        { icon: <SupplyChainIcon />, label: "Cadeia de Valor", mode: AppMode.GOV_SUPPLY_CHAIN },
-        { icon: <LightbulbIcon />, label: "Roda da Inovação", mode: AppMode.GOV_INNOVATION_FUNNEL },
-    ];
-
-    const diagItems = [
-        { icon: <ReportingIcon />, label: "Central de Diagnósticos", mode: AppMode.ESG_CENTER },
-        { icon: <TerritoryIcon />, label: "Mapa ESG (GIS)", mode: AppMode.SOCIAL_GIS },
-    ];
+    if (isPublicMode) return getComponent();
 
     return (
         <div className="flex h-screen overflow-hidden bg-gray-50 dark:bg-zinc-950 font-sans transition-colors duration-300 relative">
             <div className="absolute inset-0 bg-happiness-bg-tint/30 pointer-events-none" />
             <ToastContainer />
-            {/* Sidebar Overlay for Mobile */}
-            {sidebarOpen && (
-                <div 
-                    className="fixed inset-0 bg-black/50 z-40 lg:hidden" 
-                    onClick={() => setSidebarOpen(false)}
-                />
-            )}
-
-            {/* Sidebar */}
-            <aside
-                className={`
-                    fixed left-0 top-0 h-full bg-white dark:bg-[#1C1C1C] text-black dark:text-white transition-all duration-300 ease-in-out z-50 flex flex-col border-r border-gray-200 dark:border-white/5
-                    ${sidebarOpen ? 'w-80 translate-x-0' : 'w-24 -translate-x-full lg:translate-x-0'}
-                `}
-            >
-                {/* Header */}
-                <div className={`
-                    h-24 flex items-center px-8 transition-all duration-300
-                    ${sidebarOpen ? 'justify-between' : 'justify-center'}
-                `}>
+            {sidebarOpen && (<div className="fixed inset-0 bg-black/50 z-40 lg:hidden" onClick={() => setSidebarOpen(false)} />)}
+            <aside className={`fixed left-0 top-0 h-full bg-white dark:bg-[#1C1C1C] text-black dark:text-white transition-all duration-300 ease-in-out z-50 flex flex-col border-r border-gray-200 dark:border-white/5 ${sidebarOpen ? 'w-80 translate-x-0' : 'w-24 -translate-x-full lg:translate-x-0'}`}>
+                <div className={`h-24 flex items-center px-8 transition-all duration-300 ${sidebarOpen ? 'justify-between' : 'justify-center'}`}>
                     {sidebarOpen ? (
-                        <>
-                            <div className="flex flex-col items-start gap-2">
-                                <img src="/logo_itaqui.png" alt="Porto do Itaqui" className="h-10 w-auto object-contain" />
-                                <div className="animate-in fade-in duration-300">
-                                    <h1 className="text-lg font-black tracking-tighter leading-none text-black dark:text-white">ESGporto</h1>
-                                    <p className="text-[11px] font-black text-black dark:text-white uppercase tracking-widest mt-1">Dash Intelligence</p>
-                                </div>
-                            </div>
-                            <button
-                                onClick={() => setSidebarOpen(false)}
-                                className="p-1.5 text-black hover:text-happiness-1 hover:bg-happiness-1/5 rounded-sm transition-all"
-                            >
-                                <MenuIcon sx={{ fontSize: 20 }} />
-                            </button>
-                        </>
+                        <><div className="flex flex-col items-start gap-2"><img src="/logo_itaqui.png" alt="Porto do Itaqui" className="h-10 w-auto object-contain" /><div className="animate-in fade-in duration-300"><h1 className="text-lg font-black tracking-tighter leading-none text-black dark:text-white">ESGporto</h1><p className="text-[11px] font-black text-black dark:text-white uppercase tracking-widest mt-1">Dash Intelligence</p></div></div><button onClick={() => setSidebarOpen(false)} className="p-1.5 text-black hover:text-happiness-1 hover:bg-happiness-1/5 rounded-sm transition-all"><MenuIcon sx={{ fontSize: 20 }} /></button></>
                     ) : (
-                        <div className="flex flex-col items-center gap-4">
-                            <img src="/logo_itaqui.png" alt="Logo" className="w-10 h-10 object-contain" />
-                            <button
-                                onClick={() => setSidebarOpen(true)}
-                                className="p-2 text-black hover:text-happiness-1 hover:bg-happiness-1/5 rounded-sm transition-all"
-                            >
-                                <MenuIcon sx={{ fontSize: 24 }} />
-                            </button>
-                        </div>
+                        <div className="flex flex-col items-center gap-4"><img src="/logo_itaqui.png" alt="Logo" className="w-10 h-10 object-contain" /><button onClick={() => setSidebarOpen(true)} className="p-2 text-black hover:text-happiness-1 hover:bg-happiness-1/5 rounded-sm transition-all"><MenuIcon sx={{ fontSize: 24 }} /></button></div>
                     )}
                 </div>
-
-                {/* Navigation Scroll Area */}
                 <div className="flex-1 overflow-y-auto overflow-x-hidden py-4 custom-scrollbar">
-
-                    <SectionHeader
-                        label="Visão Geral"
-                        icon={<DashboardIcon />}
-                        collapsed={!sidebarOpen}
-                        open={overviewOpen}
-                        onToggle={() => setOverviewOpen(!overviewOpen)}
-                    />
+                    <SectionHeader label="Visão Geral" icon={<DashboardIcon />} collapsed={!sidebarOpen} open={overviewOpen} onToggle={() => setOverviewOpen(!overviewOpen)} />
                     <div className={`overflow-hidden transition-all duration-300 ease-in-out ${overviewOpen || !sidebarOpen ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
-                        <NavItem
-                            icon={<DashboardIcon />}
-                            label="Dashboard Home"
-                            active={mode === AppMode.DASHBOARD}
-                            onClick={() => setMode(AppMode.DASHBOARD)}
-                            collapsed={!sidebarOpen}
-                        />
-                        {diagItems.map(item => (
-                            <NavItem
-                                key={item.label}
-                                icon={item.icon}
-                                label={item.label}
-                                active={mode === item.mode || mode === AppMode.SOCIAL_ASSESSMENT || mode === AppMode.GOV_DIAGNOSTIC}
-                                onClick={() => setMode(item.mode)}
-                                collapsed={!sidebarOpen}
-                            />
-                        ))}
-                    </div>
-
-                    <div className="my-2 border-t border-gray-100 dark:border-white/5 mx-4" />
-
-                    <SectionHeader
-                        label="Pilar Ambiental (E)"
-                        icon={<ForestIcon />}
-                        collapsed={!sidebarOpen}
-                        open={envOpen}
-                        onToggle={() => setEnvOpen(!envOpen)}
-                    />
-                    <div className={`overflow-hidden transition-all duration-300 ease-in-out ${envOpen || !sidebarOpen ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
-                        {envItems.map(item => (
-                            <NavItem
-                                key={item.label}
-                                icon={item.icon}
-                                label={item.label}
-                                active={mode === item.mode}
-                                onClick={() => setMode(item.mode)}
-                                collapsed={!sidebarOpen}
-                            />
-                        ))}
-                    </div>
-
-                    <div className="my-2 border-t border-gray-100 dark:border-white/5 mx-4" />
-
-                    <SectionHeader
-                        label="Pilar Social (S)"
-                        icon={<GroupsIcon />}
-                        collapsed={!sidebarOpen}
-                        open={socialOpen}
-                        onToggle={() => setSocialOpen(!socialOpen)}
-                    />
-                    <div className={`overflow-hidden transition-all duration-300 ease-in-out ${socialOpen || !sidebarOpen ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
-                        {socialItems.map(item => (
-                            <NavItem
-                                key={item.label}
-                                icon={item.icon}
-                                label={item.label}
-                                active={mode === item.mode || (item.mode === AppMode.PROJECTS && mode === AppMode.NEW_SOCIAL_PROJECT)}
-                                onClick={() => setMode(item.mode)}
-                                collapsed={!sidebarOpen}
-                            />
-                        ))}
-                    </div>
-
-                    <div className="my-2 border-t border-gray-100 dark:border-white/5 mx-4" />
-
-                    <SectionHeader
-                        label="Pilar Governança (G)"
-                        icon={<GavelIcon />}
-                        collapsed={!sidebarOpen}
-                        open={govOpen}
-                        onToggle={() => setGovOpen(!govOpen)}
-                    />
-                    <div className={`overflow-hidden transition-all duration-300 ease-in-out ${govOpen || !sidebarOpen ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
-                        {govItems.map(item => (
-                            <NavItem
-                                key={item.label}
-                                icon={item.icon}
-                                label={item.label}
-                                active={mode === item.mode}
-                                onClick={() => setMode(item.mode)}
-                                collapsed={!sidebarOpen}
-                            />
-                        ))}
-                    </div>
-
-                    <div className="my-2 border-t border-gray-100 dark:border-white/5 mx-4" />
-
-                    <SectionHeader
-                        label="Inteligência & IA"
-                        icon={<IntelligenceIcon />}
-                        collapsed={!sidebarOpen}
-                        open={strategicOpen}
-                        onToggle={() => setStrategicOpen(!strategicOpen)}
-                    />
-                    <div className={`overflow-hidden transition-all duration-300 ease-in-out ${strategicOpen || !sidebarOpen ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
-                        <NavItem
-                            icon={<AnalyticsIcon />}
-                            label="Análise Preditiva"
-                            active={mode === AppMode.STRATEGIC_PREDICTIVE}
-                            onClick={() => setMode(AppMode.STRATEGIC_PREDICTIVE)}
-                            collapsed={!sidebarOpen}
-                        />
-                        <NavItem 
-                            icon={<NotificationsIcon />} 
-                            label="Alertas & Notificações" 
-                            active={mode === AppMode.STRATEGIC_NOTIFICATIONS} 
-                            onClick={() => setMode(AppMode.STRATEGIC_NOTIFICATIONS)} 
-                            collapsed={!sidebarOpen} 
-                        />
-                    </div>
-
-                    <div className="my-4 border-t border-gray-100 dark:border-white/5 mx-4" />
-
-                    {/* Settings Submenu logic can be simplified or implemented similarly if needed */}
-                    <div className="mb-1 px-2 group relative" title={!sidebarOpen ? 'Configurações' : ''}>
-                        <button
-                            onClick={() => setSettingsOpen(!settingsOpen)}
-                            className={`
-                                    w-full flex items-center py-[0.875rem] px-4 rounded-[0.125rem] transition-all duration-200 ease-in-out
-                                    ${!sidebarOpen ? 'justify-center' : 'justify-start'}
-                                    ${mode === AppMode.USERS
-                                    ? 'bg-happiness-1/10 text-happiness-1 dark:bg-happiness-1 dark:text-white'
-                                    : 'text-black dark:text-white hover:bg-gray-100 dark:hover:bg-white/5'
-                                }
-                                `}
-                        >
-                            <div className={`flex items-center justify-center ${!sidebarOpen ? '' : 'min-w-[40px]'}`}>
-                                <SettingsIcon sx={{ fontSize: 22 }} />
-                            </div>
-                            {sidebarOpen && (
-                                <>
-                                    <span className="text-sm font-bold flex-1 text-left">Configurações</span>
-                                    {settingsOpen ? <ExpandLess sx={{ fontSize: 20 }} /> : <ExpandMore sx={{ fontSize: 20 }} />}
-                                </>
-                            )}
-                        </button>
-                    </div>
-
-
-                    <div className={`overflow-hidden transition-all duration-300 ease-in-out ${settingsOpen && sidebarOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
-                        <div className="pl-4 pr-2">
-                            <button
-                                onClick={() => setMode(AppMode.USERS)}
-                                className={`
-                                    w-full flex items-center py-2.5 px-4 rounded-lg transition-all duration-200 mt-1 ml-4 border-l-2
-                                    ${mode === AppMode.USERS
-                                        ? 'border-happiness-1 bg-happiness-1/5 text-happiness-1 dark:text-white dark:bg-happiness-1/10'
-                                        : 'border-gray-200 dark:border-white/10 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-white/5'
-                                    }
-                                `}
-                            >
-                                <UsersIcon sx={{ fontSize: 18, marginRight: '12px' }} />
-                                <span className="text-sm font-bold uppercase tracking-tight">Usuários</span>
-                            </button>
-                        </div>
+                        <NavItem icon={<DashboardIcon />} label="Dashboard Home" active={mode === AppMode.DASHBOARD} onClick={() => setMode(AppMode.DASHBOARD)} collapsed={!sidebarOpen} />
                     </div>
                 </div>
-
-
             </aside>
-
-            {/* Main Content Area */}
-            <main
-                className={`
-                    flex-1 flex flex-col h-screen overflow-y-auto transition-all duration-300 ease-in-out
-                    ${sidebarOpen ? 'lg:ml-80' : 'lg:ml-24'} ml-0
-                `}
-            >
-                {/* Topbar/Header */}
-                < header className="h-20 md:h-24 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md sticky top-0 z-40 border-b border-gray-100 dark:border-white/5 px-4 md:px-12 flex items-center justify-between transition-colors duration-300" >
-                    <div className="flex items-center gap-4 md:gap-6">
-                        {/* Mobile Toggle */}
-                        <button 
-                            onClick={() => setSidebarOpen(true)}
-                            className="lg:hidden p-2 text-black dark:text-white"
-                        >
-                            <MenuIcon />
-                        </button>
-                        <div className="h-6 w-px bg-gray-200 dark:bg-white/10 hidden sm:block"></div>
-                        <h2 className="hidden sm:block text-sm font-black text-black dark:text-gray-100 uppercase tracking-[0.2em] antialiased">
-                            {getPageTitle()}
-                        </h2>
-                    </div>
-
-                    <div className="flex items-center gap-8">
-                        <div className="hidden sm:block">
-                            <ThemeSwitcher />
-                        </div>
-
-
-                        <div className="h-6 w-px bg-gray-200 dark:bg-white/10"></div>
-
-                        <div className="relative group">
-                            <button 
-                                onClick={() => setMode(AppMode.STRATEGIC_NOTIFICATIONS)}
-                                className={`relative p-2 transition-colors ${mode === AppMode.STRATEGIC_NOTIFICATIONS ? 'text-happiness-1' : 'text-black hover:text-happiness-1'}`}
-                            >
-                                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-zinc-900"></span>
-                                <NotificationsIcon />
-                            </button>
-                        </div>
-
-                        <div className="relative" ref={profileMenuRef}>
-                            <button
-                                onClick={() => setIsProfileOpen(!isProfileOpen)}
-                                className="p-0 border-2 border-white dark:border-zinc-900 shadow-lg rounded-full hover:scale-105 transition-transform overflow-hidden"
-                            >
-                                <div className="w-10 h-10 bg-happiness-1 flex items-center justify-center text-white font-black text-xs">
-                                    {userProfile?.avatar_url ? (
-                                        <img src={userProfile.avatar_url} alt="Profile" className="w-full h-full object-cover" />
-                                    ) : (
-                                        getInitials(userProfile?.full_name)
-                                    )}
-                                </div>
-                            </button>
-
-                            {isProfileOpen && (
-                                <div className="absolute right-0 top-full mt-4 w-72 bg-white dark:bg-[#1E1E1E] rounded-xl shadow-2xl border border-gray-100 dark:border-white/5 overflow-hidden z-50 transform origin-top-right animate-in fade-in zoom-in-95 duration-200">
-                                    {/* Arrow */}
-                                    <div className="absolute -top-1.5 right-5 w-3 h-3 bg-white dark:bg-[#1E1E1E] transform rotate-45 border-l border-t border-gray-100 dark:border-white/5"></div>
-
-                                    <div className="px-6 py-5 border-b border-gray-100 dark:border-white/5 bg-gray-50/50 dark:bg-white/5">
-                                        <p className="text-[11px] font-black text-black dark:text-white uppercase tracking-widest mb-1">{userProfile?.role || 'Usuário'}</p>
-                                        <p className="text-base font-bold text-black dark:text-white leading-tight truncate">{userProfile?.full_name}</p>
-                                        <p className="text-xs text-black dark:text-white truncate mt-0.5">{userProfile?.email}</p>
-                                    </div>
-
-                                    <div className="p-2">
-                                        <button onClick={() => { setMode(AppMode.PROFILE); setIsProfileOpen(false); }} className="w-full text-left px-4 py-3 text-sm font-medium text-black dark:text-white hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg flex items-center gap-3 transition-colors">
-                                            <AccountCircleIcon fontSize="small" className="text-black" />
-                                            Seu Perfil
-                                        </button>
-                                        <button onClick={() => { setMode(AppMode.DASHBOARD); setIsProfileOpen(false); }} className="w-full text-left px-4 py-3 text-sm font-medium text-black dark:text-white hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg flex items-center gap-3 transition-colors">
-                                            <SettingsIcon fontSize="small" className="text-black" />
-                                            Configurações
-                                        </button>
-                                    </div>
-
-                                    {/* Gestor de Temas */}
-                                    <div className="px-4 py-4 border-t border-gray-100 dark:border-white/5 bg-gray-50/30 dark:bg-white/[0.02]">
-                                        <p className="text-[11px] font-black text-black dark:text-white uppercase tracking-widest mb-3 flex items-center gap-2">
-                                            <ZapIcon sx={{ fontSize: 14 }} />
-                                            Ambiente de Cores
-                                        </p>
-                                        <div className="flex items-center justify-between gap-2">
-                                            {[
-                                                { id: 'azure', label: 'Marítimo', colors: ['#4973F2', '#1B2B40'] },
-                                                { id: 'emerald', label: 'Eco', colors: ['#29A683', '#1B2B40'] },
-                                                { id: 'burgundy', label: 'Executivo', colors: ['#BF2633', '#590A18'] }
-                                            ].map((themeOpt) => (
-                                                <button
-                                                    key={themeOpt.id}
-                                                    onClick={() => setCurrentTheme(themeOpt.id)}
-                                                    className={`
-                                                        relative flex-1 group transition-all duration-300
-                                                        ${currentTheme === themeOpt.id ? 'scale-105' : 'opacity-60 hover:opacity-100'}
-                                                    `}
-                                                >
-                                                    <div
-                                                        className={`
-                                                            h-8 w-full rounded-md mb-1.5 transition-all
-                                                            ${currentTheme === themeOpt.id ? 'ring-2 ring-happiness-1 ring-offset-2 dark:ring-offset-zinc-900' : 'border border-gray-200 dark:border-white/10'}
-                                                        `}
-                                                        style={{ background: `linear-gradient(135deg, ${themeOpt.colors[0]} 50%, ${themeOpt.colors[1]} 50%)` }}
-                                                    />
-                                                </button>
-                                            ))}
-                                        </div>
-                                    </div>
-
-                                    <div className="p-2 border-t border-gray-100 dark:border-white/5">
-                                        <button onClick={handleLogout} className="w-full text-left px-4 py-3 text-sm font-bold text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-lg flex items-center gap-3 transition-colors">
-                                            <LogoutIcon fontSize="small" />
-                                            Sair do Sistema
-                                        </button>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    </div>
+            <main className={`flex-1 flex flex-col h-screen overflow-y-auto transition-all duration-300 ease-in-out ${sidebarOpen ? 'lg:ml-80' : 'lg:ml-24'} ml-0`}>
+                <header className="h-20 md:h-24 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md sticky top-0 z-40 border-b border-gray-100 dark:border-white/5 px-4 md:px-12 flex items-center justify-between transition-colors duration-300">
+                    <div className="flex items-center gap-4 md:gap-6"><button onClick={() => setSidebarOpen(true)} className="lg:hidden p-2 text-black dark:text-white"><MenuIcon /></button><div className="h-6 w-px bg-gray-200 dark:bg-white/10 hidden sm:block"></div><h2 className="hidden sm:block text-sm font-black text-black dark:text-gray-100 uppercase tracking-[0.2em] antialiased">{getPageTitle()}</h2></div>
+                    <div className="flex items-center gap-8"><div className="hidden sm:block"><ThemeSwitcher /></div><div className="h-6 w-px bg-gray-200 dark:bg-white/10"></div><div className="relative group"><button onClick={() => setMode(AppMode.STRATEGIC_NOTIFICATIONS)} className={`relative p-2 transition-colors ${mode === AppMode.STRATEGIC_NOTIFICATIONS ? 'text-happiness-1' : 'text-black hover:text-happiness-1'}`}><span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-zinc-900"></span><NotificationsIcon /></button></div></div>
                 </header>
-
-                {/* Content Render */}
                 <div className="flex-1 p-6 md:p-10 w-full animate-in fade-in duration-500">
-                    {mode !== AppMode.DASHBOARD && <Breadcrumb items={getBreadcrumbs()} />}
-                    {renderContent()}
+                    {mode !== AppMode.DASHBOARD && !isPublicMode && <Breadcrumb items={getBreadcrumbs()} />}
+                    {getComponent()}
                 </div>
             </main>
         </div>
