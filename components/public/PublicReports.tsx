@@ -32,31 +32,40 @@ export const PublicReports: React.FC<PublicPageProps> = ({ onBack }) => {
             </nav>
 
             {/* Hero */}
-            <section className="relative pt-32 md:pt-40 pb-20 px-6 bg-slate-50 overflow-hidden">
-                <div className="container mx-auto">
+            <section className="relative pt-32 md:pt-40 pb-20 px-6 bg-black text-white overflow-hidden">
+                {/* Background Image */}
+                <div className="absolute inset-0 z-0">
+                    <img
+                        src="/images/hero-port.jpg"
+                        alt="Background Corporativo"
+                        className="w-full h-full object-cover opacity-40"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black"></div>
+                </div>
+                <div className="container mx-auto relative z-10">
                     <div className="flex flex-col lg:flex-row gap-12 md:gap-16 items-center text-center lg:text-left">
                         <div className="flex-1 space-y-6 md:space-y-8">
-                            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-[10px] font-black uppercase tracking-widest mx-auto lg:mx-0">
+                            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/20 border border-blue-500/30 text-blue-400 text-[10px] font-black uppercase tracking-widest mx-auto lg:mx-0">
                                 <ShieldCheck size={14} /> Governança & Reporte
                             </div>
-                            <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[1.0] text-black">
+                            <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[1.0] text-white">
                                 ÉTICA E <br/>
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-500">TRANSPARÊNCIA.</span>
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-300">TRANSPARÊNCIA.</span>
                             </h1>
-                            <p className="text-lg md:text-xl font-medium text-black/60 max-w-xl leading-relaxed mx-auto lg:mx-0">
+                            <p className="text-lg md:text-xl font-medium text-white/60 max-w-xl leading-relaxed mx-auto lg:mx-0">
                                 Biblioteca centralizada de documentos oficiais, auditorias independentes e políticas corporativas.
                             </p>
                         </div>
                         <div className="flex-1 w-full max-w-md">
-                            <div className="bg-white p-10 rounded-[50px] shadow-2xl border border-gray-100 flex flex-col items-center text-center space-y-6">
+                            <div className="bg-white/5 backdrop-blur-xl p-10 rounded-[50px] shadow-2xl border border-white/10 flex flex-col items-center text-center space-y-6">
                                 <div className="w-20 h-20 bg-blue-600 text-white rounded-[24px] flex items-center justify-center shadow-xl shadow-blue-600/30">
                                     <FileText size={32} />
                                 </div>
                                 <div>
-                                    <h3 className="text-2xl font-black uppercase tracking-tight">Selo Big Four Audit</h3>
-                                    <p className="text-sm font-medium text-black/60 mt-2">Nossos relatórios passam por verificação independente global.</p>
+                                    <h3 className="text-2xl font-black uppercase tracking-tight text-white">Selo Big Four Audit</h3>
+                                    <p className="text-sm font-medium text-white/60 mt-2">Nossos relatórios passam por verificação independente global.</p>
                                 </div>
-                                <span className="px-6 py-2 rounded-full bg-gray-50 text-[10px] font-black uppercase tracking-widest border border-gray-100">Ciclo 2025/2026</span>
+                                <span className="px-6 py-2 rounded-full bg-white/10 text-[10px] font-black uppercase tracking-widest border border-white/10 text-white/60">Ciclo 2025/2026</span>
                             </div>
                         </div>
                     </div>
