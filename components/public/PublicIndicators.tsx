@@ -23,8 +23,15 @@ export const PublicIndicators: React.FC<PublicPageProps> = ({ onBack }) => {
             </nav>
 
             {/* Hero Section: Dark Immersive */}
-            <section className="relative h-[80vh] flex items-center justify-center bg-slate-900 text-white overflow-hidden">
-                <div className="absolute inset-0 z-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/graphy.png')]"></div>
+            <section className="relative h-[80vh] flex items-center justify-center bg-black text-white overflow-hidden">
+                <div className="absolute inset-0 z-0">
+                    <img
+                        src="/images/hero-port.jpg"
+                        alt="Porto do Itaqui"
+                        className="w-full h-full object-cover opacity-50"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/20 to-black"></div>
+                </div>
                 <div className="container mx-auto px-6 relative z-10 text-center">
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-purple-300 text-[10px] font-black uppercase tracking-widest mb-8">
                         <BarChart3 size={14} /> Performance Estratégica
@@ -33,7 +40,7 @@ export const PublicIndicators: React.FC<PublicPageProps> = ({ onBack }) => {
                         DADOS QUE <br/>
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-300 text-white">GERAM IMPACTO.</span>
                     </h1>
-                    <p className="text-lg md:text-2xl font-medium text-white/60 max-w-3xl mx-auto leading-relaxed">
+                    <p className="text-xl md:text-2xl font-medium text-white/60 max-w-3xl mx-auto leading-relaxed">
                         Acompanhe em tempo real os indicadores que definem o futuro sustentável do Porto do Itaqui através da tecnologia e transparência.
                     </p>
                 </div>
