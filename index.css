@@ -86,6 +86,14 @@
     --happiness-5: 41 166 131;
     --happiness-bg-tint: 247 249 255;
     --brand-primary: var(--happiness-1);
+
+    /* ESG Specific Colors (Vale Inspired) */
+    --esg-green: #059669;
+    --esg-green-light: #d1fae5;
+    --esg-orange: #ea580c;
+    --esg-orange-light: #ffedd5;
+    --esg-navy: #1e3a5f;
+    --esg-navy-light: #dbeafe;
   }
 
   [data-theme='emerald'] {
@@ -327,3 +335,40 @@ textarea.bg-white {
         grid-auto-rows: auto;
     }
 }
+
+/* High Contrast Support */
+.high-contrast {
+  --background: #000000;
+  --foreground: #ffff00;
+  --card: #1a1a1a;
+  --card-foreground: #ffff00;
+  --primary: #ffff00;
+  --primary-foreground: #000000;
+  --border: #ffff00;
+  --esg-green: #00ff00;
+  --esg-green-light: #003300;
+  --esg-orange: #ffaa00;
+  --esg-orange-light: #332200;
+  --esg-navy: #6699ff;
+  --esg-navy-light: #001133;
+}
+
+/* Fade-in Animation */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.8s ease-out forwards;
+}
+
+.animation-delay-100 { animation-delay: 0.1s; }
+.animation-delay-200 { animation-delay: 0.2s; }
+.animation-delay-300 { animation-delay: 0.3s; }
