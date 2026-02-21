@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowLeft, Users, ShieldAlert, Coins, MapPin, Heart, Handshake, ChevronRight } from 'lucide-react';
+import { ArrowLeft, Users, ShieldAlert, Coins, MapPin, Heart, Handshake, ChevronRight, GraduationCap } from 'lucide-react';
 
 interface PublicPageProps {
     onBack: () => void;
@@ -16,24 +16,31 @@ export const PublicSocial: React.FC<PublicPageProps> = ({ onBack }) => {
                 </div>
                 <button 
                     onClick={onBack}
-                    className="flex items-center gap-2 px-6 py-2 rounded-full bg-black text-white text-xs font-bold hover:scale-105 transition-all"
+                    className="flex items-center gap-2 px-6 py-2 rounded-full bg-black text-white text-xs font-bold hover:scale-105 transition-all shadow-lg"
                 >
                     <ArrowLeft size={14} /> Voltar ao Portal
                 </button>
             </nav>
 
-            {/* Section 1: Hero */}
-            <section className="relative h-screen flex items-center justify-center overflow-hidden bg-slate-50">
-                <div className="absolute inset-0 z-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+            {/* Section 1: Hero with Background */}
+            <section className="relative h-[90vh] flex items-center justify-center overflow-hidden bg-black text-white">
+                <div className="absolute inset-0 z-0">
+                    <img
+                        src="/images/news-community.jpg"
+                        alt="Comunidade Itaqui-Bacanga"
+                        className="w-full h-full object-cover opacity-60"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black"></div>
+                </div>
                 <div className="container mx-auto px-6 relative z-10 text-center">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-100 text-orange-700 text-[10px] font-black uppercase tracking-widest mb-8">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-500/20 border border-orange-500/30 text-orange-400 text-[10px] font-black uppercase tracking-widest mb-8">
                         <Heart size={14} /> Impacto Humano
                     </div>
-                    <h1 className="text-6xl md:text-9xl font-black tracking-tighter leading-[0.9] mb-8">
+                    <h1 className="text-6xl md:text-9xl font-black tracking-tighter leading-[0.9] mb-8 animate-fade-in-up">
                         CRESCER JUNTO <br/>
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-amber-500 text-black">COM A CIDADE.</span>
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-300">COM A CIDADE.</span>
                     </h1>
-                    <p className="text-xl md:text-2xl font-medium text-black/60 max-w-3xl mx-auto leading-relaxed">
+                    <p className="text-xl md:text-2xl font-medium text-white/70 max-w-3xl mx-auto leading-relaxed mb-12">
                         Transformando a força logística do Porto do Itaqui em desenvolvimento para 155 mil pessoas do Itaqui-Bacanga.
                     </p>
                 </div>
@@ -44,7 +51,7 @@ export const PublicSocial: React.FC<PublicPageProps> = ({ onBack }) => {
                 <div className="container mx-auto">
                     <div className="grid lg:grid-cols-2 gap-20 items-center">
                          <div className="relative order-2 lg:order-1">
-                            <div className="aspect-[4/5] bg-orange-500 rounded-[60px] p-12 text-white flex flex-col justify-between shadow-2xl relative overflow-hidden group">
+                            <div className="aspect-[4/5] bg-orange-500 rounded-[80px] p-12 text-white flex flex-col justify-between shadow-2xl relative overflow-hidden group text-left">
                                 <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform duration-700">
                                     <Coins size={200} />
                                 </div>
@@ -61,7 +68,7 @@ export const PublicSocial: React.FC<PublicPageProps> = ({ onBack }) => {
                                 </div>
                             </div>
                         </div>
-                        <div className="space-y-10 order-1 lg:order-2">
+                        <div className="space-y-10 order-1 lg:order-2 text-left">
                             <div className="space-y-4">
                                 <span className="text-xs font-black text-orange-600 uppercase tracking-widest">GRI 400 Standards</span>
                                 <h2 className="text-5xl md:text-6xl font-black tracking-tighter leading-tight">Um compromisso com a dignidade.</h2>
@@ -73,6 +80,7 @@ export const PublicSocial: React.FC<PublicPageProps> = ({ onBack }) => {
                             <div className="space-y-6">
                                 <SocialFeature icon={<Handshake />} title="Engajamento Comunitário" desc="Parceria direta com a ACIB para gestão de demandas e conflitos territoriais." />
                                 <SocialFeature icon={<ShieldAlert />} title="Due Diligence Ativa" desc="Monitoramento constante de direitos humanos em 1.248 parceiros e fornecedores." />
+                                <SocialFeature icon={<GraduationCap />} title="Educação & Futuro" desc="Combate aos desertos educacionais através de bolsas de pesquisa e capacitação técnica." />
                             </div>
                         </div>
                     </div>
@@ -82,7 +90,7 @@ export const PublicSocial: React.FC<PublicPageProps> = ({ onBack }) => {
             {/* Section 3: Territory Map (Mobile-First Layout) */}
             <section className="py-32 bg-slate-900 text-white px-6 overflow-hidden">
                 <div className="container mx-auto">
-                    <div className="flex flex-col lg:flex-row gap-16 items-end mb-20">
+                    <div className="flex flex-col lg:flex-row gap-16 items-end mb-20 text-left">
                         <div className="max-w-2xl">
                             <span className="text-xs font-black text-orange-400 uppercase tracking-widest mb-4 block">Mapeamento Territorial</span>
                             <h2 className="text-5xl md:text-7xl font-black tracking-tighter">Onde o impacto acontece.</h2>
@@ -105,19 +113,19 @@ export const PublicSocial: React.FC<PublicPageProps> = ({ onBack }) => {
 };
 
 const SocialFeature = ({ icon, title, desc }: any) => (
-    <div className="flex gap-6 items-start group">
+    <div className="flex gap-6 items-start group text-left">
         <div className="w-14 h-14 rounded-2xl bg-orange-50 text-orange-600 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
             {React.cloneElement(icon as React.ReactElement, { size: 28 })}
         </div>
         <div>
-            <h4 className="text-xl font-black mb-1">{title}</h4>
+            <h4 className="text-xl font-black mb-1 text-black">{title}</h4>
             <p className="text-sm font-medium text-black/60 leading-relaxed">{desc}</p>
         </div>
     </div>
 );
 
 const ImpactArea = ({ title, population, risk, color }: any) => (
-    <div className="p-8 rounded-[32px] border border-white/10 bg-white/5 hover:bg-white/10 transition-all cursor-pointer group">
+    <div className="p-8 rounded-[32px] border border-white/10 bg-white/5 hover:bg-white/10 transition-all cursor-pointer group text-left">
         <div className="flex justify-between items-start mb-12">
             <div className={`w-3 h-3 rounded-full ${color} animate-pulse`} />
             <ChevronRight className="text-white/20 group-hover:text-white transition-colors" />

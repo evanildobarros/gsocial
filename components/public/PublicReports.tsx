@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowLeft, FileText, Download, ShieldCheck, ChevronRight, BarChart3, Search } from 'lucide-react';
+import { ArrowLeft, FileText, Download, ShieldCheck, Search, ChevronRight } from 'lucide-react';
 
 interface PublicPageProps {
     onBack: () => void;
@@ -25,7 +25,7 @@ export const PublicReports: React.FC<PublicPageProps> = ({ onBack }) => {
                 </div>
                 <button 
                     onClick={onBack}
-                    className="flex items-center gap-2 px-6 py-2 rounded-full bg-black text-white text-xs font-bold hover:scale-105 transition-all"
+                    className="flex items-center gap-2 px-4 py-2 rounded-full bg-black text-white text-xs font-bold hover:scale-105 transition-all shadow-lg"
                 >
                     <ArrowLeft size={14} /> Voltar ao Portal
                 </button>
@@ -35,7 +35,7 @@ export const PublicReports: React.FC<PublicPageProps> = ({ onBack }) => {
             <section className="relative pt-40 pb-24 px-6 bg-slate-50 overflow-hidden">
                 <div className="container mx-auto">
                     <div className="flex flex-col lg:flex-row gap-16 items-center">
-                        <div className="flex-1 space-y-8">
+                        <div className="flex-1 space-y-8 text-left">
                             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-[10px] font-black uppercase tracking-widest">
                                 <ShieldCheck size={14} /> Governança & Reporte
                             </div>
@@ -50,7 +50,7 @@ export const PublicReports: React.FC<PublicPageProps> = ({ onBack }) => {
                         <div className="flex-1 w-full max-w-md">
                             <div className="bg-white p-10 rounded-[50px] shadow-2xl border border-gray-100 flex flex-col items-center text-center space-y-6">
                                 <div className="w-20 h-20 bg-blue-600 text-white rounded-[24px] flex items-center justify-center shadow-xl shadow-blue-600/30">
-                                    <BarChart3 size={32} />
+                                    <FileText size={32} />
                                 </div>
                                 <div>
                                     <h3 className="text-2xl font-black uppercase tracking-tight">Selo Big Four Audit</h3>
@@ -64,16 +64,16 @@ export const PublicReports: React.FC<PublicPageProps> = ({ onBack }) => {
             </section>
 
             {/* Section 2: Search & Filter */}
-            <section className="py-20 px-6">
+            <section className="py-20 px-6 bg-white">
                 <div className="container mx-auto">
                     <div className="flex flex-col md:flex-row justify-between items-center gap-8 mb-12">
-                        <h2 className="text-3xl font-black tracking-tight">Biblioteca de Documentos</h2>
+                        <h2 className="text-3xl font-black tracking-tight text-black text-left">Biblioteca de Documentos</h2>
                         <div className="w-full md:w-96 relative">
                             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-black/30" size={18} />
                             <input 
                                 type="text" 
                                 placeholder="Buscar relatório ou política..." 
-                                className="w-full pl-12 pr-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                                className="w-full pl-12 pr-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-black"
                             />
                         </div>
                     </div>
@@ -90,7 +90,7 @@ export const PublicReports: React.FC<PublicPageProps> = ({ onBack }) => {
 };
 
 const ReportItem = ({ title, year, size, type, category }: any) => (
-    <div className="p-8 rounded-[32px] border border-gray-100 bg-white hover:border-blue-600 hover:shadow-2xl transition-all group cursor-pointer flex flex-col justify-between h-full">
+    <div className="p-8 rounded-[40px] border border-gray-100 bg-white hover:border-blue-600 hover:shadow-2xl transition-all group cursor-pointer flex flex-col justify-between h-full text-left">
         <div>
             <div className="flex justify-between items-start mb-6">
                 <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center">
@@ -103,7 +103,7 @@ const ReportItem = ({ title, year, size, type, category }: any) => (
             </div>
             <h4 className="text-xl font-bold text-slate-900 leading-tight mb-4 group-hover:text-blue-600 transition-colors">{title}</h4>
         </div>
-        <div className="pt-6 border-t border-gray-50 flex justify-between items-center">
+        <div className="pt-6 border-t border-gray-50 flex justify-between items-center text-left">
             <span className="text-[10px] font-black uppercase text-black/40">{type} • {size}</span>
             <div className="flex items-center gap-2 text-blue-600 font-black text-[10px] uppercase tracking-widest">
                 Download <Download size={14} />
