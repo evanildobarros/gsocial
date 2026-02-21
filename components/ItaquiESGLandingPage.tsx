@@ -464,17 +464,17 @@ export const ItaquiESGLandingPage: React.FC<ItaquiESGLandingPageProps> = ({ onLo
                         <NewsCard 
                             date="19 Fev 2026"
                             title="Porto do Itaqui atinge meta de 100% de iluminação LED em áreas operacionais."
-                            image="/news-1.jpg"
+                            image="/img1.png"
                         />
                         <NewsCard 
                             date="15 Fev 2026"
                             title="Programa Porto do Futuro abre inscrições para novas bolsas de pesquisa e inovação."
-                            image="/news-2.jpg"
+                            image="/img2.png"
                         />
                         <NewsCard 
                             date="10 Fev 2026"
                             title="Relatório de Emissões 2025 confirma redução de 24% no Escopo 1."
-                            image="/news-3.jpg"
+                            image="/img3.png"
                         />
                     </div>
                 </div>
