@@ -7,7 +7,7 @@ interface PublicPageProps {
 
 export const PublicIndicators: React.FC<PublicPageProps> = ({ onBack }) => {
     return (
-        <div className="min-h-screen bg-white text-black font-sans selection:bg-purple-100">
+        <div className="h-screen overflow-y-auto bg-white text-black font-sans selection:bg-purple-100 scroll-smooth">
             {/* Nav */}
             <nav className="fixed w-full z-50 bg-white/80 backdrop-blur-xl border-b border-gray-100 py-4 px-6 flex items-center justify-between">
                 <div className="flex items-center gap-3">
