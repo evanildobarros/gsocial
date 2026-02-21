@@ -1,11 +1,14 @@
 import React from 'react';
 import { ArrowLeft, Leaf, Wind, Map, ShieldCheck, Waves, Zap, ChevronDown, CheckCircle2, Shield, Users, Target } from 'lucide-react';
+import { Footer } from '../esg/Footer';
+import { AppMode } from '../../types';
 
 interface PublicPageProps {
     onBack: () => void;
+    onNavigate?: (mode: AppMode) => void;
 }
 
-export const PublicEnvironment: React.FC<PublicPageProps> = ({ onBack }) => {
+export const PublicEnvironment: React.FC<PublicPageProps> = ({ onBack, onNavigate }) => {
     return (
         <div className="h-screen overflow-y-auto bg-white text-black font-sans selection:bg-green-100 scroll-smooth">
             {/* Nav */}
@@ -38,7 +41,7 @@ export const PublicEnvironment: React.FC<PublicPageProps> = ({ onBack }) => {
                     </div>
                     <h1 className="text-4xl sm:text-6xl md:text-9xl font-black tracking-tighter leading-[0.9] mb-8 animate-fade-in-up">
                         PROTEGENDO O <br/>
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-300">NOSSO ECOSSISTEMA.</span>
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-300 text-white">NOSSO ECOSSISTEMA.</span>
                     </h1>
                     <p className="text-lg md:text-2xl font-medium text-white/70 max-w-3xl mx-auto leading-relaxed mb-12">
                         Compromisso com a descarbonização acelerada e a preservação da Baía de São Marcos.
@@ -53,19 +56,19 @@ export const PublicEnvironment: React.FC<PublicPageProps> = ({ onBack }) => {
                         <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-600 text-white rounded-lg text-[9px] font-black uppercase tracking-widest mb-6">
                             ESGporto - Consultor Especialista
                         </div>
-                        <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-tight mb-8">
+                        <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-tight mb-8 text-black">
                             Sustentabilidade Portuária e Gestão ESG Baseada em Dados.
                         </h2>
                         <div className="flex flex-col md:flex-row gap-12 items-start">
                             <div className="flex-1 space-y-4">
                                 <h4 className="text-lg font-black uppercase text-green-600">Transformação rumo ao Estágio 5</h4>
-                                <p className="text-lg font-medium text-black/70 leading-relaxed italic border-l-4 border-green-500 pl-6">
+                                <p className="text-lg font-medium text-black/70 leading-relaxed italic border-l-4 border-green-500 pl-6 text-left">
                                     "O nosso aplicativo eleva a gestão do ecossistema portuário ao focar no que realmente importa através da dupla materialidade."
                                 </p>
                             </div>
-                            <div className="flex-1 text-sm font-medium text-black/60 leading-relaxed">
+                            <div className="flex-1 text-sm font-medium text-black/60 leading-relaxed text-left">
                                 Medimos o impacto das operações no ambiente e na sociedade (Materialidade de Impacto) e como os fatores ESG afetam o valor e a continuidade do negócio (Materialidade Financeira).
-                                <div className="mt-6 flex flex-wrap gap-2">
+                                <div className="mt-6 flex flex-wrap gap-2 text-left">
                                     {["GRI", "SASB", "TCFD", "ABNT PR 2030"].map(f => (
                                         <span key={f} className="px-3 py-1 bg-white border border-gray-200 rounded-full text-[9px] font-black text-black/40">{f}</span>
                                     ))}
@@ -118,19 +121,19 @@ export const PublicEnvironment: React.FC<PublicPageProps> = ({ onBack }) => {
             {/* Section 2: TCFD & Adaptation */}
             <section className="py-32 px-6 bg-white">
                 <div className="container mx-auto text-left">
-                    <div className="grid lg:grid-cols-2 gap-20 items-center">
+                    <div className="grid lg:grid-cols-2 gap-20 items-center text-left">
                         <div className="space-y-8 text-left">
                             <span className="text-xs font-black text-green-600 uppercase tracking-widest">Adaptação Costeira (TCFD)</span>
-                            <h2 className="text-5xl md:text-6xl font-black tracking-tighter leading-tight">Infraestrutura preparada para o futuro.</h2>
-                            <p className="text-lg font-medium text-black/70 leading-relaxed">
+                            <h2 className="text-5xl md:text-6xl font-black tracking-tighter leading-tight text-black">Infraestrutura preparada para o futuro.</h2>
+                            <p className="text-lg font-medium text-black/70 leading-relaxed text-left text-black">
                                 Monitoramos em tempo real a elevação do nível do mar e os riscos físicos das operações. Nosso plano de adaptação garante a continuidade logística mesmo em cenários climáticos extremos.
                             </p>
                             <div className="grid grid-cols-2 gap-4 text-left">
-                                <div className="p-8 rounded-[40px] bg-slate-50 border border-gray-100 group hover:border-blue-400 transition-all">
+                                <div className="p-8 rounded-[40px] bg-slate-50 border border-gray-100 group hover:border-blue-400 transition-all text-left">
                                     <h4 className="font-black text-4xl text-blue-600">100%</h4>
                                     <p className="text-[10px] font-bold uppercase text-black/40 mt-2 tracking-widest">Áreas Monitoradas</p>
                                 </div>
-                                <div className="p-8 rounded-[40px] bg-slate-50 border border-gray-100 group hover:border-green-400 transition-all">
+                                <div className="p-8 rounded-[40px] bg-slate-50 border border-gray-100 group hover:border-green-400 transition-all text-left">
                                     <h4 className="font-black text-4xl text-green-600">ISO</h4>
                                     <p className="text-[10px] font-bold uppercase text-black/40 mt-2 tracking-widest">14001 Certificada</p>
                                 </div>
@@ -141,7 +144,7 @@ export const PublicEnvironment: React.FC<PublicPageProps> = ({ onBack }) => {
                                 <div className="absolute inset-0 bg-blue-600/10 group-hover:bg-transparent transition-colors duration-700" />
                                 <img src="/images/hero-port.jpg" alt="Monitoramento" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
                                 <div className="absolute bottom-10 left-10 right-10 p-8 bg-white/90 backdrop-blur-md rounded-3xl border border-gray-100 shadow-2xl text-left">
-                                    <div className="flex items-center gap-3 mb-2">
+                                    <div className="flex items-center gap-3 mb-2 text-black">
                                         <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
                                         <span className="text-[10px] font-black uppercase tracking-widest text-black">Live Vulnerability Feed</span>
                                     </div>
@@ -160,20 +163,20 @@ export const PublicEnvironment: React.FC<PublicPageProps> = ({ onBack }) => {
                     <div className="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-transparent"></div>
                 </div>
                 <div className="container mx-auto relative z-10 text-left">
-                    <div className="max-w-2xl space-y-8">
-                        <span className="text-xs font-black text-green-400 uppercase tracking-widest">Transição Energética</span>
-                        <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-tight text-white">Matriz 100% Limpa até 2025.</h2>
-                        <p className="text-xl text-white/70 font-medium leading-relaxed">
+                    <div className="max-w-2xl space-y-8 text-left">
+                        <span className="text-xs font-black text-green-400 uppercase tracking-widest text-left">Transição Energética</span>
+                        <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-tight text-white text-left">Matriz 100% Limpa até 2025.</h2>
+                        <p className="text-xl text-white/70 font-medium leading-relaxed text-left">
                             Estamos substituindo toda a nossa matriz de consumo por fontes renováveis e atingindo a meta de iluminação LED em 100% das áreas operacionais.
                         </p>
-                        <div className="flex gap-6">
-                            <div className="flex items-center gap-3">
+                        <div className="flex gap-6 text-left">
+                            <div className="flex items-center gap-3 text-white text-left">
                                 <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center"><Zap className="text-yellow-400" /></div>
-                                <span className="font-bold">Eficiência Energética</span>
+                                <span className="font-bold text-white">Eficiência Energética</span>
                             </div>
-                            <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-3 text-white text-left">
                                 <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center"><ShieldCheck className="text-green-400" /></div>
-                                <span className="font-bold">Selo Ouro GHG Protocol</span>
+                                <span className="font-bold text-white">Selo Ouro GHG Protocol</span>
                             </div>
                         </div>
                     </div>
@@ -186,44 +189,46 @@ export const PublicEnvironment: React.FC<PublicPageProps> = ({ onBack }) => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-12 text-left">
                         <div className="p-12 rounded-[50px] bg-white border border-gray-100 shadow-xl hover:-translate-y-2 transition-all group text-left">
                             <Waves size={48} className="text-blue-600 mb-8 group-hover:scale-110 transition-transform" />
-                            <h3 className="text-3xl font-black mb-4">Água de Lastro Controlada</h3>
-                            <p className="text-lg text-black/60 font-medium leading-relaxed">Controle rigoroso de espécies exóticas e salinidade para proteger a biodiversidade marinha da Baía de São Marcos.</p>
+                            <h3 className="text-3xl font-black mb-4 text-black text-left">Água de Lastro Controlada</h3>
+                            <p className="text-lg text-black/60 font-medium leading-relaxed text-left">Controle rigoroso de espécies exóticas e salinidade para proteger a biodiversidade marinha da Baía de São Marcos.</p>
                         </div>
                         <div className="p-12 rounded-[50px] bg-white border border-gray-100 shadow-xl hover:-translate-y-2 transition-all group text-left">
                             <Wind size={48} className="text-green-600 mb-8 group-hover:scale-110 transition-transform" />
-                            <h3 className="text-3xl font-black mb-4">Economia Circular</h3>
-                            <p className="text-lg text-black/60 font-medium leading-relaxed">Programa Aterro Zero e rastreabilidade total de resíduos através dos certificados MTR e CDF.</p>
+                            <h3 className="text-3xl font-black mb-4 text-black text-left">Economia Circular</h3>
+                            <p className="text-lg text-black/60 font-medium leading-relaxed text-left">Programa Aterro Zero e rastreabilidade total de resíduos através dos certificados MTR e CDF.</p>
                         </div>
                     </div>
                 </div>
             </section>
+
+            <Footer onNavigate={onNavigate} />
         </div>
     );
 };
 
 const StrategicPillarCard = ({ letter, title, color, items, recommendation }: any) => (
-    <div className="bg-white p-10 rounded-[50px] border border-gray-100 shadow-xl flex flex-col h-full relative overflow-hidden group hover:shadow-2xl transition-all">
+    <div className="bg-white p-10 rounded-[50px] border border-gray-100 shadow-xl flex flex-col h-full relative overflow-hidden group hover:shadow-2xl transition-all text-left">
         <div className={`absolute top-[-20px] right-[-20px] text-[120px] font-black opacity-[0.03] select-none ${color}`}>{letter}</div>
-        <div className="relative z-10 space-y-10 flex flex-col h-full">
+        <div className="relative z-10 space-y-10 flex flex-col h-full text-left">
             <div>
-                <h3 className={`text-xl font-black uppercase tracking-tight mb-8 leading-tight ${color}`}>{title}</h3>
-                <div className="space-y-6">
+                <h3 className={`text-xl font-black uppercase tracking-tight mb-8 leading-tight ${color} text-left`}>{title}</h3>
+                <div className="space-y-6 text-left">
                     {items.map((item: any, i: number) => (
-                        <div key={i} className="space-y-1">
-                            <h5 className="text-sm font-black text-black uppercase tracking-widest">{item.t}</h5>
-                            <p className="text-xs font-medium text-black/60 leading-relaxed">{item.d}</p>
+                        <div key={i} className="space-y-1 text-left">
+                            <h5 className="text-sm font-black text-black uppercase tracking-widest text-left">{item.t}</h5>
+                            <p className="text-xs font-medium text-black/60 leading-relaxed text-left">{item.d}</p>
                         </div>
                     ))}
                 </div>
             </div>
 
             {recommendation && (
-                <div className="mt-auto pt-8 border-t border-gray-100">
-                    <div className="flex gap-4 items-start p-6 bg-blue-50 rounded-3xl border border-blue-100">
+                <div className="mt-auto pt-8 border-t border-gray-100 text-left">
+                    <div className="flex gap-4 items-start p-6 bg-blue-50 rounded-3xl border border-blue-100 text-left">
                         <Target className="text-blue-600 shrink-0" size={18} />
-                        <div>
-                            <span className="text-[9px] font-black uppercase text-blue-400 tracking-widest block mb-1">Recomendação do Consultor</span>
-                            <p className="text-xs font-bold text-blue-900 italic leading-relaxed">"{recommendation}"</p>
+                        <div className="text-left">
+                            <span className="text-[9px] font-black uppercase text-blue-400 tracking-widest block mb-1 text-left">Recomendação do Consultor</span>
+                            <p className="text-xs font-bold text-blue-900 italic leading-relaxed text-left">"{recommendation}"</p>
                         </div>
                     </div>
                 </div>
