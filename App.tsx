@@ -80,7 +80,37 @@ import { Breadcrumb } from './components/Breadcrumb';
 import SocialProjectForm from './components/social/SocialProjectForm';
 import { NotificationCenter } from './components/strategic/NotificationCenter';
 
-// Componente NavItem refatorado com Tailwind
+// Configuração de Menu
+const envItems = [
+    { icon: <ZapIcon />, label: "Clima & Carbono", mode: AppMode.ENV_DECARBONIZATION },
+    { icon: <DropletsIcon />, label: "Recursos (Energia/H2O)", mode: AppMode.ENV_EFFICIENCY },
+    { icon: <ShieldIcon />, label: "Poluição & PAM", mode: AppMode.ENV_POLLUTION },
+    { icon: <ComplianceIcon />, label: "Conformidade & Licenças", mode: AppMode.ENV_COMPLIANCE },
+    { icon: <ComplianceIcon />, label: "Digital LAIA (PC-56)", mode: AppMode.ENV_LAIA },
+    { icon: <AnchorIcon />, label: "Resíduos (PC-112)", mode: AppMode.ENV_WASTE_SHIP },
+    { icon: <AnalyticsIcon />, label: "Inteligência Climática", mode: AppMode.ENV_METEO },
+];
+
+const socialItems = [
+    { icon: <ProjectsIcon />, label: "Projetos & Ações", mode: AppMode.PROJECTS },
+    { icon: <SroiIcon />, label: "Impacto & SROI", mode: AppMode.SOCIAL_SROI },
+    { icon: <DiversityIcon />, label: "Diversidade & Inclusão", mode: AppMode.SOCIAL_DIVERSITY },
+    { icon: <HumanRightsIcon />, label: "Direitos Humanos", mode: AppMode.SOCIAL_HUMAN_RIGHTS },
+];
+
+const govItems = [
+    { icon: <RiskIcon />, label: "Matriz de Riscos", mode: AppMode.GOV_RISK_MATRIX },
+    { icon: <ReportingIcon />, label: "Relatórios & Padrões", mode: AppMode.GOV_REPORTING },
+    { icon: <SupplyChainIcon />, label: "Cadeia de Valor", mode: AppMode.GOV_SUPPLY_CHAIN },
+    { icon: <LightbulbIcon />, label: "Roda da Inovação", mode: AppMode.GOV_INNOVATION_FUNNEL },
+];
+
+const diagItems = [
+    { icon: <ReportingIcon />, label: "Central de Diagnósticos", mode: AppMode.ESG_CENTER },
+    { icon: <TerritoryIcon />, label: "Mapa ESG (GIS)", mode: AppMode.SOCIAL_GIS },
+];
+
+// Componente NavItem
 interface NavItemProps {
     icon: React.ReactNode;
     label: string;
@@ -243,7 +273,20 @@ export default function App() {
         setUserProfile(null);
     };
 
-    // Component Content Selector
+    // Render logic para evitar TDZ
+    if (isLoading) {
+        return (
+            <div className="flex justify-center items-center h-screen bg-gray-50 dark:bg-zinc-950">
+                <span className="text-black dark:text-gray-50 font-bold animate-pulse">Carregando ESGporto...</span>
+            </div>
+        );
+    }
+
+    const isPublicMode = [
+        AppMode.PUBLIC_ENVIRONMENT, AppMode.PUBLIC_SOCIAL,
+        AppMode.PUBLIC_REPORTS, AppMode.PUBLIC_INDICATORS
+    ].includes(mode);
+
     const getComponent = () => {
         switch (mode) {
             case AppMode.DASHBOARD: return <Dashboard />;
@@ -345,19 +388,6 @@ export default function App() {
         return [home, { label: getPageTitle() }];
     };
 
-    if (isLoading) {
-        return (
-            <div className="flex justify-center items-center h-screen bg-gray-50 dark:bg-zinc-950">
-                <span className="text-black dark:text-gray-50 font-bold animate-pulse">Carregando ESGporto...</span>
-            </div>
-        );
-    }
-
-    const isPublicMode = [
-        AppMode.PUBLIC_ENVIRONMENT, AppMode.PUBLIC_SOCIAL,
-        AppMode.PUBLIC_REPORTS, AppMode.PUBLIC_INDICATORS
-    ].includes(mode);
-
     if (!isAuthenticated && !isPublicMode) {
         if (showLogin) return <Login onLogin={() => setIsAuthenticated(true)} onBack={() => setShowLogin(false)} />;
         return <ItaquiESGLandingPage onLoginClick={() => setShowLogin(true)} onNavigate={(m) => setMode(m)} />;
@@ -366,7 +396,7 @@ export default function App() {
     if (isPublicMode) return getComponent();
 
     return (
-        <div className="flex h-screen overflow-hidden bg-gray-50 dark:bg-zinc-950 font-sans transition-colors duration-300 relative">
+        <div className="flex h-screen overflow-hidden bg-gray-50 dark:bg-zinc-950 font-sans transition-colors duration-300 relative text-black">
             <div className="absolute inset-0 bg-happiness-bg-tint/30 pointer-events-none" />
             <ToastContainer />
             {sidebarOpen && (<div className="fixed inset-0 bg-black/50 z-40 lg:hidden" onClick={() => setSidebarOpen(false)} />)}
@@ -382,9 +412,38 @@ export default function App() {
                     <SectionHeader label="Visão Geral" icon={<DashboardIcon />} collapsed={!sidebarOpen} open={overviewOpen} onToggle={() => setOverviewOpen(!overviewOpen)} />
                     <div className={`overflow-hidden transition-all duration-300 ease-in-out ${overviewOpen || !sidebarOpen ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
                         <NavItem icon={<DashboardIcon />} label="Dashboard Home" active={mode === AppMode.DASHBOARD} onClick={() => setMode(AppMode.DASHBOARD)} collapsed={!sidebarOpen} />
+                        {diagItems.map(item => (
+                            <NavItem key={item.label} icon={item.icon} label={item.label} active={mode === item.mode || mode === AppMode.SOCIAL_ASSESSMENT} onClick={() => setMode(item.mode)} collapsed={!sidebarOpen} />
+                        ))}
+                    </div>
+
+                    <div className="my-2 border-t border-gray-100 dark:border-white/5 mx-4" />
+                    <SectionHeader label="Pilar Ambiental (E)" icon={<ForestIcon />} collapsed={!sidebarOpen} open={envOpen} onToggle={() => setEnvOpen(!envOpen)} />
+                    <div className={`overflow-hidden transition-all duration-300 ease-in-out ${envOpen || !sidebarOpen ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                        {envItems.map(item => (<NavItem key={item.label} icon={item.icon} label={item.label} active={mode === item.mode} onClick={() => setMode(item.mode)} collapsed={!sidebarOpen} />))}
+                    </div>
+
+                    <div className="my-2 border-t border-gray-100 dark:border-white/5 mx-4" />
+                    <SectionHeader label="Pilar Social (S)" icon={<GroupsIcon />} collapsed={!sidebarOpen} open={socialOpen} onToggle={() => setSocialOpen(!socialOpen)} />
+                    <div className={`overflow-hidden transition-all duration-300 ease-in-out ${socialOpen || !sidebarOpen ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                        {socialItems.map(item => (<NavItem key={item.label} icon={item.icon} label={item.label} active={mode === item.mode || (item.mode === AppMode.PROJECTS && mode === AppMode.NEW_SOCIAL_PROJECT)} onClick={() => setMode(item.mode)} collapsed={!sidebarOpen} />))}
+                    </div>
+
+                    <div className="my-2 border-t border-gray-100 dark:border-white/5 mx-4" />
+                    <SectionHeader label="Pilar Governança (G)" icon={<GavelIcon />} collapsed={!sidebarOpen} open={govOpen} onToggle={() => setGovOpen(!govOpen)} />
+                    <div className={`overflow-hidden transition-all duration-300 ease-in-out ${govOpen || !sidebarOpen ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                        {govItems.map(item => (<NavItem key={item.label} icon={item.icon} label={item.label} active={mode === item.mode} onClick={() => setMode(item.mode)} collapsed={!sidebarOpen} />))}
+                    </div>
+
+                    <div className="my-2 border-t border-gray-100 dark:border-white/5 mx-4" />
+                    <SectionHeader label="Inteligência & IA" icon={<IntelligenceIcon />} collapsed={!sidebarOpen} open={strategicOpen} onToggle={() => setStrategicOpen(!strategicOpen)} />
+                    <div className={`overflow-hidden transition-all duration-300 ease-in-out ${strategicOpen || !sidebarOpen ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                        <NavItem icon={<AnalyticsIcon />} label="Análise Preditiva" active={mode === AppMode.STRATEGIC_PREDICTIVE} onClick={() => setMode(AppMode.STRATEGIC_PREDICTIVE)} collapsed={!sidebarOpen} />
+                        <NavItem icon={<NotificationsIcon />} label="Alertas & Notificações" active={mode === AppMode.STRATEGIC_NOTIFICATIONS} onClick={() => setMode(AppMode.STRATEGIC_NOTIFICATIONS)} collapsed={!sidebarOpen} />
                     </div>
                 </div>
             </aside>
+
             <main className={`flex-1 flex flex-col h-screen overflow-y-auto transition-all duration-300 ease-in-out ${sidebarOpen ? 'lg:ml-80' : 'lg:ml-24'} ml-0`}>
                 <header className="h-20 md:h-24 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md sticky top-0 z-40 border-b border-gray-100 dark:border-white/5 px-4 md:px-12 flex items-center justify-between transition-colors duration-300">
                     <div className="flex items-center gap-4 md:gap-6"><button onClick={() => setSidebarOpen(true)} className="lg:hidden p-2 text-black dark:text-white"><MenuIcon /></button><div className="h-6 w-px bg-gray-200 dark:bg-white/10 hidden sm:block"></div><h2 className="hidden sm:block text-sm font-black text-black dark:text-gray-100 uppercase tracking-[0.2em] antialiased">{getPageTitle()}</h2></div>
