@@ -12,8 +12,8 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <div className="container mx-auto px-8">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
                     <div className="col-span-1 md:col-span-1 space-y-6 text-left">
-                        <div className="flex items-center gap-2 text-black dark:text-white font-black text-xl italic tracking-tighter">
-                            <Anchor className="text-green-600" /> Porto do Itaqui
+                        <div className="flex items-center gap-2 cursor-pointer">
+                            <img src="/logo_itaqui.svg" alt="Porto do Itaqui" className="h-10 w-auto object-contain dark:brightness-0 dark:invert" />
                         </div>
                         <p className="text-sm font-medium text-black/40 dark:text-white/40 leading-relaxed">
                             Empresa Maranhense de Administração Portuária (EMAP).<br />
