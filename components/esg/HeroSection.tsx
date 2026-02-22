@@ -3,18 +3,18 @@ import { ArrowDown, Leaf, Users } from 'lucide-react';
 
 export const HeroSection = () => {
   return (
-    <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-black text-white">
+    <section className="relative min-h-[95vh] flex items-center overflow-hidden bg-black text-white">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img
           src="/images/hero-port.jpg"
           alt="Vista aérea do Porto do Itaqui ao entardecer"
-          className="w-full h-full object-cover opacity-60"
+          className="w-full h-full object-cover opacity-50"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/20 to-black"></div>
       </div>
 
-      <div className="container mx-auto px-6 relative z-10 py-24 lg:py-40">
+      <div className="container mx-auto px-6 relative z-10 py-24 md:py-32 lg:py-40">
         <div className="max-w-4xl animate-fade-in-up">
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-green-500/30 bg-green-500/10 px-4 py-1.5">
             <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
@@ -23,13 +23,13 @@ export const HeroSection = () => {
             </span>
           </div>
 
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black leading-[1.05] tracking-tighter mb-8 antialiased">
+          <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[1.1] tracking-tighter mb-8 antialiased">
             Liderança <br/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-cyan-300">Sustentável</span> <br/>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-cyan-300">Sustentável</span> <br className="hidden sm:block" />
             para o Maranhão.
           </h1>
 
-          <p className="max-w-2xl text-lg md:text-xl font-medium leading-relaxed text-white/70 mb-12">
+          <p className="max-w-2xl text-base md:text-xl font-medium leading-relaxed text-white/70 mb-12">
             O Porto do Itaqui integra operações logísticas de classe mundial com
             compromissos ambientais, sociais e de governança que transformam o
             futuro do estado.
