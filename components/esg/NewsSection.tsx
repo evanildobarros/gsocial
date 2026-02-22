@@ -43,34 +43,49 @@ export const NewsSection = () => {
           </button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
           {news.map((item, i) => (
-            <div key={i} className="group bg-white dark:bg-white/5 rounded-[40px] md:rounded-[48px] border border-gray-100 dark:border-white/5 overflow-hidden hover:shadow-2xl transition-all cursor-pointer">
-              <div className="h-56 md:h-64 bg-slate-100 dark:bg-zinc-800 relative overflow-hidden">
-                 <img 
-                  src={item.image} 
-                  alt={item.title} 
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
-                 />
-                 <div className="absolute top-4 left-4 md:top-6 md:left-6 px-4 py-1.5 rounded-full bg-white/90 backdrop-blur-md text-[10px] font-black uppercase tracking-widest shadow-xl">
+            <article key={i} className="flex flex-col items-start justify-between group cursor-pointer">
+              <div className="relative w-full">
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="aspect-[16/9] w-full rounded-2xl bg-gray-100 object-cover sm:aspect-[2/1] lg:aspect-[3/2] transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
+              </div>
+              <div className="max-w-xl">
+                <div className="mt-8 flex items-center gap-x-4 text-xs">
+                  <time dateTime="2026-02-22" className="text-gray-500 dark:text-gray-400 font-bold uppercase tracking-widest">
+                    {item.date}
+                  </time>
+                  <span className="relative z-10 rounded-full bg-emerald-50 dark:bg-emerald-900/30 px-3 py-1.5 font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-widest text-[9px]">
                     {item.tag}
-                 </div>
-              </div>
-              <div className="p-8 md:p-10 space-y-4 md:space-y-6">
-                <div className="flex items-center gap-2 text-black/40 dark:text-white/40 text-[10px] font-black uppercase tracking-widest">
-                  <Calendar size={14} />
-                  {item.date}
+                  </span>
                 </div>
-                <h4 className="text-xl md:text-2xl font-bold text-black dark:text-white leading-tight group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors italic">
-                  {item.title}
-                </h4>
-                <div className="pt-4 md:pt-6 flex justify-end">
-                   <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-black dark:bg-white text-white dark:text-black flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <ArrowRight size={20} />
-                   </div>
+                <div className="group relative">
+                  <h3 className="mt-4 text-2xl font-black leading-tight text-gray-900 dark:text-white group-hover:text-emerald-600 transition-colors">
+                    <span className="absolute inset-0" />
+                    {item.title}
+                  </h3>
+                  <p className="mt-5 line-clamp-3 text-sm leading-relaxed text-gray-600 dark:text-gray-400 font-medium">
+                    Monitoramento contínuo e reporte de impacto para o ecossistema portuário do Maranhão, seguindo padrões internacionais de sustentabilidade.
+                  </p>
+                </div>
+                <div className="relative mt-8 flex items-center gap-x-4 border-t border-gray-100 dark:border-white/5 pt-6">
+                  <div className="h-10 w-10 rounded-full bg-gray-100 dark:bg-white/10 flex items-center justify-center font-black text-xs text-emerald-600">
+                    EM
+                  </div>
+                  <div className="text-sm leading-6">
+                    <p className="font-black text-gray-900 dark:text-white">
+                      <span className="absolute inset-0" />
+                      Comunicação EMAP
+                    </p>
+                    <p className="text-gray-600 dark:text-gray-400 text-[10px] font-bold uppercase tracking-widest">Autoridade Portuária</p>
+                  </div>
                 </div>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </div>
