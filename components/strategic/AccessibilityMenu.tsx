@@ -48,7 +48,7 @@ export const AccessibilityMenu: React.FC = () => {
     };
 
     return (
-        <div className="fixed right-6 bottom-24 z-[999]">
+        <div className="fixed right-6 bottom-6 z-[999]">
             {/* Trigger FAB */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
