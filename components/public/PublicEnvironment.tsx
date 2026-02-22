@@ -110,12 +110,23 @@ export const PublicEnvironment: React.FC<PublicPageProps> = ({ onBack, onNavigat
                             <div className="aspect-square bg-slate-100 rounded-[80px] overflow-hidden shadow-2xl relative group">
                                 <div className="absolute inset-0 bg-blue-600/10 group-hover:bg-transparent transition-colors duration-700 z-10" />
                                 <img src="/images/hero-port.jpg" alt="Monitoramento" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
-                                <div className="absolute bottom-10 left-10 right-10 p-8 bg-white/90 backdrop-blur-md rounded-3xl border border-gray-100 shadow-2xl text-left z-20">
-                                    <div className="flex items-center gap-3 mb-2 text-black text-left">
-                                        <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse text-left" />
-                                        <span className="text-[10px] font-black uppercase tracking-widest text-black text-left">Live Vulnerability Feed</span>
+                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] p-6 bg-white/95 backdrop-blur-md rounded-3xl border border-gray-100 shadow-2xl z-20">
+                                    <div className="flex items-start gap-4">
+                                        <div className="relative shrink-0 mt-1">
+                                            <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse absolute -left-1 -top-1" />
+                                            <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-600">
+                                                <Waves size={20} />
+                                            </div>
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <p className="text-[10px] font-black uppercase tracking-widest text-blue-600 mb-1 text-left">
+                                                Live Vulnerability Feed
+                                            </p>
+                                            <p className="text-sm font-bold text-gray-900 leading-tight text-left">
+                                                Variação de maré e pressão atmosférica monitoradas 24/7.
+                                            </p>
+                                        </div>
                                     </div>
-                                    <p className="text-sm font-bold text-black italic text-left">Variação de maré e pressão atmosférica monitoradas 24/7.</p>
                                 </div>
                             </div>
                         </div>
