@@ -8,6 +8,8 @@ import { BentoCommitments } from './esg/BentoCommitments';
 import { TransparencySection } from './esg/TransparencySection';
 import { NewsSection } from './esg/NewsSection';
 
+import { Footer } from './esg/Footer';
+
 interface ItaquiESGLandingPageProps {
     onLoginClick?: () => void;
     onNavigate?: (mode: AppMode) => void;
@@ -135,57 +137,7 @@ export const ItaquiESGLandingPage: React.FC<ItaquiESGLandingPageProps> = ({ onLo
                 <NewsSection />
             </main>
 
-            {/* Footer */}
-            <footer className="bg-slate-50 dark:bg-zinc-950 py-24 border-t border-gray-100 dark:border-white/5">
-                <div className="container mx-auto px-8">
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
-                        <div className="col-span-1 md:col-span-1 space-y-6">
-                            <div className="flex items-center gap-2 text-black dark:text-white font-black text-xl italic tracking-tighter">
-                                <Anchor className="text-green-600" /> Porto do Itaqui
-                            </div>
-                            <p className="text-sm font-medium text-black/40 leading-relaxed">
-                                Empresa Maranhense de Administração Portuária (EMAP).<br />
-                                Referência em Logística e Sustentabilidade.
-                            </p>
-                        </div>
-
-                        <div>
-                            <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-black/30 mb-8">Páginas ESG</h4>
-                            <ul className="space-y-4 text-sm font-bold text-left">
-                                <li><button onClick={() => onNavigate?.(AppMode.PUBLIC_ENVIRONMENT)} className="hover:text-green-600 transition-colors">Meio Ambiente</button></li>
-                                <li><button onClick={() => onNavigate?.(AppMode.PUBLIC_SOCIAL)} className="hover:text-green-600 transition-colors">Responsabilidade Social</button></li>
-                                <li><button onClick={() => onNavigate?.(AppMode.PUBLIC_REPORTS)} className="hover:text-green-600 transition-colors">Relatórios</button></li>
-                                <li><button onClick={() => onNavigate?.(AppMode.PUBLIC_INDICATORS)} className="hover:text-green-600 transition-colors">Indicadores</button></li>
-                            </ul>
-                        </div>
-
-                        <div>
-                            <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-black/30 mb-8">Links Rápidos</h4>
-                            <ul className="space-y-4 text-sm font-bold">
-                                <li><a href="#" className="hover:text-green-600 transition-colors">Governança</a></li>
-                                <li><a href="#" className="hover:text-green-600 transition-colors">Compliance</a></li>
-                                <li><a href="#" className="hover:text-green-600 transition-colors">Trabalhe Conosco</a></li>
-                            </ul>
-                        </div>
-
-                        <div>
-                            <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-black/30 mb-8">Conexão</h4>
-                            <div className="flex gap-4">
-                                <div className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center cursor-pointer hover:bg-black hover:text-white transition-all"><Globe size={18} /></div>
-                                <div className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center cursor-pointer hover:bg-black hover:text-white transition-all"><ShieldCheck size={18} /></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="pt-10 border-t border-gray-200 dark:border-white/10 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-black uppercase tracking-widest text-black/30">
-                        <div>&copy; 2026 EMAP - Todos os direitos reservados.</div>
-                        <div className="flex gap-8">
-                            <a href="#" className="hover:text-black">Privacidade</a>
-                            <a href="#" className="hover:text-black">Termos de Uso</a>
-                        </div>
-                    </div>
-                </div>
-            </footer>
+            <Footer onNavigate={onNavigate} />
         </div>
     );
 };
