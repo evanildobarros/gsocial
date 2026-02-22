@@ -1,11 +1,15 @@
 import React from 'react';
 import { ArrowLeft, FileText, Download, ShieldCheck, Search, ChevronRight } from 'lucide-react';
 
+import { Footer } from '../esg/Footer';
+import { AppMode } from '../../types';
+
 interface PublicPageProps {
     onBack: () => void;
+    onNavigate?: (mode: AppMode) => void;
 }
 
-export const PublicReports: React.FC<PublicPageProps> = ({ onBack }) => {
+export const PublicReports: React.FC<PublicPageProps> = ({ onBack, onNavigate }) => {
     const reports = [
         { title: "Relatório Integrado de Sustentabilidade", year: "2024", size: "4.4 MB", type: "GRI/ABNT", category: "Full Report" },
         { title: "Demonstrações Financeiras Auditadas", year: "2024", size: "4.5 MB", type: "Financeiro", category: "Audit" },
@@ -94,6 +98,8 @@ export const PublicReports: React.FC<PublicPageProps> = ({ onBack }) => {
                     </div>
                 </div>
             </section>
+
+            <Footer onNavigate={onNavigate} />
         </div>
     );
 };
