@@ -54,7 +54,7 @@ export const PublicSocial: React.FC<PublicPageProps> = ({ onBack, onNavigate }) 
                 <div className="container mx-auto">
                     <div className="grid lg:grid-cols-2 gap-20 items-center">
                          <div className="relative order-2 lg:order-1">
-                            <div className="aspect-[4/5] bg-orange-500 rounded-[80px] p-12 text-white flex flex-col justify-between shadow-2xl relative overflow-hidden group text-left">
+                            <div className="aspect-[4/5] bg-orange-500 rounded-[40px] md:rounded-[60px] p-12 text-white flex flex-col justify-between shadow-2xl relative overflow-hidden group text-left">
                                 <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform duration-700">
                                     <Coins size={200} />
                                 </div>
