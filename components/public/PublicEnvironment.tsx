@@ -107,10 +107,10 @@ export const PublicEnvironment: React.FC<PublicPageProps> = ({ onBack, onNavigat
                             </div>
                         </div>
                         <div className="relative">
-                            <div className="aspect-square bg-slate-100 rounded-[80px] overflow-hidden shadow-2xl relative group">
+                            <div className="aspect-square bg-slate-100 rounded-[40px] md:rounded-[60px] overflow-hidden shadow-2xl relative group">
                                 <div className="absolute inset-0 bg-blue-600/10 group-hover:bg-transparent transition-colors duration-700 z-10" />
                                 <img src="/images/hero-port.jpg" alt="Monitoramento" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
-                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] p-6 bg-white/95 backdrop-blur-md rounded-3xl border border-gray-100 shadow-2xl z-20">
+                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] p-6 bg-white/95 backdrop-blur-md rounded-2xl border border-gray-100 shadow-2xl z-20">
                                     <div className="flex items-start gap-4">
                                         <div className="relative shrink-0 mt-1">
                                             <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse absolute -left-1 -top-1" />
