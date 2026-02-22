@@ -247,10 +247,10 @@ export default function App() {
     const getComponent = () => {
         switch (mode) {
             case AppMode.DASHBOARD: return <Dashboard />;
-            case AppMode.PUBLIC_ENVIRONMENT: return <PublicEnvironment onBack={() => setMode(AppMode.DASHBOARD)} />;
-            case AppMode.PUBLIC_SOCIAL: return <PublicSocial onBack={() => setMode(AppMode.DASHBOARD)} />;
-            case AppMode.PUBLIC_REPORTS: return <PublicReports onBack={() => setMode(AppMode.DASHBOARD)} />;
-            case AppMode.PUBLIC_INDICATORS: return <PublicIndicators onBack={() => setMode(AppMode.DASHBOARD)} />;
+            case AppMode.PUBLIC_ENVIRONMENT: return <PublicEnvironment onBack={() => setMode(AppMode.DASHBOARD)} onNavigate={(m) => setMode(m)} />;
+            case AppMode.PUBLIC_SOCIAL: return <PublicSocial onBack={() => setMode(AppMode.DASHBOARD)} onNavigate={(m) => setMode(m)} />;
+            case AppMode.PUBLIC_REPORTS: return <PublicReports onBack={() => setMode(AppMode.DASHBOARD)} onNavigate={(m) => setMode(m)} />;
+            case AppMode.PUBLIC_INDICATORS: return <PublicIndicators onBack={() => setMode(AppMode.DASHBOARD)} onNavigate={(m) => setMode(m)} />;
             case AppMode.PROJECTS: return (
                 <ProjectList
                     onAddNew={() => { setSelectedProject(null); setMode(AppMode.NEW_SOCIAL_PROJECT); }}
