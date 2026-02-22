@@ -37,14 +37,14 @@ export const PublicReports: React.FC<PublicPageProps> = ({ onBack, onNavigate })
 
             {/* Hero */}
             <section className="relative pt-32 md:pt-40 pb-20 px-6 bg-black text-white overflow-hidden">
-                {/* Background Image */}
+                {/* Background Image: Abstract Data/Charts */}
                 <div className="absolute inset-0 z-0">
                     <img
-                        src="/images/hero-port.jpg"
-                        alt="Background Corporativo"
-                        className="w-full h-full object-cover opacity-40"
+                        src="https://images.unsplash.com/photo-1551288049-bbbda5366392?auto=format&fit=crop&q=80&w=2000"
+                        alt="Data Visualization Background"
+                        className="w-full h-full object-cover opacity-30"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black"></div>
+                    <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black"></div>
                 </div>
                 <div className="container mx-auto relative z-10">
                     <div className="flex flex-col lg:flex-row gap-12 md:gap-16 items-center text-center lg:text-left">
