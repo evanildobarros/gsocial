@@ -79,6 +79,7 @@ import { GovernanceDiagnosticForm } from './components/governance/GovernanceDiag
 import { Breadcrumb } from './components/Breadcrumb';
 import SocialProjectForm from './components/social/SocialProjectForm';
 import { NotificationCenter } from './components/strategic/NotificationCenter';
+import { AccessibilityMenu } from './components/strategic/AccessibilityMenu';
 
 // Componente NavItem
 interface NavItemProps {
@@ -372,6 +373,7 @@ export default function App() {
         <div className="flex h-screen overflow-hidden bg-gray-50 dark:bg-zinc-950 font-sans transition-colors relative text-black">
             <div className="absolute inset-0 bg-happiness-bg-tint/30 pointer-events-none" />
             <ToastContainer />
+            <AccessibilityMenu />
             {sidebarOpen && (<div className="fixed inset-0 bg-black/50 z-40 lg:hidden" onClick={() => setSidebarOpen(false)} />)}
             <aside className={`fixed left-0 top-0 h-full bg-white dark:bg-[#1C1C1C] text-black dark:text-white transition-all duration-300 ease-in-out z-50 flex flex-col border-r border-gray-200 dark:border-white/5 ${sidebarOpen ? 'w-80 translate-x-0' : 'w-24 -translate-x-full lg:translate-x-0'}`}>
                 <div className={`h-24 flex items-center px-8 transition-all duration-300 ${sidebarOpen ? 'justify-between' : 'justify-center'}`}>

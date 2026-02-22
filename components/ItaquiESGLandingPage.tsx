@@ -7,8 +7,8 @@ import { HeroSection } from './esg/HeroSection';
 import { BentoCommitments } from './esg/BentoCommitments';
 import { TransparencySection } from './esg/TransparencySection';
 import { NewsSection } from './esg/NewsSection';
-
 import { Footer } from './esg/Footer';
+import { AccessibilityMenu } from './strategic/AccessibilityMenu';
 
 interface ItaquiESGLandingPageProps {
     onLoginClick?: () => void;
@@ -41,21 +41,11 @@ export const ItaquiESGLandingPage: React.FC<ItaquiESGLandingPageProps> = ({ onLo
 
     return (
         <div ref={containerRef} className="h-screen overflow-y-auto bg-white dark:bg-black font-sans text-black dark:text-white selection:bg-green-100 scroll-smooth">
-            
-            {/* Accessibility Bar */}
-            <div className={`fixed top-0 w-full z-[60] py-2 bg-black text-white text-[10px] font-black uppercase tracking-widest px-8 flex justify-end gap-6 transition-all ${scrolled ? 'translate-y-[-100%]' : 'translate-y-0'}`}>
-                <div className="flex items-center gap-4 border-r border-white/20 pr-6">
-                    <button onClick={() => setFontSize(prev => Math.min(prev + 10, 150))} className="hover:text-green-400 transition-colors px-2 py-1">Aumentar Fonte</button>
-                    <button onClick={() => setFontSize(prev => Math.max(prev - 10, 80))} className="hover:text-green-400 transition-colors px-2 py-1">Diminuir Fonte</button>
-                </div>
-                <button onClick={() => setContrast(!contrast)} className="flex items-center gap-2 hover:text-green-400 transition-colors px-2 py-1">
-                    <div className={`w-3 h-3 rounded-full border border-white ${contrast ? 'bg-white' : 'bg-black'}`}></div>
-                    Contraste
-                </button>
-            </div>
+            <AccessibilityMenu />
+            {/* Accessibility Bar (Old removed, using floating Menu) */}
 
             {/* Header / Navbar */}
-            <header className={`fixed w-full z-50 transition-all duration-500 ${scrolled ? 'bg-white/95 dark:bg-black/95 backdrop-blur-xl border-b border-gray-100 dark:border-white/5 py-4' : 'bg-transparent py-8 top-10'}`}>
+            <header className={`fixed w-full z-50 transition-all duration-500 ${scrolled ? 'bg-white/95 dark:bg-black/95 backdrop-blur-xl border-b border-gray-100 dark:border-white/5 py-4' : 'bg-transparent py-8 top-0'}`}>
                 <div className="container mx-auto px-6 md:px-8 flex items-center justify-between">
                     <div className="flex items-center gap-4 cursor-pointer">
                         <img 
