@@ -1,11 +1,14 @@
 import React from 'react';
 import { ArrowLeft, Users, ShieldAlert, Coins, MapPin, Heart, Handshake, ChevronRight, GraduationCap } from 'lucide-react';
+import { Footer } from '../esg/Footer';
+import { AppMode } from '../../types';
 
 interface PublicPageProps {
     onBack: () => void;
+    onNavigate?: (mode: AppMode) => void;
 }
 
-export const PublicSocial: React.FC<PublicPageProps> = ({ onBack }) => {
+export const PublicSocial: React.FC<PublicPageProps> = ({ onBack, onNavigate }) => {
     return (
         <div className="h-screen overflow-y-auto bg-white text-black font-sans selection:bg-orange-100 scroll-smooth">
             {/* Nav */}
@@ -36,11 +39,11 @@ export const PublicSocial: React.FC<PublicPageProps> = ({ onBack }) => {
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-500/20 border border-orange-500/30 text-orange-400 text-[10px] font-black uppercase tracking-widest mb-8">
                         <Heart size={14} /> Impacto Humano
                     </div>
-                    <h1 className="text-4xl sm:text-6xl md:text-9xl font-black tracking-tighter leading-[0.9] mb-8 animate-fade-in-up">
+                    <h1 className="text-6xl md:text-9xl font-black tracking-tighter leading-[0.9] mb-8 animate-fade-in-up">
                         CRESCER JUNTO <br/>
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-300">COM A CIDADE.</span>
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-300 text-white">COM A CIDADE.</span>
                     </h1>
-                    <p className="text-lg md:text-2xl font-medium text-white/70 max-w-3xl mx-auto leading-relaxed mb-12">
+                    <p className="text-xl md:text-2xl font-medium text-white/70 max-w-3xl mx-auto leading-relaxed mb-12">
                         Transformando a força logística do Porto do Itaqui em desenvolvimento para 155 mil pessoas do Itaqui-Bacanga.
                     </p>
                 </div>
@@ -68,10 +71,10 @@ export const PublicSocial: React.FC<PublicPageProps> = ({ onBack }) => {
                                 </div>
                             </div>
                         </div>
-                        <div className="space-y-10 order-1 lg:order-2 text-left">
+                        <div className="space-y-10 order-1 lg:order-2 text-left text-black">
                             <div className="space-y-4">
                                 <span className="text-xs font-black text-orange-600 uppercase tracking-widest">GRI 400 Standards</span>
-                                <h2 className="text-5xl md:text-6xl font-black tracking-tighter leading-tight">Um compromisso com a dignidade.</h2>
+                                <h2 className="text-5xl md:text-6xl font-black tracking-tighter leading-tight text-black">Um compromisso com a dignidade.</h2>
                                 <p className="text-lg font-medium text-black/70 leading-relaxed">
                                     Nossa estratégia social é baseada no respeito às populações tradicionais e no combate severo a qualquer forma de trabalho escravo ou infantil em nossa cadeia de suprimentos.
                                 </p>
@@ -108,6 +111,8 @@ export const PublicSocial: React.FC<PublicPageProps> = ({ onBack }) => {
                     </div>
                 </div>
             </section>
+
+            <Footer onNavigate={onNavigate} />
         </div>
     );
 };

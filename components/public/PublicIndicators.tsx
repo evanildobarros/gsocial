@@ -1,11 +1,14 @@
 import React from 'react';
 import { ArrowLeft, BarChart3, Activity, Zap, Coins, Info, ShieldCheck } from 'lucide-react';
+import { Footer } from '../esg/Footer';
+import { AppMode } from '../../types';
 
 interface PublicPageProps {
     onBack: () => void;
+    onNavigate?: (mode: AppMode) => void;
 }
 
-export const PublicIndicators: React.FC<PublicPageProps> = ({ onBack }) => {
+export const PublicIndicators: React.FC<PublicPageProps> = ({ onBack, onNavigate }) => {
     return (
         <div className="h-screen overflow-y-auto bg-white text-black font-sans selection:bg-purple-100 scroll-smooth">
             {/* Nav */}
@@ -36,7 +39,7 @@ export const PublicIndicators: React.FC<PublicPageProps> = ({ onBack }) => {
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-purple-300 text-[10px] font-black uppercase tracking-widest mb-8">
                         <BarChart3 size={14} /> Performance Estratégica
                     </div>
-                    <h1 className="text-4xl sm:text-6xl md:text-9xl font-black tracking-tighter leading-[0.9] mb-8 animate-fade-in-up">
+                    <h1 className="text-6xl md:text-9xl font-black tracking-tighter leading-[0.9] mb-8 animate-fade-in-up">
                         DADOS QUE <br/>
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-300 text-white">GERAM IMPACTO.</span>
                     </h1>
@@ -53,7 +56,7 @@ export const PublicIndicators: React.FC<PublicPageProps> = ({ onBack }) => {
                         <div className="lg:w-2/5 space-y-8">
                             <span className="text-xs font-black text-purple-600 uppercase tracking-widest">Metodologia ESRS</span>
                             <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-tight text-black">Dupla Materialidade.</h2>
-                            <p className="text-lg font-medium text-black/70 leading-relaxed">
+                            <p className="text-lg font-medium text-black/70 leading-relaxed text-black">
                                 Avaliamos não apenas como as questões ESG impactam o financeiro da empresa, mas como nossas operações transformam o ambiente e a sociedade.
                             </p>
                             <div className="p-8 bg-purple-50 rounded-[40px] border border-purple-100 flex items-start gap-4">
@@ -98,6 +101,8 @@ export const PublicIndicators: React.FC<PublicPageProps> = ({ onBack }) => {
                     </div>
                 </div>
             </section>
+
+            <Footer onNavigate={onNavigate} />
         </div>
     );
 };
