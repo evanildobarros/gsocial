@@ -94,14 +94,14 @@ export const ItaquiESGLandingPage: React.FC<ItaquiESGLandingPageProps> = ({ onLo
 
                 {/* Mobile Menu Overlay */}
                 {mobileMenuOpen && (
-                    <div className="lg:hidden fixed inset-0 z-[100] bg-white dark:bg-black animate-in fade-in duration-300">
-                        <div className="p-8 flex justify-between items-center border-b border-gray-100 dark:border-white/5">
-                            <img src="/logo_itaqui.png" alt="Porto do Itaqui" className="h-8 w-auto dark:invert" />
+                    <div className="lg:hidden fixed inset-0 z-[200] bg-white dark:bg-zinc-950 animate-in slide-in-from-top duration-500">
+                        <div className="p-8 flex justify-between items-center border-b border-gray-100 dark:border-white/5 bg-white dark:bg-zinc-950">
+                            <img src="/logo_itaqui.png" alt="Porto do Itaqui" className="h-10 w-auto dark:invert" />
                             <button onClick={() => setMobileMenuOpen(false)} className="p-2 text-black dark:text-white">
                                 <X size={32} />
                             </button>
                         </div>
-                        <div className="p-8 flex flex-col gap-8">
+                        <div className="p-8 flex flex-col gap-10 bg-white dark:bg-zinc-950 h-full">
                             {['Compromissos', 'Transparência', 'Notícias'].map((item) => (
                                 <button
                                     key={item}
@@ -110,7 +110,7 @@ export const ItaquiESGLandingPage: React.FC<ItaquiESGLandingPageProps> = ({ onLo
                                         const id = item.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
                                         document.getElementById(id === 'compromissos' ? 'sobre' : id === 'transparencia' ? 'relatorios' : 'noticias')?.scrollIntoView({ behavior: 'smooth' });
                                     }}
-                                    className="text-3xl font-black uppercase tracking-tighter text-left hover:text-green-600 transition-colors"
+                                    className="text-4xl font-black uppercase tracking-tighter text-left text-black dark:text-white hover:text-green-600 transition-all active:scale-95"
                                 >
                                     {item}
                                 </button>
@@ -118,7 +118,7 @@ export const ItaquiESGLandingPage: React.FC<ItaquiESGLandingPageProps> = ({ onLo
                             <div className="h-px bg-gray-100 dark:bg-white/10 w-full" />
                             <button
                                 onClick={() => { setMobileMenuOpen(false); onLoginClick?.(); }}
-                                className="w-full bg-green-600 text-white py-6 rounded-3xl font-black text-sm uppercase tracking-widest"
+                                className="w-full bg-green-600 text-white py-6 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-green-600/20 active:scale-95 transition-transform"
                             >
                                 Acesso Restrito
                             </button>
