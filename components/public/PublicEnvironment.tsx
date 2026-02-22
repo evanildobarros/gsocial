@@ -26,24 +26,24 @@ export const PublicEnvironment: React.FC<PublicPageProps> = ({ onBack, onNavigat
             </nav>
 
             {/* Section 1: Hero with Background */}
-            <section className="relative h-[90vh] flex items-center justify-center overflow-hidden bg-black text-white">
+            <section className="relative h-[60vh] flex items-center justify-center overflow-hidden bg-black text-white">
                 <div className="absolute inset-0 z-0">
                     <img
                         src="/images/news-mangrove.jpg"
                         alt="Manguezais da Baía de São Marcos"
-                        className="w-full h-full object-cover opacity-60"
+                        className="w-full h-full object-cover opacity-60 transition-transform duration-[10000ms] hover:scale-110"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black"></div>
+                    <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/20 to-black"></div>
                 </div>
                 <div className="container mx-auto px-6 relative z-10 text-center">
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/20 border border-green-500/30 text-green-400 text-[10px] font-black uppercase tracking-widest mb-8">
                         <Leaf size={14} /> Resiliência Climática
                     </div>
-                    <h1 className="text-4xl sm:text-6xl md:text-9xl font-black tracking-tighter leading-[0.9] mb-8 animate-fade-in-up">
+                    <h1 className="text-5xl md:text-8xl font-black tracking-tighter leading-[0.9] mb-8 animate-fade-in-up">
                         PROTEGENDO O <br/>
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-300 text-white">NOSSO ECOSSISTEMA.</span>
                     </h1>
-                    <p className="text-lg md:text-2xl font-medium text-white/70 max-w-3xl mx-auto leading-relaxed mb-12">
+                    <p className="text-lg md:text-xl font-medium text-white/70 max-w-3xl mx-auto leading-relaxed mb-12">
                         Compromisso com a descarbonização acelerada e a preservação da Baía de São Marcos.
                     </p>
                 </div>
@@ -78,42 +78,9 @@ export const PublicEnvironment: React.FC<PublicPageProps> = ({ onBack, onNavigat
                     </div>
 
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                        {/* Pilar G */}
-                        <StrategicPillarCard 
-                            letter="G"
-                            title="Governança: Transparência e Gestão de Riscos"
-                            color="text-blue-600"
-                            items={[
-                                { t: "Transparência e Prestação de Contas", d: "Geração automatizada de dados para relatórios nos padrões globais." },
-                                { t: "Compliance e Ética", d: "Canais seguros para inibir corrupção, discriminação e assédio." },
-                                { t: "Gestão de Riscos Integrada", d: "Riscos climáticos, sociais e LGPD na matriz de risco corporativo." }
-                            ]}
-                            recommendation="Utilize os dados gerados pela plataforma para fundamentar a criação de uma Diretoria de Sustentabilidade independente."
-                        />
-
-                        {/* Pilar E */}
-                        <StrategicPillarCard 
-                            letter="E"
-                            title="Ambiental: Descarbonização e Adaptação Climática"
-                            color="text-green-600"
-                            items={[
-                                { t: "Descarbonização Inteligente", d: "Dados para transição energética e eletrificação da frota." },
-                                { t: "Adaptação e Resiliência", d: "Avaliação contínua da vulnerabilidade da infraestrutura portuária." },
-                                { t: "Gestão de Recursos", d: "Monitorização em tempo real da qualidade da água e sedimentos." }
-                            ]}
-                        />
-
-                        {/* Pilar S */}
-                        <StrategicPillarCard 
-                            letter="S"
-                            title="Social: Impacto Real e Relação Porto-Cidade"
-                            color="text-orange-600"
-                            items={[
-                                { t: "Combate ao Social Washing", d: "Métricas rigorosas que exigem dados demográficos reais." },
-                                { t: "Relação Porto-Cidade", d: "Monitorização do impacto em comunidades tradicionais e quilombolas." },
-                                { t: "Direitos Humanos", d: "Rastreabilidade completa para erradicação do trabalho infantil na cadeia." }
-                            ]}
-                        />
+                        <StrategicPillarCard letter="G" title="Governança: Transparência e Gestão de Riscos" color="text-blue-600" items={[{ t: "Transparência e Prestação de Contas", d: "Geração automatizada de dados para relatórios nos padrões globais." }, { t: "Compliance e Ética", d: "Canais seguros para inibir corrupção, discriminação e assédio." }, { t: "Gestão de Riscos Integrada", d: "Riscos climáticos, sociais e LGPD na matriz de risco corporativo." }]} recommendation="Utilize os dados gerados pela plataforma para fundamentar a criação de uma Diretoria de Sustentabilidade independente." />
+                        <StrategicPillarCard letter="E" title="Ambiental: Descarbonização e Adaptação Climática" color="text-green-600" items={[{ t: "Descarbonização Inteligente", d: "Dados para transição energética e eletrificação da frota." }, { t: "Adaptação e Resiliência", d: "Avaliação contínua da vulnerabilidade da infraestrutura portuária." }, { t: "Gestão de Recursos", d: "Monitorização em tempo real da qualidade da água e sedimentos." }]} />
+                        <StrategicPillarCard letter="S" title="Social: Impacto Real e Relação Porto-Cidade" color="text-orange-600" items={[{ t: "Combate ao Social Washing", d: "Métricas rigorosas que exigem dados demográficos reais." }, { t: "Relação Porto-Cidade", d: "Monitorização do impacto em comunidades tradicionais e quilombolas." }, { t: "Direitos Humanos", d: "Rastreabilidade completa para erradicação do trabalho infantil na cadeia." }]} />
                     </div>
                 </div>
             </section>
@@ -121,10 +88,10 @@ export const PublicEnvironment: React.FC<PublicPageProps> = ({ onBack, onNavigat
             {/* Section 2: TCFD & Adaptation */}
             <section className="py-32 px-6 bg-white">
                 <div className="container mx-auto text-left">
-                    <div className="grid lg:grid-cols-2 gap-20 items-center text-left">
-                        <div className="space-y-8 text-left">
-                            <span className="text-xs font-black text-green-600 uppercase tracking-widest">Adaptação Costeira (TCFD)</span>
-                            <h2 className="text-5xl md:text-6xl font-black tracking-tighter leading-tight text-black">Infraestrutura preparada para o futuro.</h2>
+                    <div className="grid lg:grid-cols-2 gap-20 items-center text-left text-black">
+                        <div className="space-y-8 text-left text-black">
+                            <span className="text-xs font-black text-green-600 uppercase tracking-widest text-left">Adaptação Costeira (TCFD)</span>
+                            <h2 className="text-5xl md:text-6xl font-black tracking-tighter leading-tight text-black text-left">Infraestrutura preparada para o futuro.</h2>
                             <p className="text-lg font-medium text-black/70 leading-relaxed text-left text-black">
                                 Monitoramos em tempo real a elevação do nível do mar e os riscos físicos das operações. Nosso plano de adaptação garante a continuidade logística mesmo em cenários climáticos extremos.
                             </p>
@@ -141,61 +108,16 @@ export const PublicEnvironment: React.FC<PublicPageProps> = ({ onBack, onNavigat
                         </div>
                         <div className="relative">
                             <div className="aspect-square bg-slate-100 rounded-[80px] overflow-hidden shadow-2xl relative group">
-                                <div className="absolute inset-0 bg-blue-600/10 group-hover:bg-transparent transition-colors duration-700" />
+                                <div className="absolute inset-0 bg-blue-600/10 group-hover:bg-transparent transition-colors duration-700 z-10" />
                                 <img src="/images/hero-port.jpg" alt="Monitoramento" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
-                                <div className="absolute bottom-10 left-10 right-10 p-8 bg-white/90 backdrop-blur-md rounded-3xl border border-gray-100 shadow-2xl text-left">
-                                    <div className="flex items-center gap-3 mb-2 text-black">
-                                        <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-                                        <span className="text-[10px] font-black uppercase tracking-widest text-black">Live Vulnerability Feed</span>
+                                <div className="absolute bottom-10 left-10 right-10 p-8 bg-white/90 backdrop-blur-md rounded-3xl border border-gray-100 shadow-2xl text-left z-20">
+                                    <div className="flex items-center gap-3 mb-2 text-black text-left">
+                                        <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse text-left" />
+                                        <span className="text-[10px] font-black uppercase tracking-widest text-black text-left">Live Vulnerability Feed</span>
                                     </div>
-                                    <p className="text-sm font-bold text-black italic">Variação de maré e pressão atmosférica monitoradas 24/7.</p>
+                                    <p className="text-sm font-bold text-black italic text-left">Variação de maré e pressão atmosférica monitoradas 24/7.</p>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Section 3: Energy Transition with Background */}
-            <section className="relative py-40 px-6 bg-black text-white overflow-hidden text-left">
-                <div className="absolute inset-0 z-0">
-                    <img src="/images/news-solar.jpg" alt="Energia Solar" className="w-full h-full object-cover opacity-40" />
-                    <div className="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-transparent"></div>
-                </div>
-                <div className="container mx-auto relative z-10 text-left">
-                    <div className="max-w-2xl space-y-8 text-left">
-                        <span className="text-xs font-black text-green-400 uppercase tracking-widest text-left">Transição Energética</span>
-                        <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-tight text-white text-left">Matriz 100% Limpa até 2025.</h2>
-                        <p className="text-xl text-white/70 font-medium leading-relaxed text-left">
-                            Estamos substituindo toda a nossa matriz de consumo por fontes renováveis e atingindo a meta de iluminação LED em 100% das áreas operacionais.
-                        </p>
-                        <div className="flex gap-6 text-left">
-                            <div className="flex items-center gap-3 text-white text-left">
-                                <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center"><Zap className="text-yellow-400" /></div>
-                                <span className="font-bold text-white">Eficiência Energética</span>
-                            </div>
-                            <div className="flex items-center gap-3 text-white text-left">
-                                <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center"><ShieldCheck className="text-green-400" /></div>
-                                <span className="font-bold text-white">Selo Ouro GHG Protocol</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Section 4: Operational Badges */}
-            <section className="py-32 bg-slate-50 px-6 text-left">
-                <div className="container mx-auto">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 text-left">
-                        <div className="p-12 rounded-[50px] bg-white border border-gray-100 shadow-xl hover:-translate-y-2 transition-all group text-left">
-                            <Waves size={48} className="text-blue-600 mb-8 group-hover:scale-110 transition-transform" />
-                            <h3 className="text-3xl font-black mb-4 text-black text-left">Água de Lastro Controlada</h3>
-                            <p className="text-lg text-black/60 font-medium leading-relaxed text-left">Controle rigoroso de espécies exóticas e salinidade para proteger a biodiversidade marinha da Baía de São Marcos.</p>
-                        </div>
-                        <div className="p-12 rounded-[50px] bg-white border border-gray-100 shadow-xl hover:-translate-y-2 transition-all group text-left">
-                            <Wind size={48} className="text-green-600 mb-8 group-hover:scale-110 transition-transform" />
-                            <h3 className="text-3xl font-black mb-4 text-black text-left">Economia Circular</h3>
-                            <p className="text-lg text-black/60 font-medium leading-relaxed text-left">Programa Aterro Zero e rastreabilidade total de resíduos através dos certificados MTR e CDF.</p>
                         </div>
                     </div>
                 </div>
@@ -221,11 +143,10 @@ const StrategicPillarCard = ({ letter, title, color, items, recommendation }: an
                     ))}
                 </div>
             </div>
-
             {recommendation && (
                 <div className="mt-auto pt-8 border-t border-gray-100 text-left">
                     <div className="flex gap-4 items-start p-6 bg-blue-50 rounded-3xl border border-blue-100 text-left">
-                        <Target className="text-blue-600 shrink-0" size={18} />
+                        <Target className="text-blue-600 shrink-0 text-left" size={18} />
                         <div className="text-left">
                             <span className="text-[9px] font-black uppercase text-blue-400 tracking-widest block mb-1 text-left">Recomendação do Consultor</span>
                             <p className="text-xs font-bold text-blue-900 italic leading-relaxed text-left">"{recommendation}"</p>

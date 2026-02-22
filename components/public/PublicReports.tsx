@@ -1,6 +1,5 @@
 import React from 'react';
 import { ArrowLeft, FileText, Download, ShieldCheck, Search, ChevronRight } from 'lucide-react';
-
 import { Footer } from '../esg/Footer';
 import { AppMode } from '../../types';
 
@@ -20,7 +19,7 @@ export const PublicReports: React.FC<PublicPageProps> = ({ onBack, onNavigate })
     ];
 
     return (
-        <div className="h-screen overflow-y-auto bg-white text-black font-sans selection:bg-blue-100 scroll-smooth">
+        <div className="min-h-screen h-screen overflow-y-auto bg-white text-black font-sans selection:bg-blue-100 scroll-smooth">
             {/* Nav */}
             <nav className="fixed w-full z-50 bg-white/80 backdrop-blur-xl border-b border-gray-100 py-4 px-6 flex items-center justify-between">
                 <div className="flex items-center gap-3">
@@ -29,35 +28,34 @@ export const PublicReports: React.FC<PublicPageProps> = ({ onBack, onNavigate })
                 </div>
                 <button 
                     onClick={onBack}
-                    className="flex items-center gap-2 px-4 py-2 rounded-full bg-black text-white text-xs font-bold hover:scale-105 transition-all shadow-lg"
+                    className="flex items-center gap-2 px-6 py-2 rounded-full bg-black text-white text-xs font-bold hover:scale-105 transition-all shadow-lg"
                 >
                     <ArrowLeft size={14} /> Voltar ao Portal
                 </button>
             </nav>
 
-            {/* Hero */}
-            <section className="relative pt-32 md:pt-40 pb-20 px-6 bg-black text-white overflow-hidden">
-                {/* Background Image: Abstract Data/Charts */}
+            {/* Hero Section: Dark Immersive */}
+            <section className="relative h-[80vh] flex items-center justify-center bg-black text-white overflow-hidden">
                 <div className="absolute inset-0 z-0">
                     <img
-                        src="https://images.unsplash.com/photo-1551288049-bbbda5366392?auto=format&fit=crop&q=80&w=2000"
-                        alt="Data Visualization Background"
-                        className="w-full h-full object-cover opacity-30"
+                        src="/images/hero-port.jpg"
+                        alt="Porto do Itaqui Background"
+                        className="w-full h-full object-cover opacity-50 transition-transform duration-[10000ms] hover:scale-110"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black"></div>
+                    <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black"></div>
                 </div>
-                <div className="container mx-auto relative z-10">
+                <div className="container mx-auto px-6 relative z-10 text-center">
                     <div className="flex flex-col lg:flex-row gap-12 md:gap-16 items-center text-center lg:text-left">
-                        <div className="flex-1 space-y-6 md:space-y-8">
+                        <div className="flex-1 space-y-6 md:space-y-8 text-center lg:text-left">
                             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/20 border border-blue-500/30 text-blue-400 text-[10px] font-black uppercase tracking-widest mx-auto lg:mx-0">
                                 <ShieldCheck size={14} /> Governança & Reporte
                             </div>
-                            <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[1.0] text-white">
+                            <h1 className="text-5xl md:text-8xl font-black tracking-tighter leading-[0.9] text-white">
                                 ÉTICA E <br/>
                                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-300">TRANSPARÊNCIA.</span>
                             </h1>
                             <p className="text-lg md:text-xl font-medium text-white/60 max-w-xl leading-relaxed mx-auto lg:mx-0">
-                                Biblioteca centralizada de documentos oficiais, auditorias independentes e políticas corporativas.
+                                Biblioteca centralizada de documentos oficiais, auditorias independentes e políticas corporativas do Porto do Itaqui.
                             </p>
                         </div>
                         <div className="flex-1 w-full max-w-md">
@@ -107,7 +105,7 @@ export const PublicReports: React.FC<PublicPageProps> = ({ onBack, onNavigate })
 const ReportItem = ({ title, year, size, type, category }: any) => (
     <div className="p-8 rounded-[40px] border border-gray-100 bg-white hover:border-blue-600 hover:shadow-2xl transition-all group cursor-pointer flex flex-col justify-between h-full text-left">
         <div>
-            <div className="flex justify-between items-start mb-6">
+            <div className="flex justify-between items-start mb-6 text-left">
                 <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center">
                     <FileText size={24} />
                 </div>
@@ -116,11 +114,11 @@ const ReportItem = ({ title, year, size, type, category }: any) => (
                     <span className="text-[10px] font-black uppercase text-blue-600 block">{category}</span>
                 </div>
             </div>
-            <h4 className="text-xl font-bold text-slate-900 leading-tight mb-4 group-hover:text-blue-600 transition-colors">{title}</h4>
+            <h4 className="text-xl font-bold text-slate-900 leading-tight mb-4 group-hover:text-blue-600 transition-colors text-left">{title}</h4>
         </div>
         <div className="pt-6 border-t border-gray-50 flex justify-between items-center text-left">
             <span className="text-[10px] font-black uppercase text-black/40">{type} • {size}</span>
-            <div className="flex items-center gap-2 text-blue-600 font-black text-[10px] uppercase tracking-widest">
+            <div className="flex items-center gap-2 text-blue-600 font-black text-[10px] uppercase tracking-widest text-left">
                 Download <Download size={14} />
             </div>
         </div>
