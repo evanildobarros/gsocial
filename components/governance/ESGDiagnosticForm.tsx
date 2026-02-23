@@ -258,14 +258,14 @@ export const ESGDiagnosticForm: React.FC<ESGDiagnosticFormProps> = ({ initialTab
                                     key={opt.value}
                                     onClick={() => handleAnswerChange(q.id, opt.value)}
                                     className={`p-4 rounded-3xl border cursor-pointer transition-all hover:border-happiness-1 ${answers[q.id] === opt.value
-                                            ? 'bg-happiness-1/5 border-happiness-1'
-                                            : 'bg-transparent border-gray-100 dark:border-white/5'
+                                        ? 'bg-happiness-1/5 border-happiness-1'
+                                        : 'bg-transparent border-gray-100 dark:border-white/5'
                                         }`}
                                 >
                                     <label className="flex items-center gap-3 cursor-pointer">
                                         <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${answers[q.id] === opt.value
-                                                ? 'border-happiness-1 bg-happiness-1'
-                                                : 'border-gray-300 dark:border-gray-600'
+                                            ? 'border-happiness-1 bg-happiness-1'
+                                            : 'border-gray-300 dark:border-gray-600'
                                             }`}>
                                             {answers[q.id] === opt.value && (
                                                 <div className="w-2 h-2 rounded-full bg-white" />
@@ -335,8 +335,8 @@ export const ESGDiagnosticForm: React.FC<ESGDiagnosticFormProps> = ({ initialTab
                                 key={type.id}
                                 onClick={() => setOperationType(type.id)}
                                 className={`flex items-center gap-3 p-4 rounded-2xl border transition-all text-left ${operationType === type.id
-                                        ? 'bg-happiness-1 border-happiness-1 text-white shadow-lg scale-[1.02]'
-                                        : 'border-gray-100 dark:border-white/5 hover:border-gray-300 dark:hover:border-white/10'
+                                    ? 'bg-happiness-1 border-happiness-1 text-white shadow-lg scale-[1.02]'
+                                    : 'border-gray-100 dark:border-white/5 hover:border-gray-300 dark:hover:border-white/10'
                                     }`}
                             >
                                 <Icon size={20} className={operationType === type.id ? 'text-white' : 'text-happiness-1'} />
@@ -356,8 +356,8 @@ export const ESGDiagnosticForm: React.FC<ESGDiagnosticFormProps> = ({ initialTab
                             <button
                                 onClick={() => setTabIndex(0)}
                                 className={`flex-1 py-4 px-6 flex items-center justify-center gap-2 text-sm font-bold transition-colors ${tabIndex === 0
-                                        ? 'text-happiness-1 border-b-2 border-happiness-1 bg-white dark:bg-[#1C1C1C]'
-                                        : 'text-black hover:text-black'
+                                    ? 'text-happiness-1 border-b-2 border-happiness-1 bg-white dark:bg-[#1C1C1C]'
+                                    : 'text-black hover:text-black'
                                     }`}
                             >
                                 <Leaf size={18} />
@@ -366,8 +366,8 @@ export const ESGDiagnosticForm: React.FC<ESGDiagnosticFormProps> = ({ initialTab
                             <button
                                 onClick={() => setTabIndex(1)}
                                 className={`flex-1 py-4 px-6 flex items-center justify-center gap-2 text-sm font-bold transition-colors ${tabIndex === 1
-                                        ? 'text-happiness-1 border-b-2 border-happiness-1 bg-white dark:bg-[#1C1C1C]'
-                                        : 'text-black hover:text-black'
+                                    ? 'text-happiness-1 border-b-2 border-happiness-1 bg-white dark:bg-[#1C1C1C]'
+                                    : 'text-black hover:text-black'
                                     }`}
                             >
                                 <Users size={18} />
@@ -376,8 +376,8 @@ export const ESGDiagnosticForm: React.FC<ESGDiagnosticFormProps> = ({ initialTab
                             <button
                                 onClick={() => setTabIndex(2)}
                                 className={`flex-1 py-4 px-6 flex items-center justify-center gap-2 text-sm font-bold transition-colors ${tabIndex === 2
-                                        ? 'text-happiness-1 border-b-2 border-happiness-1 bg-white dark:bg-[#1C1C1C]'
-                                        : 'text-black hover:text-black'
+                                    ? 'text-happiness-1 border-b-2 border-happiness-1 bg-white dark:bg-[#1C1C1C]'
+                                    : 'text-black hover:text-black'
                                     }`}
                             >
                                 <ShieldCheck size={18} />
@@ -441,4 +441,3 @@ export const ESGDiagnosticForm: React.FC<ESGDiagnosticFormProps> = ({ initialTab
     );
 };
 
-export default ESGDiagnosticForm;

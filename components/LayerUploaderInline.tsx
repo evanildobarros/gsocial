@@ -78,15 +78,7 @@ export const LayerUploaderInline: React.FC<LayerUploaderInlineProps> = ({ onLaye
                 color: selectedColor
             });
 
-            // Importação dinâmica para evitar dependências circulares ou problemas de inicialização
-            let client = supabaseClient;
-
-            // Fallback para garantir que o cliente exista
-            if (!client) {
-                const module = await import('@/utils/supabase');
-                client = module.supabase;
-            }
-
+            const client = supabaseClient;
             if (!client) throw new Error('Supabase client não inicializado');
 
             // SALVAR NO SUPABASE
@@ -289,4 +281,3 @@ export const LayerUploaderInline: React.FC<LayerUploaderInlineProps> = ({ onLaye
     );
 };
 
-export default LayerUploaderInline;

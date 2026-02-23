@@ -86,16 +86,7 @@ export const LayerUploadModal: React.FC<LayerUploadModalProps> = ({ open, onClos
                 color: selectedColor
             });
 
-            // Importação dinâmica para evitar dependências circulares ou problemas de inicialização
-            let client = supabaseClient;
-            
-            // Fallback para garantir que o cliente exista
-            if (!client) {
-                // Tenta carregar dinamicamente se o estático falhar
-                const module = await import('@/utils/supabase');
-                client = module.supabase;
-            }
-
+            const client = supabaseClient;
             if (!client) throw new Error('Supabase client não inicializado');
 
             // SALVAR NO SUPABASE

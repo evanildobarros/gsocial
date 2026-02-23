@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 
 import {
     Dashboard as DashboardIcon,
@@ -35,51 +35,56 @@ import { AppMode, UserProfile, Layer } from './types';
 import { supabase } from '@/utils/supabase';
 import { parseKmlToLayers } from './utils/geoUtils';
 import { showSuccess, showError } from './utils/notifications';
-import { Dashboard } from './components/Dashboard';
-import { ProjectList } from './components/ProjectList';
-import { NewProject } from './components/NewProject';
-import { UserManagement } from './components/UserManagement';
-import { UserProfilePage } from './components/UserProfile';
-import { Login } from './components/Login';
-import { CreateUser } from './components/CreateUser';
-import { LandingPage } from './components/LandingPage';
-import { KimiLandingPage } from './components/KimiLandingPage';
-import { ItaquiESGLandingPage } from './components/ItaquiESGLandingPage';
-
-// Páginas Públicas
-import { PublicEnvironment } from './components/public/PublicEnvironment';
-import { PublicSocial } from './components/public/PublicSocial';
-import { PublicReports } from './components/public/PublicReports';
-import { PublicIndicators } from './components/public/PublicIndicators';
-
-import { Decarbonization } from './components/environmental/Decarbonization';
-import { Efficiency } from './components/environmental/Efficiency';
-import { PollutionControl } from './components/environmental/PollutionControl';
-import { Compliance } from './components/environmental/Compliance';
 import { ToastContainer } from './components/Toast';
 import { ThemeSwitcher } from './components/ThemeSwitcher';
-import { SROICalculator } from './components/social/SROICalculator';
-import { CommunityRelations } from './components/social/CommunityRelations';
-import { DiversityDashboard } from './components/social/DiversityDashboard';
-import { HumanRights } from './components/social/HumanRights';
-import { RiskHeatmap } from './components/governance/RiskHeatmap';
-import { ReportingHub } from './components/governance/ReportingHub';
-import { SupplyChainAudit } from './components/governance/SupplyChainAudit';
-import { PredictiveAnalysis } from './components/strategic/PredictiveAnalysis';
-import { GeoSpatialModule } from './components/territory/GeoSpatialModule';
-import { LAIA } from './components/environmental/LAIA';
-import { ShipWaste } from './components/environmental/ShipWaste';
-import { InnovationFunnel } from './components/governance/InnovationFunnel';
-import { MeteoPredictiveModule } from './components/environmental/MeteoPredictiveModule';
-import CommunityAssessmentForm from './components/territory/CommunityAssessmentForm';
-import { ESGDiagnosticForm } from './components/governance/ESGDiagnosticForm';
-import { ESGDiagnosticsCenter } from './components/ESGDiagnosticsCenter';
-import { EnvironmentalDiagnosticForm } from './components/environmental/EnvironmentalDiagnosticForm';
-import { GovernanceDiagnosticForm } from './components/governance/GovernanceDiagnosticForm';
 import { Breadcrumb } from './components/Breadcrumb';
-import SocialProjectForm from './components/social/SocialProjectForm';
-import { NotificationCenter } from './components/strategic/NotificationCenter';
 import { AccessibilityMenu } from './components/strategic/AccessibilityMenu';
+
+// Autenticação e Landing
+import { Login } from './components/Login';
+import { ItaquiESGLandingPage } from './components/ItaquiESGLandingPage';
+
+// Componentes Carregados Dinamicamente (Lazy Loading)
+const Dashboard = lazy(() => import('./components/Dashboard').then(m => ({ default: m.Dashboard })));
+const ProjectList = lazy(() => import('./components/ProjectList').then(m => ({ default: m.ProjectList })));
+const NewProject = lazy(() => import('./components/NewProject').then(m => ({ default: m.NewProject })));
+const UserManagement = lazy(() => import('./components/UserManagement').then(m => ({ default: m.UserManagement })));
+const UserProfilePage = lazy(() => import('./components/UserProfile').then(m => ({ default: m.UserProfilePage })));
+const CreateUser = lazy(() => import('./components/CreateUser').then(m => ({ default: m.CreateUser })));
+
+const PublicEnvironment = lazy(() => import('./components/public/PublicEnvironment').then(m => ({ default: m.PublicEnvironment })));
+const PublicSocial = lazy(() => import('./components/public/PublicSocial').then(m => ({ default: m.PublicSocial })));
+const PublicReports = lazy(() => import('./components/public/PublicReports').then(m => ({ default: m.PublicReports })));
+const PublicIndicators = lazy(() => import('./components/public/PublicIndicators').then(m => ({ default: m.PublicIndicators })));
+
+const Decarbonization = lazy(() => import('./components/environmental/Decarbonization').then(m => ({ default: m.Decarbonization })));
+const Efficiency = lazy(() => import('./components/environmental/Efficiency').then(m => ({ default: m.Efficiency })));
+const PollutionControl = lazy(() => import('./components/environmental/PollutionControl').then(m => ({ default: m.PollutionControl })));
+const Compliance = lazy(() => import('./components/environmental/Compliance').then(m => ({ default: m.Compliance })));
+const LAIA = lazy(() => import('./components/environmental/LAIA').then(m => ({ default: m.LAIA })));
+const ShipWaste = lazy(() => import('./components/environmental/ShipWaste').then(m => ({ default: m.ShipWaste })));
+const MeteoPredictiveModule = lazy(() => import('./components/environmental/MeteoPredictiveModule').then(m => ({ default: m.MeteoPredictiveModule })));
+const EnvironmentalDiagnosticForm = lazy(() => import('./components/environmental/EnvironmentalDiagnosticForm').then(m => ({ default: m.EnvironmentalDiagnosticForm })));
+
+const SROICalculator = lazy(() => import('./components/social/SROICalculator').then(m => ({ default: m.SROICalculator })));
+const CommunityRelations = lazy(() => import('./components/social/CommunityRelations').then(m => ({ default: m.CommunityRelations })));
+const DiversityDashboard = lazy(() => import('./components/social/DiversityDashboard').then(m => ({ default: m.DiversityDashboard })));
+const HumanRights = lazy(() => import('./components/social/HumanRights').then(m => ({ default: m.HumanRights })));
+
+const RiskHeatmap = lazy(() => import('./components/governance/RiskHeatmap').then(m => ({ default: m.RiskHeatmap })));
+const ReportingHub = lazy(() => import('./components/governance/ReportingHub').then(m => ({ default: m.ReportingHub })));
+const SupplyChainAudit = lazy(() => import('./components/governance/SupplyChainAudit').then(m => ({ default: m.SupplyChainAudit })));
+const InnovationFunnel = lazy(() => import('./components/governance/InnovationFunnel').then(m => ({ default: m.InnovationFunnel })));
+const GovernanceDiagnosticForm = lazy(() => import('./components/governance/GovernanceDiagnosticForm').then(m => ({ default: m.GovernanceDiagnosticForm })));
+const ESGDiagnosticForm = lazy(() => import('./components/governance/ESGDiagnosticForm').then(m => ({ default: m.ESGDiagnosticForm })));
+const ESGDiagnosticsCenter = lazy(() => import('./components/ESGDiagnosticsCenter').then(m => ({ default: m.ESGDiagnosticsCenter })));
+
+const PredictiveAnalysis = lazy(() => import('./components/strategic/PredictiveAnalysis').then(m => ({ default: m.PredictiveAnalysis })));
+const NotificationCenter = lazy(() => import('./components/strategic/NotificationCenter').then(m => ({ default: m.NotificationCenter })));
+
+const GeoSpatialModule = lazy(() => import('./components/territory/GeoSpatialModule').then(m => ({ default: m.GeoSpatialModule })));
+const CommunityAssessmentForm = lazy(() => import('./components/territory/CommunityAssessmentForm'));
+const SocialProjectForm = lazy(() => import('./components/social/SocialProjectForm'));
 
 // Componente NavItem
 interface NavItemProps {
@@ -128,11 +133,11 @@ const SectionHeader: React.FC<{
         className={`px-4 py-[0.875rem] mt-6 flex items-center justify-between group transition-colors ${!collapsed && onToggle ? 'cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg mx-2' : ''} ${collapsed ? 'text-center' : 'text-left'}`}
     >
         <div className="flex items-center w-full">
-             {icon && !collapsed && (
+            {icon && !collapsed && (
                 <div className="flex items-center justify-center min-w-[40px] text-black dark:text-white group-hover:text-happiness-1 transition-colors">
                     {React.cloneElement(icon as React.ReactElement<any>, { sx: { fontSize: 22 } })}
                 </div>
-             )}
+            )}
             {!collapsed && (
                 <span className="text-sm font-bold text-black dark:text-white group-hover:text-happiness-1 transition-colors antialiased whitespace-nowrap ml-0 tracking-tight">
                     {label}
@@ -165,7 +170,7 @@ export default function App() {
     const [kmlLayers, setKmlLayers] = useState<Layer[]>([]);
     const [selectedProject, setSelectedProject] = useState<any | null>(null);
     const [currentTheme, setCurrentTheme] = useState(localStorage.getItem('gsocial-theme') || 'azure');
-    
+
     // Submenu States
     const [overviewOpen, setOverviewOpen] = useState(true);
     const [envOpen, setEnvOpen] = useState(false);
@@ -449,10 +454,10 @@ export default function App() {
                                         <button onClick={() => { setMode(AppMode.DASHBOARD); setIsProfileOpen(false); }} className="w-full text-left px-4 py-3 text-sm font-medium text-black dark:text-white hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg flex items-center gap-3 transition-colors"><SettingsIcon fontSize="small" className="text-black dark:text-white" />Configurações</button>
                                     </div>
                                     <div className="px-4 py-4 border-t border-gray-100 dark:border-white/5 bg-gray-50/30 dark:bg-white/[0.02]"><p className="text-[11px] font-black text-black dark:text-white uppercase tracking-widest mb-3 flex items-center gap-2"><ZapIcon sx={{ fontSize: 14 }} />Ambiente de Cores</p><div className="flex items-center justify-between gap-2">
-                                            {[{ id: 'azure', label: 'Marítimo', colors: ['#4973F2', '#1B2B40'] }, { id: 'emerald', label: 'Eco', colors: ['#29A683', '#1B2B40'] }, { id: 'burgundy', label: 'Executivo', colors: ['#BF2633', '#590A18'] }].map((themeOpt) => (
-                                                <button key={themeOpt.id} onClick={() => setCurrentTheme(themeOpt.id)} className={`relative flex-1 group transition-all duration-300 ${currentTheme === themeOpt.id ? 'scale-105' : 'opacity-60 hover:opacity-100'}`}><div className={`h-8 w-full rounded-md mb-1.5 transition-all ${currentTheme === themeOpt.id ? 'ring-2 ring-happiness-1 ring-offset-2 dark:ring-offset-zinc-900' : 'border border-gray-200 dark:border-white/10'}`} style={{ background: `linear-gradient(135deg, ${themeOpt.colors[0]} 50%, ${themeOpt.colors[1]} 50%)` }} /></button>
-                                            ))}
-                                        </div></div>
+                                        {[{ id: 'azure', label: 'Marítimo', colors: ['#4973F2', '#1B2B40'] }, { id: 'emerald', label: 'Eco', colors: ['#29A683', '#1B2B40'] }, { id: 'burgundy', label: 'Executivo', colors: ['#BF2633', '#590A18'] }].map((themeOpt) => (
+                                            <button key={themeOpt.id} onClick={() => setCurrentTheme(themeOpt.id)} className={`relative flex-1 group transition-all duration-300 ${currentTheme === themeOpt.id ? 'scale-105' : 'opacity-60 hover:opacity-100'}`}><div className={`h-8 w-full rounded-md mb-1.5 transition-all ${currentTheme === themeOpt.id ? 'ring-2 ring-happiness-1 ring-offset-2 dark:ring-offset-zinc-900' : 'border border-gray-200 dark:border-white/10'}`} style={{ background: `linear-gradient(135deg, ${themeOpt.colors[0]} 50%, ${themeOpt.colors[1]} 50%)` }} /></button>
+                                        ))}
+                                    </div></div>
                                     <div className="p-2 border-t border-gray-100 dark:border-white/5"><button onClick={handleLogout} className="w-full text-left px-4 py-3 text-sm font-bold text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-lg flex items-center gap-3 transition-colors"><LogoutIcon fontSize="small" />Sair do Sistema</button></div>
                                 </div>
                             )}
@@ -461,7 +466,9 @@ export default function App() {
                 </header>
                 <div className="flex-1 p-6 md:p-10 w-full animate-in fade-in duration-500">
                     {mode !== AppMode.DASHBOARD && !isPublicMode && <Breadcrumb items={getBreadcrumbs()} />}
-                    {getComponent()}
+                    <Suspense fallback={<div className="flex justify-center items-center h-full"><span className="font-bold animate-pulse text-xs uppercase tracking-widest text-black">Carregando Tela...</span></div>}>
+                        {getComponent()}
+                    </Suspense>
                 </div>
             </main>
         </div>

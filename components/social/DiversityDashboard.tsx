@@ -299,4 +299,3 @@ export const DiversityDashboard: React.FC = () => {
     );
 };
 
-export default DiversityDashboard;

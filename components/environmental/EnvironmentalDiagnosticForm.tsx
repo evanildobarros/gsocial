@@ -130,13 +130,13 @@ const ENVIRONMENTAL_QUESTIONS: Question[] = [
 // Motor de Cálculo de Risco Ambiental
 const calculateEnvironmentalRisk = (answers: Record<string, number>, operationType: string) => {
     let riskScore = 0;
-    
+
     // 1. Ausência de Monitoramento de GEE
     if ((answers['e_ghg'] || 1) === 1) riskScore += 3;
-    
+
     // 2. Ausência de Integração ao PAM (e_spill)
     if ((answers['e_spill'] || 1) === 1) riskScore += 4;
-    
+
     // 3. Impacto por Operação
     if (operationType === 'liquid' && (answers['e_spill'] || 1) < 5) riskScore += 3;
 
@@ -169,7 +169,7 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
     // Mode State
     const [viewMode, setViewMode] = useState<'list' | 'create'>('list');
     const [searchQuery, setSearchQuery] = useState('');
-    
+
     // Persistence State
     const [assessments, setAssessments] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
@@ -186,10 +186,10 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
         setLoading(true);
         try {
             const { data, error } = await supabase
-                .from('environmental_assessments') 
+                .from('environmental_assessments')
                 .select('*')
                 .order('created_at', { ascending: false });
-            
+
             if (error) throw error;
             if (data) setAssessments(data);
         } catch (err: any) {
@@ -293,7 +293,7 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
         setViewMode('create');
     };
 
-    const filteredList = assessments.filter(a => 
+    const filteredList = assessments.filter(a =>
         a.terminal_name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
@@ -495,12 +495,12 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
                     <div className="space-y-6">
                         {/* Termômetro de Risco */}
                         <div className={`p-8 rounded-3xl border shadow-2xl animate-in zoom-in-95 duration-500 ${currentRisk.color} border-current border-opacity-20`}>
-                             <div className="flex items-center gap-2 mb-6">
+                            <div className="flex items-center gap-2 mb-6">
                                 <Thermometer className="opacity-70" />
                                 <span className="text-[10px] font-black uppercase tracking-widest opacity-70">Termômetro de Risco Ambiental</span>
-                             </div>
+                            </div>
 
-                             <div className="space-y-6">
+                            <div className="space-y-6">
                                 <div>
                                     <h4 className="text-xl font-black leading-tight uppercase tracking-tight">{currentRisk.badge}</h4>
                                     <p className="text-[10px] font-bold opacity-60 uppercase mt-1">Status de Conformidade Operacional</p>
@@ -515,7 +515,7 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
                                         </div>
                                     </div>
                                 </div>
-                             </div>
+                            </div>
                         </div>
 
                         {/* Summary Visualization */}
@@ -523,12 +523,12 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
 
                         {/* Layer Uploader */}
                         <div className="bg-blue-50/30 dark:bg-white/5 p-6 rounded-3xl border border-blue-100 dark:border-white/10">
-                             <div className="flex items-center gap-2 mb-4 text-blue-600 dark:text-blue-400">
+                            <div className="flex items-center gap-2 mb-4 text-blue-600 dark:text-blue-400">
                                 <Zap size={16} />
                                 <span className="text-[10px] font-black uppercase tracking-widest">Geoprocessamento</span>
-                             </div>
-                             <p className="text-[11px] text-black dark:text-black font-medium mb-6">Vincule camadas de monitoramento (fumaça, poeira, vazamentos) ao terminal selecionado.</p>
-                             <LayerUploaderInline onLayersLoaded={() => showSuccess('Geometria vinculada à instalação.')} />
+                            </div>
+                            <p className="text-[11px] text-black dark:text-black font-medium mb-6">Vincule camadas de monitoramento (fumaça, poeira, vazamentos) ao terminal selecionado.</p>
+                            <LayerUploaderInline onLayersLoaded={() => showSuccess('Geometria vinculada à instalação.')} />
                         </div>
                     </div>
                 </div>
@@ -537,4 +537,3 @@ export const EnvironmentalDiagnosticForm: React.FC = () => {
     );
 };
 
-export default EnvironmentalDiagnosticForm;

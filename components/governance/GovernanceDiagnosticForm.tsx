@@ -125,13 +125,13 @@ const GOVERNANCE_QUESTIONS: Question[] = [
 // Motor de Cálculo de Risco de Governança (Compliance & Transparência)
 const calculateGovernanceRisk = (answers: Record<string, number>, criticality: string) => {
     let riskScore = 0;
-    
+
     // 1. Falta de Compliance em fornecedor de Alta Criticidade (Penalização Severa)
     if (criticality === 'high' && (answers['g_compliance'] || 1) <= 3) riskScore += 5;
-    
+
     // 2. Falta de Transparência (GRI)
     if ((answers['g_transparency'] || 1) === 1) riskScore += 2;
-    
+
     // 3. Ausência de Ética/Anticorrupção
     if ((answers['g_ethics'] || 1) === 1) riskScore += 3;
 
@@ -163,7 +163,7 @@ export const GovernanceDiagnosticForm: React.FC = () => {
     // Mode State
     const [viewMode, setViewMode] = useState<'list' | 'create'>('list');
     const [searchQuery, setSearchQuery] = useState('');
-    
+
     // Persistence State
     const [assessments, setAssessments] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
@@ -183,7 +183,7 @@ export const GovernanceDiagnosticForm: React.FC = () => {
                 .from('governance_assessments')
                 .select('*')
                 .order('created_at', { ascending: false });
-            
+
             if (error) throw error;
             if (data) setAssessments(data);
         } catch (err: any) {
@@ -291,7 +291,7 @@ export const GovernanceDiagnosticForm: React.FC = () => {
         setViewMode('create');
     };
 
-    const filteredList = assessments.filter(a => 
+    const filteredList = assessments.filter(a =>
         a.company_name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
@@ -484,12 +484,12 @@ export const GovernanceDiagnosticForm: React.FC = () => {
                     <div className="space-y-6">
                         {/* Termômetro de Risco */}
                         <div className={`p-8 rounded-3xl border shadow-2xl animate-in zoom-in-95 duration-500 ${currentRisk.color} border-current border-opacity-20`}>
-                             <div className="flex items-center gap-2 mb-6 text-purple-600">
+                            <div className="flex items-center gap-2 mb-6 text-purple-600">
                                 <Thermometer className="opacity-70" />
                                 <span className="text-[10px] font-black uppercase tracking-widest opacity-70">Matriz de Integridade (GRC)</span>
-                             </div>
+                            </div>
 
-                             <div className="space-y-6">
+                            <div className="space-y-6">
                                 <div>
                                     <h4 className="text-xl font-black leading-tight uppercase tracking-tight">{currentRisk.badge}</h4>
                                     <p className="text-[10px] font-bold opacity-60 uppercase mt-1">Due Diligence de Terceiros</p>
@@ -504,19 +504,19 @@ export const GovernanceDiagnosticForm: React.FC = () => {
                                         </div>
                                     </div>
                                 </div>
-                             </div>
+                            </div>
                         </div>
 
                         <GovernanceSummaryCard answers={answers} />
 
                         {/* Layer Uploader */}
                         <div className="bg-zinc-50 dark:bg-white/5 p-6 rounded-3xl border border-gray-200 dark:border-white/10">
-                             <div className="flex items-center gap-2 mb-4 text-black dark:text-white">
+                            <div className="flex items-center gap-2 mb-4 text-black dark:text-white">
                                 <Zap size={16} />
                                 <span className="text-[10px] font-black uppercase tracking-widest">Mapas de Risco Corporativo</span>
-                             </div>
-                             <p className="text-[11px] text-black dark:text-black font-medium mb-6">Importe poligonais de áreas de atuação ou infraestrutura vinculadas a este parceiro.</p>
-                             <LayerUploaderInline onLayersLoaded={() => showSuccess('Geometria vinculada ao parceiro.')} />
+                            </div>
+                            <p className="text-[11px] text-black dark:text-black font-medium mb-6">Importe poligonais de áreas de atuação ou infraestrutura vinculadas a este parceiro.</p>
+                            <LayerUploaderInline onLayersLoaded={() => showSuccess('Geometria vinculada ao parceiro.')} />
                         </div>
                     </div>
                 </div>
@@ -525,4 +525,3 @@ export const GovernanceDiagnosticForm: React.FC = () => {
     );
 };
 
-export default GovernanceDiagnosticForm;
