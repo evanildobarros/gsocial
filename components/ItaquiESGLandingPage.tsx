@@ -86,14 +86,14 @@ export const ItaquiESGLandingPage: React.FC<ItaquiESGLandingPageProps> = ({ onLo
 
                 {/* Mobile Menu Overlay */}
                 {mobileMenuOpen && (
-                    <div className="lg:hidden fixed inset-0 z-[200] bg-white animate-in slide-in-from-top duration-500 overflow-y-auto">
-                        <div className="p-8 flex justify-between items-center border-b border-gray-100 bg-white sticky top-0 z-10">
-                            <img src="/logo_itaqui.png" alt="Porto do Itaqui" className="h-10 w-auto" />
-                            <button onClick={() => setMobileMenuOpen(false)} className="p-2 text-black">
+                    <div className="lg:hidden fixed inset-0 z-[9999] bg-white dark:bg-zinc-950 overflow-y-auto flex flex-col">
+                        <div className="p-6 md:p-8 flex justify-between items-center border-b border-gray-100 dark:border-white/10 bg-white dark:bg-zinc-950 sticky top-0 z-10">
+                            <img src="/logo_itaqui.png" alt="Porto do Itaqui" className="h-10 w-auto dark:brightness-0 dark:invert" />
+                            <button onClick={() => setMobileMenuOpen(false)} className="p-2 text-black dark:text-white rounded-full hover:bg-gray-100 dark:hover:bg-white/10 transition-colors">
                                 <X size={32} />
                             </button>
                         </div>
-                        <div className="p-8 flex flex-col gap-10 bg-white min-h-screen">
+                        <div className="p-6 md:p-8 flex flex-col gap-8 bg-white dark:bg-zinc-950 flex-1">
                             {['Compromissos', 'Transparência', 'Notícias'].map((item) => (
                                 <button
                                     key={item}
@@ -102,12 +102,12 @@ export const ItaquiESGLandingPage: React.FC<ItaquiESGLandingPageProps> = ({ onLo
                                         const id = item.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
                                         document.getElementById(id === 'compromissos' ? 'sobre' : id === 'transparencia' ? 'relatorios' : 'noticias')?.scrollIntoView({ behavior: 'smooth' });
                                     }}
-                                    className="text-4xl font-black uppercase tracking-tighter text-left text-black hover:text-green-600 transition-all active:scale-95"
+                                    className="text-4xl font-black uppercase tracking-tighter text-left text-black dark:text-white hover:text-green-600 dark:hover:text-green-400 transition-all active:scale-95"
                                 >
                                     {item}
                                 </button>
                             ))}
-                            <div className="h-px bg-gray-100 w-full" />
+                            <div className="h-px bg-gray-100 dark:bg-white/10 w-full my-4" />
                             <button
                                 onClick={() => { setMobileMenuOpen(false); onLoginClick?.(); }}
                                 className="w-full bg-green-600 text-white py-6 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-green-600/20 active:scale-95 transition-transform"

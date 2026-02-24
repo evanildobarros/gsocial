@@ -45,9 +45,9 @@ export const BentoCommitments = () => {
   ];
 
   return (
-    <section id="sobre" className="py-32 px-6 bg-white dark:bg-black transition-colors duration-500">
+    <section id="sobre" className="py-16 md:py-32 px-6 bg-white dark:bg-black transition-colors duration-500">
       <div className="container mx-auto">
-        <div className="max-w-3xl mb-20 text-center md:text-left">
+        <div className="max-w-3xl mb-12 md:mb-20 text-center md:text-left">
           <span className="inline-block text-green-600 font-black tracking-widest uppercase text-[10px] mb-4 pl-3 border-l-4 border-green-500">
             Nossa Visão 2030
           </span>
