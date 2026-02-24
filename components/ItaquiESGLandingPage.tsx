@@ -45,43 +45,50 @@ export const ItaquiESGLandingPage: React.FC<ItaquiESGLandingPageProps> = ({ onLo
             {/* Accessibility Bar (Old removed, using floating Menu) */}
 
             {/* Header / Navbar */}
-            <header className={`fixed w-full z-50 transition-all duration-500 ${scrolled ? 'bg-white/95 dark:bg-black/95 backdrop-blur-xl border-b border-gray-100 dark:border-white/5 py-4' : 'bg-transparent py-8 top-0'}`}>
-                <div className="container mx-auto px-6 md:px-8 flex items-center justify-between">
-                    <div className="flex items-center gap-4 cursor-pointer">
-                        <img 
-                            src="/logo_itaqui.png" 
-                            alt="Porto do Itaqui" 
-                            className={`h-10 md:h-12 w-auto object-contain transition-all ${!scrolled && !contrast ? 'brightness-0 invert' : ''}`} 
-                        />
-                    </div>
+            <header className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/95 dark:bg-black/95 backdrop-blur-md shadow-lg py-3' : 'bg-transparent py-5 top-0'}`}>
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex justify-between items-center h-14">
+                        <div className="flex items-center gap-2 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+                            <img 
+                                src="/logo_itaqui.png" 
+                                alt="Porto do Itaqui" 
+                                className={`h-8 sm:h-9 md:h-10 w-auto object-contain transition-all duration-300 ${!scrolled && !contrast ? 'brightness-0 invert' : ''}`} 
+                            />
+                        </div>
 
-                    <nav className="hidden lg:flex items-center gap-10">
-                        {['Compromissos', 'Transparência', 'Notícias'].map((item) => (
+                        {/* Desktop Nav */}
+                        <nav className="hidden md:flex items-center gap-6 lg:gap-8">
+                            {['Compromissos', 'Transparência', 'Notícias'].map((item) => (
+                                <button
+                                    key={item}
+                                    onClick={() => {
+                                        const id = item.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                                        document.getElementById(id === 'compromissos' ? 'sobre' : id === 'transparencia' ? 'relatorios' : 'noticias')?.scrollIntoView({ behavior: 'smooth' });
+                                    }}
+                                    className={`text-sm font-semibold transition-colors ${scrolled ? 'text-black dark:text-white hover:text-green-600 dark:hover:text-green-400' : 'text-white/80 hover:text-white'}`}
+                                >
+                                    {item}
+                                </button>
+                            ))}
                             <button
-                                key={item}
-                                onClick={() => {
-                                    const id = item.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-                                    document.getElementById(id === 'compromissos' ? 'sobre' : id === 'transparencia' ? 'relatorios' : 'noticias')?.scrollIntoView({ behavior: 'smooth' });
-                                }}
-                                className={`text-[11px] font-black uppercase tracking-widest transition-colors hover:text-green-600 ${scrolled ? 'text-black' : 'text-white/80'}`}
+                                onClick={onLoginClick}
+                                className={`px-5 py-2.5 rounded-full text-sm font-bold transition-all ${scrolled 
+                                    ? 'bg-green-600 text-white hover:bg-green-500 hover:shadow-lg shadow-green-600/20' 
+                                    : 'bg-white/10 text-white border border-white/20 hover:bg-white hover:text-black hover:shadow-lg'
+                                }`}
                             >
-                                {item}
+                                Acesso Restrito
                             </button>
-                        ))}
-                        <button
-                            onClick={onLoginClick}
-                            className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full font-black text-[11px] uppercase tracking-widest transition-all shadow-xl shadow-green-600/20"
-                        >
-                            Acesso Restrito
-                        </button>
-                    </nav>
+                        </nav>
 
-                    <button 
-                        className="lg:hidden p-2 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-white/10 rounded-full transition-colors" 
-                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                    >
-                        {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
-                    </button>
+                        {/* Mobile Menu Button */}
+                        <button 
+                            className={`md:hidden p-2 rounded-lg transition-colors ${scrolled ? 'text-black dark:text-white hover:bg-gray-100 dark:hover:bg-white/10' : 'text-white hover:bg-white/10'}`} 
+                            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                        >
+                            {mobileMenuOpen ? <X size={26} /> : <Menu size={26} />}
+                        </button>
+                    </div>
                 </div>
 
                 {/* Mobile Menu Overlay */}
