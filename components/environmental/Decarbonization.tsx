@@ -181,8 +181,8 @@ export const Decarbonization: React.FC = () => {
                 {/* Left side: Stats */}
                 <div className="lg:col-span-4 space-y-6">
                     <div className="relative p-8 rounded-[32px] bg-white dark:bg-zinc-900 border border-gray-200 dark:border-white/5 shadow-sm group hover:-translate-y-1 transition-transform duration-300 overflow-hidden">
-                        <div className="absolute -bottom-6 -right-6 text-gray-100 dark:text-white/5 transform -rotate-12 group-hover:rotate-0 transition-transform duration-500 pointer-events-none">
-                            {intensityTrend <= 0 ? <TrendingDown size={160} strokeWidth={1} /> : <TrendingUp size={160} strokeWidth={1} />}
+                        <div className="absolute bottom-2 right-2 text-gray-100 dark:text-white/[0.03] transform -rotate-12 group-hover:rotate-0 transition-transform duration-500 pointer-events-none">
+                            {intensityTrend <= 0 ? <TrendingDown size={120} strokeWidth={1} /> : <TrendingUp size={120} strokeWidth={1} />}
                         </div>
 
                         <span className="text-[10px] font-black uppercase tracking-[0.2em] text-black">
