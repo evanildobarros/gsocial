@@ -26,7 +26,7 @@ export const PublicEnvironment: React.FC<PublicPageProps> = ({ onBack, onNavigat
             </nav>
 
             {/* Section 1: Hero with Background */}
-            <section className="relative h-[60vh] flex items-center justify-center overflow-hidden bg-black text-white">
+            <section className="relative h-[90vh] flex items-center justify-center overflow-hidden bg-black text-white">
                 <div className="absolute inset-0 z-0">
                     <img
                         src="/images/news-mangrove.jpg"
@@ -39,11 +39,11 @@ export const PublicEnvironment: React.FC<PublicPageProps> = ({ onBack, onNavigat
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/20 border border-green-500/30 text-green-400 text-[10px] font-black uppercase tracking-widest mb-8">
                         <Leaf size={14} /> Resiliência Climática
                     </div>
-                    <h1 className="text-5xl md:text-8xl font-black tracking-tighter leading-[0.9] mb-8 animate-fade-in-up">
+                    <h1 className="text-6xl md:text-9xl font-black tracking-tighter leading-[0.9] mb-8 animate-fade-in-up">
                         PROTEGENDO O <br/>
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-300 text-white">NOSSO ECOSSISTEMA.</span>
                     </h1>
-                    <p className="text-lg md:text-xl font-medium text-white/70 max-w-3xl mx-auto leading-relaxed mb-12">
+                    <p className="text-xl md:text-2xl font-medium text-white/70 max-w-3xl mx-auto leading-relaxed mb-12">
                         Compromisso com a descarbonização acelerada e a preservação da Baía de São Marcos.
                     </p>
                 </div>
