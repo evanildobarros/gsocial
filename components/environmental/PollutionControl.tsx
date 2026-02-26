@@ -124,19 +124,19 @@ export const PollutionControl: React.FC = () => {
                                 </div>
                                 <div>
                                     <h4 className="text-lg font-black leading-none">Resíduos & Circular</h4>
-                                    <p className="text-black text-sm font-medium mt-2">MTRs pendentes de validação este mês.</p>
+                                    <p className="text-white/60 text-sm font-medium mt-2">MTRs pendentes de validação este mês.</p>
                                 </div>
                                 <div className="grid grid-cols-2 gap-4">
                                     <div className="bg-white/5 p-4 rounded-3xl border border-white/5">
-                                        <p className="text-[10px] font-black text-black uppercase">Reciclado</p>
+                                        <p className="text-[10px] font-black text-white/40 uppercase">Reciclado</p>
                                         <p className="text-xl font-black">42.8t</p>
                                     </div>
                                     <div className="bg-white/5 p-4 rounded-3xl border border-white/5">
-                                        <p className="text-[10px] font-black text-black uppercase">Aterro</p>
+                                        <p className="text-[10px] font-black text-white/40 uppercase">Aterro</p>
                                         <p className="text-xl font-black">8.2t</p>
                                     </div>
                                 </div>
-                                <button className="w-full py-3 bg-white text-black rounded-3xl font-black text-[10px] uppercase tracking-widest hover:bg-gray-200 transition-all">
+                                <button className="w-full py-3 bg-happiness-1 text-white rounded-3xl font-black text-[10px] uppercase tracking-widest hover:scale-105 transition-all shadow-lg">
                                     Upload de Manifesto (MTR)
                                 </button>
                             </div>
