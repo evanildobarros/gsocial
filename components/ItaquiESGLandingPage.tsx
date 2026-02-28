@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Globe, ShieldCheck, Anchor } from 'lucide-react';
+import { Menu, X, Globe, ShieldCheck, Anchor, ChevronDown } from 'lucide-react';
 import { AppMode } from '../types';
 
 // Modular Sections
@@ -18,6 +18,9 @@ interface ItaquiESGLandingPageProps {
 export const ItaquiESGLandingPage: React.FC<ItaquiESGLandingPageProps> = ({ onLoginClick, onNavigate }) => {
     const [scrolled, setScrolled] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [mobileEsgOpen, setMobileEsgOpen] = useState(false);
+    const [mobileTranspOpen, setMobileTranspOpen] = useState(false);
+    
     const [fontSize, setFontSize] = useState(100);
     const [contrast, setContrast] = useState(false);
     const containerRef = React.useRef<HTMLDivElement>(null);
@@ -42,7 +45,6 @@ export const ItaquiESGLandingPage: React.FC<ItaquiESGLandingPageProps> = ({ onLo
     return (
         <div ref={containerRef} className="h-screen overflow-y-auto bg-white dark:bg-black font-sans text-black dark:text-white selection:bg-green-100 scroll-smooth">
             <AccessibilityMenu />
-            {/* Accessibility Bar (Old removed, using floating Menu) */}
 
             {/* Header / Navbar */}
             <header className={`fixed w-full z-50 transition-all duration-300 ${scrolled || mobileMenuOpen ? 'bg-white dark:bg-black shadow-lg py-3' : 'bg-transparent py-5 top-0'}`}>
@@ -58,18 +60,43 @@ export const ItaquiESGLandingPage: React.FC<ItaquiESGLandingPageProps> = ({ onLo
 
                         {/* Desktop Nav */}
                         <nav className="hidden md:flex items-center gap-6 lg:gap-8">
-                            {['Compromissos', 'Transparência', 'Notícias'].map((item) => (
-                                <button
-                                    key={item}
-                                    onClick={() => {
-                                        const id = item.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-                                        document.getElementById(id === 'compromissos' ? 'sobre' : id === 'transparencia' ? 'relatorios' : 'noticias')?.scrollIntoView({ behavior: 'smooth' });
-                                    }}
-                                    className={`text-sm font-semibold transition-colors ${scrolled || mobileMenuOpen ? 'text-black dark:text-white hover:text-green-600 dark:hover:text-green-400' : 'text-white/80 hover:text-white'}`}
-                                >
-                                    {item}
+                            
+                            {/* Pilares ESG Dropdown */}
+                            <div className="relative group">
+                                <button className={`flex items-center gap-1 text-sm font-semibold transition-colors ${scrolled || mobileMenuOpen ? 'text-black dark:text-white hover:text-green-600 dark:hover:text-green-400' : 'text-white/80 hover:text-white'}`}>
+                                    Pilares ESG <ChevronDown size={14} className="group-hover:rotate-180 transition-transform duration-300" />
                                 </button>
-                            ))}
+                                <div className="absolute top-full left-0 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+                                    <div className="w-64 bg-white dark:bg-zinc-900 rounded-2xl shadow-2xl border border-gray-100 dark:border-white/10 p-2 flex flex-col gap-1">
+                                        <button onClick={() => onNavigate?.(AppMode.PUBLIC_ENVIRONMENT)} className="text-left px-4 py-3 text-sm font-bold text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-green-900/20 hover:text-green-600 rounded-xl transition-colors">🌱 Meio Ambiente</button>
+                                        <button onClick={() => onNavigate?.(AppMode.PUBLIC_SOCIAL)} className="text-left px-4 py-3 text-sm font-bold text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-green-900/20 hover:text-green-600 rounded-xl transition-colors">🤝 Responsabilidade Social</button>
+                                        <button onClick={() => onNavigate?.(AppMode.PUBLIC_GOVERNANCE)} className="text-left px-4 py-3 text-sm font-bold text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-green-900/20 hover:text-green-600 rounded-xl transition-colors">🏛️ Governança Corporativa</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Transparência Dropdown */}
+                            <div className="relative group">
+                                <button className={`flex items-center gap-1 text-sm font-semibold transition-colors ${scrolled || mobileMenuOpen ? 'text-black dark:text-white hover:text-green-600 dark:hover:text-green-400' : 'text-white/80 hover:text-white'}`}>
+                                    Transparência <ChevronDown size={14} className="group-hover:rotate-180 transition-transform duration-300" />
+                                </button>
+                                <div className="absolute top-full left-0 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+                                    <div className="w-56 bg-white dark:bg-zinc-900 rounded-2xl shadow-2xl border border-gray-100 dark:border-white/10 p-2 flex flex-col gap-1">
+                                        <button onClick={() => onNavigate?.(AppMode.PUBLIC_REPORTS)} className="text-left px-4 py-3 text-sm font-bold text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-green-900/20 hover:text-green-600 rounded-xl transition-colors">📊 Relatórios ESG</button>
+                                        <button onClick={() => onNavigate?.(AppMode.PUBLIC_INDICATORS)} className="text-left px-4 py-3 text-sm font-bold text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-green-900/20 hover:text-green-600 rounded-xl transition-colors">📈 Painel de Indicadores</button>
+                                        <button onClick={() => onNavigate?.(AppMode.PUBLIC_COMPLIANCE)} className="text-left px-4 py-3 text-sm font-bold text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-green-900/20 hover:text-green-600 rounded-xl transition-colors">⚖️ Compliance & Ética</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Carreiras */}
+                            <button
+                                onClick={() => onNavigate?.(AppMode.PUBLIC_CAREERS)}
+                                className={`text-sm font-semibold transition-colors ${scrolled || mobileMenuOpen ? 'text-black dark:text-white hover:text-green-600 dark:hover:text-green-400' : 'text-white/80 hover:text-white'}`}
+                            >
+                                Carreiras
+                            </button>
+
                             <button
                                 onClick={onLoginClick}
                                 className={`px-5 py-2.5 rounded-full text-sm font-bold transition-all ${scrolled || mobileMenuOpen 
@@ -93,22 +120,46 @@ export const ItaquiESGLandingPage: React.FC<ItaquiESGLandingPageProps> = ({ onLo
 
                 {/* Mobile Nav Dropdown */}
                 {mobileMenuOpen && (
-                    <div className="md:hidden absolute top-full left-0 w-full bg-white dark:bg-black border-b border-gray-200 dark:border-white/10 shadow-2xl overflow-hidden animate-in slide-in-from-top-2 duration-300">
-                        <div className="px-6 pt-4 pb-8 flex flex-col gap-4">
-                            {['Compromissos', 'Transparência', 'Notícias'].map((item) => (
-                                <button
-                                    key={item}
-                                    onClick={() => {
-                                        setMobileMenuOpen(false);
-                                        const id = item.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-                                        document.getElementById(id === 'compromissos' ? 'sobre' : id === 'transparencia' ? 'relatorios' : 'noticias')?.scrollIntoView({ behavior: 'smooth' });
-                                    }}
-                                    className="block w-full text-left px-4 py-3 text-lg font-bold text-black dark:text-white hover:bg-green-500/10 hover:text-green-600 dark:hover:text-green-400 rounded-xl transition-all"
-                                >
-                                    {item}
+                    <div className="md:hidden absolute top-full left-0 w-full bg-white dark:bg-black border-b border-gray-200 dark:border-white/10 shadow-2xl overflow-y-auto max-h-[80vh] animate-in slide-in-from-top-2 duration-300">
+                        <div className="px-6 pt-4 pb-8 flex flex-col gap-2">
+                            
+                            {/* Mobile Pilares ESG */}
+                            <div className="flex flex-col">
+                                <button onClick={() => setMobileEsgOpen(!mobileEsgOpen)} className="flex items-center justify-between w-full px-4 py-4 text-lg font-bold text-black dark:text-white hover:bg-green-50 dark:hover:bg-white/5 rounded-xl transition-all">
+                                    Pilares ESG <ChevronDown size={20} className={`transition-transform duration-300 ${mobileEsgOpen ? 'rotate-180 text-green-600' : ''}`} />
                                 </button>
-                            ))}
-                            <div className="pt-4 px-2 mt-2 border-t border-gray-100 dark:border-white/10">
+                                {mobileEsgOpen && (
+                                    <div className="flex flex-col gap-1 pl-6 pr-4 py-2 bg-gray-50 dark:bg-zinc-900/50 rounded-xl mb-2">
+                                        <button onClick={() => { setMobileMenuOpen(false); onNavigate?.(AppMode.PUBLIC_ENVIRONMENT); }} className="text-left px-4 py-3 text-sm font-bold text-gray-700 dark:text-gray-300 hover:text-green-600">🌱 Meio Ambiente</button>
+                                        <button onClick={() => { setMobileMenuOpen(false); onNavigate?.(AppMode.PUBLIC_SOCIAL); }} className="text-left px-4 py-3 text-sm font-bold text-gray-700 dark:text-gray-300 hover:text-green-600">🤝 Responsabilidade Social</button>
+                                        <button onClick={() => { setMobileMenuOpen(false); onNavigate?.(AppMode.PUBLIC_GOVERNANCE); }} className="text-left px-4 py-3 text-sm font-bold text-gray-700 dark:text-gray-300 hover:text-green-600">🏛️ Governança Corporativa</button>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Mobile Transparência */}
+                            <div className="flex flex-col">
+                                <button onClick={() => setMobileTranspOpen(!mobileTranspOpen)} className="flex items-center justify-between w-full px-4 py-4 text-lg font-bold text-black dark:text-white hover:bg-green-50 dark:hover:bg-white/5 rounded-xl transition-all">
+                                    Transparência <ChevronDown size={20} className={`transition-transform duration-300 ${mobileTranspOpen ? 'rotate-180 text-green-600' : ''}`} />
+                                </button>
+                                {mobileTranspOpen && (
+                                    <div className="flex flex-col gap-1 pl-6 pr-4 py-2 bg-gray-50 dark:bg-zinc-900/50 rounded-xl mb-2">
+                                        <button onClick={() => { setMobileMenuOpen(false); onNavigate?.(AppMode.PUBLIC_REPORTS); }} className="text-left px-4 py-3 text-sm font-bold text-gray-700 dark:text-gray-300 hover:text-green-600">📊 Relatórios ESG</button>
+                                        <button onClick={() => { setMobileMenuOpen(false); onNavigate?.(AppMode.PUBLIC_INDICATORS); }} className="text-left px-4 py-3 text-sm font-bold text-gray-700 dark:text-gray-300 hover:text-green-600">📈 Painel de Indicadores</button>
+                                        <button onClick={() => { setMobileMenuOpen(false); onNavigate?.(AppMode.PUBLIC_COMPLIANCE); }} className="text-left px-4 py-3 text-sm font-bold text-gray-700 dark:text-gray-300 hover:text-green-600">⚖️ Compliance & Ética</button>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Mobile Carreiras */}
+                            <button
+                                onClick={() => { setMobileMenuOpen(false); onNavigate?.(AppMode.PUBLIC_CAREERS); }}
+                                className="block w-full text-left px-4 py-4 text-lg font-bold text-black dark:text-white hover:bg-green-50 dark:hover:bg-white/5 rounded-xl transition-all"
+                            >
+                                Carreiras
+                            </button>
+
+                            <div className="pt-4 px-2 mt-4 border-t border-gray-100 dark:border-white/10">
                                 <button
                                     onClick={() => { setMobileMenuOpen(false); onLoginClick?.(); }}
                                     className="w-full px-6 py-4 bg-green-600 text-white text-lg font-bold uppercase tracking-widest rounded-xl hover:bg-green-700 transition-all shadow-lg active:scale-95"
