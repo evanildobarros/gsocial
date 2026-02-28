@@ -34,9 +34,9 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                     <div className="text-left">
                         <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-black/30 dark:text-white/20 mb-8">Links Rápidos</h4>
                         <ul className="space-y-4 text-sm font-bold">
-                            <li><a href="#" className="hover:text-green-600 transition-colors">Governança</a></li>
-                            <li><a href="#" className="hover:text-green-600 transition-colors">Compliance</a></li>
-                            <li><a href="#" className="hover:text-green-600 transition-colors">Trabalhe Conosco</a></li>
+                            <li><button onClick={() => onNavigate?.(AppMode.PUBLIC_GOVERNANCE)} className="hover:text-green-600 transition-colors text-left">Governança</button></li>
+                            <li><button onClick={() => onNavigate?.(AppMode.PUBLIC_COMPLIANCE)} className="hover:text-green-600 transition-colors text-left">Compliance</button></li>
+                            <li><button onClick={() => onNavigate?.(AppMode.PUBLIC_CAREERS)} className="hover:text-green-600 transition-colors text-left">Trabalhe Conosco</button></li>
                         </ul>
                     </div>
 

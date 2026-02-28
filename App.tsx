@@ -56,6 +56,9 @@ const PublicEnvironment = lazy(() => import('./components/public/PublicEnvironme
 const PublicSocial = lazy(() => import('./components/public/PublicSocial').then(m => ({ default: m.PublicSocial })));
 const PublicReports = lazy(() => import('./components/public/PublicReports').then(m => ({ default: m.PublicReports })));
 const PublicIndicators = lazy(() => import('./components/public/PublicIndicators').then(m => ({ default: m.PublicIndicators })));
+const PublicGovernance = lazy(() => import('./components/public/PublicGovernance').then(m => ({ default: m.PublicGovernance })));
+const PublicCompliance = lazy(() => import('./components/public/PublicCompliance').then(m => ({ default: m.PublicCompliance })));
+const PublicCareers = lazy(() => import('./components/public/PublicCareers').then(m => ({ default: m.PublicCareers })));
 
 const Decarbonization = lazy(() => import('./components/environmental/Decarbonization').then(m => ({ default: m.Decarbonization })));
 const Efficiency = lazy(() => import('./components/environmental/Efficiency').then(m => ({ default: m.Efficiency })));
@@ -253,6 +256,9 @@ export default function App() {
             case AppMode.PUBLIC_SOCIAL: return <PublicSocial onBack={() => setMode(AppMode.DASHBOARD)} onNavigate={(m) => setMode(m)} />;
             case AppMode.PUBLIC_REPORTS: return <PublicReports onBack={() => setMode(AppMode.DASHBOARD)} onNavigate={(m) => setMode(m)} />;
             case AppMode.PUBLIC_INDICATORS: return <PublicIndicators onBack={() => setMode(AppMode.DASHBOARD)} onNavigate={(m) => setMode(m)} />;
+            case AppMode.PUBLIC_GOVERNANCE: return <PublicGovernance onBack={() => setMode(AppMode.DASHBOARD)} onNavigate={(m) => setMode(m)} />;
+            case AppMode.PUBLIC_COMPLIANCE: return <PublicCompliance onBack={() => setMode(AppMode.DASHBOARD)} onNavigate={(m) => setMode(m)} />;
+            case AppMode.PUBLIC_CAREERS: return <PublicCareers onBack={() => setMode(AppMode.DASHBOARD)} onNavigate={(m) => setMode(m)} />;
             case AppMode.PROJECTS: return (
                 <ProjectList
                     onAddNew={() => { setSelectedProject(null); setMode(AppMode.NEW_SOCIAL_PROJECT); }}
@@ -339,7 +345,7 @@ export default function App() {
 
     if (isLoading) return <div className="flex justify-center items-center h-screen bg-white text-black"><span className="font-bold animate-pulse uppercase tracking-widest text-xs">Carregando...</span></div>;
 
-    const isPublicMode = [AppMode.PUBLIC_ENVIRONMENT, AppMode.PUBLIC_SOCIAL, AppMode.PUBLIC_REPORTS, AppMode.PUBLIC_INDICATORS].includes(mode);
+    const isPublicMode = [AppMode.PUBLIC_ENVIRONMENT, AppMode.PUBLIC_SOCIAL, AppMode.PUBLIC_REPORTS, AppMode.PUBLIC_INDICATORS, AppMode.PUBLIC_GOVERNANCE, AppMode.PUBLIC_COMPLIANCE, AppMode.PUBLIC_CAREERS].includes(mode);
 
     if (!isAuthenticated && !isPublicMode) {
         if (showLogin) return <Login onLogin={() => setIsAuthenticated(true)} onBack={() => setShowLogin(false)} />;
