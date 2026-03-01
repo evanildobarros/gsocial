@@ -43,11 +43,11 @@ export const ItaquiESGLandingPage: React.FC<ItaquiESGLandingPageProps> = ({ onLo
     }, [fontSize]);
 
     return (
-        <div ref={containerRef} className="h-screen overflow-y-auto bg-white dark:bg-black font-sans text-black dark:text-white selection:bg-green-100 scroll-smooth">
+        <div ref={containerRef} className="h-screen overflow-y-auto bg-black dark:bg-black font-sans text-black dark:text-white selection:bg-green-100 scroll-smooth">
             <AccessibilityMenu />
 
             {/* Header / Navbar */}
-            <header className={`fixed w-full z-50 transition-all duration-300 ${scrolled || mobileMenuOpen ? 'bg-white dark:bg-black shadow-lg py-3' : 'bg-transparent py-5 top-0'}`}>
+            <header className={`fixed w-full z-50 transition-all duration-300 ${scrolled || mobileMenuOpen ? 'bg-black dark:bg-black shadow-lg py-3' : 'bg-transparent py-5 top-0'}`}>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center h-14">
                         <div className="flex items-center gap-2 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
@@ -120,7 +120,7 @@ export const ItaquiESGLandingPage: React.FC<ItaquiESGLandingPageProps> = ({ onLo
 
                 {/* Mobile Nav Dropdown */}
                 {mobileMenuOpen && (
-                    <div className="md:hidden absolute top-full left-0 w-full bg-white dark:bg-black border-b border-gray-200 dark:border-white/10 shadow-2xl overflow-y-auto max-h-[80vh] animate-in slide-in-from-top-2 duration-300">
+                    <div className="md:hidden absolute top-full left-0 w-full bg-black dark:bg-black border-b border-gray-200 dark:border-white/10 shadow-2xl overflow-y-auto max-h-[80vh] animate-in slide-in-from-top-2 duration-300">
                         <div className="px-6 pt-4 pb-8 flex flex-col gap-2">
                             
                             {/* Mobile Pilares ESG */}
