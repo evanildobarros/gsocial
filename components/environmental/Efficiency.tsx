@@ -192,7 +192,7 @@ export const Efficiency: React.FC = () => {
 
                 <div className="bg-[#1C1C1C] p-8 rounded-lg text-white relative overflow-hidden group">
                     <Target className="absolute -right-4 -top-4 w-24 h-24 opacity-10 group-hover:rotate-12 transition-transform" />
-                    <h4 className="font-black text-xs uppercase tracking-[0.2em] text-happiness-1 mb-4">Meta de Redução</h4>
+                    <h4 className="font-black text-xs uppercase tracking-[0.2em] text-cyan-400 mb-4">Meta de Redução</h4>
                     <div className="flex items-baseline gap-2 mb-4">
                         <span className="text-4xl font-black tracking-tighter text-white">15%</span>
                         <span className="text-[10px] uppercase font-bold text-white/60">vs 2025</span>
@@ -200,7 +200,7 @@ export const Efficiency: React.FC = () => {
                     <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
                         <div className="h-full bg-happiness-1 w-[68%]" />
                     </div>
-                    <p className="text-[10px] mt-2 font-bold text-happiness-1">68% do objetivo atingido</p>
+                    <p className="text-[10px] mt-2 font-bold text-cyan-400">68% do objetivo atingido</p>
                 </div>
             </div>
 
