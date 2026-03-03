@@ -214,9 +214,17 @@ export const UserManagement: React.FC<UserManagementProps> = ({ onAddUser }) => 
                                     <tr key={profile.id} className="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-4">
-                                                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${getAvatarGradient(profile.role)} flex items-center justify-center shadow-md text-white font-black`}>
-                                                    {profile.full_name?.substring(0, 2).toUpperCase() || 'U'}
-                                                </div>
+                                                {profile.avatar_url ? (
+                                                    <img
+                                                        src={profile.avatar_url}
+                                                        alt={`${profile.full_name}'s avatar`}
+                                                        className="w-12 h-12 rounded-xl object-cover shadow-md"
+                                                    />
+                                                ) : (
+                                                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${getAvatarGradient(profile.role)} flex items-center justify-center shadow-md text-white font-black`}>
+                                                        {profile.full_name?.substring(0, 2).toUpperCase() || 'U'}
+                                                    </div>
+                                                )}
                                                 <div>
                                                     <p className="font-black text-black dark:text-white text-sm">
                                                         {profile.full_name || 'Sem Nome'}
