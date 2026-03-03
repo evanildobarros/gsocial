@@ -228,24 +228,24 @@ export const CreateUser: React.FC<CreateUserProps> = ({ onBack }) => {
 
                 {/* Info Section */}
                 <div className="space-y-6">
-                    <div className="bg-[#1C1C1C] p-8 rounded-3xl relative overflow-hidden group">
+                    <div className="bg-[#1B2B40] p-8 rounded-3xl relative overflow-hidden group">
                         <div className="absolute top-0 right-0 w-32 h-32 bg-happiness-1/10 rounded-full blur-[40px] -mr-16 -mt-16 group-hover:bg-happiness-1/20 transition-all duration-700"></div>
                         <h3 className="text-white font-black text-lg mb-4 flex items-center gap-2">
-                            <Shield className="w-5 h-5 text-happiness-3" />
+                            <Shield className="w-5 h-5 text-happiness-1" />
                             Níveis de Acesso
                         </h3>
                         <div className="space-y-4">
                             <div className="p-4 bg-white/5 rounded-3xl border border-white/5">
-                                <p className="text-happiness-2 text-[10px] font-black uppercase tracking-widest mb-1">Master Admin</p>
-                                <p className="text-black text-xs font-medium">Controle total do sistema, gestão de faturamento e níveis de acesso.</p>
+                                <p className="text-happiness-1 text-[10px] font-black uppercase tracking-widest mb-1">Master Admin</p>
+                                <p className="text-white text-xs font-medium">Controle total do sistema, gestão de faturamento e níveis de acesso.</p>
                             </div>
                             <div className="p-4 bg-white/5 rounded-3xl border border-white/5">
-                                <p className="text-happiness-3 text-[10px] font-black uppercase tracking-widest mb-1">Administrador</p>
-                                <p className="text-black text-xs font-medium">Gere projetos, visualiza relatórios e gerencia usuários comuns.</p>
+                                <p className="text-happiness-1 text-[10px] font-black uppercase tracking-widest mb-1">Administrador</p>
+                                <p className="text-white text-xs font-medium">Gere projetos, visualiza relatórios e gerencia usuários comuns.</p>
                             </div>
                             <div className="p-4 bg-white/5 rounded-3xl border border-white/5">
-                                <p className="text-black text-[10px] font-black uppercase tracking-widest mb-1">Usuário Comum</p>
-                                <p className="text-black text-xs font-medium">Acesso limitado à leitura de projetos e envio de mensagens.</p>
+                                <p className="text-white text-[10px] font-black uppercase tracking-widest mb-1">Usuário Comum</p>
+                                <p className="text-white text-xs font-medium">Acesso limitado à leitura de projetos e envio de mensagens.</p>
                             </div>
                         </div>
                     </div>
