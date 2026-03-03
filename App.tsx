@@ -146,7 +146,7 @@ const SectionHeader: React.FC<{
                     {label}
                 </span>
             )}
-            {collapsed && <span className="text-[11px] font-black uppercase tracking-[0.25em] text-black dark:text-white">•••</span>}
+            {collapsed && <span className="text-[11px] font-black tracking-[0.25em] text-black dark:text-white">•••</span>}
         </div>
         {!collapsed && onToggle && (
             <div className="text-black dark:text-white group-hover:text-happiness-1 transition-colors ml-2">
@@ -343,7 +343,7 @@ export default function App() {
         return [home, { label: getPageTitle() }];
     };
 
-    if (isLoading) return <div className="flex justify-center items-center h-screen bg-white text-black"><span className="font-bold animate-pulse uppercase tracking-widest text-xs">Carregando...</span></div>;
+    if (isLoading) return <div className="flex justify-center items-center h-screen bg-white text-black"><span className="font-bold animate-pulse tracking-widest text-xs">Carregando...</span></div>;
 
     const isPublicMode = [AppMode.PUBLIC_ENVIRONMENT, AppMode.PUBLIC_SOCIAL, AppMode.PUBLIC_REPORTS, AppMode.PUBLIC_INDICATORS, AppMode.PUBLIC_GOVERNANCE, AppMode.PUBLIC_COMPLIANCE, AppMode.PUBLIC_CAREERS].includes(mode);
 
@@ -430,7 +430,7 @@ export default function App() {
                     </div>
                     <div className={`overflow-hidden transition-all duration-300 ${settingsOpen && sidebarOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
                         <div className="pl-4 pr-2">
-                            <button onClick={() => setMode(AppMode.USERS)} className={`w-full flex items-center py-2.5 px-4 rounded-lg transition-all mt-1 ml-4 border-l-2 ${mode === AppMode.USERS ? 'border-happiness-1 bg-happiness-1/5 text-happiness-1 dark:text-white dark:bg-happiness-1/10' : 'border-gray-200 dark:border-white/10 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-white/5'}`}><UsersIcon sx={{ fontSize: 18, marginRight: '12px' }} /><span className="text-sm font-bold uppercase tracking-tight">Usuários</span></button>
+                            <button onClick={() => setMode(AppMode.USERS)} className={`w-full flex items-center py-2.5 px-4 rounded-lg transition-all mt-1 ml-4 border-l-2 ${mode === AppMode.USERS ? 'border-happiness-1 bg-happiness-1/5 text-happiness-1 dark:text-white dark:bg-happiness-1/10' : 'border-gray-200 dark:border-white/10 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-white/5'}`}><UsersIcon sx={{ fontSize: 18, marginRight: '12px' }} /><span className="text-sm font-bold tracking-tight">Usuários</span></button>
                         </div>
                     </div>
                 </div>
@@ -441,7 +441,7 @@ export default function App() {
                     <div className="flex items-center gap-4 md:gap-6">
                         <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-2 text-black dark:text-white"><MenuIcon /></button>
                         <div className="h-6 w-px bg-gray-200 dark:bg-white/10 hidden sm:block"></div>
-                        <h2 className="hidden sm:block text-sm font-black text-black dark:text-white uppercase tracking-[0.2em]">{getPageTitle()}</h2>
+                        <h2 className="hidden sm:block text-sm font-black text-black dark:text-white tracking-[0.2em]">{getPageTitle()}</h2>
                     </div>
                     <div className="flex items-center gap-8">
                         <div className="hidden sm:block"><ThemeSwitcher /></div>
@@ -454,12 +454,12 @@ export default function App() {
                             {isProfileOpen && (
                                 <div className="absolute right-0 top-full mt-4 w-72 bg-white dark:bg-[#1E1E1E] rounded-xl shadow-2xl border border-gray-100 dark:border-white/5 overflow-hidden z-50 transform origin-top-right animate-in fade-in zoom-in-95 duration-200 text-left">
                                     <div className="absolute -top-1.5 right-5 w-3 h-3 bg-white dark:bg-[#1E1E1E] transform rotate-45 border-l border-t border-gray-100 dark:border-white/5"></div>
-                                    <div className="px-6 py-5 border-b border-gray-100 dark:border-white/5 bg-gray-50/50 dark:bg-white/5"><p className="text-[11px] font-black text-black dark:text-white uppercase tracking-widest mb-1">{userProfile?.role || 'Usuário'}</p><p className="text-base font-bold text-black dark:text-white leading-tight truncate">{userProfile?.full_name}</p><p className="text-xs text-black dark:text-white truncate mt-0.5">{userProfile?.email}</p></div>
+                                    <div className="px-6 py-5 border-b border-gray-100 dark:border-white/5 bg-gray-50/50 dark:bg-white/5"><p className="text-[11px] font-black text-black dark:text-white tracking-widest mb-1">{userProfile?.role || 'Usuário'}</p><p className="text-base font-bold text-black dark:text-white leading-tight truncate">{userProfile?.full_name}</p><p className="text-xs text-black dark:text-white truncate mt-0.5">{userProfile?.email}</p></div>
                                     <div className="p-2">
                                         <button onClick={() => { setMode(AppMode.PROFILE); setIsProfileOpen(false); }} className="w-full text-left px-4 py-3 text-sm font-medium text-black dark:text-white hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg flex items-center gap-3 transition-colors"><AccountCircleIcon fontSize="small" className="text-black dark:text-white" />Seu Perfil</button>
                                         <button onClick={() => { setMode(AppMode.DASHBOARD); setIsProfileOpen(false); }} className="w-full text-left px-4 py-3 text-sm font-medium text-black dark:text-white hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg flex items-center gap-3 transition-colors"><SettingsIcon fontSize="small" className="text-black dark:text-white" />Configurações</button>
                                     </div>
-                                    <div className="px-4 py-4 border-t border-gray-100 dark:border-white/5 bg-gray-50/30 dark:bg-white/[0.02]"><p className="text-[11px] font-black text-black dark:text-white uppercase tracking-widest mb-3 flex items-center gap-2"><ZapIcon sx={{ fontSize: 14 }} />Ambiente de Cores</p><div className="flex items-center justify-between gap-2">
+                                    <div className="px-4 py-4 border-t border-gray-100 dark:border-white/5 bg-gray-50/30 dark:bg-white/[0.02]"><p className="text-[11px] font-black text-black dark:text-white tracking-widest mb-3 flex items-center gap-2"><ZapIcon sx={{ fontSize: 14 }} />Ambiente de Cores</p><div className="flex items-center justify-between gap-2">
                                         {[{ id: 'azure', label: 'Marítimo', colors: ['#4973F2', '#1B2B40'] }, { id: 'emerald', label: 'Eco', colors: ['#29A683', '#1B2B40'] }, { id: 'burgundy', label: 'Executivo', colors: ['#BF2633', '#590A18'] }].map((themeOpt) => (
                                             <button key={themeOpt.id} onClick={() => setCurrentTheme(themeOpt.id)} className={`relative flex-1 group transition-all duration-300 ${currentTheme === themeOpt.id ? 'scale-105' : 'opacity-60 hover:opacity-100'}`}><div className={`h-8 w-full rounded-md mb-1.5 transition-all ${currentTheme === themeOpt.id ? 'ring-2 ring-happiness-1 ring-offset-2 dark:ring-offset-zinc-900' : 'border border-gray-200 dark:border-white/10'}`} style={{ background: `linear-gradient(135deg, ${themeOpt.colors[0]} 50%, ${themeOpt.colors[1]} 50%)` }} /></button>
                                         ))}
@@ -472,7 +472,7 @@ export default function App() {
                 </header>
                 <div className="flex-1 p-6 md:p-10 w-full animate-in fade-in duration-500">
                     {mode !== AppMode.DASHBOARD && !isPublicMode && <Breadcrumb items={getBreadcrumbs()} />}
-                    <Suspense fallback={<div className="flex justify-center items-center h-full"><span className="font-bold animate-pulse text-xs uppercase tracking-widest text-black">Carregando Tela...</span></div>}>
+                    <Suspense fallback={<div className="flex justify-center items-center h-full"><span className="font-bold animate-pulse text-xs tracking-widest text-black">Carregando Tela...</span></div>}>
                         {getComponent()}
                     </Suspense>
                 </div>
