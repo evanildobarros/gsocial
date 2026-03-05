@@ -13,7 +13,8 @@ import {
   WaterDrop as DropletsIcon,
   Insights as ActivityIcon,
   Refresh as RefreshIcon,
-  Sync as SyncIcon
+  Sync as SyncIcon,
+  ShowChart as SroiIcon,
 } from '@mui/icons-material';
 import { supabase } from '../utils/supabase';
 
