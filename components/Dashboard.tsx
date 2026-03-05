@@ -180,22 +180,22 @@ export const Dashboard: React.FC = () => {
         </div>
       </div>
 
-      {/* High Level KPIs */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* High Level KPIs */}{/* NEW: Status E/S/G Card (Placeholder data for structure) */}<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <KPICard
-          title="Emissões Escopo 3"
-          value="189,225 tCO2e"
-          subtext="Base 2022 (99.6% do Total)"
-          icon={LeafIcon}
+          title="Status ESG Geral"
+          value="CONFORME"
+          subtext="E: OK, S: Atenção, G: OK"
+          icon={ShieldIcon}
           trend="up"
-          trendValue="Ref"
-          color="success"
+          trendValue="Estável"
+          color="success" /* Assuming overall status is good for the main card visual */
+          isWarning={false}
         />
         <KPICard
           title="Índice SROI (Média)"
           value={`R$ ${stats.avgSroi.toFixed(2)}`}
           subtext="Retorno Social por R$1"
-          icon={UsersIcon}
+          icon={SroiIcon}
           trend={stats.avgSroi > 0 ? "up" : "neutral"}
           trendValue={stats.avgSroi > 0 ? "ATIVO" : ""}
           color="primary"
