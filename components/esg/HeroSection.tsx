@@ -7,8 +7,8 @@ export const HeroSection = () => {
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-[-10]">
         <img
-          src="/images/hero-port.jpg"
-          alt="Vista aérea do Porto do Itaqui ao entardecer"
+          src="/images/hero-bg-tech.png"
+          alt="Plano de fundo tecnológico e minimalista"
           className="w-full h-full object-cover scale-105 animate-[ken-burns_20s_ease-in-out_infinite] opacity-60"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black"></div>
