@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowUpIcon, ArrowDownwardIcon, ShieldIcon, UsersIcon, SroiIcon, GavelIcon, LeafIcon } from '@mui/icons-material';
+import { ArrowUpward as ArrowUpIcon, ArrowDownward as ArrowDownwardIcon, Shield as ShieldIcon, People as UsersIcon, ShowChart as SroiIcon, Gavel as GavelIcon, Nature as LeafIcon } from '@mui/icons-material';
 import { ESGStatus, ESG_COLORS } from '../theme/esgColors';
 
 // Enum para definir o tipo de formatação de valor que o card deve ter
@@ -22,29 +22,28 @@ interface ESGMetricCardProps {
   icon?: React.ReactNode; // Ícone principal do card
 }
 
-const getToneClasses = (tone: string, isDark: boolean) => {
+const getToneClasses = (tone: string) => {
     switch (tone) {
         case 'primary': return {
-            bg: isDark ? 'dark:bg-happiness-1/20' : 'bg-happiness-1/10',
+            bg: 'bg-happiness-1/10 dark:bg-happiness-1/20',
             text: 'text-happiness-1 dark:text-white'
         };
         case 'emerald': return {
-            bg: isDark ? 'dark:bg-emerald-900/30' : 'bg-emerald-100',
-            text: isDark ? 'dark:text-emerald-300' : 'text-emerald-700'
+            bg: 'bg-emerald-100 dark:bg-emerald-900/30',
+            text: 'text-emerald-700 dark:text-emerald-300'
         };
         case 'secondary': return {
-            bg: isDark ? 'dark:bg-slate-800' : 'bg-gray-100',
-            text: isDark ? 'dark:text-slate-300' : 'text-slate-600'
+            bg: 'bg-gray-100 dark:bg-slate-800',
+            text: 'text-slate-600 dark:text-slate-300'
         };
-        default: return { bg: isDark ? 'dark:bg-gray-800' : 'bg-gray-100', text: 'text-black dark:text-white' };
+        default: return { bg: 'bg-gray-100 dark:bg-zinc-800', text: 'text-black dark:text-white' };
     }
 };
 
 const ESGMetricCard: React.FC<ESGMetricCardProps> = ({
   title, value, subtext, metricType = MetricType.NUMERIC, status = 'success', colorTone = 'primary', onClick, trend = 'neutral', trendValue, icon
 }) => {
-  const isDark = document.documentElement.classList.contains('dark');
-  const { bg, text } = getToneClasses(colorTone, isDark);
+  const { bg, text } = getToneClasses(colorTone);
 
   // 1. Lógica de Renderização para Status Aggregate (E/S/G)
   if (metricType === MetricType.STATUS_AGGREGATE) {
@@ -64,7 +63,7 @@ const ESGMetricCard: React.FC<ESGMetricCardProps> = ({
     return (
       <div 
         className={`
-          relative h-full p-5 rounded-3xl border transition-all duration-200 hover:shadow-lg bg-white dark:bg-zinc-900 overflow-hidden border-gray-200 dark:border-white/5
+          relative h-full p-5 rounded-3xl border transition-all duration-200 hover:shadow-lg bg-white dark:bg-surface-1 overflow-hidden border-gray-200 dark:border-white/5
           ${onClick ? 'cursor-pointer hover:-translate-y-1' : ''}
         `}
         onClick={onClick}
@@ -75,7 +74,7 @@ const ESGMetricCard: React.FC<ESGMetricCardProps> = ({
             {/* O valor principal aqui pode ser um resumo, ex: 'Em Conformidade' */}
             <h4 className="text-3xl font-black mt-1 text-black dark:text-white tracking-tight">{value}</h4>
           </div>
-          <div className={`p-3 rounded-xl flex items-center justify-center h-12 w-12 ${bg}`}>
+          <div className={`p-3 rounded-xl flex items-center justify-center h-12 w-12 ${bg} ${text}`}>
             {icon}
           </div>
         </div>
@@ -97,7 +96,7 @@ const ESGMetricCard: React.FC<ESGMetricCardProps> = ({
   return (
     <div 
         className={`
-            relative h-full p-5 rounded-3xl border transition-all duration-200 hover:shadow-lg bg-white dark:bg-zinc-900 overflow-hidden
+            relative h-full p-5 rounded-3xl border transition-all duration-200 hover:shadow-lg bg-white dark:bg-surface-1 overflow-hidden
             ${onClick ? 'cursor-pointer hover:-translate-y-1' : 'border-gray-200 dark:border-white/5'}
             ${status === 'critical' ? 'border-red-500 bg-red-50 dark:bg-red-900/10' : 'border-gray-200 dark:border-white/5'}
         `}
@@ -129,3 +128,5 @@ const ESGMetricCard: React.FC<ESGMetricCardProps> = ({
     </div>
   );
 };
+
+export default ESGMetricCard;

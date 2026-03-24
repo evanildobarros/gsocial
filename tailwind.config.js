@@ -29,7 +29,11 @@ export default {
                 },
                 error: 'rgb(var(--color-error) / <alpha-value>)',
                 background: 'rgb(var(--color-background) / <alpha-value>)',
-                surface: 'rgb(var(--color-surface) / <alpha-value>)',
+                surface: {
+                    DEFAULT: 'rgb(var(--color-surface) / <alpha-value>)',
+                    1: 'rgb(var(--color-surface-1) / <alpha-value>)',
+                    2: 'rgb(var(--color-surface-2) / <alpha-value>)',
+                },
                 outline: 'rgb(var(--color-outline) / <alpha-value>)',
                 'on-surface': 'rgb(var(--color-on-surface) / <alpha-value>)',
                 happiness: {

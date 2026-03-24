@@ -35,8 +35,8 @@ const KPICard = ({ title, value, subtext, icon: Icon, trend, trendValue, color, 
 
   return (
     <div className={`
-      relative h-full p-8 rounded-[32px] border bg-gradient-to-br transition-all duration-500 
-      hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] group overflow-hidden
+      relative h-full p-8 rounded-[32px] border bg-gradient-to-br transition-all duration-300 ease-out
+      hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.1)] hover:scale-[1.02] group overflow-hidden
       ${gradients[color] || 'from-gray-50 to-white dark:from-zinc-900 dark:to-zinc-950 border-gray-100 dark:border-white/10'}
       ${isWarning ? 'border-red-500/50' : ''}
     `}>
@@ -47,7 +47,7 @@ const KPICard = ({ title, value, subtext, icon: Icon, trend, trendValue, color, 
         <div className="space-y-1">
           <p className="text-[10px] font-black uppercase tracking-[0.2em] text-black/40 dark:text-white/40">{title}</p>
           <div className="flex items-baseline gap-2">
-            <h4 className="text-4xl font-black text-black dark:text-white tracking-tighter leading-none">{value}</h4>
+            <h4 className="text-[clamp(1.5rem,3vw,2.5rem)] font-black text-black dark:text-white tracking-tighter leading-none">{value}</h4>
           </div>
         </div>
         <div className={`flex items-center justify-center h-14 w-14 rounded-2xl transition-transform group-hover:scale-110 duration-500 ${iconColors[color]}`}>
@@ -83,7 +83,7 @@ const ModuleSummary = ({ title, icon: Icon, items, color }: any) => {
   };
 
   return (
-    <div className="h-full rounded-[32px] border border-gray-100 dark:border-white/5 bg-white dark:bg-zinc-900/50 backdrop-blur-sm p-8 hover:border-happiness-1 transition-all duration-500 hover:shadow-2xl">
+    <div className="h-full rounded-[32px] border border-gray-100 dark:border-white/5 bg-white dark:bg-zinc-900/50 backdrop-blur-sm p-8 hover:border-gray-200 dark:hover:border-white/10 transition-all duration-300 ease-out hover:shadow-2xl hover:scale-[1.02]">
       <div className="flex items-center gap-4 mb-8">
         <div className={`p-3 rounded-2xl ${accentColors[color]}`}>
           <Icon />
