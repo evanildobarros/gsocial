@@ -197,7 +197,8 @@ export const Dashboard: React.FC = () => {
         </div>
       </div>
 
-      {/* High Level KPIs */}{/* NEW: Status E/S/G Card (Placeholder data for structure) */}<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* High Level KPIs */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <KPICard
           title="Status ESG Geral"
           value="CONFORME"
@@ -205,7 +206,7 @@ export const Dashboard: React.FC = () => {
           icon={ShieldIcon}
           trend="up"
           trendValue="Estável"
-          color="success" /* Assuming overall status is good for the main card visual */
+          color="success"
           isWarning={false}
         />
         <KPICard
