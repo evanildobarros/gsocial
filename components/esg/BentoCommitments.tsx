@@ -51,7 +51,7 @@ export const BentoCommitments = () => {
           <span className="inline-block text-green-600 font-black tracking-widest uppercase text-[10px] mb-4 pl-3 border-l-4 border-green-500">
             Nossa Visão 2030
           </span>
-          <h2 className="text-4xl md:text-6xl font-black text-black dark:text-white tracking-tighter mb-6 leading-tight">
+          <h2 className="text-fluid-3xl md:text-fluid-5xl font-black text-black dark:text-white tracking-tighter mb-6 leading-tight">
             Compromissos reais para <br/>
             um porto de impacto.
           </h2>
@@ -64,7 +64,7 @@ export const BentoCommitments = () => {
           {commitments.map((c, i) => (
             <div 
               key={i} 
-              className={`p-10 rounded-[48px] border border-gray-100 dark:border-white/5 bg-gray-50 dark:bg-white/5 flex flex-col justify-between hover:shadow-2xl hover:border-gray-200 dark:hover:border-white/10 transition-all group ${c.size}`}
+              className={`p-10 rounded-[48px] border border-gray-100 dark:border-white/5 bg-gray-50 dark:bg-white/5 flex flex-col justify-between hover:shadow-2xl hover:border-gray-200 dark:hover:border-white/10 hover:scale-[1.02] hover:-translate-y-1 transition-all duration-300 ease-out group ${c.size}`}
             >
               <div>
                 <span className="text-[10px] font-black uppercase tracking-[0.2em] text-black/40 dark:text-white/40 mb-3 block">

@@ -18,7 +18,7 @@ export const TransparencySection = () => {
               <span className="inline-block px-3 py-1 rounded bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-[10px] font-black uppercase tracking-widest mb-4">
                 Governança & Transparência
               </span>
-              <h2 className="text-4xl md:text-6xl font-black text-black dark:text-white tracking-tighter leading-tight mb-6">
+              <h2 className="text-fluid-3xl md:text-fluid-5xl font-black text-black dark:text-white tracking-tighter leading-tight mb-6">
                 Relatórios que <br/>
                 contam nossa história.
               </h2>

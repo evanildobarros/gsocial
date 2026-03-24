@@ -1,7 +1,11 @@
 import React from 'react';
 import { ArrowDown, Leaf, Users } from 'lucide-react';
 
-export const HeroSection = () => {
+interface HeroSectionProps {
+  onScrollClick: () => void;
+}
+
+export const HeroSection: React.FC<HeroSectionProps> = ({ onScrollClick }) => {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-black text-white isolate">
       {/* Background Image with Overlay */}
@@ -9,6 +13,7 @@ export const HeroSection = () => {
         <img
           src="/images/hero-bg-tech.png"
           alt="Plano de fundo tecnológico e minimalista"
+          loading="lazy"
           className="w-full h-full object-cover scale-105 animate-[ken-burns_20s_ease-in-out_infinite] opacity-60"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black"></div>
@@ -23,16 +28,24 @@ export const HeroSection = () => {
             </span>
           </div>
 
-          <h1 className="text-5xl sm:text-7xl lg:text-9xl font-black leading-[0.95] tracking-tighter mb-8 antialiased">
+          <h1 className="text-fluid-4xl sm:text-fluid-5xl lg:text-fluid-7xl font-black leading-[0.95] tracking-tighter mb-8 antialiased">
             Liderança <br/>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-cyan-300">Sustentável</span> <br />
             para o Maranhão.
           </h1>
 
-          <p className="max-w-2xl text-lg md:text-2xl font-medium leading-relaxed text-white/80 mb-16 mx-auto lg:mx-0">
+          <p className="max-w-2xl text-lg md:text-2xl font-medium leading-relaxed text-white/80 mb-8 mx-auto lg:mx-0">
             O Porto do Itaqui integra operações logísticas de classe mundial com
             compromissos que transformam o futuro do estado.
           </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-16">
+            <button onClick={onScrollClick} className="px-8 py-4 bg-green-600 text-white font-bold rounded-full hover:bg-green-500 transition-all shadow-lg hover:shadow-green-500/20">
+              Ver Indicadores
+            </button>
+            <button className="px-8 py-4 bg-white/10 text-white font-bold rounded-full hover:bg-white/20 transition-all border border-white/20">
+              Relatório 2024 (PDF)
+            </button>
+          </div>
         </div>
 
         {/* Stats Section - Mobile Optimization */}

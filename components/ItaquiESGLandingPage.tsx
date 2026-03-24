@@ -5,6 +5,7 @@ import { AppMode } from '../types';
 // Modular Sections
 import { HeroSection } from './esg/HeroSection';
 import { BentoCommitments } from './esg/BentoCommitments';
+import { IndicatorsSection } from './esg/IndicatorsSection';
 import { TransparencySection } from './esg/TransparencySection';
 import { NewsSection } from './esg/NewsSection';
 import { Footer } from './esg/Footer';
@@ -25,10 +26,26 @@ export const ItaquiESGLandingPage: React.FC<ItaquiESGLandingPageProps> = ({ onLo
     const [contrast, setContrast] = useState(false);
     const containerRef = React.useRef<HTMLDivElement>(null);
 
+    const [activeSection, setActiveSection] = useState('hero');
+
     useEffect(() => {
         const container = containerRef.current;
         if (!container) return;
-        const handleScroll = () => setScrolled(container.scrollTop > 50);
+        
+        const handleScroll = () => {
+            setScrolled(container.scrollTop > 50);
+            
+            // Scroll Spy Logic
+            const hero = container.scrollTop < 500;
+            const commitments = container.scrollTop >= 500 && container.scrollTop < 1200;
+            const transparency = container.scrollTop >= 1200 && container.scrollTop < 1800;
+            const news = container.scrollTop >= 1800;
+
+            if (hero) setActiveSection('hero');
+            else if (commitments) setActiveSection('commitments');
+            else if (transparency) setActiveSection('transparency');
+            else if (news) setActiveSection('news');
+        };
         container.addEventListener('scroll', handleScroll);
         return () => container.removeEventListener('scroll', handleScroll);
     }, []);
@@ -77,7 +94,7 @@ export const ItaquiESGLandingPage: React.FC<ItaquiESGLandingPageProps> = ({ onLo
 
                             {/* Transparência Dropdown */}
                             <div className="relative group">
-                                <button className={`flex items-center gap-1 text-sm font-semibold transition-colors ${scrolled || mobileMenuOpen ? 'text-black dark:text-white hover:text-green-600 dark:hover:text-green-400' : 'text-white/80 hover:text-white'}`}>
+                                <button className={`flex items-center gap-1 text-sm font-semibold transition-colors ${activeSection === 'transparency' ? 'text-green-500' : (scrolled || mobileMenuOpen ? 'text-black dark:text-white hover:text-green-600 dark:hover:text-green-400' : 'text-white/80 hover:text-white')}`}>
                                     Transparência <ChevronDown size={14} className="group-hover:rotate-180 transition-transform duration-300" />
                                 </button>
                                 <div className="absolute top-full left-0 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
@@ -174,8 +191,12 @@ export const ItaquiESGLandingPage: React.FC<ItaquiESGLandingPageProps> = ({ onLo
 
             {/* Main Content Sections */}
             <main>
-                <HeroSection />
+                <HeroSection onScrollClick={() => {
+                    const el = document.getElementById('indicators');
+                    el?.scrollIntoView({ behavior: 'smooth' });
+                }} />
                 <BentoCommitments />
+                <IndicatorsSection id="indicators" />
                 <TransparencySection />
                 <NewsSection />
             </main>

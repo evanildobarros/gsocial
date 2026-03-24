@@ -1,0 +1,25 @@
+{
+  "project": "Maranhão 2045 - Estratégia de ETRs",
+  "pipeline": {
+    "extraction_axes": [
+      "Baixo Itapecuru",
+      "Noroeste",
+      "Leste/Sudeste",
+      "Sudoeste/Centro-Sul"
+    ],
+    "processing_hub": {
+      "name": "ZPE Bacabeira",
+      "function": "Verticalização e separação metalúrgica"
+    },
+    "logistics_triad": {
+      "port": "Porto do Itaqui",
+      "railway": "E.F. Carajás",
+      "hub": "ZPE Bacabeira"
+    }
+  },
+  "kpis": {
+    "economic": ["Volume de exportação (t)", "Valor agregado (USD/t)", "SROI estimado"],
+    "esg": ["Gestão de rejeitos NORM/TENORM", "Pegada de carbono do processamento", "Desenvolvimento regional"]
+  },
+  "status": "Iniciando estruturação"
+}

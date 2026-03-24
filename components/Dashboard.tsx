@@ -19,80 +19,96 @@ import {
 import { supabase } from '../utils/supabase';
 
 const KPICard = ({ title, value, subtext, icon: Icon, trend, trendValue, color, isWarning }: any) => {
-  const colorMap: any = {
-    success: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400',
-    primary: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400',
-    error: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400',
-    warning: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400',
+  const gradients: any = {
+    success: 'from-emerald-500/10 to-emerald-500/5 dark:from-emerald-500/20 dark:to-emerald-500/5 border-emerald-500/20',
+    primary: 'from-blue-500/10 to-blue-500/5 dark:from-blue-500/20 dark:to-blue-500/5 border-blue-500/20',
+    error: 'from-red-500/10 to-red-500/5 dark:from-red-500/20 dark:to-red-500/5 border-red-500/20',
+    warning: 'from-amber-500/10 to-amber-500/5 dark:from-amber-500/20 dark:to-amber-500/5 border-amber-500/20',
   };
 
-  const trendColor = trend === 'up' ? 'text-emerald-600 dark:text-emerald-400' :
-    trend === 'down' ? 'text-red-600 dark:text-red-400' : 'text-black dark:text-white';
+  const iconColors: any = {
+    success: 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/30',
+    primary: 'bg-blue-500 text-white shadow-lg shadow-blue-500/30',
+    error: 'bg-red-500 text-white shadow-lg shadow-red-500/30',
+    warning: 'bg-amber-500 text-white shadow-lg shadow-amber-500/30',
+  };
 
   return (
     <div className={`
-      relative h-full p-5 rounded-3xl border transition-all duration-200 hover:-translate-y-1 hover:shadow-lg bg-white dark:bg-zinc-900 overflow-hidden
-      ${isWarning ? 'border-red-500 bg-red-50 dark:bg-red-900/10' : 'border-gray-200 dark:border-white/5'}
+      relative h-full p-8 rounded-[32px] border bg-gradient-to-br transition-all duration-500 
+      hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] group overflow-hidden
+      ${gradients[color] || 'from-gray-50 to-white dark:from-zinc-900 dark:to-zinc-950 border-gray-100 dark:border-white/10'}
+      ${isWarning ? 'border-red-500/50' : ''}
     `}>
-      <div className="flex justify-between mb-4">
-        <div>
-          <p className="text-[10px] font-black uppercase tracking-widest text-black dark:text-white">{title}</p>
-          <h4 className="text-3xl font-black mt-1 text-black dark:text-white tracking-tight">{value}</h4>
+      {/* Decorative Blur */}
+      <div className={`absolute -right-4 -top-4 w-24 h-24 blur-3xl opacity-20 rounded-full bg-current ${color === 'success' ? 'text-emerald-500' : color === 'primary' ? 'text-blue-500' : color === 'error' ? 'text-red-500' : 'text-amber-500'}`} />
+
+      <div className="flex justify-between items-start mb-6">
+        <div className="space-y-1">
+          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-black/40 dark:text-white/40">{title}</p>
+          <div className="flex items-baseline gap-2">
+            <h4 className="text-4xl font-black text-black dark:text-white tracking-tighter leading-none">{value}</h4>
+          </div>
         </div>
-        <div className={`p-3 rounded-xl flex items-center justify-center h-12 w-12 ${colorMap[color] || 'bg-gray-100 text-black dark:text-white'}`}>
-          <Icon />
+        <div className={`flex items-center justify-center h-14 w-14 rounded-2xl transition-transform group-hover:scale-110 duration-500 ${iconColors[color]}`}>
+          <Icon style={{ fontSize: 28 }} />
         </div>
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-3">
         {trend !== 'neutral' && (
-          <span className={`text-xs font-bold flex items-center ${trendColor}`}>
-            {trend === 'up' ? <ArrowUpIcon style={{ fontSize: 14, marginRight: 4 }} /> : <ArrowDownIcon style={{ fontSize: 14, marginRight: 4 }} />}
+          <div className={`flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider ${trend === 'up' ? 'bg-emerald-500/10 text-emerald-600' : 'bg-red-500/10 text-red-600'}`}>
+            {trend === 'up' ? <ArrowUpIcon style={{ fontSize: 12 }} /> : <ArrowDownIcon style={{ fontSize: 12 }} />}
             {trendValue}
-          </span>
+          </div>
         )}
-        <span className="text-xs font-medium text-black dark:text-white">{subtext}</span>
+        <span className="text-xs font-bold text-black/60 dark:text-white/60">{subtext}</span>
       </div>
 
       {isWarning && (
-        <span className="absolute top-3 right-3 w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+        <div className="absolute top-4 right-4 flex gap-1">
+          <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-ping"></span>
+          <span className="w-1.5 h-1.5 rounded-full bg-red-500"></span>
+        </div>
       )}
     </div>
   );
 };
 
 const ModuleSummary = ({ title, icon: Icon, items, color }: any) => {
-  const iconColors: any = {
-    success: 'text-emerald-600 dark:text-emerald-400',
-    primary: 'text-blue-600 dark:text-blue-400',
-    secondary: 'text-slate-600 dark:text-slate-400',
+  const accentColors: any = {
+    success: 'text-emerald-500 bg-emerald-500/10 shadow-lg shadow-emerald-500/10',
+    primary: 'text-blue-500 bg-blue-500/10 shadow-lg shadow-blue-500/10',
+    secondary: 'text-zinc-500 bg-zinc-500/10 shadow-lg shadow-zinc-500/10',
   };
 
   return (
-    <div className="h-full rounded-3xl border border-gray-200 dark:border-white/5 bg-white dark:bg-zinc-900 p-6 hover:border-gray-300 dark:hover:border-white/10 transition-colors">
-      <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100 dark:border-white/5">
-        <Icon className={iconColors[color]} />
-        <h3 className="text-xs font-black uppercase tracking-widest text-black dark:text-white">{title}</h3>
+    <div className="h-full rounded-[32px] border border-gray-100 dark:border-white/5 bg-white dark:bg-zinc-900/50 backdrop-blur-sm p-8 hover:border-happiness-1 transition-all duration-500 hover:shadow-2xl">
+      <div className="flex items-center gap-4 mb-8">
+        <div className={`p-3 rounded-2xl ${accentColors[color]}`}>
+          <Icon />
+        </div>
+        <h3 className="text-xs font-black uppercase tracking-[0.2em] text-black dark:text-white opacity-60 leading-tight">{title}</h3>
       </div>
-      <div className="flex flex-col gap-3">
+      <div className="space-y-3">
         {items.map((item: any, idx: number) => (
           <div
             key={idx}
-            className="flex justify-between items-center p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+            className="flex justify-between items-center p-4 rounded-2xl bg-gray-50/50 dark:bg-white/[0.02] hover:bg-white dark:hover:bg-white/5 transition-all border border-transparent hover:border-gray-100 dark:hover:border-white/10 group/item"
           >
-            <div>
-              <p className="text-sm font-bold text-black dark:text-white">{item.label}</p>
-              <p className="text-xs font-medium text-black">{item.sub}</p>
+            <div className="space-y-0.5">
+              <p className="text-sm font-black text-black dark:text-white group-hover/item:text-happiness-1 transition-colors leading-none">{item.label}</p>
+              <p className="text-[10px] font-bold text-black/40 dark:text-white/40 uppercase tracking-widest">{item.sub}</p>
             </div>
-            <span className={`
-              px-2 py-1 rounded-3xl text-[10px] font-black uppercase
-              ${item.status === 'success' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300' : ''}
-              ${item.status === 'warning' ? 'bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-300' : ''}
-              ${item.status === 'danger' ? 'bg-red-100 text-red-700 dark:bg-red-500/20 dark:text-red-300' : ''}
-              ${item.status === 'neutral' ? 'bg-gray-100 text-black dark:bg-gray-800 dark:text-black' : ''}
+            <div className={`
+              px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider shadow-sm
+              ${item.status === 'success' ? 'bg-emerald-500 text-white' : ''}
+              ${item.status === 'warning' ? 'bg-amber-500 text-white' : ''}
+              ${item.status === 'danger' ? 'bg-red-500 text-white' : ''}
+              ${item.status === 'neutral' ? 'bg-zinc-100 text-zinc-500 dark:bg-zinc-800' : ''}
             `}>
               {item.value}
-            </span>
+            </div>
           </div>
         ))}
       </div>

@@ -426,29 +426,29 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
                             if (layer.type === 'MARKER') return (
                                 <MarkerF key={layer.id} position={layer.data} onClick={() => setSelectedElement({ layer, position: layer.data })} />
                             );
-                            
+
                             if (layer.type === 'POLYGON') {
                                 // Ensure data is in the correct format for Polygon
                                 const paths = Array.isArray(layer.data[0]) ? layer.data : [layer.data];
                                 return (
-                                    <Polygon 
-                                        key={layer.id} 
-                                        paths={paths} 
-                                        options={{ fillColor: layer.color, fillOpacity: 0.3, strokeColor: layer.color, strokeWeight: 2 }} 
-                                        onClick={(e) => setSelectedElement({ layer, position: e.latLng?.toJSON() })} 
+                                    <Polygon
+                                        key={layer.id}
+                                        paths={paths}
+                                        options={{ fillColor: layer.color, fillOpacity: 0.3, strokeColor: layer.color, strokeWeight: 2 }}
+                                        onClick={(e) => setSelectedElement({ layer, position: e.latLng?.toJSON() })}
                                     />
                                 );
                             }
-                            
+
                             if (layer.type === 'POLYLINE') {
                                 // Ensure data is in the correct format for Polyline
                                 const path = Array.isArray(layer.data[0]) ? layer.data[0] : layer.data;
                                 return (
-                                    <Polyline 
-                                        key={layer.id} 
-                                        path={path} 
-                                        options={{ strokeColor: layer.color, strokeWeight: 3 }} 
-                                        onClick={(e) => setSelectedElement({ layer, position: e.latLng?.toJSON() })} 
+                                    <Polyline
+                                        key={layer.id}
+                                        path={path}
+                                        options={{ strokeColor: layer.color, strokeWeight: 3 }}
+                                        onClick={(e) => setSelectedElement({ layer, position: e.latLng?.toJSON() })}
                                     />
                                 );
                             }
@@ -463,11 +463,10 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
                         <InfoWindowF position={selectedElement.position} onCloseClick={() => setSelectedElement(null)}>
                             <div className="custom-pop-content min-w-[320px] bg-white dark:bg-[#121212] overflow-hidden -m-3 shadow-2xl rounded-3xl border border-gray-100 dark:border-white/10">
                                 {/* Header com Risco */}
-                                <div className={`h-1.5 w-full ${
-                                    selectedElement.layer.details?.risk_level?.includes('Crítico') ? 'bg-red-500' :
-                                    selectedElement.layer.details?.risk_level?.includes('Moderado') ? 'bg-amber-500' : 'bg-green-500'
-                                }`} />
-                                
+                                <div className={`h-1.5 w-full ${selectedElement.layer.details?.risk_level?.includes('Crítico') ? 'bg-red-500' :
+                                        selectedElement.layer.details?.risk_level?.includes('Moderado') ? 'bg-amber-500' : 'bg-green-500'
+                                    }`} />
+
                                 <div className="p-6 space-y-5">
                                     {/* Identidade */}
                                     <div className="flex items-start gap-4">
