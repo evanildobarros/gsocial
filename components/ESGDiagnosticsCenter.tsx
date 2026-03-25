@@ -106,14 +106,11 @@ export const ESGDiagnosticsCenter: React.FC<ESGDiagnosticsCenterProps> = ({ onSe
             </div>
 
             {/* Info Banner */}
-            <div className="bg-gray-100 dark:bg-[#1C1C1C] rounded-[40px] p-12 relative overflow-hidden border border-gray-200 dark:border-white/10 shadow-2xl">
-                <div className="absolute inset-0 bg-gradient-to-tr from-blue-100/50 to-transparent dark:from-blue-900/10 dark:to-transparent pointer-events-none" />
-                <div className="absolute top-[-100px] right-[-100px] w-80 h-80 bg-white/20 dark:bg-white/5 rounded-full pointer-events-none" />
-
+            <div className="bg-gray-100 border border-gray-200 rounded-[40px] p-12 relative overflow-hidden shadow-sm">
                 <div className="relative z-10 flex flex-col md:flex-row justify-between items-center gap-8">
                     <div>
-                        <h3 className="text-3xl font-black mb-2 tracking-tight text-black dark:text-white">Consolidação 2026</h3>
-                        <p className="text-xs font-bold text-black/60 dark:text-white/60 uppercase tracking-widest">
+                        <h3 className="text-3xl font-black mb-2 tracking-tight text-black">Consolidação 2026</h3>
+                        <p className="text-xs font-bold text-black/60 uppercase tracking-widest">
                             Os resultados alimentam automaticamente o Dashboard Estratégico.
                         </p>
                     </div>
