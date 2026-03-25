@@ -435,7 +435,7 @@ export default function App() {
                 </div>
             </aside>
 
-            <main className={`flex-1 flex flex-col h-screen overflow-y-auto transition-all duration-300 ${sidebarOpen ? 'lg:ml-80' : 'lg:ml-24'} ml-0`}>
+            <main className={`flex-1 flex flex-col h-screen overflow-x-hidden overflow-y-auto transition-all duration-300 ${sidebarOpen ? 'lg:ml-80' : 'lg:ml-24'} ml-0`}>
                 <header className="h-20 md:h-24 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md sticky top-0 z-40 border-b border-gray-100 dark:border-white/5 px-4 md:px-12 flex items-center justify-between transition-colors">
                     <div className="flex items-center gap-4 md:gap-6">
                         <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-2 text-black dark:text-white"><MenuIcon /></button>
