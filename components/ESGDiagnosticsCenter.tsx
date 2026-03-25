@@ -106,15 +106,15 @@ export const ESGDiagnosticsCenter: React.FC<ESGDiagnosticsCenterProps> = ({ onSe
             </div>
 
             {/* Info Banner */}
-            <div className="bg-blue-950 rounded-[24px] p-8 md:p-12 relative overflow-hidden shadow-sm">
-                <div className="relative z-10 flex flex-col md:flex-row justify-between items-center gap-6">
-                    <div className="text-center md:text-left">
-                        <h3 className="text-xl md:text-2xl font-black mb-1 tracking-tight text-white">Consolidação 2026</h3>
-                        <p className="text-[9px] md:text-[10px] font-bold text-blue-200 uppercase tracking-widest leading-snug">
+            <div className="bg-blue-950 rounded-[40px] p-6 md:p-12 relative overflow-hidden shadow-sm">
+                <div className="relative z-10 flex flex-col justify-center items-center gap-6 text-center">
+                    <div>
+                        <h3 className="text-xl md:text-3xl font-black mb-2 tracking-tight text-white px-2">Consolidação 2026</h3>
+                        <p className="text-[9px] md:text-xs font-bold text-blue-200 uppercase tracking-widest leading-snug px-2">
                             Os resultados alimentam automaticamente o Dashboard Estratégico.
                         </p>
                     </div>
-                    <button className="bg-[#3B54D4] hover:bg-[#3248B5] text-white px-6 py-3 md:px-8 md:py-4 rounded-full font-black text-[10px] uppercase tracking-widest shadow-lg shadow-[#3B54D4]/20 transition-all hover:scale-105 shrink-0">
+                    <button className="bg-[#3B54D4] hover:bg-[#3248B5] text-white px-6 py-3 md:px-8 md:py-4 rounded-full font-black text-[10px] uppercase tracking-widest shadow-lg shadow-[#3B54D4]/20 transition-all hover:scale-105 shrink-0 w-full md:w-auto max-w-[200px]">
                         Relatório Consolidado
                     </button>
                 </div>
