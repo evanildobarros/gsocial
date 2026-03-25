@@ -66,7 +66,7 @@ export const ESGDiagnosticsCenter: React.FC<ESGDiagnosticsCenterProps> = ({ onSe
             </header>
 
             {/* Grid of Modules */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pb-16">
                 {modules.map((m, idx) => (
                     <button
                         key={idx}
