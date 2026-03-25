@@ -106,16 +106,16 @@ export const ESGDiagnosticsCenter: React.FC<ESGDiagnosticsCenterProps> = ({ onSe
             </div>
 
             {/* Info Banner */}
-            <div style={{ backgroundColor: '#F3F4F6', borderColor: '#E5E7EB' }} className="border rounded-[40px] p-12 relative overflow-hidden shadow-sm">
+            <div className="bg-[#F8F8F9] border border-[#EBEBEB] rounded-[24px] p-8 relative overflow-hidden shadow-sm">
                 <div className="relative z-10 flex flex-col md:flex-row justify-between items-center gap-8">
                     <div>
-                        <h3 className="text-3xl font-black mb-2 tracking-tight text-black">Consolidação 2026</h3>
-                        <p className="text-xs font-bold text-black/60 uppercase tracking-widest">
-                            Os resultados alimentam automaticamente o Dashboard Estratégico.
+                        <h3 className="text-2xl font-black mb-1 tracking-tight text-black">Consolidação 2026</h3>
+                        <p className="text-[10px] font-bold text-black/50 uppercase tracking-widest">
+                            OS RESULTADOS ALIMENTAM AUTOMATICAMENTE O DASHBOARD ESTRATÉGICO.
                         </p>
                     </div>
-                    <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full font-black text-sm uppercase tracking-widest shadow-lg shadow-blue-600/20 transition-all hover:scale-105">
-                        Relatório Consolidado
+                    <button className="bg-[#3B54D4] hover:bg-[#3248B5] text-white px-8 py-3 rounded-full font-black text-[10px] uppercase tracking-widest shadow-lg shadow-[#3B54D4]/20 transition-all hover:scale-105">
+                        RELATÓRIO CONSOLIDADO
                     </button>
                 </div>
             </div>
