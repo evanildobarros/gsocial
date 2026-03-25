@@ -106,7 +106,7 @@ export const ESGDiagnosticsCenter: React.FC<ESGDiagnosticsCenterProps> = ({ onSe
             </div>
 
             {/* Info Banner */}
-            <div className="bg-blue-950 rounded-[40px] p-6 relative overflow-hidden shadow-sm mx-4">
+            <div className="bg-blue-950 rounded-[40px] p-6 relative overflow-hidden shadow-sm">
                 <div className="relative z-10 flex flex-col justify-center items-center gap-4 text-center">
                     <div>
                         <h3 className="text-xl font-black mb-1 tracking-tight text-white px-2 break-words">Consolidação 2026</h3>
