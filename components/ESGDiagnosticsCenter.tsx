@@ -106,18 +106,18 @@ export const ESGDiagnosticsCenter: React.FC<ESGDiagnosticsCenterProps> = ({ onSe
             </div>
 
             {/* Info Banner */}
-            <div className="bg-slate-900 rounded-[40px] p-12 relative overflow-hidden text-white shadow-2xl border border-white/10">
-                <div className="absolute inset-0 bg-gradient-to-tr from-blue-900/20 to-transparent pointer-events-none" />
-                <div className="absolute top-[-100px] right-[-100px] w-80 h-80 bg-white/5 rounded-full pointer-events-none" />
+            <div className="bg-gray-100 dark:bg-[#1C1C1C] rounded-[40px] p-12 relative overflow-hidden border border-gray-200 dark:border-white/10 shadow-2xl">
+                <div className="absolute inset-0 bg-gradient-to-tr from-blue-100/50 to-transparent dark:from-blue-900/10 dark:to-transparent pointer-events-none" />
+                <div className="absolute top-[-100px] right-[-100px] w-80 h-80 bg-white/20 dark:bg-white/5 rounded-full pointer-events-none" />
 
                 <div className="relative z-10 flex flex-col md:flex-row justify-between items-center gap-8">
                     <div>
-                        <h3 className="text-3xl font-black mb-2 tracking-tight">Consolidação 2026</h3>
-                        <p className="text-xs font-bold text-white/60 uppercase tracking-widest">
+                        <h3 className="text-3xl font-black mb-2 tracking-tight text-black dark:text-white">Consolidação 2026</h3>
+                        <p className="text-xs font-bold text-black/60 dark:text-white/60 uppercase tracking-widest">
                             Os resultados alimentam automaticamente o Dashboard Estratégico.
                         </p>
                     </div>
-                    <button className="bg-white text-blue-900 hover:bg-slate-100 px-8 py-4 rounded-full font-black text-sm uppercase tracking-widest shadow-lg transition-all hover:scale-105">
+                    <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full font-black text-sm uppercase tracking-widest shadow-lg shadow-blue-600/20 transition-all hover:scale-105">
                         Relatório Consolidado
                     </button>
                 </div>
