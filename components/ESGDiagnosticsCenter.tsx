@@ -49,9 +49,9 @@ export const ESGDiagnosticsCenter: React.FC<ESGDiagnosticsCenterProps> = ({ onSe
     ];
 
     return (
-        <div className="flex flex-col gap-12 animate-in fade-in duration-500">
+        <div className="flex flex-col gap-12 animate-in fade-in duration-500 w-full overflow-x-hidden">
             {/* Header */}
-            <header className="flex flex-col md:flex-row items-center gap-4">
+            <header className="flex flex-col md:flex-row items-center gap-4 w-full">
                 <div className="w-14 h-14 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-600/30">
                     <ClipboardCheck size={32} />
                 </div>
