@@ -106,7 +106,8 @@ export const ESGDiagnosticsCenter: React.FC<ESGDiagnosticsCenterProps> = ({ onSe
             </div>
 
             {/* Info Banner */}
-            <div className="bg-[#121212] rounded-[40px] p-12 relative overflow-hidden text-white shadow-2xl">
+            <div className="bg-slate-900 rounded-[40px] p-12 relative overflow-hidden text-white shadow-2xl border border-white/10">
+                <div className="absolute inset-0 bg-gradient-to-tr from-blue-900/20 to-transparent pointer-events-none" />
                 <div className="absolute top-[-100px] right-[-100px] w-80 h-80 bg-white/5 rounded-full pointer-events-none" />
 
                 <div className="relative z-10 flex flex-col md:flex-row justify-between items-center gap-8">
@@ -116,7 +117,7 @@ export const ESGDiagnosticsCenter: React.FC<ESGDiagnosticsCenterProps> = ({ onSe
                             Os resultados alimentam automaticamente o Dashboard Estratégico.
                         </p>
                     </div>
-                    <button className="bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 rounded-full font-black text-sm uppercase tracking-widest shadow-lg shadow-blue-600/30 transition-all hover:scale-105">
+                    <button className="bg-white text-blue-900 hover:bg-slate-100 px-8 py-4 rounded-full font-black text-sm uppercase tracking-widest shadow-lg transition-all hover:scale-105">
                         Relatório Consolidado
                     </button>
                 </div>
