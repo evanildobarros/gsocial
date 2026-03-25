@@ -35,23 +35,23 @@ const KPICard = ({ title, value, subtext, icon: Icon, trend, trendValue, color, 
 
   return (
     <div className={`
-      relative h-full p-8 rounded-[32px] border bg-gradient-to-br transition-all duration-300 ease-out
-      hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.1)] hover:scale-[1.02] group overflow-hidden
+      relative h-full p-6 rounded-[28px] border bg-gradient-to-br transition-all duration-300 ease-out
+      hover:-translate-y-1 hover:shadow-lg hover:scale-[1.01] group overflow-hidden
       ${gradients[color] || 'from-gray-50 to-white dark:from-zinc-900 dark:to-zinc-950 border-gray-100 dark:border-white/10'}
       ${isWarning ? 'border-red-500/50' : ''}
     `}>
       {/* Decorative Blur */}
-      <div className={`absolute -right-4 -top-4 w-24 h-24 blur-3xl opacity-20 rounded-full bg-current ${color === 'success' ? 'text-emerald-500' : color === 'primary' ? 'text-blue-500' : color === 'error' ? 'text-red-500' : 'text-amber-500'}`} />
+      <div className={`absolute -right-4 -top-4 w-20 h-20 blur-3xl opacity-20 rounded-full bg-current ${color === 'success' ? 'text-emerald-500' : color === 'primary' ? 'text-blue-500' : color === 'error' ? 'text-red-500' : 'text-amber-500'}`} />
 
-      <div className="flex justify-between items-start mb-6">
-        <div className="space-y-1">
-          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-black/40 dark:text-white/40">{title}</p>
-          <div className="flex items-baseline gap-2">
-            <h4 className="text-[clamp(1.5rem,3vw,2.5rem)] font-black text-black dark:text-white tracking-tighter leading-none">{value}</h4>
+      <div className="flex justify-between items-start mb-4">
+        <div className="space-y-0.5">
+          <p className="text-[9px] font-black uppercase tracking-[0.15em] text-black/40 dark:text-white/40">{title}</p>
+          <div className="flex items-baseline gap-1">
+            <h4 className="text-2xl font-black text-black dark:text-white tracking-tighter leading-none">{value}</h4>
           </div>
         </div>
-        <div className={`flex items-center justify-center h-14 w-14 rounded-2xl transition-transform group-hover:scale-110 duration-500 ${iconColors[color]}`}>
-          <Icon style={{ fontSize: 28 }} />
+        <div className={`flex items-center justify-center h-12 w-12 rounded-xl transition-transform group-hover:scale-105 duration-500 ${iconColors[color]}`}>
+          <Icon style={{ fontSize: 24 }} />
         </div>
       </div>
 
