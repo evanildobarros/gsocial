@@ -109,12 +109,12 @@ export const ESGDiagnosticsCenter: React.FC<ESGDiagnosticsCenterProps> = ({ onSe
             <div className="bg-blue-950 rounded-[40px] p-6 relative overflow-hidden shadow-sm mx-4">
                 <div className="relative z-10 flex flex-col justify-center items-center gap-4 text-center">
                     <div>
-                        <h3 className="text-xl font-black mb-1 tracking-tight text-white px-2">Consolidação 2026</h3>
-                        <p className="text-[9px] font-bold text-blue-200 uppercase tracking-widest leading-snug px-2">
+                        <h3 className="text-xl font-black mb-1 tracking-tight text-white px-2 break-words">Consolidação 2026</h3>
+                        <p className="text-[9px] font-bold text-blue-200 uppercase tracking-widest leading-snug px-2 break-words">
                             OS RESULTADOS ALIMENTAM AUTOMATICAMENTE O DASHBOARD ESTRATÉGICO.
                         </p>
                     </div>
-                    <button className="bg-[#3B54D4] hover:bg-[#3248B5] text-white px-6 py-3 rounded-full font-black text-[10px] uppercase tracking-widest shadow-lg shadow-[#3B54D4]/20 transition-all hover:scale-105 w-full max-w-[240px]">
+                    <button className="bg-[#3B54D4] hover:bg-[#3248B5] text-white px-4 py-3 rounded-full font-black text-[9px] uppercase tracking-widest shadow-lg shadow-[#3B54D4]/20 transition-all hover:scale-105 w-full max-w-[200px]">
                         RELATÓRIO CONSOLIDADO
                     </button>
                 </div>
