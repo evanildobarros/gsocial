@@ -47,7 +47,7 @@ const KPICard = ({ title, value, subtext, icon: Icon, trend, trendValue, color, 
         <div className="space-y-0.5">
           <p className="text-[9px] font-black uppercase tracking-[0.15em] text-black/40 dark:text-white/40">{title}</p>
           <div className="flex items-baseline gap-1">
-            <h4 className="text-2xl font-black text-black dark:text-white tracking-tighter leading-none">{value}</h4>
+            <h4 className="text-xl font-black text-black dark:text-white tracking-tighter leading-none break-all">{value}</h4>
           </div>
         </div>
         <div className={`flex items-center justify-center h-12 w-12 rounded-xl transition-transform group-hover:scale-105 duration-500 ${iconColors[color]}`}>
