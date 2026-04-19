@@ -197,10 +197,13 @@ export const Efficiency: React.FC = () => {
                         <span className="text-4xl font-black tracking-tighter text-white">15%</span>
                         <span className="text-[10px] uppercase font-bold text-white/60">vs 2025</span>
                     </div>
-                    <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
-                        <div className="h-full bg-happiness-1 w-[68%]" />
+                    <div className="h-2.5 w-full bg-white/10 rounded-full overflow-hidden p-0.5">
+                        <div className="h-full bg-happiness-1 rounded-full w-[68%]" />
                     </div>
-                    <p className="text-[10px] mt-2 font-bold text-cyan-400">68% do objetivo atingido</p>
+                    <div className="flex justify-between items-center mt-3">
+                        <p className="text-[10px] font-bold text-white/60">Progresso atual</p>
+                        <p className="text-[10px] font-black text-cyan-400 tracking-tight">68% atingido</p>
+                    </div>
                 </div>
             </div>
 
