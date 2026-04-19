@@ -25,14 +25,18 @@ CREATE TABLE IF NOT EXISTS governance_assessments (
 ALTER TABLE environmental_assessments ENABLE ROW LEVEL SECURITY;
 ALTER TABLE governance_assessments ENABLE ROW LEVEL SECURITY;
 
--- 4. Policies for environmental_assessments
-CREATE POLICY "Enable all for authenticated users" ON environmental_assessments
-    FOR ALL USING (auth.role() = 'authenticated');
+-- 4. Policies for environmental_assessments (Restricted to owner)
+DROP POLICY IF EXISTS "Enable all for authenticated users" ON environmental_assessments;
+CREATE POLICY "Users can manage their own environmental assessments" ON environmental_assessments
+    FOR ALL USING (auth.uid() = created_by);
 
--- 5. Policies for governance_assessments
-CREATE POLICY "Enable all for authenticated users" ON governance_assessments
-    FOR ALL USING (auth.role() = 'authenticated');
+-- 5. Policies for governance_assessments (Restricted to owner)
+DROP POLICY IF EXISTS "Enable all for authenticated users" ON governance_assessments;
+CREATE POLICY "Users can manage their own governance assessments" ON governance_assessments
+    FOR ALL USING (auth.uid() = created_by);
 
 -- 6. Add indexes for performance
 CREATE INDEX IF NOT EXISTS idx_env_terminal_name ON environmental_assessments (terminal_name);
 CREATE INDEX IF NOT EXISTS idx_gov_company_name ON governance_assessments (company_name);
+CREATE INDEX IF NOT EXISTS idx_env_user_created ON environmental_assessments (created_by, created_at);
+CREATE INDEX IF NOT EXISTS idx_gov_user_created ON governance_assessments (created_by, created_at);

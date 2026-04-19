@@ -184,7 +184,7 @@ export const NotificationCenter: React.FC = () => {
                                             </div>
                                         )}
                                         <div className="flex items-center gap-2 ml-auto">
-                                            <button className="flex items-center gap-2 px-4 py-2 bg-black dark:bg-white text-white dark:text-black rounded-xl text-[11px] font-black uppercase tracking-widest hover:opacity-90 transition-opacity font-bold">
+                                            <button className="flex items-center gap-2 px-4 py-2 bg-[rgb(var(--color-primary))] text-white dark:text-black rounded-xl text-[11px] font-black uppercase tracking-widest hover:opacity-90 transition-opacity font-bold">
                                                 Ação Reativa <ArrowUpRight size={14} />
                                             </button>
                                             <button className="p-2 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-white/5 rounded-xl transition-colors">
