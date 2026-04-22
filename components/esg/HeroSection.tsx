@@ -28,13 +28,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onScrollClick }) => {
             </span>
           </div>
 
-          <h1 className="text-fluid-4xl sm:text-fluid-5xl lg:text-fluid-7xl font-black leading-[0.95] tracking-tighter mb-8 antialiased text-white">
+          <h1 className="text-fluid-3xl sm:text-fluid-4xl lg:text-fluid-6xl font-black leading-[1.1] tracking-tighter mb-8 antialiased text-white">
             Transforme a Sustentabilidade <br/>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-cyan-300">do seu Negócio</span> <br />
             em Vantagem Competitiva.
           </h1>
 
-          <p className="max-w-2xl text-lg md:text-2xl font-medium leading-relaxed text-white mb-8 mx-auto lg:mx-0">
+          <p className="max-w-2xl text-base md:text-xl font-medium leading-relaxed text-white mb-8 mx-auto lg:mx-0">
             Implementamos a metodologia ESGporto para empresas portuárias e logísticas que precisam de conformidade rigorosa e reconhecimento global, sem interromper a operação.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-16">
