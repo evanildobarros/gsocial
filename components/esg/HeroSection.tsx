@@ -28,19 +28,18 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onScrollClick }) => {
             </span>
           </div>
 
-          <h1 className="text-fluid-4xl sm:text-fluid-5xl lg:text-fluid-7xl font-black leading-[0.95] tracking-tighter mb-8 antialiased">
-            Liderança <br/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-cyan-300">Sustentável</span> <br />
-            para o Maranhão.
+          <h1 className="text-fluid-4xl sm:text-fluid-5xl lg:text-fluid-7xl font-black leading-[0.95] tracking-tighter mb-8 antialiased text-white">
+            Transforme a Sustentabilidade <br/>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-cyan-300">do seu Negócio</span> <br />
+            em Vantagem Competitiva.
           </h1>
 
-          <p className="max-w-2xl text-lg md:text-2xl font-medium leading-relaxed text-white/80 mb-8 mx-auto lg:mx-0">
-            O Porto do Itaqui integra operações logísticas de classe mundial com
-            compromissos que transformam o futuro do estado.
+          <p className="max-w-2xl text-lg md:text-2xl font-medium leading-relaxed text-white mb-8 mx-auto lg:mx-0">
+            Implementamos a metodologia ESGporto para empresas portuárias e logísticas que precisam de conformidade rigorosa e reconhecimento global, sem interromper a operação.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-16">
-            <button onClick={onScrollClick} className="px-8 py-4 bg-green-600 text-white font-bold rounded-full hover:bg-green-500 transition-all shadow-lg hover:shadow-green-500/20">
-              Ver Indicadores
+            <button onClick={onScrollClick} className="px-8 py-4 bg-gradient-to-r from-green-600 to-cyan-600 text-white font-bold rounded-full hover:scale-105 transition-all shadow-lg shadow-green-500/30 hover:shadow-green-500/50">
+              Quero meu Diagnóstico ESG Gratuito
             </button>
             <button className="px-8 py-4 bg-white/10 text-white font-bold rounded-full hover:bg-white/20 transition-all border border-white/20">
               Relatório 2024 (PDF)
