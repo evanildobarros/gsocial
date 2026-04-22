@@ -19,7 +19,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onScrollClick }) => {
         <div className="absolute inset-0 bg-gradient-to-b from-zinc-950/90 via-zinc-950/60 to-zinc-950"></div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 w-full py-12 flex flex-col items-center lg:items-start text-center lg:text-left">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 w-full pt-32 pb-12 flex flex-col items-center lg:items-start text-center lg:text-left">
         <div className="max-w-4xl animate-fade-in-up">
           <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-green-500/30 bg-green-500/10 px-4 py-2 backdrop-blur-md">
             <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
@@ -37,8 +37,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onScrollClick }) => {
           <p className="max-w-2xl text-sm md:text-lg font-medium leading-relaxed text-white/90 mb-8 mx-auto lg:mx-0">
             Implementamos a metodologia ESGporto para empresas portuárias e logísticas que precisam de conformidade rigorosa e reconhecimento global, sem interromper a operação.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-12">
-            <button onClick={onScrollClick} className="px-8 py-4 bg-gradient-to-r from-green-600 to-cyan-600 text-white font-bold rounded-full hover:scale-105 transition-all shadow-lg shadow-green-500/30 hover:shadow-green-500/50">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-20">
+            <button onClick={onScrollClick} className="px-8 py-4 bg-gradient-to-r from-emerald-600 to-cyan-600 text-white font-bold rounded-full hover:scale-105 transition-all shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50">
               Quero meu Diagnóstico ESG Gratuito
             </button>
             <button className="px-8 py-4 bg-white/10 text-white font-bold rounded-full hover:bg-white/20 transition-all border border-white/20">
@@ -47,7 +47,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onScrollClick }) => {
           </div>
         </div>
 
-        {/* Stats Section - Optimized for viewport */}
+        {/* Stats Section - With more breathing room */}
         <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-8 max-w-3xl animate-fade-in-up animation-delay-300">
           <div className="group rounded-[32px] md:rounded-[48px] border border-white/10 bg-white/5 backdrop-blur-xl p-6 md:p-10 transition-all hover:border-green-500/40 hover:bg-white/10 shadow-2xl">
             <div className="mb-4 flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-2xl bg-green-500/20 text-green-400 group-hover:scale-110 transition-transform mx-auto lg:mx-0">
