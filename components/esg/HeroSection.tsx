@@ -5,6 +5,8 @@ interface HeroSectionProps {
   onScrollClick: () => void;
 }
 
+export const HeroSection: React.FC<HeroSectionProps> = ({ onScrollClick }) => {
+  return (
     <section className="relative h-screen flex items-center overflow-hidden bg-zinc-950 text-white isolate">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-[-10]">
