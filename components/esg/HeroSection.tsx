@@ -5,8 +5,6 @@ interface HeroSectionProps {
   onScrollClick: () => void;
 }
 
-export const HeroSection: React.FC<HeroSectionProps> = ({ onScrollClick }) => {
-  return (
     <section className="relative h-screen flex items-center overflow-hidden bg-zinc-950 text-white isolate">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-[-10]">
@@ -19,7 +17,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onScrollClick }) => {
         <div className="absolute inset-0 bg-gradient-to-b from-zinc-950/90 via-zinc-950/60 to-zinc-950"></div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 w-full pt-24 pb-12 flex flex-col items-center lg:items-start text-center lg:text-left">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 w-full pt-32 pb-12 flex flex-col items-center lg:items-start text-center lg:text-left">
         <div className="max-w-4xl animate-fade-in-up flex flex-col items-center lg:items-start">
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-green-500/30 bg-green-500/10 px-4 py-2 backdrop-blur-md">
             <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
