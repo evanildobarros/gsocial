@@ -58,7 +58,7 @@ export const InnovationFunnel: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 {stages.map((stage, i) => (
                     <div key={i} className="relative group">
-                        <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm group-hover:shadow-md transition-all text-center space-y-3">
+                        <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm group-hover:shadow-md transition-all text-left space-y-3">
                             <div className={`${stage.color} text-white w-12 h-12 rounded-3xl flex items-center justify-center mx-auto shadow-lg`}>
                                 {stage.icon}
                             </div>
@@ -120,7 +120,7 @@ export const InnovationFunnel: React.FC = () => {
                         </div>
                     ))}
                     {ideas.length === 0 && (
-                        <div className="col-span-full py-20 text-center bg-gray-50 rounded-3xl border-2 border-dashed border-gray-200">
+                        <div className="col-span-full py-20 text-left bg-gray-50 rounded-3xl border-2 border-dashed border-gray-200">
                             <p className="text-black font-medium">Nenhuma ideia submetida ainda.</p>
                         </div>
                     )}

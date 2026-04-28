@@ -127,7 +127,7 @@ export const ReportingHub: React.FC = () => {
                             <h2 className="text-xl font-black text-black dark:text-white">Portal do Cidadão</h2>
                         </div>
 
-                        <div className="text-center mb-8 relative z-10">
+                        <div className="text-left mb-8 relative z-10">
                             <div className="relative inline-flex mb-4">
                                 <div className="w-20 h-20 rounded-full bg-green-50 dark:bg-green-900/20 border-4 border-green-50/50 dark:border-green-900/10 flex items-center justify-center">
                                     <Verified className="text-green-600 w-10 h-10" />

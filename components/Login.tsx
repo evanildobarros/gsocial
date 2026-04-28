@@ -84,7 +84,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin, onBack }) => {
         <div className="absolute w-[600px] h-[600px] -top-[10%] -left-[10%] bg-white/10 rounded-full blur-[80px] z-0 pointer-events-none"></div>
         <div className="absolute w-[700px] h-[700px] -bottom-[20%] -right-[10%] bg-black/20 rounded-full blur-[80px] z-0 pointer-events-none"></div>
 
-        <div className="relative z-10 text-center flex flex-col items-center gap-6">
+        <div className="relative z-10 text-left flex flex-col items-center gap-6">
           <ESGLogo />
           <div>
             <h2 className="text-5xl font-black text-white mb-2 tracking-tight">
@@ -122,7 +122,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin, onBack }) => {
         )}
         <div className="w-full max-w-sm">
           {/* Mobile Logo */}
-          <div className="lg:hidden text-center mb-10">
+          <div className="lg:hidden text-left mb-10">
             <img src="/logo_itaqui.png" alt="Porto do Itaqui" className="w-20 mx-auto mb-4" />
             <h2 className="text-3xl font-black text-primary">
               ESGporto
@@ -139,7 +139,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin, onBack }) => {
           </div>
 
           {resetSuccess ? (
-            <div className="p-8 text-center rounded-3xl border border-emerald-500 bg-emerald-50 dark:bg-emerald-900/10">
+            <div className="p-8 text-left rounded-3xl border border-emerald-500 bg-emerald-50 dark:bg-emerald-900/10">
               <CheckCircle style={{ fontSize: 64 }} className="text-emerald-500 mb-4" />
               <h4 className="text-lg font-black text-black dark:text-white mb-2">
                 Link de acesso enviado!
@@ -246,7 +246,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin, onBack }) => {
             </form>
           )}
 
-          <div className="mt-10 text-center">
+          <div className="mt-10 text-left">
             <span className="text-[10px] font-bold text-black dark:text-black uppercase tracking-widest block">
               Ambiente Seguro · gSocial ESGporto v2.5
             </span>

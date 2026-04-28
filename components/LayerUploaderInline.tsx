@@ -146,7 +146,7 @@ export const LayerUploaderInline: React.FC<LayerUploaderInlineProps> = ({ onLaye
                             onDrop={onDrop}
                             onClick={() => fileInputRef.current?.click()}
                             className={`
-                                relative border-2 border-dashed rounded-3xl p-6 text-center cursor-pointer transition-all flex flex-col items-center justify-center
+                                relative border-2 border-dashed rounded-3xl p-6 text-left cursor-pointer transition-all flex flex-col items-center justify-center
                                 ${isDragging ? 'border-happiness-1 bg-happiness-1/5 scale-[0.99]' : 'border-gray-200 dark:border-white/10 hover:border-happiness-1/50 hover:bg-gray-50 dark:hover:bg-white/5'}
                             `}
                         >

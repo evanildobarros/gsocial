@@ -117,7 +117,7 @@ export const HumanRights: React.FC = () => {
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {/* Search Panel */}
-                <div className="lg:col-span-2 bg-white dark:bg-[#1C1C1C] p-8 rounded-3xl border border-gray-200 dark:border-white/5 shadow-sm text-center">
+                <div className="lg:col-span-2 bg-white dark:bg-[#1C1C1C] p-8 rounded-3xl border border-gray-200 dark:border-white/5 shadow-sm text-left">
                     <ShieldCheck className="w-12 h-12 text-happiness-1 mx-auto mb-4" />
                     <h2 className="text-xl font-black text-black dark:text-white mb-2 uppercase tracking-tighter">Portal de Verificação</h2>
                     <p className="text-xs text-black mb-8 max-w-sm mx-auto font-medium">

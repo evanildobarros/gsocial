@@ -347,7 +347,7 @@ export const UserManagement: React.FC<UserManagementProps> = ({ onAddUser }) => 
                                     </div>
                                 ) : (
                                     <div className="p-3 bg-gray-50 dark:bg-white/5 rounded-xl border border-dashed border-gray-300 dark:border-white/20">
-                                        <p className="text-xs text-black italic text-center">
+                                        <p className="text-xs text-black italic text-left">
                                             * Alteração de nível restrita a Master Admins.
                                         </p>
                                     </div>

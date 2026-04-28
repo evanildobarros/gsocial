@@ -35,7 +35,7 @@ export const PublicEnvironment: React.FC<PublicPageProps> = ({ onBack, onNavigat
                     />
                     <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/20 to-black"></div>
                 </div>
-                <div className="container mx-auto px-6 relative z-10 text-center">
+                <div className="container mx-auto px-6 relative z-10 text-left">
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/20 border border-green-500/30 text-green-400 text-[10px] font-black uppercase tracking-widest mb-8">
                         <Leaf size={14} /> Resiliência Climática
                     </div>

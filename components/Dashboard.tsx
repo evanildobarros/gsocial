@@ -277,7 +277,7 @@ export const Dashboard: React.FC = () => {
       </div>
 
       {/* Operational View */}
-      <div className="p-8 text-center rounded-3xl border border-dashed border-gray-300 dark:border-white/10 bg-gray-50 dark:bg-white/5">
+      <div className="p-8 text-left rounded-3xl border border-dashed border-gray-300 dark:border-white/10 bg-gray-50 dark:bg-white/5">
         <span className="text-[10px] font-black uppercase tracking-widest text-black flex items-center justify-center gap-2">
           <SyncIcon style={{ fontSize: 16 }} className="animate-spin-slow" />
           Sincronização Ativa com Supabase Cloud Cluster

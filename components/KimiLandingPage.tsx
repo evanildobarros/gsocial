@@ -82,7 +82,7 @@ export const KimiLandingPage: React.FC = () => {
                 <div className="container mx-auto px-6">
                     <div className="flex flex-col lg:flex-row items-center gap-16">
                         {/* Text Content */}
-                        <div className="flex-1 text-center lg:text-left">
+                        <div className="flex-1 text-left lg:text-left">
                             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs font-bold uppercase tracking-wider mb-8">
                                 <span className="w-2 h-2 rounded-full bg-purple-500 animate-pulse"></span>
                                 Novo: Integração v2.0 lançada
@@ -181,7 +181,7 @@ export const KimiLandingPage: React.FC = () => {
 
             {/* Trusted By */}
             <section className="py-10 border-y border-white/5 bg-white/[0.02]">
-                <div className="container mx-auto px-6 text-center">
+                <div className="container mx-auto px-6 text-left">
                     <p className="text-sm font-bold text-black mb-8 uppercase tracking-widest">Confiado por equipes inovadoras</p>
                     <div className="flex flex-wrap justify-center items-center gap-12 grayscale opacity-50">
                         {['TechCorp', 'InnovateLabs', 'FutureNet', 'AlphaSystem', 'GlobalData'].map((name) => (
@@ -195,7 +195,7 @@ export const KimiLandingPage: React.FC = () => {
             {/* Benefits */}
             <section className="py-24 bg-gray-950">
                 <div className="container mx-auto px-6">
-                    <div className="text-center max-w-3xl mx-auto mb-16">
+                    <div className="text-left max-w-3xl mx-auto mb-16">
                         <h2 className="text-3xl md:text-5xl font-black text-white mb-6">Por que escolher a KimiAgents?</h2>
                         <p className="text-black text-lg">Tecnologia de ponta para automatizar fluxos complexos com simplicidade.</p>
                     </div>
@@ -251,7 +251,7 @@ export const KimiLandingPage: React.FC = () => {
             </section>
 
             {/* Final CTA */}
-            <section className="py-24 bg-gradient-to-br from-purple-900 via-gray-900 to-gray-900 text-center">
+            <section className="py-24 bg-gradient-to-br from-purple-900 via-gray-900 to-gray-900 text-left">
                 <div className="container mx-auto px-6">
                     <h2 className="text-4xl md:text-5xl font-black text-white mb-6">Pronto para automatizar o futuro?</h2>
                     <p className="text-black text-lg max-w-2xl mx-auto mb-10">
@@ -306,7 +306,7 @@ export const KimiLandingPage: React.FC = () => {
                             </ul>
                         </div>
                     </div>
-                    <div className="border-t border-white/5 pt-8 text-center text-black text-sm">
+                    <div className="border-t border-white/5 pt-8 text-left text-black text-sm">
                         © 2026 KimiAgents Inc. Todos os direitos reservados.
                     </div>
                 </div>
@@ -329,7 +329,7 @@ const BenefitCard: React.FC<{ icon: React.ReactNode, title: string, desc: string
 
 const Step: React.FC<{ number: string, title: string, desc: string, icon: React.ReactNode, reverse: boolean }> = ({ number, title, desc, icon, reverse }) => (
     <div className={`flex flex-col ${reverse ? 'lg:flex-row-reverse' : 'lg:flex-row'} items-center gap-12 lg:gap-24`}>
-        <div className="flex-1 space-y-6 text-center lg:text-left">
+        <div className="flex-1 space-y-6 text-left lg:text-left">
             <div className="inline-block text-5xl font-black text-white/10">{number}</div>
             <h3 className="text-3xl font-bold text-white">{title}</h3>
             <p className="text-black text-lg leading-relaxed">{desc}</p>

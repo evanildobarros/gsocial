@@ -139,7 +139,7 @@ export const MeteoPredictiveModule: React.FC = () => {
 
     if (isLoading) {
         return (
-            <div className="flex flex-col items-center py-20 gap-4 text-center">
+            <div className="flex flex-col items-center py-20 gap-4 text-left">
                 <RefreshCw className="w-16 h-16 text-blue-500 animate-spin" />
                 <span className="text-xs font-black uppercase tracking-widest text-black">Sincronizando Berço 100...</span>
             </div>

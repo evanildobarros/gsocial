@@ -92,7 +92,7 @@ export const ShipWaste: React.FC = () => {
                             <tr className="text-[10px] font-black uppercase tracking-[0.2em]">
                                 <th className="px-8 py-5">Navio / Viagem</th>
                                 <th className="px-8 py-5">Tipo (MARPOL)</th>
-                                <th className="px-8 py-5 text-center">Volume (M³)</th>
+                                <th className="px-8 py-5 text-left">Volume (M³)</th>
                                 <th className="px-8 py-5">Certificado (CRR/MTR)</th>
                                 <th className="px-8 py-5 text-right">Status</th>
                             </tr>
@@ -116,7 +116,7 @@ export const ShipWaste: React.FC = () => {
                                             {r.waste_type_marpol}
                                         </span>
                                     </td>
-                                    <td className="px-8 py-6 text-center font-black text-black">
+                                    <td className="px-8 py-6 text-left font-black text-black">
                                         {Number(r.volume_m3).toFixed(1)}
                                     </td>
                                     <td className="px-8 py-6">
@@ -142,7 +142,7 @@ export const ShipWaste: React.FC = () => {
                             ))}
                             {records.length === 0 && (
                                 <tr>
-                                    <td colSpan={5} className="px-8 py-20 text-center text-black font-medium">
+                                    <td colSpan={5} className="px-8 py-20 text-left text-black font-medium">
                                         Nenhum registro de resíduo encontrado.
                                     </td>
                                 </tr>

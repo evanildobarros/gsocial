@@ -76,7 +76,7 @@ export const CommunityRelations: React.FC = () => {
                             </div>
                         ))}
                     </div>
-                    <div className="p-4 bg-gray-50 dark:bg-white/5 text-center text-xs font-bold text-black cursor-pointer hover:text-happiness-1 uppercase tracking-wider">
+                    <div className="p-4 bg-gray-50 dark:bg-white/5 text-left text-xs font-bold text-black cursor-pointer hover:text-happiness-1 uppercase tracking-wider">
                         Ver todos os tickets
                     </div>
                 </div>
@@ -97,13 +97,13 @@ export const CommunityRelations: React.FC = () => {
                         <span className="absolute top-4 left-6 text-[9px] font-bold text-black uppercase">Poder</span>
 
                         {/* Bubbles */}
-                        <div className="absolute top-1/4 right-1/4 w-16 h-16 rounded-full bg-blue-500/20 border border-blue-500 flex items-center justify-center text-[8px] font-bold text-blue-700 dark:text-blue-300 text-center leading-tight hover:scale-110 transition-transform cursor-pointer">
+                        <div className="absolute top-1/4 right-1/4 w-16 h-16 rounded-full bg-blue-500/20 border border-blue-500 flex items-center justify-center text-[8px] font-bold text-blue-700 dark:text-blue-300 text-left leading-tight hover:scale-110 transition-transform cursor-pointer">
                             Assoc.<br />Moradores
                         </div>
-                        <div className="absolute top-1/3 left-1/3 w-12 h-12 rounded-full bg-green-500/20 border border-green-500 flex items-center justify-center text-[8px] font-bold text-green-700 dark:text-green-300 text-center hover:scale-110 transition-transform cursor-pointer">
+                        <div className="absolute top-1/3 left-1/3 w-12 h-12 rounded-full bg-green-500/20 border border-green-500 flex items-center justify-center text-[8px] font-bold text-green-700 dark:text-green-300 text-left hover:scale-110 transition-transform cursor-pointer">
                             ONG<br />Local
                         </div>
-                        <div className="absolute top-10 right-10 w-10 h-10 rounded-full bg-red-500/20 border border-red-500 flex items-center justify-center text-[8px] font-bold text-red-700 dark:text-red-300 text-center hover:scale-110 transition-transform cursor-pointer">
+                        <div className="absolute top-10 right-10 w-10 h-10 rounded-full bg-red-500/20 border border-red-500 flex items-center justify-center text-[8px] font-bold text-red-700 dark:text-red-300 text-left hover:scale-110 transition-transform cursor-pointer">
                             Gov.<br />Estadual
                         </div>
                     </div>

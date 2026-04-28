@@ -354,7 +354,7 @@ export const SROICalculator: React.FC = () => {
                         </div>
 
                         {isLoadingHistory ? (
-                            <div className="py-10 text-center flex justify-center">
+                            <div className="py-10 text-left flex justify-center">
                                 <Loader2 className="w-8 h-8 text-gray-300 animate-spin" />
                             </div>
                         ) : (

@@ -35,7 +35,7 @@ export const PublicIndicators: React.FC<PublicPageProps> = ({ onBack, onNavigate
                     />
                     <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/20 to-black"></div>
                 </div>
-                <div className="container mx-auto px-6 relative z-10 text-center">
+                <div className="container mx-auto px-6 relative z-10 text-left">
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-purple-300 text-[10px] font-black uppercase tracking-widest mb-8">
                         <BarChart3 size={14} /> Performance Estratégica
                     </div>
@@ -115,7 +115,7 @@ const Node = ({ x, y, color, label, delay }: any) => (
 );
 
 const KpiDetail = ({ icon, value, label, trend, color }: any) => (
-    <div className="bg-white p-12 rounded-[40px] border border-gray-100 shadow-xl hover:-translate-y-2 transition-all text-center">
+    <div className="bg-white p-12 rounded-[40px] border border-gray-100 shadow-xl hover:-translate-y-2 transition-all text-left">
         <div className={`w-16 h-16 rounded-3xl bg-gray-50 flex items-center justify-center mx-auto mb-8 ${color}`}>
             {React.cloneElement(icon as React.ReactElement, { size: 32 })}
         </div>

@@ -118,7 +118,7 @@ export const Compliance: React.FC = () => {
                     </div>
                 </div>
 
-                <div className="bg-white dark:bg-[#1C1C1C] p-8 rounded-3xl border border-gray-100 dark:border-white/5 shadow-xl shadow-blue-900/5 flex flex-col items-center justify-center text-center space-y-4">
+                <div className="bg-white dark:bg-[#1C1C1C] p-8 rounded-3xl border border-gray-100 dark:border-white/5 shadow-xl shadow-blue-900/5 flex flex-col items-center justify-center text-left space-y-4">
                     <ShieldCheck className="w-16 h-16 text-[#2148C0] dark:text-blue-400" />
                     <h4 className="text-xl font-black text-black dark:text-white">Trilha de Auditoria</h4>
                     <p className="text-sm text-black dark:text-white font-medium max-w-xs opacity-80">

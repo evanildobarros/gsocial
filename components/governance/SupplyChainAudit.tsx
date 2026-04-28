@@ -70,7 +70,7 @@ export const SupplyChainAudit: React.FC = () => {
                             <th className="px-6 py-4">Fornecedor</th>
                             <th className="px-6 py-4">Categoria</th>
                             <th className="px-6 py-4">ESG Risk Score</th>
-                            <th className="px-6 py-4 text-center">Status</th>
+                            <th className="px-6 py-4 text-left">Status</th>
                             <th className="px-6 py-4 text-right">Ação</th>
                         </tr>
                     </thead>
@@ -102,7 +102,7 @@ export const SupplyChainAudit: React.FC = () => {
                                             <span className={`text-xs font-bold ${risk.color.split(' ')[0]}`}>{supplier.riskScore}/100</span>
                                         </div>
                                     </td>
-                                    <td className="px-6 py-4 text-center">
+                                    <td className="px-6 py-4 text-left">
                                         {supplier.status === 'Blocked' ? (
                                             <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 border border-red-200 dark:border-red-900/50">
                                                 <XCircle className="w-3 h-3" /> Blocked
@@ -128,7 +128,7 @@ export const SupplyChainAudit: React.FC = () => {
                     </tbody>
                 </table>
                 {filteredSuppliers.length === 0 && (
-                    <div className="p-8 text-center text-black text-sm">
+                    <div className="p-8 text-left text-black text-sm">
                         Nenhum fornecedor encontrado par a busca.
                     </div>
                 )}

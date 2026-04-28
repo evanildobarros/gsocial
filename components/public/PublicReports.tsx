@@ -44,9 +44,9 @@ export const PublicReports: React.FC<PublicPageProps> = ({ onBack, onNavigate })
                     />
                     <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black"></div>
                 </div>
-                <div className="container mx-auto px-6 relative z-10 text-center">
-                    <div className="flex flex-col lg:flex-row gap-12 md:gap-16 items-center text-center lg:text-left">
-                        <div className="flex-1 space-y-6 md:space-y-8 text-center lg:text-left">
+                <div className="container mx-auto px-6 relative z-10 text-left">
+                    <div className="flex flex-col lg:flex-row gap-12 md:gap-16 items-center text-left lg:text-left">
+                        <div className="flex-1 space-y-6 md:space-y-8 text-left lg:text-left">
                             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/20 border border-blue-500/30 text-blue-400 text-[10px] font-black uppercase tracking-widest mx-auto lg:mx-0">
                                 <ShieldCheck size={14} /> Governança & Reporte
                             </div>
@@ -59,7 +59,7 @@ export const PublicReports: React.FC<PublicPageProps> = ({ onBack, onNavigate })
                             </p>
                         </div>
                         <div className="flex-1 w-full max-w-md">
-                            <div className="bg-white/5 backdrop-blur-xl p-10 rounded-[50px] shadow-2xl border border-white/10 flex flex-col items-center text-center space-y-6">
+                            <div className="bg-white/5 backdrop-blur-xl p-10 rounded-[50px] shadow-2xl border border-white/10 flex flex-col items-center text-left space-y-6">
                                 <div className="w-20 h-20 bg-blue-600 text-white rounded-[24px] flex items-center justify-center shadow-xl shadow-blue-600/30">
                                     <FileText size={32} />
                                 </div>

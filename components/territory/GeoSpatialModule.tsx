@@ -297,7 +297,7 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
                     </div>
 
                     <div className="flex-1 overflow-y-auto p-2 space-y-4">
-                        {layers.length === 0 && <div className="text-center p-4 text-black text-xs">Nenhuma camada encontrada.</div>}
+                        {layers.length === 0 && <div className="text-left p-4 text-black text-xs">Nenhuma camada encontrada.</div>}
 
                         {(['Environmental', 'Social', 'Governance', 'Operational'] as ESGPillar[]).map(pillar => {
                             const pillarLayers = layers.filter(l => l.pillar === pillar);

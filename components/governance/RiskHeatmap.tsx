@@ -139,7 +139,7 @@ export const RiskHeatmap: React.FC = () => {
                             </div>
 
                             {/* X-Axis Label */}
-                            <div className="text-center mt-4">
+                            <div className="text-left mt-4">
                                 <span className="text-[10px] font-black tracking-[0.2em] text-black uppercase">
                                     Impacto Operacional
                                 </span>
@@ -186,7 +186,7 @@ export const RiskHeatmap: React.FC = () => {
                                 )}
                             </div>
                         ) : (
-                            <div className="flex-1 flex flex-col items-center justify-center text-center opacity-40">
+                            <div className="flex-1 flex flex-col items-center justify-center text-left opacity-40">
                                 <Info className="w-12 h-12 mb-2 text-black" />
                                 <p className="text-sm font-bold text-black">Selecione um ponto na matriz para detalhamento.</p>
                             </div>

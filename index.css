@@ -392,3 +392,8 @@ textarea.bg-white {
     animation: none !important;
     transition: none !important;
 }
+
+/* FORCING LEFT ALIGNMENT GLOBALLY */
+h1, h2, h3, h4, p, div {
+    text-align: left !important;
+}

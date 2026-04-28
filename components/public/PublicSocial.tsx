@@ -35,7 +35,7 @@ export const PublicSocial: React.FC<PublicPageProps> = ({ onBack, onNavigate }) 
                     />
                     <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black"></div>
                 </div>
-                <div className="container mx-auto px-6 relative z-10 text-center">
+                <div className="container mx-auto px-6 relative z-10 text-left">
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-500/20 border border-orange-500/30 text-orange-400 text-[10px] font-black uppercase tracking-widest mb-8">
                         <Heart size={14} /> Impacto Humano
                     </div>

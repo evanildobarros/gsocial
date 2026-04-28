@@ -140,7 +140,7 @@ export const DiversityDashboard: React.FC = () => {
 
     if (isLoading) {
         return (
-            <div className="flex flex-col items-center py-20 gap-4 text-center">
+            <div className="flex flex-col items-center py-20 gap-4 text-left">
                 <Loader2 className="w-16 h-16 text-blue-500 animate-spin" />
                 <span className="text-xs font-black uppercase tracking-widest text-black">Sincronizando Dados DE&I...</span>
             </div>
@@ -244,7 +244,7 @@ export const DiversityDashboard: React.FC = () => {
 
                 {/* KEY PERFORMANCE INDICATORS */}
                 <div className="lg:col-span-1 space-y-6">
-                    <div className="bg-purple-50/30 dark:bg-purple-900/5 rounded-[32px] p-8 border border-purple-100 dark:border-purple-900/20 text-center relative overflow-hidden">
+                    <div className="bg-purple-50/30 dark:bg-purple-900/5 rounded-[32px] p-8 border border-purple-100 dark:border-purple-900/20 text-left relative overflow-hidden">
                         <span className="text-[10px] font-black uppercase tracking-[0.2em] text-black">Conformidade PCD</span>
 
                         <div className="relative py-8 flex justify-center">
@@ -272,7 +272,7 @@ export const DiversityDashboard: React.FC = () => {
                                         className={pcdPercentage >= 5 ? 'text-green-500' : 'text-red-500'}
                                     />
                                 </svg>
-                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-left">
                                     <span className="text-3xl font-black block">{pcdPercentage.toFixed(1)}%</span>
                                     <span className={`text-[9px] font-black uppercase ${pcdPercentage >= 5 ? 'text-green-600' : 'text-red-500'}`}>
                                         {pcdPercentage >= 5 ? 'Em Conformidade' : 'Abaixo da Cota'}

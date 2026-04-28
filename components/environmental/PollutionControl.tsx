@@ -41,7 +41,7 @@ export const PollutionControl: React.FC = () => {
 
                     <div className="relative flex items-center justify-center py-12">
                         {isEmergencyActive ? (
-                            <div className="text-center space-y-4 animate-in zoom-in duration-500">
+                            <div className="text-left space-y-4 animate-in zoom-in duration-500">
                                 <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto ring-8 ring-green-50">
                                     <CheckCircle2 className="w-12 h-12 text-green-600" />
                                 </div>

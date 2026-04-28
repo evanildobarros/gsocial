@@ -106,7 +106,7 @@ export const AccessibilityMenu: React.FC = () => {
                         />
                     </div>
 
-                    <div className="p-4 text-center bg-gray-50 dark:bg-white/5">
+                    <div className="p-4 text-left bg-gray-50 dark:bg-white/5">
                         <p className="text-[9px] font-black uppercase tracking-widest text-black/40">gSocial Inclusivo</p>
                     </div>
                 </div>

@@ -28,7 +28,7 @@ export const TransparencySection = () => {
             </div>
 
             <div className="flex flex-wrap gap-4">
-               <div className="p-8 rounded-[40px] bg-white dark:bg-white/5 border border-gray-100 dark:border-white/5 shadow-2xl flex flex-col items-center text-center group transition-all hover:scale-105">
+               <div className="p-8 rounded-[40px] bg-white dark:bg-white/5 border border-gray-100 dark:border-white/5 shadow-2xl flex flex-col items-center text-left group transition-all hover:scale-105">
                   <ShieldCheck size={64} className="text-blue-600 mb-6" />
                   <h4 className="text-2xl font-black text-black dark:text-white uppercase tracking-tight">Selo Audit</h4>
                   <p className="text-xs font-bold text-black/40 dark:text-white/40 mt-2 uppercase tracking-widest">Ciclo 2025/2026</p>

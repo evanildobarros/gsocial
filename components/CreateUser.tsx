@@ -78,7 +78,7 @@ export const CreateUser: React.FC<CreateUserProps> = ({ onBack }) => {
     if (success) {
         return (
             <div className="min-h-[600px] flex items-center justify-center animate-in fade-in zoom-in duration-500">
-                <div className="text-center space-y-6 bg-white p-12 rounded-3xl shadow-2xl shadow-happiness-1/10 border border-gray-100 max-w-md w-full">
+                <div className="text-left space-y-6 bg-white p-12 rounded-3xl shadow-2xl shadow-happiness-1/10 border border-gray-100 max-w-md w-full">
                     <div className="w-24 h-24 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4 border-4 border-green-100">
                         <CheckCircle2 className="w-12 h-12 text-green-500 animate-bounce" />
                     </div>

@@ -419,7 +419,7 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                                                         </button>
                                                     ))
                                             ) : (
-                                                <div className="p-4 text-center">
+                                                <div className="p-4 text-left">
                                                     <p className="text-[10px] font-medium text-gray-400 italic">Nenhuma comunidade encontrada ou já selecionada.</p>
                                                     <p className="text-[9px] text-gray-500 mt-1">Dica: Aperte Enter para adicionar "{currentNeighborhood}" como nova.</p>
                                                 </div>

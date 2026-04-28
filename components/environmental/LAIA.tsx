@@ -94,7 +94,7 @@ export const LAIA: React.FC = () => {
                             <tr className="bg-gray-50 text-[10px] font-black text-black uppercase tracking-[0.15em]">
                                 <th className="px-6 py-4">Fonte / Atividade</th>
                                 <th className="px-6 py-4">Aspecto & Impacto</th>
-                                <th className="px-6 py-4 text-center">Risco (SxP)</th>
+                                <th className="px-6 py-4 text-left">Risco (SxP)</th>
                                 <th className="px-6 py-4">Controle Vinculado</th>
                                 <th className="px-6 py-4 text-right">Ação</th>
                             </tr>
@@ -116,7 +116,7 @@ export const LAIA: React.FC = () => {
                                                 <p className="text-xs text-black italic">{record.environmental_impact}</p>
                                             </div>
                                         </td>
-                                        <td className="px-6 py-6 text-center">
+                                        <td className="px-6 py-6 text-left">
                                             <span className={`px-3 py-1 rounded-full text-[10px] font-black ${risk.color}`}>
                                                 {risk.label} ({record.risk_score})
                                             </span>
@@ -137,7 +137,7 @@ export const LAIA: React.FC = () => {
                             })}
                             {filteredRecords.length === 0 && (
                                 <tr>
-                                    <td colSpan={5} className="px-6 py-20 text-center text-black font-medium">
+                                    <td colSpan={5} className="px-6 py-20 text-left text-black font-medium">
                                         Nenhum aspecto ambiental encontrado.
                                     </td>
                                 </tr>

@@ -529,7 +529,7 @@ const CommunityAssessmentForm: React.FC<CommunityAssessmentFormProps> = ({ onSav
                         })}
 
                         {filteredAssessments.length === 0 && (
-                            <div className="col-span-full py-20 text-center flex flex-col items-center opacity-30">
+                            <div className="col-span-full py-20 text-left flex flex-col items-center opacity-30">
                                 <Users className="w-16 h-16 mb-4 text-black" />
                                 <p className="font-black uppercase tracking-[0.2em] text-sm text-black">Nenhum diagnóstico registrado</p>
                                 <button onClick={() => setViewMode('create')} className="mt-4 text-happiness-1 font-bold lowercase hover:underline">
