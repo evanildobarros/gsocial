@@ -51,7 +51,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
         <div className="min-h-screen bg-white dark:bg-zinc-950 font-sans text-black dark:text-white selection:bg-cyan-500 selection:text-white">
             {/* Navigation */}
             <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md shadow-lg py-4' : 'bg-transparent py-6'}`}>
-                <div className="container mx-auto px-6 flex justify-between items-center">
+                <div className="max-w-7xl mx-auto px-6 lg:px-8 flex justify-between items-center">
                     <div className="flex items-center gap-3">
                         <img src="/logo_itaqui.png" alt="ESGporto" className="h-10 w-auto brightness-0 invert dark:invert-0 lg:brightness-100" />
                         <div className="hidden lg:block">
@@ -86,7 +86,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                     <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-transparent"></div>
                 </div>
 
-                <div className="container mx-auto px-6 relative z-10 pt-20">
+                <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 pt-20">
                     <div className="max-w-3xl">
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/20 border border-cyan-500/30 backdrop-blur-md mb-6 animate-fade-in-up">
                             <span className="relative flex h-2 w-2">
@@ -134,7 +134,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
 
             {/* Stats Section */}
             <section className="relative -mt-20 z-20 pb-20">
-                <div className="container mx-auto px-6">
+                <div className="max-w-7xl mx-auto px-6 lg:px-8">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                         <StatCard
                             icon={<Zap className="w-6 h-6 text-white" />}
@@ -162,7 +162,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
 
             {/* About Section */}
             <section className="py-24 bg-white dark:bg-zinc-950">
-                <div className="container mx-auto px-6">
+                <div className="max-w-7xl mx-auto px-6 lg:px-8">
                     <div className="flex flex-col lg:flex-row gap-16 items-center">
                         {/* Text Content */}
                         <div className="flex-1 space-y-6">
@@ -218,7 +218,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
 
             {/* Decarbonization Section */}
             <section className="py-24 bg-gray-50 dark:bg-zinc-900 relative overflow-hidden">
-                <div className="container mx-auto px-6 relative z-10">
+                <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
                     <div className="text-center max-w-3xl mx-auto mb-16">
                         <span className="text-emerald-600 dark:text-emerald-400 font-bold tracking-widest uppercase text-xs mb-2 block">Plano de Descarbonização</span>
                         <h2 className="text-3xl md:text-5xl font-black dark:text-white mb-6">Rumo ao Porto Verde</h2>
@@ -258,7 +258,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
 
             {/* Roadmap / Targets */}
             <section className="py-24 bg-zinc-900 border-y border-white/5">
-                <div className="container mx-auto px-6">
+                <div className="max-w-7xl mx-auto px-6 lg:px-8">
                     <div className="flex flex-col lg:flex-row gap-16 items-center">
                         <div className="flex-1">
                             <span className="text-cyan-400 font-bold tracking-widest uppercase text-xs mb-2 block">Roadmap SBTi</span>
@@ -349,7 +349,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
 
             {/* Downloads / Resources */}
             <section className="py-24 bg-white dark:bg-zinc-950">
-                <div className="container mx-auto px-6">
+                <div className="max-w-7xl mx-auto px-6 lg:px-8">
                     <h2 className="text-3xl font-black mb-12 dark:text-white text-center">Transparência & Relatórios</h2>
                     <div className="grid md:grid-cols-3 gap-6">
                         <DownloadCard
@@ -374,7 +374,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
             {/* CTA Section */}
             <section className="py-24 bg-[#009966] text-white text-center relative overflow-hidden">
                 <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
-                <div className="container mx-auto px-6 relative z-10">
+                <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
 
                     <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 mb-8">
                         <Globe2 size={14} className="text-white" />
@@ -401,7 +401,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
 
             {/* Footer */}
             <footer className="bg-[#0b1121] text-white pt-20 pb-10 border-t border-white/5">
-                <div className="container mx-auto px-6">
+                <div className="max-w-7xl mx-auto px-6 lg:px-8">
                     <div className="grid md:grid-cols-4 gap-12 mb-16">
                         {/* Column 1: Institutional */}
                         <div className="col-span-1 md:col-span-2 space-y-6">
