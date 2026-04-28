@@ -34,11 +34,29 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                 </LayoutContainer>
             </section>
 
-            <section className="py-24">
+            {/* Painel de Indicadores */}
+            <section id="indicators" className="py-32 bg-gray-50 dark:bg-zinc-900 transition-colors duration-500">
                 <LayoutContainer className="text-left">
-                    <div className="mb-12 text-left w-full">
-                        <h2 className="text-3xl md:text-5xl font-black text-black dark:text-white mb-4 text-left">Painel de Indicadores</h2>
-                        <p className="text-black dark:text-black text-lg text-left">Monitoramento em tempo real do desempenho de nossas metas ESG.</p>
+                    <div className="mb-16 text-left">
+                        <h2 className="text-4xl md:text-6xl font-black text-black dark:text-white tracking-tighter mb-6">Painel de Indicadores</h2>
+                        <p className="text-black/60 dark:text-white/60 text-lg font-medium max-w-2xl italic">Monitoramento em tempo real do desempenho de nossas metas ESG.</p>
+                    </div>
+                    <div className="grid md:grid-cols-3 gap-8">
+                        <div className="p-8 rounded-[32px] bg-white dark:bg-white/5 border border-gray-100 dark:border-white/5 shadow-xl">
+                            <h3 className="text-xl font-bold mb-2">Descarbonização</h3>
+                            <p className="text-sm text-black/60 dark:text-white/60 mb-6">Redução de emissões</p>
+                            <div className="text-4xl font-black text-green-600">85%</div>
+                        </div>
+                        <div className="p-8 rounded-[32px] bg-white dark:bg-white/5 border border-gray-100 dark:border-white/5 shadow-xl">
+                            <h3 className="text-xl font-bold mb-2">Energia Renovável</h3>
+                            <p className="text-sm text-black/60 dark:text-white/60 mb-6">Uso matriz limpa</p>
+                            <div className="text-4xl font-black text-green-600">98%</div>
+                        </div>
+                        <div className="p-8 rounded-[32px] bg-white dark:bg-white/5 border border-gray-100 dark:border-white/5 shadow-xl">
+                            <h3 className="text-xl font-bold mb-2">Educação Local</h3>
+                            <p className="text-sm text-black/60 dark:text-white/60 mb-6">Pessoas formadas</p>
+                            <div className="text-4xl font-black text-green-600">12k</div>
+                        </div>
                     </div>
                 </LayoutContainer>
             </section>
