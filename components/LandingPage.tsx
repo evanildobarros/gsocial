@@ -130,7 +130,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
             {/* --- NEW CONTENT STARTS HERE --- */}
 
             {/* Painel de Indicadores */}
-            <section className="py-24 bg-white dark:bg-zinc-950">
+            <section className="bg-white dark:bg-zinc-950">
                 <div className="max-w-7xl mx-auto px-6 lg:px-8">
                     <div className="mb-12 text-left w-full">
                         <h2 className="text-3xl md:text-5xl font-black text-black dark:text-white mb-4 text-left">Painel de Indicadores</h2>
@@ -141,7 +141,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
             </section>
 
             {/* About Section */}
-            <section className="py-24 bg-white dark:bg-zinc-950">
+            <section className="bg-white dark:bg-zinc-950">
                 <div className="max-w-7xl mx-auto px-6 lg:px-8">
                     <div className="flex flex-col lg:flex-row gap-16 items-center">
                         {/* Text Content */}
@@ -197,7 +197,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
             </section>
 
             {/* Decarbonization Section */}
-            <section className="py-24 bg-gray-50 dark:bg-zinc-900 relative overflow-hidden">
+            <section className="bg-gray-50 dark:bg-zinc-900 relative overflow-hidden">
                 <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
                     <div className="text-center max-w-3xl mx-auto mb-16">
                         <span className="text-emerald-600 dark:text-emerald-400 font-bold tracking-widest uppercase text-xs mb-2 block">Plano de Descarbonização</span>
@@ -237,7 +237,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
             </section>
 
             {/* Roadmap / Targets */}
-            <section className="py-24 bg-zinc-900 border-y border-white/5">
+            <section className="bg-zinc-900 border-y border-white/5">
                 <div className="max-w-7xl mx-auto px-6 lg:px-8">
                     <div className="flex flex-col lg:flex-row gap-16 items-center">
                         <div className="flex-1">
@@ -328,7 +328,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
             </section>
 
             {/* Downloads / Resources */}
-            <section className="py-24 bg-white dark:bg-zinc-950">
+            <section className="bg-white dark:bg-zinc-950">
                 <div className="max-w-7xl mx-auto px-6 lg:px-8">
                     <h2 className="text-3xl font-black mb-12 dark:text-white text-center">Transparência & Relatórios</h2>
                     <div className="grid md:grid-cols-3 gap-6">
