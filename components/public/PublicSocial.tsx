@@ -35,7 +35,7 @@ export const PublicSocial: React.FC<PublicPageProps> = ({ onBack, onNavigate }) 
                     />
                     <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black"></div>
                 </div>
-                <div className="container mx-auto px-6 relative z-10 text-left">
+                <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 text-left">
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-500/20 border border-orange-500/30 text-orange-400 text-[10px] font-black uppercase tracking-widest mb-8">
                         <Heart size={14} /> Impacto Humano
                     </div>
@@ -50,8 +50,8 @@ export const PublicSocial: React.FC<PublicPageProps> = ({ onBack, onNavigate }) 
             </section>
 
             {/* Section 2: S-ROI & Value Sharing */}
-            <section className="py-32 px-6 bg-white">
-                <div className="container mx-auto">
+            <section className="py-32 bg-white">
+                <div className="max-w-7xl mx-auto px-6 lg:px-8">
                     <div className="grid lg:grid-cols-2 gap-20 items-center">
                          <div className="relative order-2 lg:order-1">
                             <div className="aspect-[4/5] bg-orange-500 rounded-[40px] md:rounded-[60px] p-12 text-white flex flex-col justify-between shadow-2xl relative overflow-hidden group text-left">
@@ -91,8 +91,8 @@ export const PublicSocial: React.FC<PublicPageProps> = ({ onBack, onNavigate }) 
             </section>
 
             {/* Section 3: Territory Map (Mobile-First Layout) */}
-            <section className="py-32 bg-slate-900 text-white px-6 overflow-hidden">
-                <div className="container mx-auto">
+            <section className="py-32 bg-slate-900 text-white overflow-hidden">
+                <div className="max-w-7xl mx-auto px-6 lg:px-8">
                     <div className="flex flex-col lg:flex-row gap-16 items-end mb-20 text-left">
                         <div className="max-w-2xl">
                             <span className="text-xs font-black text-orange-400 uppercase tracking-widest mb-4 block">Mapeamento Territorial</span>

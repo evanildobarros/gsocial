@@ -44,7 +44,7 @@ export const PublicReports: React.FC<PublicPageProps> = ({ onBack, onNavigate })
                     />
                     <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black"></div>
                 </div>
-                <div className="container mx-auto px-6 relative z-10 text-left">
+                <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 text-left">
                     <div className="flex flex-col lg:flex-row gap-12 md:gap-16 items-center text-left lg:text-left">
                         <div className="flex-1 space-y-6 md:space-y-8 text-left lg:text-left">
                             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/20 border border-blue-500/30 text-blue-400 text-[10px] font-black uppercase tracking-widest mx-auto lg:mx-0">
@@ -75,8 +75,8 @@ export const PublicReports: React.FC<PublicPageProps> = ({ onBack, onNavigate })
             </section>
 
             {/* Section 2: Search & Filter */}
-            <section className="py-20 px-6 bg-white">
-                <div className="container mx-auto">
+            <section className="py-20 bg-white">
+                <div className="max-w-7xl mx-auto px-6 lg:px-8">
                     <div className="flex flex-col md:flex-row justify-between items-center gap-8 mb-12">
                         <h2 className="text-3xl font-black tracking-tight text-black text-left">Biblioteca de Documentos</h2>
                         <div className="w-full md:w-96 relative">

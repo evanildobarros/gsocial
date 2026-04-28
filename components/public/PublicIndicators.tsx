@@ -35,7 +35,7 @@ export const PublicIndicators: React.FC<PublicPageProps> = ({ onBack, onNavigate
                     />
                     <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/20 to-black"></div>
                 </div>
-                <div className="container mx-auto px-6 relative z-10 text-left">
+                <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 text-left">
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-purple-300 text-[10px] font-black uppercase tracking-widest mb-8">
                         <BarChart3 size={14} /> Performance Estratégica
                     </div>
@@ -50,8 +50,8 @@ export const PublicIndicators: React.FC<PublicPageProps> = ({ onBack, onNavigate
             </section>
 
             {/* Section 2: Dual Materiality Focus */}
-            <section className="py-32 px-6 bg-white">
-                <div className="container mx-auto">
+            <section className="py-32 bg-white">
+                <div className="max-w-7xl mx-auto px-6 lg:px-8">
                     <div className="flex flex-col lg:flex-row gap-20 items-center text-left text-black">
                         <div className="lg:w-2/5 space-y-8">
                             <span className="text-xs font-black text-purple-600 uppercase tracking-widest">Metodologia ESRS</span>
@@ -91,8 +91,8 @@ export const PublicIndicators: React.FC<PublicPageProps> = ({ onBack, onNavigate
             </section>
 
             {/* Section 3: Live KPI Details */}
-            <section className="py-32 bg-slate-50 px-6">
-                <div className="container mx-auto">
+            <section className="py-32 bg-slate-50">
+                <div className="max-w-7xl mx-auto px-6 lg:px-8">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                         <KpiDetail icon={<Zap />} value="85%" label="Energia Limpa" trend="+15%" color="text-yellow-600" />
                         <KpiDetail icon={<Activity />} value="0.22" label="Taxa TFA (Acidentes)" trend="-5%" color="text-red-500" />

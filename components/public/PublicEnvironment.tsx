@@ -35,7 +35,7 @@ export const PublicEnvironment: React.FC<PublicPageProps> = ({ onBack, onNavigat
                     />
                     <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/20 to-black"></div>
                 </div>
-                <div className="container mx-auto px-6 relative z-10 text-left">
+                <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 text-left">
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/20 border border-green-500/30 text-green-400 text-[10px] font-black uppercase tracking-widest mb-8">
                         <Leaf size={14} /> Resiliência Climática
                     </div>
@@ -50,8 +50,8 @@ export const PublicEnvironment: React.FC<PublicPageProps> = ({ onBack, onNavigat
             </section>
 
             {/* NEW STRATEGIC BLOCK (JSON Architecture) */}
-            <section className="py-32 px-6 bg-slate-50">
-                <div className="container mx-auto">
+            <section className="py-32 bg-slate-50">
+                <div className="max-w-7xl mx-auto px-6 lg:px-8">
                     <div className="max-w-4xl mb-24 text-left">
                         <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-600 text-white rounded-lg text-[9px] font-black uppercase tracking-widest mb-6">
                             ESGporto - Consultor Especialista
@@ -86,8 +86,8 @@ export const PublicEnvironment: React.FC<PublicPageProps> = ({ onBack, onNavigat
             </section>
 
             {/* Section 2: TCFD & Adaptation */}
-            <section className="py-32 px-6 bg-white">
-                <div className="container mx-auto text-left">
+            <section className="py-32 bg-white">
+                <div className="max-w-7xl mx-auto px-6 lg:px-8 text-left">
                     <div className="grid lg:grid-cols-2 gap-20 items-center text-left text-black">
                         <div className="space-y-8 text-left text-black">
                             <span className="text-xs font-black text-green-600 uppercase tracking-widest text-left">Adaptação Costeira (TCFD)</span>

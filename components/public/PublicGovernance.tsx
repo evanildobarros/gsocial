@@ -26,11 +26,11 @@ export const PublicGovernance: React.FC<PublicPageProps> = ({ onBack, onNavigate
             </nav>
 
             {/* Hero Section */}
-            <section className="relative min-h-[90vh] flex items-center justify-center pt-24 pb-16 px-6 sm:px-12 bg-zinc-950 overflow-hidden">
+            <section className="relative min-h-[90vh] flex items-center justify-center pt-24 pb-16 bg-zinc-950 overflow-hidden">
                 <div className="absolute inset-0 z-0 bg-grid-slate-200/[0.04] bg-[size:20px_20px]"></div>
                 <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-blue-500 opacity-20 blur-[100px]"></div>
 
-                <div className="container mx-auto max-w-6xl relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                     <div className="space-y-10">
                         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100/50 border border-blue-200/50 text-blue-700 text-xs font-bold tracking-widest uppercase shadow-sm">
                             <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
@@ -69,8 +69,8 @@ export const PublicGovernance: React.FC<PublicPageProps> = ({ onBack, onNavigate
             </section>
 
             {/* Conteúdo Section */}
-            <section className="py-24 px-6 sm:px-12 bg-white">
-                <div className="container mx-auto max-w-6xl">
+            <section className="py-24 bg-white">
+                <div className="max-w-7xl mx-auto px-6 lg:px-8">
                     <div className="mb-16">
                         <h2 className="text-3xl sm:text-4xl font-black text-black mb-4">Estrutura de Gestão</h2>
                         <div className="w-24 h-1.5 bg-blue-600 rounded-full"></div>
