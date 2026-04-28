@@ -21,13 +21,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onScrollClick }) => {
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 w-full pt-32 lg:pt-32 pb-12 flex flex-col items-center lg:items-start text-center lg:text-left">
         <div className="max-w-5xl animate-fade-in-up flex flex-col items-center lg:items-start gap-y-8 mt-12 lg:mt-0">
-          <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-green-500/30 bg-green-500/10 px-4 py-2 backdrop-blur-md">
-            <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-            <span className="text-[10px] font-black tracking-widest uppercase text-green-400">
-              Relatório ESG 2024
-            </span>
-          </div>
-
           <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[1.1] tracking-tight mb-2 antialiased text-white max-w-5xl">
             Transforme a Sustentabilidade do seu Negócio em Vantagem Competitiva.
           </h1>
