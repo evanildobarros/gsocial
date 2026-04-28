@@ -129,31 +129,14 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
 
             {/* --- NEW CONTENT STARTS HERE --- */}
 
-            {/* Stats Section */}
-            <section className="relative -mt-20 z-20 pb-20">
+            {/* Painel de Indicadores */}
+            <section className="py-24 bg-white dark:bg-zinc-950">
                 <div className="max-w-7xl mx-auto px-6 lg:px-8">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        <StatCard
-                            icon={<Zap className="w-6 h-6 text-white" />}
-                            value="189.225"
-                            label="tCO₂eq emitidos em 2022"
-                        />
-                        <StatCard
-                            icon={<BarChart3 className="w-6 h-6 text-white" />}
-                            value="34M"
-                            label="toneladas movimentadas"
-                        />
-                        <StatCard
-                            icon={<Target className="w-6 h-6 text-white" />}
-                            value="2050"
-                            label="Ano-meta de neutralidade"
-                        />
-                        <StatCard
-                            icon={<TrendingUp className="w-6 h-6 text-white" />}
-                            value="96%"
-                            label="Meta de redução SBTi"
-                        />
+                    <div className="mb-12">
+                        <h2 className="text-5xl font-black text-black dark:text-white mb-4">Painel de Indicadores</h2>
+                        <p className="text-black dark:text-black text-lg">Monitoramento em tempo real do desempenho de nossas metas ESG.</p>
                     </div>
+                    {/* ... stats/cards ... */}
                 </div>
             </section>
 
