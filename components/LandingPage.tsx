@@ -51,17 +51,17 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
         <div className="min-h-screen bg-white dark:bg-zinc-950 font-sans text-black dark:text-white selection:bg-cyan-500 selection:text-white">
             {/* Navigation - Wrapper com grid fixo */}
             <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md shadow-lg py-4' : 'bg-transparent py-6'}`}>
-                <div className="max-w-7xl mx-auto px-6 lg:px-8 flex justify-between items-center">
-                    <div className="flex items-center gap-3">
+                <div className="max-w-7xl mx-auto px-6 lg:px-8 flex justify-between items-start">
+                    <div className="flex items-start gap-3">
                         <img src="/logo_itaqui.png" alt="ESGporto" className="h-10 w-auto brightness-0 invert dark:invert-0 lg:brightness-100" />
                     </div>
-                    <div className="flex items-center gap-6">
+                    <div className="flex items-start gap-6">
                         <button onClick={onLogin} className="hidden lg:block text-sm font-bold opacity-90 hover:opacity-100 transition-opacity text-white dark:text-white bg-white/10 px-4 py-2 rounded-full backdrop-blur-sm border border-white/20">
                             Área do Cliente
                         </button>
                         <button
                             onClick={onLogin}
-                            className="bg-cyan-500 hover:bg-cyan-400 text-white px-6 py-2.5 rounded-full font-bold text-sm transition-all shadow-lg hover:shadow-cyan-500/25 flex items-center gap-2"
+                            className="bg-cyan-500 hover:bg-cyan-400 text-white px-6 py-2.5 rounded-full font-bold text-sm transition-all shadow-lg hover:shadow-cyan-500/25 flex items-start gap-2"
                         >
                             Acessar Diagnóstico
                             <ArrowRight size={16} />
@@ -71,7 +71,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
             </nav>
 
             {/* --- HERO SECTION (PRESERVED) --- */}
-            <section className="relative h-screen min-h-[800px] flex items-center overflow-hidden">
+            <section className="relative h-screen min-h-[800px] flex items-start overflow-hidden">
                 {/* Background Image with Overlay */}
                 <div className="absolute inset-0 z-0">
                     <img
@@ -85,7 +85,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
 
                 <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 w-full pt-32 pb-20 flex flex-col justify-center h-full">
                     <div className="max-w-3xl">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/20 border border-cyan-500/30 backdrop-blur-md mb-6 animate-fade-in-up">
+                        <div className="inline-flex items-start gap-2 px-3 py-1 rounded-full bg-cyan-500/20 border border-cyan-500/30 backdrop-blur-md mb-6 animate-fade-in-up">
                             <span className="relative flex h-2 w-2">
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
                                 <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
@@ -102,22 +102,22 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                         </p>
 
                         <div className="flex flex-col sm:flex-row gap-4">
-                            <button onClick={onLogin} className="px-8 py-4 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white rounded-full font-bold text-lg shadow-xl shadow-cyan-500/20 transition-all hover:-translate-y-1 flex items-center justify-center gap-2">
+                            <button onClick={onLogin} className="px-8 py-4 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white rounded-full font-bold text-lg shadow-xl shadow-cyan-500/20 transition-all hover:-translate-y-1 flex items-start justify-center gap-2">
                                 Começar Agora
                                 <ChevronRight size={20} />
                             </button>
-                            <button className="px-8 py-4 bg-white/5 hover:bg-white/10 text-white border border-white/20 backdrop-blur-md rounded-full font-bold text-lg transition-all flex items-center justify-center gap-2">
+                            <button className="px-8 py-4 bg-white/5 hover:bg-white/10 text-white border border-white/20 backdrop-blur-md rounded-full font-bold text-lg transition-all flex items-start justify-center gap-2">
                                 <Building2 size={20} />
                                 Solicitar Demo
                             </button>
                         </div>
 
-                        <div className="mt-12 flex items-center gap-6 text-sm font-medium text-black">
-                            <div className="flex items-center gap-2">
+                        <div className="mt-12 flex items-start gap-6 text-sm font-medium text-black">
+                            <div className="flex items-start gap-2">
                                 <CheckCircle2 size={16} className="text-emerald-500" />
                                 <span>Compliance ABNT 2030</span>
                             </div>
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-start gap-2">
                                 <CheckCircle2 size={16} className="text-emerald-500" />
                                 <span>SBTi Aligned</span>
                             </div>
@@ -143,10 +143,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
             {/* About Section */}
             <section className="bg-white dark:bg-zinc-950">
                 <div className="max-w-7xl mx-auto px-6 lg:px-8">
-                    <div className="flex flex-col lg:flex-row gap-16 items-center">
+                    <div className="flex flex-col lg:flex-row gap-16 items-start">
                         {/* Text Content */}
                         <div className="flex-1 space-y-6">
-                            <div className="inline-flex items-center gap-2 bg-blue-50 dark:bg-blue-900/20 px-3 py-1 rounded-full">
+                            <div className="inline-flex items-start gap-2 bg-blue-50 dark:bg-blue-900/20 px-3 py-1 rounded-full">
                                 <Globe2 className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                                 <span className="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">Sobre o Porto</span>
                             </div>
@@ -167,7 +167,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                         {/* Blue Card Image Area */}
                         <div className="flex-1 w-full relative">
                             {/* Floating Berths Card */}
-                            <div className="absolute -top-6 -right-6 md:right-10 bg-white dark:bg-zinc-800 p-4 rounded-xl shadow-xl z-10 flex items-center gap-4 animate-bounce-slow">
+                            <div className="absolute -top-6 -right-6 md:right-10 bg-white dark:bg-zinc-800 p-4 rounded-xl shadow-xl z-10 flex items-start gap-4 animate-bounce-slow">
                                 <div className="bg-blue-500 p-2 rounded-lg text-white">
                                     <Droplets className="w-6 h-6" />
                                 </div>
@@ -178,7 +178,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                             </div>
 
                             {/* Main Blue Card */}
-                            <div className="w-full bg-[#0070f3] rounded-3xl p-12 md:p-16 flex flex-col items-center text-center justify-center relative overflow-hidden shadow-2xl skew-y-0 transform hover:scale-[1.02] transition-transform duration-500">
+                            <div className="w-full bg-[#0070f3] rounded-3xl p-12 md:p-16 flex flex-col items-start text-left justify-center relative overflow-hidden shadow-2xl skew-y-0 transform hover:scale-[1.02] transition-transform duration-500">
                                 {/* Background Pattern */}
                                 <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
 
@@ -199,7 +199,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
             {/* Decarbonization Section */}
             <section className="bg-gray-50 dark:bg-zinc-900 relative overflow-hidden">
                 <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-                    <div className="text-center max-w-3xl mx-auto mb-16">
+                    <div className="text-left max-w-3xl mx-auto mb-16">
                         <span className="text-emerald-600 dark:text-emerald-400 font-bold tracking-widest uppercase text-xs mb-2 block">Plano de Descarbonização</span>
                         <h2 className="text-3xl md:text-5xl font-black dark:text-white mb-6">Rumo ao Porto Verde</h2>
                         <p className="text-black dark:text-black text-lg">
@@ -239,7 +239,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
             {/* Roadmap / Targets */}
             <section className="bg-zinc-900 border-y border-white/5">
                 <div className="max-w-7xl mx-auto px-6 lg:px-8">
-                    <div className="flex flex-col lg:flex-row gap-16 items-center">
+                    <div className="flex flex-col lg:flex-row gap-16 items-start">
                         <div className="flex-1">
                             <span className="text-cyan-400 font-bold tracking-widest uppercase text-xs mb-2 block">Roadmap SBTi</span>
                             <h2 className="text-4xl font-black text-white mb-6">Neutralidade de Carbono</h2>
@@ -249,7 +249,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
 
                             <div className="space-y-8">
                                 <div className="flex gap-6 items-start">
-                                    <div className="flex flex-col items-center">
+                                    <div className="flex flex-col items-start">
                                         <div className="w-4 h-4 rounded-full bg-cyan-500"></div>
                                         <div className="w-0.5 h-full bg-cyan-500/30 my-2"></div>
                                     </div>
@@ -260,7 +260,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                                     </div>
                                 </div>
                                 <div className="flex gap-6 items-start">
-                                    <div className="flex flex-col items-center">
+                                    <div className="flex flex-col items-start">
                                         <div className="w-4 h-4 rounded-full bg-emerald-500"></div>
                                     </div>
                                     <div>
@@ -273,7 +273,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
 
                             <button
                                 onClick={onLogin}
-                                className="mt-12 px-8 py-3 border border-white/20 hover:bg-white/5 text-white rounded-full font-bold transition-all flex items-center gap-2"
+                                className="mt-12 px-8 py-3 border border-white/20 hover:bg-white/5 text-white rounded-full font-bold transition-all flex items-start gap-2"
                             >
                                 Ver Inventário Detalhado
                                 <ArrowRight size={16} />
@@ -282,7 +282,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
 
                         <div className="flex-1 w-full max-w-md mx-auto">
                             <div className="bg-zinc-800/50 p-8 rounded-3xl border border-white/5 shadow-2xl">
-                                <h4 className="text-lg font-bold text-white mb-6 text-center">Distribuição da Pegada (tCO₂eq)</h4>
+                                <h4 className="text-lg font-bold text-white mb-6 text-left">Distribuição da Pegada (tCO₂eq)</h4>
                                 <div className="h-[300px] w-full">
                                     <ResponsiveContainer width="100%" height="100%">
                                         <PieChart>
@@ -308,8 +308,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                                 </div>
                                 <div className="space-y-3 mt-4">
                                     {CARBON_DATA.map((item) => (
-                                        <div key={item.name} className="flex items-center justify-between text-sm">
-                                            <div className="flex items-center gap-2">
+                                        <div key={item.name} className="flex items-start justify-between text-sm">
+                                            <div className="flex items-start gap-2">
                                                 <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }}></div>
                                                 <span className="text-gray-300">{item.name}</span>
                                             </div>
@@ -317,7 +317,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                                         </div>
                                     ))}
                                 </div>
-                                <div className="mt-6 pt-6 border-t border-white/10 text-center">
+                                <div className="mt-6 pt-6 border-t border-white/10 text-left">
                                     <div className="text-3xl font-black text-white">189.225</div>
                                     <div className="text-xs text-black uppercase">Toneladas Totais (2022)</div>
                                 </div>
@@ -330,7 +330,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
             {/* Downloads / Resources */}
             <section className="bg-white dark:bg-zinc-950">
                 <div className="max-w-7xl mx-auto px-6 lg:px-8">
-                    <h2 className="text-3xl font-black mb-12 dark:text-white text-center">Transparência & Relatórios</h2>
+                    <h2 className="text-3xl font-black mb-12 dark:text-white text-left">Transparência & Relatórios</h2>
                     <div className="grid md:grid-cols-3 gap-6">
                         <DownloadCard
                             title="Inventário ESG - Vol. III"
@@ -352,11 +352,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
             </section>
 
             {/* CTA Section */}
-            <section className="py-24 bg-[#009966] text-white text-center relative overflow-hidden">
+            <section className="py-24 bg-[#009966] text-white text-left relative overflow-hidden">
                 <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
                 <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
 
-                    <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 mb-8">
+                    <div className="inline-flex items-start gap-2 px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 mb-8">
                         <Globe2 size={14} className="text-white" />
                         <span className="text-xs font-bold text-white uppercase tracking-wider">Junte-se a Nós</span>
                     </div>
@@ -385,7 +385,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                     <div className="grid md:grid-cols-4 gap-12 mb-16">
                         {/* Column 1: Institutional */}
                         <div className="col-span-1 md:col-span-2 space-y-6">
-                            <div className="flex items-center gap-3">
+                            <div className="flex items-start gap-3">
                                 <div className="p-2 bg-blue-600 rounded-lg">
                                     <Anchor className="text-white h-5 w-5" />
                                 </div>
@@ -395,10 +395,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                                 Administrado pela Empresa Maranhense de Administração Portuária (EMAP), o Porto do Itaqui é referência em sustentabilidade e eficiência operacional na América Latina.
                             </p>
                             <div className="flex gap-4 pt-2">
-                                <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center hover:bg-blue-600 transition-colors cursor-pointer text-black hover:text-white">
+                                <div className="w-10 h-10 rounded-lg bg-white/5 flex items-start justify-center hover:bg-blue-600 transition-colors cursor-pointer text-black hover:text-white">
                                     <Globe2 size={18} />
                                 </div>
-                                <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center hover:bg-blue-600 transition-colors cursor-pointer text-black hover:text-white">
+                                <div className="w-10 h-10 rounded-lg bg-white/5 flex items-start justify-center hover:bg-blue-600 transition-colors cursor-pointer text-black hover:text-white">
                                     <FileText size={18} />
                                 </div>
                             </div>
@@ -408,10 +408,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                         <div>
                             <h4 className="font-bold mb-6 text-white">Links Rápidos</h4>
                             <ul className="space-y-4 text-black text-sm font-medium">
-                                <li><a href="#" className="hover:text-blue-400 transition-colors flex items-center gap-2">Sobre o Porto</a></li>
-                                <li><a href="#" className="hover:text-blue-400 transition-colors flex items-center gap-2">Pilares ESG</a></li>
-                                <li><a href="#" className="hover:text-blue-400 transition-colors flex items-center gap-2">Descarbonização</a></li>
-                                <li><a href="#" className="hover:text-blue-400 transition-colors flex items-center gap-2">Relatórios</a></li>
+                                <li><a href="#" className="hover:text-blue-400 transition-colors flex items-start gap-2">Sobre o Porto</a></li>
+                                <li><a href="#" className="hover:text-blue-400 transition-colors flex items-start gap-2">Pilares ESG</a></li>
+                                <li><a href="#" className="hover:text-blue-400 transition-colors flex items-start gap-2">Descarbonização</a></li>
+                                <li><a href="#" className="hover:text-blue-400 transition-colors flex items-start gap-2">Relatórios</a></li>
                             </ul>
                         </div>
 
@@ -430,17 +430,17 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                     </div>
 
                     {/* Bottom Bar */}
-                    <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
+                    <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-start gap-6">
                         <p className="text-black text-xs font-medium">
                             © 2025 Porto do Itaqui - EMAP. Todos os direitos reservados.
                         </p>
-                        <div className="flex items-center gap-6">
-                            <div className="flex items-center gap-2 text-emerald-500 text-xs font-bold uppercase tracking-wider">
+                        <div className="flex items-start gap-6">
+                            <div className="flex items-start gap-2 text-emerald-500 text-xs font-bold uppercase tracking-wider">
                                 <Leaf size={14} />
                                 <span>Compromisso ESG</span>
                             </div>
                             <div className="h-4 w-px bg-white/10"></div>
-                            <div className="flex items-center gap-2 text-blue-500 text-xs font-bold uppercase tracking-wider">
+                            <div className="flex items-start gap-2 text-blue-500 text-xs font-bold uppercase tracking-wider">
                                 <BadgeCheck size={14} />
                                 <span>ISO 14001</span>
                             </div>
@@ -455,7 +455,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
 // --- Helper Components ---
 
 const StatCard: React.FC<{ icon: React.ReactNode; value: string; label: string }> = ({ icon, value, label }) => (
-    <div className="bg-white dark:bg-zinc-800 p-8 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 flex flex-col items-center text-center group">
+    <div className="bg-white dark:bg-zinc-800 p-8 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 flex flex-col items-start text-left group">
         <div className="mb-6 p-4 bg-blue-600 rounded-2xl shadow-lg shadow-blue-500/30 group-hover:scale-110 transition-transform duration-300">
             {icon}
         </div>
@@ -480,7 +480,7 @@ const DownloadCard: React.FC<{ title: string; subtitle: string; tag: string }> =
         </div>
         <h4 className="font-bold text-lg dark:text-white mb-2 group-hover:text-cyan-500 transition-colors">{title}</h4>
         <p className="text-black dark:text-black text-sm mb-4">{subtitle}</p>
-        <div className="flex items-center gap-2 text-cyan-600 dark:text-cyan-400 text-xs font-bold uppercase tracking-wider">
+        <div className="flex items-start gap-2 text-cyan-600 dark:text-cyan-400 text-xs font-bold uppercase tracking-wider">
             <Download size={14} />
             Baixar Arquivo
         </div>
