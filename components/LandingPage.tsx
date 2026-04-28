@@ -132,8 +132,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
             {/* Painel de Indicadores */}
             <section className="py-24 bg-white dark:bg-zinc-950">
                 <div className="max-w-7xl mx-auto px-6 lg:px-8">
-                    <div className="mb-12">
-                        <h2 className="text-5xl font-black text-black dark:text-white mb-4">Painel de Indicadores</h2>
+                    <div className="mb-12 text-left">
+                        <h2 className="text-3xl md:text-5xl font-black text-black dark:text-white mb-4">Painel de Indicadores</h2>
                         <p className="text-black dark:text-black text-lg">Monitoramento em tempo real do desempenho de nossas metas ESG.</p>
                     </div>
                     {/* ... stats/cards ... */}
