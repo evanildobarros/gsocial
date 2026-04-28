@@ -49,14 +49,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
 
     return (
         <div className="min-h-screen bg-white dark:bg-zinc-950 font-sans text-black dark:text-white selection:bg-cyan-500 selection:text-white">
-            {/* Navigation */}
+            {/* Navigation - Wrapper com grid fixo */}
             <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md shadow-lg py-4' : 'bg-transparent py-6'}`}>
                 <div className="max-w-7xl mx-auto px-6 lg:px-8 flex justify-between items-center">
                     <div className="flex items-center gap-3">
                         <img src="/logo_itaqui.png" alt="ESGporto" className="h-10 w-auto brightness-0 invert dark:invert-0 lg:brightness-100" />
-                        <div className="hidden lg:block">
-                            <span className={`text-xl font-black tracking-tighter ${scrolled ? 'text-black dark:text-white' : 'text-white'}`}>ESGporto</span>
-                        </div>
                     </div>
                     <div className="flex items-center gap-6">
                         <button onClick={onLogin} className="hidden lg:block text-sm font-bold opacity-90 hover:opacity-100 transition-opacity text-white dark:text-white bg-white/10 px-4 py-2 rounded-full backdrop-blur-sm border border-white/20">
