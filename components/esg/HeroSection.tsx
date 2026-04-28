@@ -19,9 +19,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onScrollClick }) => {
         <div className="absolute inset-0 bg-gradient-to-b from-zinc-950/90 via-zinc-950/60 to-zinc-950"></div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 w-full pt-32 pb-12 flex flex-col items-center lg:items-start text-center lg:text-left">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 w-full pt-16 lg:pt-32 pb-12 flex flex-col items-center lg:items-start text-center lg:text-left">
         <div className="max-w-5xl animate-fade-in-up flex flex-col items-center lg:items-start gap-y-8">
-          <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-green-500/30 bg-green-500/10 px-4 py-2 backdrop-blur-md mt-16 lg:mt-0">
+          <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-green-500/30 bg-green-500/10 px-4 py-2 backdrop-blur-md">
             <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
             <span className="text-[10px] font-black tracking-widest uppercase text-green-400">
               Relatório ESG 2024
