@@ -36,9 +36,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
 
             <section className="py-24">
                 <LayoutContainer className="text-left">
-                    <h2 className="text-5xl font-black text-black dark:text-white mb-12">Painel de Indicadores</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {/* Stat Cards */}
+                    <div className="mb-12 text-left w-full">
+                        <h2 className="text-3xl md:text-5xl font-black text-black dark:text-white mb-4 text-left">Painel de Indicadores</h2>
+                        <p className="text-black dark:text-black text-lg text-left">Monitoramento em tempo real do desempenho de nossas metas ESG.</p>
                     </div>
                 </LayoutContainer>
             </section>
