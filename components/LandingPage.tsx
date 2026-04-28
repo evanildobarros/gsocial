@@ -71,7 +71,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
             </nav>
 
             {/* --- HERO SECTION (PRESERVED) --- */}
-            <section className="relative h-screen min-h-[800px] flex items-center justify-center overflow-hidden">
+            <section className="relative h-screen min-h-[800px] flex items-center overflow-hidden">
                 {/* Background Image with Overlay */}
                 <div className="absolute inset-0 z-0">
                     <img
@@ -83,7 +83,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                     <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-transparent"></div>
                 </div>
 
-                <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 pt-20">
+                <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 w-full pt-32 pb-20 flex flex-col justify-center h-full">
                     <div className="max-w-3xl">
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/20 border border-cyan-500/30 backdrop-blur-md mb-6 animate-fade-in-up">
                             <span className="relative flex h-2 w-2">
