@@ -39,41 +39,47 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onScrollClick }) => {
           </div>
         </div>
 
-        {/* Stats Section - Mobile Optimized */}
-        <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-8 max-w-3xl animate-fade-in-up animation-delay-300 px-2 sm:px-0">
-          <div className="group rounded-[32px] md:rounded-[48px] border border-white/10 bg-white/5 backdrop-blur-xl p-6 md:p-10 transition-all hover:border-green-500/40 hover:bg-white/10 shadow-2xl">
-            <div className="mb-4 flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-2xl bg-green-500/20 text-green-400 group-hover:scale-110 transition-transform mx-auto lg:mx-0">
-              <Leaf size={24} />
+        {/* Stats Section - Improved by Lucas */}
+        <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8 max-w-3xl animate-fade-in-up animation-delay-300 px-2 sm:px-0">
+          <div className="group relative overflow-hidden rounded-[32px] border border-white/5 bg-white/[0.03] backdrop-blur-3xl p-8 md:p-10 transition-all duration-500 hover:border-green-500/30 hover:bg-white/[0.06] hover:shadow-[0_0_40px_-10px_rgba(34,197,94,0.2)]">
+            <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+            <div className="relative flex flex-col items-center lg:items-start z-10">
+              <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-green-500/10 text-green-400 border border-green-500/20">
+                <Leaf size={28} />
+              </div>
+              <p className="text-5xl md:text-7xl font-black tracking-tighter text-white mb-2">
+                189k
+              </p>
+              <p className="text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-white/50">
+                tCO<sub>2</sub>eq monitoradas
+              </p>
             </div>
-            <p className="text-4xl md:text-6xl font-black tracking-tighter text-white mb-1">
-              189k
-            </p>
-            <p className="text-[9px] md:text-xs font-black uppercase tracking-widest text-white/40">
-              tCO<sub>2</sub>eq monitoradas
-            </p>
           </div>
 
-          <div className="group rounded-[32px] md:rounded-[48px] border border-white/10 bg-white/5 backdrop-blur-xl p-6 md:p-10 transition-all hover:border-orange-500/40 hover:bg-white/10 shadow-2xl">
-            <div className="mb-4 flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-2xl bg-orange-500/20 text-orange-400 group-hover:scale-110 transition-transform mx-auto lg:mx-0">
-              <Users size={24} />
+          <div className="group relative overflow-hidden rounded-[32px] border border-white/5 bg-white/[0.03] backdrop-blur-3xl p-8 md:p-10 transition-all duration-500 hover:border-orange-500/30 hover:bg-white/[0.06] hover:shadow-[0_0_40px_-10px_rgba(249,115,22,0.2)]">
+            <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+            <div className="relative flex flex-col items-center lg:items-start z-10">
+              <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-orange-500/10 text-orange-400 border border-orange-500/20">
+                <Users size={28} />
+              </div>
+              <p className="text-5xl md:text-7xl font-black tracking-tighter text-white mb-2">
+                155k
+              </p>
+              <p className="text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-white/50">
+                Pessoas impactadas
+              </p>
             </div>
-            <p className="text-4xl md:text-6xl font-black tracking-tighter text-white mb-1">
-              155k
-            </p>
-            <p className="text-[9px] md:text-xs font-black uppercase tracking-widest text-white/40">
-              Pessoas impactadas
-            </p>
           </div>
         </div>
 
         {/* Scroll indicator */}
-        <div className="mt-12 flex justify-center w-full animate-fade-in-up animation-delay-500 pb-10">
+        <div className="mt-16 flex justify-center w-full animate-fade-in-up animation-delay-500 pb-10">
           <div className="flex flex-col items-center gap-3">
-            <div className="w-[1px] h-8 bg-gradient-to-b from-green-500 to-transparent"></div>
-            <span className="text-[9px] font-black tracking-[0.3em] uppercase text-white/30">
+            <div className="w-[1px] h-10 bg-gradient-to-b from-green-500 to-transparent"></div>
+            <span className="text-[10px] font-black tracking-[0.3em] uppercase text-white/40">
               Descubra
             </span>
-            <ArrowDown className="h-4 w-4 text-green-500 animate-bounce" />
+            <ArrowDown className="h-5 w-5 text-green-500 animate-bounce" />
           </div>
         </div>
       </div>
