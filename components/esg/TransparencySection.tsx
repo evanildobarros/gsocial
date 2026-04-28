@@ -10,8 +10,8 @@ export const TransparencySection = () => {
   ];
 
   return (
-    <section id="relatórios" className="py-32 px-6 bg-slate-50 dark:bg-zinc-950 transition-colors duration-500">
-      <div className="container mx-auto">
+    <section id="relatórios" className="py-32 bg-slate-50 dark:bg-zinc-950 transition-colors duration-500">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-20 items-center">
           <div className="space-y-10">
             <div>

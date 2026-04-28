@@ -24,8 +24,8 @@ export const NewsSection = () => {
   ];
 
   return (
-    <section className="py-20 md:py-32 px-6 bg-white dark:bg-black transition-colors duration-500">
-      <div className="container mx-auto">
+    <section className="py-20 md:py-32 bg-white dark:bg-black transition-colors duration-500">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-20 gap-8">
           <div className="max-w-xl">
              <span className="inline-block text-emerald-600 font-black tracking-widest uppercase text-[10px] mb-4 pl-3 border-l-4 border-emerald-500">

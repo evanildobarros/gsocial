@@ -6,13 +6,13 @@ interface IndicatorsSectionProps {
 
 export const IndicatorsSection: React.FC<IndicatorsSectionProps> = ({ id }) => {
   return (
-    <section id={id} className="py-32 px-6 bg-gray-50 dark:bg-zinc-900 transition-colors duration-500">
-      <div className="container mx-auto">
-        <div className="mb-16 text-left">
+    <section id={id} className="py-32 bg-gray-50 dark:bg-zinc-900 transition-colors duration-500">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="mb-16">
           <h2 className="text-4xl md:text-6xl font-black text-black dark:text-white tracking-tighter mb-6">
             Painel de Indicadores
           </h2>
-          <p className="text-black/60 dark:text-white/60 text-lg font-medium max-w-2xl mx-auto italic">
+          <p className="text-black/60 dark:text-white/60 text-lg font-medium max-w-2xl italic">
             Monitoramento em tempo real do desempenho de nossas metas ESG.
           </p>
         </div>
