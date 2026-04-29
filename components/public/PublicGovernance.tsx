@@ -37,11 +37,11 @@ export const PublicGovernance: React.FC<PublicPageProps> = ({ onBack, onNavigate
                             Governança Corporativa
                         </div>
                         
-                        <h1 className="text-5xl sm:text-7xl font-black text-black leading-[1.1] tracking-tight">
+                        <h1 className="text-5xl sm:text-7xl font-black text-white leading-[1.1] tracking-tight">
                             Transparência <br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">&</span> Integridade
                         </h1>
                         
-                        <p className="text-lg sm:text-xl text-gray-600 font-medium leading-relaxed max-w-xl">
+                        <p className="text-lg sm:text-xl text-gray-200 font-medium leading-relaxed max-w-xl">
                             A base da nossa atuação está na ética, na responsabilidade e no compromisso inegociável com a transparência em todos os nossos processos e decisões.
                         </p>
                     </div>
