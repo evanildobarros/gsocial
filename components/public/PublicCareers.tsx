@@ -27,6 +27,11 @@ export const PublicCareers: React.FC<PublicPageProps> = ({ onBack, onNavigate })
 
             {/* Hero Section */}
             <section className="relative min-h-[90vh] flex items-center justify-center pt-24 pb-16 bg-zinc-950 overflow-hidden">
+                <img 
+                    src="/images/careers-bg.png" 
+                    alt="Careers Background" 
+                    className="absolute inset-0 w-full h-full object-cover z-0 opacity-40"
+                />
                 <div className="absolute inset-0 z-0 bg-grid-slate-200/[0.04] bg-[size:20px_20px]"></div>
                 <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-purple-500 opacity-20 blur-[100px]"></div>
 
