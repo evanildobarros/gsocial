@@ -42,7 +42,7 @@ export const PublicCareers: React.FC<PublicPageProps> = ({ onBack, onNavigate })
                             Carreiras
                         </div>
                         
-                        <h1 className="text-5xl sm:text-7xl font-black text-black leading-[1.1] tracking-tight">
+                        <h1 className="text-5xl sm:text-7xl font-black text-white leading-[1.1] tracking-tight">
                             Construa o Futuro com <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">Propósito</span>
                         </h1>
                         
