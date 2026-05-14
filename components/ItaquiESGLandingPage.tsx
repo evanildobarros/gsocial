@@ -10,7 +10,6 @@ import { TransparencySection } from './esg/TransparencySection';
 import { NewsSection } from './esg/NewsSection';
 import { Footer } from './esg/Footer';
 import { AccessibilityMenu } from './strategic/AccessibilityMenu';
-import { CitizenPortalCard } from './esg/CitizenPortalCard';
 
 interface ItaquiESGLandingPageProps {
     onLoginClick?: () => void;
@@ -197,11 +196,6 @@ export const ItaquiESGLandingPage: React.FC<ItaquiESGLandingPageProps> = ({ onLo
                     el?.scrollIntoView({ behavior: 'smooth' });
                 }} />
                 
-                {/* Quick Access: Portal do Cidadão */}
-                <section className="py-12 bg-gray-50 dark:bg-zinc-950 flex justify-center px-6 lg:px-8">
-                    <CitizenPortalCard onNavigate={onNavigate} />
-                </section>
-
                 <BentoCommitments />
                 <IndicatorsSection id="indicators" />
                 <TransparencySection />
