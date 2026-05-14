@@ -37,7 +37,7 @@ export const PublicCompliance: React.FC<PublicPageProps> = ({ onBack, onNavigate
                             Conformidade & Ética
                         </div>
                         
-                        <h1 className="text-5xl sm:text-7xl font-black text-black leading-[1.1] tracking-tight">
+                        <h1 className="text-5xl sm:text-7xl font-black text-white leading-[1.1] tracking-tight">
                             Compliance <br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-600 to-orange-600">Corporativo</span>
                         </h1>
                         
