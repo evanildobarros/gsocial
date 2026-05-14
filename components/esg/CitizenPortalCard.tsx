@@ -25,7 +25,7 @@ export const CitizenPortalCard: React.FC<CitizenPortalCardProps> = ({ onNavigate
                 <div className="flex items-center gap-3 mb-6">
                     <div className="p-2 bg-blue-50 dark:bg-blue-900/30 rounded-xl text-blue-600 dark:text-blue-400">
                         <Globe size={24} />
-                    </div
+                    </div>
                     <h3 className="text-xl font-black text-black dark:text-white">Portal do Cidadão</h3>
                 </div>
 
