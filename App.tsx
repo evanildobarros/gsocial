@@ -1,44 +1,12 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
-
-import {
-    Dashboard as DashboardIcon,
-    Assignment as ProjectsIcon,
-    People as UsersIcon,
-    Bolt as ZapIcon,
-    WaterDrop as DropletsIcon,
-    Shield as ShieldIcon,
-    VerifiedUser as ComplianceIcon,
-    Analytics as AnalyticsIcon,
-    Notifications as NotificationsIcon,
-    Settings as SettingsIcon,
-    Logout as LogoutIcon,
-    Menu as MenuIcon,
-    Search as SearchIcon,
-    AccountCircle as AccountCircleIcon,
-    Anchor as AnchorIcon,
-    ExpandLess,
-    ExpandMore,
-    ShowChart as SroiIcon,
-    Map as TerritoryIcon,
-    Group as DiversityIcon,
-    Security as HumanRightsIcon,
-    ReportProblem as RiskIcon,
-    Assessment as ReportingIcon,
-    LocalShipping as SupplyChainIcon,
-    Lightbulb as LightbulbIcon,
-    Forest as ForestIcon,
-    Groups as GroupsIcon,
-    Gavel as GavelIcon,
-    Psychology as IntelligenceIcon,
-} from '@mui/icons-material';
 import { AppMode, UserProfile, Layer } from './types';
 import { supabase } from '@/utils/supabase';
-import { parseKmlToLayers } from './utils/geoUtils';
-import { showSuccess, showError } from './utils/notifications';
+import { showSuccess } from './utils/notifications';
 import { ToastContainer } from './components/Toast';
-import { ThemeSwitcher } from './components/ThemeSwitcher';
 import { Breadcrumb } from './components/Breadcrumb';
 import { AccessibilityMenu } from './components/strategic/AccessibilityMenu';
+import { Sidebar } from './components/layout/Sidebar';
+import { Header } from './components/layout/Header';
 
 // Autenticação e Landing
 import { Login } from './components/Login';
@@ -89,77 +57,7 @@ const GeoSpatialModule = lazy(() => import('./components/territory/GeoSpatialMod
 const CommunityAssessmentForm = lazy(() => import('./components/territory/CommunityAssessmentForm'));
 const SocialProjectForm = lazy(() => import('./components/social/SocialProjectForm'));
 
-// Componente NavItem
-interface NavItemProps {
-    icon: React.ReactNode;
-    label: string;
-    active: boolean;
-    onClick: () => void;
-    collapsed: boolean;
-}
-
-const NavItem: React.FC<NavItemProps> = ({ icon, label, active, onClick, collapsed }) => (
-    <div className="mb-1 px-2 group relative">
-        <button
-            onClick={onClick}
-            title={collapsed ? label : ''}
-            className={`
-                w-full flex items-center py-[0.875rem] px-4 rounded-lg transition-all duration-200 ease-in-out
-                ${collapsed ? 'justify-center' : 'justify-start'}
-                ${active
-                    ? 'bg-happiness-1/10 text-happiness-1 dark:text-white dark:bg-happiness-1 shadow-sm'
-                    : 'text-black dark:text-white hover:bg-gray-100 dark:hover:bg-white/5'
-                }
-            `}
-        >
-            <div className={`flex items-center justify-center ${collapsed ? '' : 'min-w-[40px]'}`}>
-                {React.cloneElement(icon as React.ReactElement<any>, { sx: { fontSize: 22 } })}
-            </div>
-            {!collapsed && (
-                <span className={`text-sm font-bold whitespace-nowrap ${active ? 'font-black' : ''}`}>
-                    {label}
-                </span>
-            )}
-        </button>
-    </div>
-);
-
-const SectionHeader: React.FC<{
-    label: string;
-    icon?: React.ReactNode;
-    collapsed: boolean;
-    open?: boolean;
-    onToggle?: () => void
-}> = ({ label, icon, collapsed, open, onToggle }) => (
-    <div
-        onClick={!collapsed ? onToggle : undefined}
-        className={`px-4 py-[0.875rem] mt-6 flex items-center justify-between group transition-colors ${!collapsed && onToggle ? 'cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg mx-2' : ''} ${collapsed ? 'text-center' : 'text-left'}`}
-    >
-        <div className="flex items-center w-full">
-            {icon && !collapsed && (
-                <div className="flex items-center justify-center min-w-[40px] text-black dark:text-white group-hover:text-happiness-1 transition-colors">
-                    {React.cloneElement(icon as React.ReactElement<any>, { sx: { fontSize: 22 } })}
-                </div>
-            )}
-            {!collapsed && (
-                <span className="text-sm font-bold text-black dark:text-white group-hover:text-happiness-1 transition-colors antialiased whitespace-nowrap ml-0 tracking-tight">
-                    {label}
-                </span>
-            )}
-            {collapsed && <span className="text-[11px] font-black tracking-[0.25em] text-black dark:text-white">•••</span>}
-        </div>
-        {!collapsed && onToggle && (
-            <div className="text-black dark:text-white group-hover:text-happiness-1 transition-colors ml-2">
-                {open ? <ExpandLess sx={{ fontSize: 20 }} /> : <ExpandMore sx={{ fontSize: 20 }} />}
-            </div>
-        )}
-    </div>
-);
-
-const getInitials = (name?: string) => {
-    if (!name) return 'GS';
-    return name.split(' ').map((n) => n[0]).join('').substring(0, 2).toUpperCase();
-};
+// NavItem, SectionHeader, and getInitials have been moved to components/layout
 
 export default function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -174,12 +72,7 @@ export default function App() {
     const [selectedProject, setSelectedProject] = useState<any | null>(null);
     const [currentTheme, setCurrentTheme] = useState(localStorage.getItem('gsocial-theme') || 'azure');
 
-    // Submenu States
-    const [overviewOpen, setOverviewOpen] = useState(true);
-    const [envOpen, setEnvOpen] = useState(false);
-    const [socialOpen, setSocialOpen] = useState(false);
-    const [govOpen, setGovOpen] = useState(false);
-    const [strategicOpen, setStrategicOpen] = useState(false);
+    // Submenu states are now managed internally inside the Sidebar component
 
     useEffect(() => {
         const handleResize = () => {
@@ -231,16 +124,7 @@ export default function App() {
         return () => subscription.unsubscribe();
     }, []);
 
-    const [isProfileOpen, setIsProfileOpen] = useState(false);
-    const profileMenuRef = React.useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (profileMenuRef.current && !profileMenuRef.current.contains(event.target as Node)) setIsProfileOpen(false);
-        };
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
+    // Profile menu states and click-outside are now managed internally inside the Header component
 
     const handleLogout = async () => {
         await supabase.auth.signOut();
@@ -354,121 +238,32 @@ export default function App() {
 
     if (isPublicMode) return getComponent();
 
-    // Menu Item Definitions
-    const envItems = [
-        { icon: <ZapIcon />, label: "Clima & Carbono", mode: AppMode.ENV_DECARBONIZATION },
-        { icon: <DropletsIcon />, label: "Recursos (Energia/H2O)", mode: AppMode.ENV_EFFICIENCY },
-        { icon: <ShieldIcon />, label: "Poluição & PAM", mode: AppMode.ENV_POLLUTION },
-        { icon: <ComplianceIcon />, label: "Digital LAIA (PC-56)", mode: AppMode.ENV_LAIA },
-        { icon: <AnchorIcon />, label: "Resíduos (PC-112)", mode: AppMode.ENV_WASTE_SHIP },
-        { icon: <AnalyticsIcon />, label: "Inteligência Climática", mode: AppMode.ENV_METEO },
-    ];
-    const socialItems = [
-        { icon: <ProjectsIcon />, label: "Projetos & Ações", mode: AppMode.PROJECTS },
-        { icon: <SroiIcon />, label: "Impacto & SROI", mode: AppMode.SOCIAL_SROI },
-        { icon: <DiversityIcon />, label: "Diversidade & Inclusão", mode: AppMode.SOCIAL_DIVERSITY },
-        { icon: <HumanRightsIcon />, label: "Direitos Humanos", mode: AppMode.SOCIAL_HUMAN_RIGHTS },
-    ];
-    const govItems = [
-        { icon: <RiskIcon />, label: "Matriz de Riscos", mode: AppMode.GOV_RISK_MATRIX },
-        { icon: <ReportingIcon />, label: "Relatórios & Padrões", mode: AppMode.GOV_REPORTING },
-        { icon: <SupplyChainIcon />, label: "Cadeia de Valor", mode: AppMode.GOV_SUPPLY_CHAIN },
-    ];
-    const diagItems = [
-        { icon: <ReportingIcon />, label: "Central de Diagnósticos", mode: AppMode.ESG_CENTER },
-        { icon: <TerritoryIcon />, label: "Mapa ESG (GIS)", mode: AppMode.SOCIAL_GIS },
-    ];
-
     return (
         <div className="flex h-screen overflow-hidden bg-gray-50 dark:bg-zinc-950 font-sans transition-colors relative text-black">
             <div className="absolute inset-0 bg-happiness-bg-tint/30 pointer-events-none" />
             <ToastContainer />
             {isPublicMode && <AccessibilityMenu />}
             {sidebarOpen && (<div className="fixed inset-0 bg-black/50 z-40 lg:hidden" onClick={() => setSidebarOpen(false)} />)}
-            <aside className={`fixed left-0 top-0 h-full bg-white dark:bg-[#1C1C1C] text-black dark:text-white transition-all duration-300 ease-in-out z-50 flex flex-col border-r border-gray-200 dark:border-white/5 ${sidebarOpen ? 'w-80 translate-x-0' : 'w-24 -translate-x-full lg:translate-x-0'}`}>
-                <div className={`h-24 flex items-center px-8 transition-all duration-300 ${sidebarOpen ? 'justify-between' : 'justify-center'}`}>
-                    {sidebarOpen ? (
-                        <><div className="flex flex-col items-start gap-1"><img src="/logo_itaqui.png" alt="Logo" className="h-8 w-auto" /><h1 className="text-base font-black tracking-tighter text-black dark:text-white mt-1">ESGporto</h1></div><button onClick={() => setSidebarOpen(false)} className="p-1.5 text-black hover:text-happiness-1 hover:bg-happiness-1/5 rounded-sm transition-all"><MenuIcon sx={{ fontSize: 20 }} /></button></>
-                    ) : (
-                        <button onClick={() => setSidebarOpen(true)} className="p-2 text-black hover:text-happiness-1 hover:bg-happiness-1/5 rounded-sm transition-all"><MenuIcon sx={{ fontSize: 24 }} /></button>
-                    )}
-                </div>
-                <div className="flex-1 overflow-y-auto overflow-x-hidden py-4 custom-scrollbar">
-                    <SectionHeader label="Visão Geral" icon={<DashboardIcon />} collapsed={!sidebarOpen} open={overviewOpen} onToggle={() => setOverviewOpen(!overviewOpen)} />
-                    <div className={`overflow-hidden transition-all duration-300 ${overviewOpen || !sidebarOpen ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
-                        <NavItem icon={<DashboardIcon />} label="Dashboard Home" active={mode === AppMode.DASHBOARD} onClick={() => setMode(AppMode.DASHBOARD)} collapsed={!sidebarOpen} />
-                        {diagItems.map(item => (<NavItem key={item.label} icon={item.icon} label={item.label} active={mode === item.mode} onClick={() => setMode(item.mode)} collapsed={!sidebarOpen} />))}
-                    </div>
-                    <div className="my-2 border-t border-gray-100 dark:border-white/5 mx-4" />
-                    <SectionHeader label="Pilar Ambiental (E)" icon={<ForestIcon />} collapsed={!sidebarOpen} open={envOpen} onToggle={() => setEnvOpen(!envOpen)} />
-                    <div className={`overflow-hidden transition-all duration-300 ${envOpen || !sidebarOpen ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
-                        {envItems.map(item => (<NavItem key={item.label} icon={item.icon} label={item.label} active={mode === item.mode} onClick={() => setMode(item.mode)} collapsed={!sidebarOpen} />))}
-                    </div>
-                    <div className="my-2 border-t border-gray-100 dark:border-white/5 mx-4" />
-                    <SectionHeader label="Pilar Social (S)" icon={<GroupsIcon />} collapsed={!sidebarOpen} open={socialOpen} onToggle={() => setSocialOpen(!socialOpen)} />
-                    <div className={`overflow-hidden transition-all duration-300 ${socialOpen || !sidebarOpen ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
-                        {socialItems.map(item => (<NavItem key={item.label} icon={item.icon} label={item.label} active={mode === item.mode || (item.mode === AppMode.PROJECTS && mode === AppMode.NEW_SOCIAL_PROJECT)} onClick={() => setMode(item.mode)} collapsed={!sidebarOpen} />))}
-                    </div>
-                    <div className="my-2 border-t border-gray-100 dark:border-white/5 mx-4" />
-                    <SectionHeader label="Pilar Governança (G)" icon={<GavelIcon />} collapsed={!sidebarOpen} open={govOpen} onToggle={() => setGovOpen(!govOpen)} />
-                    <div className={`overflow-hidden transition-all duration-300 ${govOpen || !sidebarOpen ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
-                        {govItems.map(item => (<NavItem key={item.label} icon={item.icon} label={item.label} active={mode === item.mode} onClick={() => setMode(item.mode)} collapsed={!sidebarOpen} />))}
-                    </div>
-                    <div className="my-2 border-t border-gray-100 dark:border-white/5 mx-4" />
-                    <SectionHeader label="Inteligência & IA" icon={<IntelligenceIcon />} collapsed={!sidebarOpen} open={strategicOpen} onToggle={() => setStrategicOpen(!strategicOpen)} />
-                    <div className={`overflow-hidden transition-all duration-300 ${strategicOpen || !sidebarOpen ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
-                        <NavItem icon={<AnalyticsIcon />} label="Análise Preditiva" active={mode === AppMode.STRATEGIC_PREDICTIVE} onClick={() => setMode(AppMode.STRATEGIC_PREDICTIVE)} collapsed={!sidebarOpen} />
-                        <NavItem icon={<NotificationsIcon />} label="Alertas & Notificações" active={mode === AppMode.STRATEGIC_NOTIFICATIONS} onClick={() => setMode(AppMode.STRATEGIC_NOTIFICATIONS)} collapsed={!sidebarOpen} />
-                    </div>
-                    <div className="my-4 border-t border-gray-100 dark:border-white/5 mx-4" />
-                    <div className="mb-1 px-2 group relative">
-                        <button onClick={() => setSettingsOpen(!settingsOpen)} className={`w-full flex items-center py-[0.875rem] px-4 rounded-lg transition-all ${!sidebarOpen ? 'justify-center' : 'justify-start'} ${mode === AppMode.USERS ? 'bg-happiness-1/10 text-happiness-1 dark:bg-happiness-1 dark:text-white' : 'text-black dark:text-white hover:bg-gray-100 dark:hover:bg-white/5'}`}>
-                            <div className={`flex items-center justify-center ${!sidebarOpen ? '' : 'min-w-[40px]'}`}><SettingsIcon sx={{ fontSize: 22 }} /></div>
-                            {sidebarOpen && (<><span className="text-sm font-bold flex-1 text-left">Configurações</span>{settingsOpen ? <ExpandLess sx={{ fontSize: 20 }} /> : <ExpandMore sx={{ fontSize: 20 }} />}</>)}
-                        </button>
-                    </div>
-                    <div className={`overflow-hidden transition-all duration-300 ${settingsOpen && sidebarOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
-                        <div className="pl-4 pr-2">
-                            <button onClick={() => setMode(AppMode.USERS)} className={`w-full flex items-center py-2.5 px-4 rounded-lg transition-all mt-1 ml-4 border-l-2 ${mode === AppMode.USERS ? 'border-happiness-1 bg-happiness-1/5 text-happiness-1 dark:text-white dark:bg-happiness-1/10' : 'border-gray-200 dark:border-white/10 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-white/5'}`}><UsersIcon sx={{ fontSize: 18, marginRight: '12px' }} /><span className="text-sm font-bold tracking-tight">Usuários</span></button>
-                        </div>
-                    </div>
-                </div>
-            </aside>
+
+            <Sidebar
+                sidebarOpen={sidebarOpen}
+                setSidebarOpen={setSidebarOpen}
+                mode={mode}
+                setMode={setMode}
+            />
 
             <main className={`flex-1 flex flex-col h-dvh overflow-x-hidden overflow-y-auto transition-all duration-300 ${sidebarOpen ? 'lg:ml-80' : 'lg:ml-24'} ml-0`}>
-                <header className="h-20 md:h-24 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md sticky top-0 z-40 border-b border-gray-100 dark:border-white/5 px-4 md:px-12 flex items-center justify-between transition-colors">
-                    <div className="flex items-center gap-4 md:gap-6">
-                        <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-2 text-black dark:text-white"><MenuIcon /></button>
-                        <div className="h-6 w-px bg-gray-200 dark:bg-white/10 hidden sm:block"></div>
-                        <h2 className="hidden sm:block text-sm font-black text-black dark:text-white tracking-[0.2em]">{getPageTitle()}</h2>
-                    </div>
-                    <div className="flex items-center gap-8">
-                        <div className="hidden sm:block"><ThemeSwitcher /></div>
-                        <div className="h-6 w-px bg-gray-200 dark:bg-white/10"></div>
-                        <div className="relative group"><button onClick={() => setMode(AppMode.STRATEGIC_NOTIFICATIONS)} className={`relative p-2 transition-colors ${mode === AppMode.STRATEGIC_NOTIFICATIONS ? 'text-happiness-1' : 'text-black hover:text-happiness-1'}`}><span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-zinc-900"></span><NotificationsIcon /></button></div>
-                        <div className="relative" ref={profileMenuRef}>
-                            <button onClick={() => setIsProfileOpen(!isProfileOpen)} className="p-0 border-2 border-white dark:border-zinc-900 shadow-lg rounded-full hover:scale-105 transition-transform overflow-hidden">
-                                <div className="w-10 h-10 bg-happiness-1 flex items-center justify-center text-white font-black text-xs">{userProfile?.avatar_url ? (<img src={userProfile.avatar_url} alt="Profile" className="w-full h-full object-cover" />) : (getInitials(userProfile?.full_name))}</div>
-                            </button>
-                            {isProfileOpen && (
-                                <div className="absolute right-0 top-full mt-4 w-72 bg-white dark:bg-[#1E1E1E] rounded-xl shadow-2xl border border-gray-100 dark:border-white/5 overflow-hidden z-50 transform origin-top-right animate-in fade-in zoom-in-95 duration-200 text-left">
-                                    <div className="absolute -top-1.5 right-5 w-3 h-3 bg-white dark:bg-[#1E1E1E] transform rotate-45 border-l border-t border-gray-100 dark:border-white/5"></div>
-                                    <div className="px-6 py-5 border-b border-gray-100 dark:border-white/5 bg-gray-50/50 dark:bg-white/5"><p className="text-[11px] font-black text-black dark:text-white tracking-widest mb-1">{userProfile?.role || 'Usuário'}</p><p className="text-base font-bold text-black dark:text-white leading-tight truncate">{userProfile?.full_name}</p><p className="text-xs text-black dark:text-white truncate mt-0.5">{userProfile?.email}</p></div>
-                                    <div className="p-2">
-                                        <button onClick={() => { setMode(AppMode.PROFILE); setIsProfileOpen(false); }} className="w-full text-left px-4 py-3 text-sm font-medium text-black dark:text-white hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg flex items-center gap-3 transition-colors"><AccountCircleIcon fontSize="small" className="text-black dark:text-white" />Seu Perfil</button>
-                                        <button onClick={() => { setMode(AppMode.DASHBOARD); setIsProfileOpen(false); }} className="w-full text-left px-4 py-3 text-sm font-medium text-black dark:text-white hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg flex items-center gap-3 transition-colors"><SettingsIcon fontSize="small" className="text-black dark:text-white" />Configurações</button>
-                                    </div>
-                                    <div className="px-4 py-4 border-t border-gray-100 dark:border-white/5 bg-gray-50/30 dark:bg-white/[0.02]"><p className="text-[11px] font-black text-black dark:text-white tracking-widest mb-3 flex items-center gap-2"><ZapIcon sx={{ fontSize: 14 }} />Ambiente de Cores</p><div className="flex items-center justify-between gap-2">
-                                        {[{ id: 'azure', label: 'Marítimo', colors: ['#4973F2', '#1B2B40'] }, { id: 'emerald', label: 'Eco', colors: ['#29A683', '#1B2B40'] }, { id: 'burgundy', label: 'Executivo', colors: ['#BF2633', '#590A18'] }].map((themeOpt) => (
-                                            <button key={themeOpt.id} onClick={() => setCurrentTheme(themeOpt.id)} className={`relative flex-1 group transition-all duration-300 ${currentTheme === themeOpt.id ? 'scale-105' : 'opacity-60 hover:opacity-100'}`}><div className={`h-8 w-full rounded-md mb-1.5 transition-all ${currentTheme === themeOpt.id ? 'ring-2 ring-happiness-1 ring-offset-2 dark:ring-offset-zinc-900' : 'border border-gray-200 dark:border-white/10'}`} style={{ background: `linear-gradient(135deg, ${themeOpt.colors[0]} 50%, ${themeOpt.colors[1]} 50%)` }} /></button>
-                                        ))}
-                                    </div></div>
-                                    <div className="p-2 border-t border-gray-100 dark:border-white/5"><button onClick={handleLogout} className="w-full text-left px-4 py-3 text-sm font-bold text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-lg flex items-center gap-3 transition-colors"><LogoutIcon fontSize="small" />Sair do Sistema</button></div>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                </header>
+                <Header
+                    sidebarOpen={sidebarOpen}
+                    setSidebarOpen={setSidebarOpen}
+                    mode={mode}
+                    setMode={setMode}
+                    pageTitle={getPageTitle()}
+                    userProfile={userProfile}
+                    currentTheme={currentTheme}
+                    setCurrentTheme={setCurrentTheme}
+                    handleLogout={handleLogout}
+                />
                 <div className="flex-1 p-6 md:p-10 w-full animate-in fade-in duration-500">
                     {mode !== AppMode.DASHBOARD && !isPublicMode && <Breadcrumb items={getBreadcrumbs()} />}
                     <Suspense fallback={<div className="flex justify-center items-center h-full"><span className="font-bold animate-pulse text-xs tracking-widest text-black">Carregando Tela...</span></div>}>
