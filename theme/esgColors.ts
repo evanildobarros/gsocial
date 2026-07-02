@@ -26,6 +26,7 @@ export const ESG_COLORS = {
     success: '#059669', // ESG Green
     attention: '#ea580c', // ESG Orange
     critical: 'rgb(var(--color-error))', // Global Error Red
+    neutral: '#6b7280', // Gray 500
   }
 };
 

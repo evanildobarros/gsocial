@@ -38,15 +38,16 @@ export const IMPACT_PROXIES = {
     }
 };
 
+export type ImpactProxyType = keyof typeof IMPACT_PROXIES;
+
 // Função para calcular o S-ROI Projetado
 export const calculateProjectSROI = (
     investmentAmount: number,
     beneficiariesCount: number,
-    projectType: 'empregabilidade' | 'saneamento_basico'
+    projectType: ImpactProxyType
 ) => {
-    if (!investmentAmount || investmentAmount <= 0) return { socialValue: 0, ratio: "0.00", message: "" };
-    
     const proxy = IMPACT_PROXIES[projectType];
+    if (!investmentAmount || investmentAmount <= 0 || !proxy) return { socialValue: 0, ratio: "0.00", message: "" };
     const valuePerBeneficiary = 'totalPorPessoa' in proxy ? proxy.totalPorPessoa : proxy.totalPorFamilia;
     
     const totalSocialValueCreated = beneficiariesCount * valuePerBeneficiary;

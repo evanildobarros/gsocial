@@ -117,7 +117,7 @@ const Node = ({ x, y, color, label, delay }: any) => (
 const KpiDetail = ({ icon, value, label, trend, color }: any) => (
     <div className="bg-white p-12 rounded-[40px] border border-gray-100 shadow-xl hover:-translate-y-2 transition-all text-left">
         <div className={`w-16 h-16 rounded-3xl bg-gray-50 flex items-center justify-center mx-auto mb-8 ${color}`}>
-            {React.cloneElement(icon as React.ReactElement, { size: 32 })}
+            {React.cloneElement(icon as React.ReactElement<{ size?: number }>, { size: 32 })}
         </div>
         <div className="text-5xl font-black tracking-tighter mb-2 text-black">{value}</div>
         <p className="text-[11px] font-black uppercase tracking-widest text-black/40 mb-4">{label}</p>

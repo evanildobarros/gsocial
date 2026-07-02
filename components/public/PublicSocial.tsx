@@ -120,7 +120,7 @@ export const PublicSocial: React.FC<PublicPageProps> = ({ onBack, onNavigate }) 
 const SocialFeature = ({ icon, title, desc }: any) => (
     <div className="flex gap-6 items-start group text-left">
         <div className="w-14 h-14 rounded-2xl bg-orange-50 text-orange-600 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-            {React.cloneElement(icon as React.ReactElement, { size: 28 })}
+            {React.cloneElement(icon as React.ReactElement<{ size?: number }>, { size: 28 })}
         </div>
         <div>
             <h4 className="text-xl font-black mb-1 text-black">{title}</h4>

@@ -78,7 +78,7 @@ export interface Project {
   name: string;
   pilar: 'Ambiental' | 'Social' | 'Governança';
   tema: string;
-  status: 'Planejado' | 'Em andamento' | 'Concluído';
+  status: 'Planejado' | 'Em andamento' | 'Pausado' | 'Concluído';
   community: string;
   budget?: string;
   description?: string;

@@ -15,7 +15,7 @@ import {
 } from 'lucide-react';
 import { SocialProject, SocialProjectStatus, MATERIALITY_TOPICS, CommunityAssessment } from '../../types';
 import { supabase } from '../../utils/supabase';
-import { calculateProjectSROI, IMPACT_PROXIES } from './SROICalculator';
+import { calculateProjectSROI, IMPACT_PROXIES, ImpactProxyType } from './SROICalculator';
 
 interface SocialProjectFormProps {
     onSubmit: (project: Omit<SocialProject, 'id'>) => void;
@@ -78,14 +78,10 @@ const SocialProjectForm: React.FC<SocialProjectFormProps> = ({ onSubmit, onCance
                 t.includes('Saúde') || t.includes('Saneamento') || t.includes('Água')
             );
 
-            const isFoodSecurityOrTraditional = formData.materialityTopics.some(t => 
-                t.includes('Segurança Alimentar') || t.includes('Tradicionais')
-            );
-            
-            // Refinamento do tipo de projeto para o motor de proxy
-            let type = 'empregabilidade';
+            // A metodologia só define proxies para empregabilidade e saneamento;
+            // demais temas (ex.: segurança alimentar) usam empregabilidade como base
+            let type: ImpactProxyType = 'empregabilidade';
             if (isSanitation) type = 'saneamento_basico';
-            if (isFoodSecurityOrTraditional) type = 'desenvolvimento_comunitario';
 
             const sroiData = calculateProjectSROI(formData.budget, formData.beneficiariesTarget, type);
             

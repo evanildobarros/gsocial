@@ -419,7 +419,7 @@ export const ESGDiagnosticForm: React.FC<ESGDiagnosticFormProps> = ({ initialTab
                                 visible: l.visible ?? true,
                                 color: l.color,
                                 data: l.data,
-                                details: { ...l.details, op_type: operationType } || { op_type: operationType },
+                                details: { ...l.details, op_type: operationType },
                                 pillar: l.pillar,
                                 group: l.group || 'Diagnóstico ESG',
                                 created_by: user?.id || null
