@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { GoogleGenAI } from '@google/genai';
 import { Sparkles, FileText, Loader2, ArrowLeft } from 'lucide-react';
 import { AIAnalysisResult } from '../types';
 import { supabase } from '../utils/supabase';
@@ -56,57 +55,23 @@ export const NewProject: React.FC<NewProjectProps> = ({ onBack }) => {
 
         setIsAnalyzing(true);
         try {
-            const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-
-            // Contextual Prompt based on PDF Volumes
-            const systemPrompt = `
-            Você é um consultor ESG sênior especialista no Complexo Portuário do Itaqui (Maranhão).
-            Baseie-se no Inventário ESG Vol II (Diagnóstico) e Vol III (Materialidade).
-            
-            CONTEXTO DO PORTO:
-            - Maturidade: Nível 5 (Máximo na ABNT PR 2030), mas com desafios sociais.
-            - Prioridades Materiais (Vol III): Atração de Negócios, Regularidade Operacional, Saúde do Trabalhador, Prevenção de Óleo.
-            - Comunidades Críticas (Vol I/III): Vila Maranhão (pó de minério), Cajueiro (conflito fundiário), Anjo da Guarda (emprego).
-            - ODS Prioritários: 8, 9, 14, 16.
-
-            TAREFA:
-            Analise a proposta de projeto abaixo e forneça um JSON.
-            Seja crítico. Se o projeto for genérico, aponte riscos de 'greenwashing'.
-            Se for robusto, alinhe aos temas materiais.
-        `;
-
-            const userPrompt = `
-            PROJETO: ${formData.name}
-            PILAR: ${formData.pilar}
-            TEMA: ${formData.tema}
-            LOCAL: ${formData.community}
-            DESCRIÇÃO: ${formData.objeto}
-        `;
-
-            const response = await ai.models.generateContent({
-                model: 'gemini-2.5-flash',
-                contents: [
-                    { role: 'user', parts: [{ text: systemPrompt + "\n\n" + userPrompt }] }
-                ],
-                config: {
-                    responseMimeType: 'application/json',
-                    responseSchema: {
-                        type: 'OBJECT',
-                        properties: {
-                            impactos: { type: 'STRING', description: "Análise de impactos positivos reais baseados no território." },
-                            riscos: { type: 'STRING', description: "Riscos sociais, ambientais ou de governança identificados." },
-                            ods_relacionados: { type: 'ARRAY', items: { type: 'STRING' } },
-                            alinhamento_score: { type: 'NUMBER', description: "Nota de 0 a 100 de alinhamento com a materialidade do Porto." }
-                        }
-                    }
+            const { data, error } = await supabase.functions.invoke('analyze-project', {
+                body: {
+                    name: formData.name,
+                    pilar: formData.pilar,
+                    tema: formData.tema,
+                    community: formData.community,
+                    objeto: formData.objeto
                 }
             });
 
-            if (response.text) {
-                setAnalysis(JSON.parse(response.text));
-            }
+            if (error) throw error;
+            if (data?.error) throw new Error(data.error);
+
+            setAnalysis(data as AIAnalysisResult);
         } catch (error) {
             console.error("AI Error", error);
+            showError('Não foi possível gerar a análise. Tente novamente.');
         } finally {
             setIsAnalyzing(false);
         }
