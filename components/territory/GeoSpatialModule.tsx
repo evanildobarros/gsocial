@@ -1,33 +1,58 @@
-import React, { useState, useCallback, useMemo, useEffect } from 'react';
-import { GoogleMap, useJsApiLoader, Polygon, Polyline, MarkerF, InfoWindowF } from '@react-google-maps/api';
+import React, { useState, useCallback, useEffect } from 'react';
+import { MapContainer, TileLayer, Polygon, Polyline, Marker, Popup, useMap } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 import {
-    Layers, Eye, EyeOff, Trash2, MapPin, Hexagon, Loader2, Navigation,
-    Route, Shield, Users, ChevronDown, ChevronUp, AlertTriangle,
-    ChevronRight, Database, Wrench, BarChart2, Star, Upload,
-    Droplets, Map as MapIcon, X, Info, Clock, CheckCircle2, ChevronLeft,
+    Layers, Eye, EyeOff, Trash2, MapPin, Hexagon, Navigation,
+    Shield, Users, ChevronDown, AlertTriangle,
+    ChevronRight, Database, Star,
+    Clock, ChevronLeft,
     BarChart3, Lightbulb
 } from 'lucide-react';
 import { LayerUploadModal } from '../LayerUploadModal';
 import { supabase } from '../../utils/supabase';
 import { showSuccess, showError } from '../../utils/notifications';
 
-// --- Global Styles for Scrollbar Hiding ---
-const infoWindowStyle = `
-  .gm-style-iw {
-    max-width: 350px !important;
-    max-height: 500px !important;
-    padding: 0 !important;
+// --- Global Styles (Leaflet / Popup) ---
+const mapStyle = `
+  .leaflet-container {
+    font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    background: #e8e8e8;
+    z-index: 0;
+  }
+  .leaflet-popup-content-wrapper {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
     border-radius: 24px !important;
-  }
-  .gm-style-iw-d {
+    padding: 0 !important;
     overflow: hidden !important;
-    max-height: none !important;
   }
-  .gm-style-iw-tc::after {
+  .leaflet-popup-content {
+    margin: 0 !important;
+    width: auto !important;
+    line-height: inherit !important;
+  }
+  .leaflet-popup-tip-container {
     display: none !important;
   }
-  .gm-ui-hover-text {
-    display: none;
+  .leaflet-popup-close-button {
+    color: #ffffff !important;
+    width: 28px !important;
+    height: 28px !important;
+    font-size: 20px !important;
+    line-height: 24px !important;
+    top: 6px !important;
+    right: 6px !important;
+    z-index: 10 !important;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  }
+  .leaflet-popup-close-button:hover {
+    color: #0FDBAB !important;
+  }
+  .esg-map-marker {
+    background: transparent !important;
+    border: 0 !important;
   }
   .custom-pop-content::-webkit-scrollbar {
     display: none;
@@ -39,32 +64,56 @@ const infoWindowStyle = `
 `;
 
 // --- Types ---
-import { Layer, ESGPillar, LayerType } from '../../types';
+import { Layer, ESGPillar } from '../../types';
 
-// --- Map Styles (Light & Clean) ---
-const lightMapStyle = [
-    { elementType: "geometry", stylers: [{ color: "#f5f5f5" }] },
-    { elementType: "labels.icon", stylers: [{ visibility: "off" }] },
-    { elementType: "labels.text.fill", stylers: [{ color: "#616161" }] },
-    { elementType: "labels.text.stroke", stylers: [{ color: "#f5f5f5" }] },
-    { featureType: "administrative.land_parcel", elementType: "labels.text.fill", stylers: [{ color: "#bdbdbd" }] },
-    { featureType: "poi", elementType: "geometry", stylers: [{ color: "#eeeeee" }] },
-    { featureType: "poi", elementType: "labels.text.fill", stylers: [{ color: "#757575" }] },
-    { featureType: "poi.park", elementType: "geometry", stylers: [{ color: "#e5e5e5" }] },
-    { featureType: "poi.park", elementType: "labels.text.fill", stylers: [{ color: "#9e9e9e" }] },
-    { featureType: "road", elementType: "geometry", stylers: [{ color: "#ffffff" }] },
-    { featureType: "road.arterial", elementType: "labels.text.fill", stylers: [{ color: "#757575" }] },
-    { featureType: "road.highway", elementType: "geometry", stylers: [{ color: "#dadada" }] },
-    { featureType: "road.highway", elementType: "labels.text.fill", stylers: [{ color: "#616161" }] },
-    { featureType: "road.local", elementType: "labels.text.fill", stylers: [{ color: "#9e9e9e" }] },
-    { featureType: "transit.line", elementType: "geometry", stylers: [{ color: "#e5e5e5" }] },
-    { featureType: "transit.station", elementType: "geometry", stylers: [{ color: "#eeeeee" }] },
-    { featureType: "water", elementType: "geometry", stylers: [{ color: "#c9c9c9" }] },
-    { featureType: "water", elementType: "labels.text.fill", stylers: [{ color: "#9e9e9e" }] },
-];
+type LatLngTuple = [number, number];
 
-const containerStyle = { width: '100%', height: '100%' };
-const center = { lat: -2.5833, lng: -44.2333 }; // Itaqui/São Luís
+const center: LatLngTuple = [-2.5833, -44.2333]; // Itaqui/São Luís
+
+// --- Helpers Geoespaciais (conversão para o formato do Leaflet) ---
+
+/**
+ * Normaliza `layer.data` em uma lista de anéis/linhas de coordenadas.
+ * Aceita tanto `[{lat,lng}, ...]` (geometria única) quanto
+ * `[[{lat,lng}, ...], ...]` (MultiPolygon / MultiLineString) — formato emitido pelo geoParser.
+ */
+const toRings = (data: any): LatLngTuple[][] => {
+    if (!Array.isArray(data) || data.length === 0) return [];
+    const rings: any[] = Array.isArray(data[0]) ? data : [data];
+    return rings
+        .filter((ring: any) => Array.isArray(ring))
+        .map((ring: any[]) =>
+            ring
+                .filter(p => p && typeof p.lat === 'number' && typeof p.lng === 'number')
+                .map((p): LatLngTuple => [p.lat, p.lng])
+        )
+        .filter((ring: LatLngTuple[]) => ring.length > 0);
+};
+
+// Cache de ícones customizados de marcador (cor da camada), evitando recriação a cada render.
+const markerIcons = new Map<string, L.DivIcon>();
+const getMarkerIcon = (color: string): L.DivIcon => {
+    const key = color || '#0FDBAB';
+    if (!markerIcons.has(key)) {
+        markerIcons.set(key, L.divIcon({
+            className: 'esg-map-marker',
+            html: `<svg width="28" height="36" viewBox="0 0 28 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M14 1C6.82 1 1 6.82 1 14c0 9.6 13 21 13 21s13-11.4 13-21C27 6.82 21.18 1 14 1z" fill="${key}" stroke="#ffffff" stroke-width="2"/><circle cx="14" cy="14" r="4.5" fill="#ffffff"/></svg>`,
+            iconSize: [28, 36],
+            iconAnchor: [14, 36],
+            popupAnchor: [0, -34],
+        }));
+    }
+    return markerIcons.get(key)!;
+};
+
+// Expõe a instância do mapa Leaflet para o componente pai (substitui onLoad do Google Maps).
+const MapLifecycle = ({ onReady }: { onReady: (map: L.Map) => void }) => {
+    const map = useMap();
+    useEffect(() => {
+        onReady(map);
+    }, [map, onReady]);
+    return null;
+};
 
 // Simple Star Rating Component
 const StarRating = ({ value }: { value: number }) => (
@@ -97,17 +146,12 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
     const [deletedLayers, setDeletedLayers] = useState<Set<string>>(new Set());
     const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
     const [selectedElement, setSelectedElement] = useState<any>(null);
-    const [mapRef, setMapRef] = useState<google.maps.Map | null>(null);
+    const [mapRef, setMapRef] = useState<L.Map | null>(null);
     const [expandedPillars, setExpandedPillars] = useState<Record<string, boolean>>({
         Environmental: true, Social: true, Governance: true, Operational: true
     });
     const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>({});
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-
-    const { isLoaded } = useJsApiLoader({
-        id: 'google-map-script',
-        googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY || ''
-    });
 
     // Carregar camadas do Supabase na inicialização
     useEffect(() => {
@@ -190,7 +234,7 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
     }, []);
 
     const removeGroup = useCallback(async (groupName: string, layersInGroup: Layer[]) => {
-        if (!confirm(`Tem certeza que deseja remover o grupo "${groupName}" e todas as suas ${layersInGroup.length} camadas?`)) return;
+        if (!confirm(`Tem certeza que deseja remover o grupo \"${groupName}\" e todas as suas ${layersInGroup.length} camadas?`)) return;
 
         const idsToRemove = layersInGroup.map(l => l.id);
 
@@ -249,15 +293,15 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
     const focusLayer = useCallback((layer: Layer) => {
         if (!mapRef || !layer.data) return;
 
-        let bounds = new google.maps.LatLngBounds();
-        if (layer.type === 'MARKER') {
-            bounds.extend(layer.data as google.maps.LatLngLiteral);
-        } else {
-            (layer.data as google.maps.LatLngLiteral[]).forEach(point => bounds.extend(point));
+        if (layer.type === 'MARKER' && typeof layer.data.lat === 'number') {
+            mapRef.setView([layer.data.lat, layer.data.lng], 15);
+            return;
         }
 
-        mapRef.fitBounds(bounds);
-        if (layer.type === 'MARKER') mapRef.setZoom(15);
+        const points = toRings(layer.data).flat();
+        if (points.length === 0) return;
+
+        mapRef.fitBounds(L.latLngBounds(points), { padding: [48, 48], maxZoom: 17 });
     }, [mapRef]);
 
     const handleLayersImported = (newLayers: Layer[]) => {
@@ -266,24 +310,13 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
         showSuccess(`${newLayers.length} camadas importadas.`);
     };
 
-    const onLoad = useCallback((map: google.maps.Map) => {
+    const handleMapReady = useCallback((map: L.Map) => {
         setMapRef(map);
     }, []);
 
-    const onUnmount = useCallback(() => {
-        setMapRef(null);
-    }, []);
-
-    if (!isLoaded) return (
-        <div className="h-full flex items-center justify-center flex-col gap-2 text-black animate-pulse bg-gray-100 dark:bg-[#1C1C1C] rounded-3xl">
-            <Loader2 className="w-8 h-8 animate-spin text-happiness-1" />
-            <p className="text-sm font-bold">Carregando Módulo Geoespacial...</p>
-        </div>
-    );
-
     return (
         <div className={`flex h-[500px] md:h-[calc(100vh-220px)] animate-in fade-in duration-500 ${isSidebarOpen ? 'gap-6' : 'gap-0'}`}>
-            <style>{infoWindowStyle}</style>
+            <style>{mapStyle}</style>
 
             {/* Sidebar / Layer Manager Container */}
             <div className={`relative transition-all duration-300 ease-in-out ${isSidebarOpen ? 'w-80' : 'w-0'}`}>
@@ -405,52 +438,57 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
 
             {/* Main Map Content */}
             <div className="flex-1 relative flex flex-col h-full overflow-hidden rounded-3xl border border-gray-200 dark:border-white/5 shadow-lg">
-                <GoogleMap
-                    mapContainerStyle={containerStyle}
+                <MapContainer
                     center={center}
                     zoom={13}
-                    onLoad={onLoad}
-                    onUnmount={onUnmount}
-                    options={{
-                        styles: [], // Clear custom styles to use Google Standard Roadmap
-                        streetViewControl: false,
-                        mapTypeControl: true,
-                        fullscreenControl: true,
-                        mapTypeId: 'roadmap'
-                    }}
+                    scrollWheelZoom
+                    className="h-full w-full"
+                    style={{ width: '100%', height: '100%' }}
                 >
+                    <TileLayer
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a> contributors'
+                        maxZoom={19}
+                    />
+
+                    <MapLifecycle onReady={handleMapReady} />
+
                     {layers.filter(l => l.visible).map(layer => {
                         try {
                             if (!layer.data) return null;
 
-                            if (layer.type === 'MARKER') return (
-                                <MarkerF key={layer.id} position={layer.data} onClick={() => setSelectedElement({ layer, position: layer.data })} />
-                            );
-
-                            if (layer.type === 'POLYGON') {
-                                // Ensure data is in the correct format for Polygon
-                                const paths = Array.isArray(layer.data[0]) ? layer.data : [layer.data];
+                            if (layer.type === 'MARKER') {
+                                const position: LatLngTuple = [layer.data.lat, layer.data.lng];
                                 return (
-                                    <Polygon
+                                    <Marker
                                         key={layer.id}
-                                        paths={paths}
-                                        options={{ fillColor: layer.color, fillOpacity: 0.3, strokeColor: layer.color, strokeWeight: 2 }}
-                                        onClick={(e) => setSelectedElement({ layer, position: e.latLng?.toJSON() })}
+                                        position={position}
+                                        icon={getMarkerIcon(layer.color)}
+                                        eventHandlers={{ click: () => setSelectedElement({ layer, position }) }}
                                     />
                                 );
                             }
 
-                            if (layer.type === 'POLYLINE') {
-                                // Ensure data is in the correct format for Polyline
-                                const path = Array.isArray(layer.data[0]) ? layer.data[0] : layer.data;
-                                return (
-                                    <Polyline
-                                        key={layer.id}
-                                        path={path}
-                                        options={{ strokeColor: layer.color, strokeWeight: 3 }}
-                                        onClick={(e) => setSelectedElement({ layer, position: e.latLng?.toJSON() })}
+                            if (layer.type === 'POLYGON') {
+                                return toRings(layer.data).map((ring, idx) => (
+                                    <Polygon
+                                        key={`${layer.id}-${idx}`}
+                                        positions={ring}
+                                        pathOptions={{ color: layer.color, weight: 2, fillColor: layer.color, fillOpacity: 0.3 }}
+                                        eventHandlers={{ click: (e: any) => setSelectedElement({ layer, position: [e.latlng.lat, e.latlng.lng] }) }}
                                     />
-                                );
+                                ));
+                            }
+
+                            if (layer.type === 'POLYLINE') {
+                                return toRings(layer.data).map((path, idx) => (
+                                    <Polyline
+                                        key={`${layer.id}-${idx}`}
+                                        positions={path}
+                                        pathOptions={{ color: layer.color, weight: 3 }}
+                                        eventHandlers={{ click: (e: any) => setSelectedElement({ layer, position: [e.latlng.lat, e.latlng.lng] }) }}
+                                    />
+                                ));
                             }
                         } catch (err) {
                             console.error(`Erro ao renderizar camada ${layer.name}:`, err);
@@ -460,8 +498,13 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
                     })}
 
                     {selectedElement && (
-                        <InfoWindowF position={selectedElement.position} onCloseClick={() => setSelectedElement(null)}>
-                            <div className="custom-pop-content min-w-[320px] bg-white dark:bg-[#121212] overflow-hidden -m-3 shadow-2xl rounded-3xl border border-gray-100 dark:border-white/10">
+                        <Popup
+                            position={selectedElement.position}
+                            maxWidth={400}
+                            autoPan
+                            eventHandlers={{ remove: () => setSelectedElement(null) }}
+                        >
+                            <div className="custom-pop-content min-w-[320px] bg-white dark:bg-[#121212] overflow-hidden shadow-2xl rounded-3xl border border-gray-100 dark:border-white/10">
                                 {/* Header com Risco */}
                                 <div className={`h-1.5 w-full ${selectedElement.layer.details?.risk_level?.includes('Crítico') ? 'bg-red-500' :
                                         selectedElement.layer.details?.risk_level?.includes('Moderado') ? 'bg-amber-500' : 'bg-green-500'
@@ -551,9 +594,9 @@ export const GeoSpatialModule: React.FC<GeoSpatialModuleProps> = ({ additionalLa
                                     </div>
                                 </div>
                             </div>
-                        </InfoWindowF>
+                        </Popup>
                     )}
-                </GoogleMap>
+                </MapContainer>
             </div>
 
             <LayerUploadModal open={isUploadModalOpen} onClose={() => setIsUploadModalOpen(false)} onLayersLoaded={handleLayersImported} />
